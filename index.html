@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#2e7d32">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>NutriPreço - Cabo Frio</title>
 
   <!-- Manifesto PWA para instalação no Android -->
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2424/2424444.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
   <!-- Bibliotecas externas -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1506,7 +1508,7 @@
         localStorage.setItem('nutri_user_city', `${city} - ${uf}`);
         localStorage.setItem('nutri_onboarding_completed', 'true');
 
-        trackAppEvent('user_signup', { name: name, city: city, uf: uf });
+        trackAppEvent('user_signup', { city: city, uf: uf });
 
         const bannerName = document.getElementById('banner-user-name');
         const bannerCity = document.getElementById('banner-user-city');
@@ -1548,17 +1550,14 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       try {
         let deviceId = localStorage.getItem('nutri_device_id');
         if (!deviceId) {
-          deviceId = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+          deviceId = (crypto.randomUUID ? crypto.randomUUID() : 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now());
           localStorage.setItem('nutri_device_id', deviceId);
         }
         const city = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
-        const userEmail = (typeof currentUser !== 'undefined' && currentUser) ? currentUser.email : null;
-
         await client.from('app_telemetria').insert([{
           evento: eventType,
           device_id: deviceId,
           cidade: city,
-          email: userEmail,
           metadata: metadata
         }]);
       } catch (err) {
@@ -2954,7 +2953,7 @@ async function exportPricesCSV() {
         isDestructive: true
       });
       if (confirmed) {
-        showToast('Sua solicitação de exclusão foi registrada. O logout foi realizado.', 'info');
+        showToast('Para concluir a exclusão, envie a solicitação pelo contato da Política de Privacidade. Você será desconectado agora.', 'info');
         await logoutUser();
       }
     }

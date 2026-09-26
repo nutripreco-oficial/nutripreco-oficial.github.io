@@ -24,7 +24,7 @@
 
   <div class="container">
     <h1>🥗 Política de Privacidade — NutriPreço</h1>
-    <div class="updated">Última atualização: Setembro de 2026 | Cabo Frio — RJ, Brasil</div>
+    <div class="updated">Última atualização: 26 de setembro de 2026 | Cabo Frio — RJ, Brasil</div>
 
     <p>O <strong>NutriPreço</strong> valoriza a sua privacidade e foi desenvolvido com base no princípio da transparência e da minimização de dados, em estrita conformidade com a Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018) e com as diretrizes para desenvolvedores da Google Play Store.</p>
 
@@ -40,16 +40,18 @@
     <h2>2. Informações Coletadas e Finalidade</h2>
     <p>Coletamos apenas o estritamente necessário para o funcionamento das ferramentas de economia do aplicativo:</p>
     <ul>
-      <li><strong>Cadastro de Conta (Opcional):</strong> Caso opte por criar uma conta, solicitamos apenas seu endereço de e-mail e uma senha criptografada para gerenciar sua autenticação e salvar o seu histórico pessoal de compras.</li>
+      <li><strong>Cadastro de Conta (Opcional):</strong> Caso opte por criar uma conta, o Supabase Auth recebe seu endereço de e-mail e a senha é processada pelo provedor de autenticação; o NutriPreço não grava senhas no navegador nem no banco da aplicação.</li>
       <li><strong>Preços e Mercados Registrados:</strong> Os preços de gôndola e os nomes dos supermercados informados pelos usuários são informações públicas de consumo e passam a integrar o banco de dados colaborativo para cálculo das médias de economia da região.</li>
       <li><strong>Informações Nutricionais:</strong> As tabelas nutricionais são obtidas publicamente através da base aberta colaborativa <em>Open Food Facts</em> (sob licença ODbL).</li>
+      <li><strong>Dados locais:</strong> preferências, carrinho, listas, histórico, cache de produtos e fila offline podem permanecer no armazenamento local do navegador até que o usuário limpe os dados do site.</li>
+      <li><strong>Telemetria mínima:</strong> eventos técnicos podem registrar identificador aleatório do dispositivo, cidade selecionada e tipo de evento para diagnóstico e melhoria; não enviamos e-mail ou nome nessa telemetria.</li>
     </ul>
 
     <h2>3. Compartilhamento e Armazenamento</h2>
-    <p>O NutriPreço <strong>não vende, não aluga e não compartilha dados pessoais</strong> dos usuários com empresas de publicidade, redes sociais ou terceiros para fins de rastreamento. As informações de login e registros de preços são armazenadas de forma segura e criptografada em infraestrutura em nuvem segura (Supabase).</p>
+    <p>O NutriPreço <strong>não vende, não aluga e não compartilha dados pessoais</strong> dos usuários com empresas de publicidade, redes sociais ou terceiros para fins de rastreamento. Os dados de conta e registros colaborativos, quando enviados, são processados no Supabase conforme as políticas de segurança configuradas no projeto. Bibliotecas de câmera, OCR, IBGE e Open Food Facts são acessadas por seus respectivos domínios somente quando necessário.</p>
 
     <h2>4. Exclusão de Dados e da Conta (Direito LGPD)</h2>
-    <p>Em conformidade com a LGPD e as normas da Google Play, qualquer usuário tem o direito irrestrito de solicitar a exclusão definitiva de sua conta e de suas credenciais de acesso a qualquer momento. Para solicitar a exclusão imediata de sua conta, basta enviar uma mensagem pelo painel do aplicativo ou pelo e-mail de suporte do desenvolvedor: <strong>arthurlvdss@gmail.com</strong>.</p>
+    <p>Em conformidade com a LGPD, qualquer usuário pode solicitar confirmação, acesso, correção ou exclusão de seus dados. A exclusão local pode ser feita limpando os dados do site no navegador. Para solicitar a exclusão da conta e dos dados mantidos no Supabase, envie uma mensagem ao responsável: <strong>arthurlvdss@gmail.com</strong>. O botão de exclusão do app encerra a sessão e orienta esse contato; a remoção definitiva depende do fluxo administrativo do backend.</p>
 
     <h2>5. Natureza Colaborativa e Aviso Legal (Disclaimer)</h2>
     <p>O NutriPreço é uma ferramenta independente desenvolvida para apoiar o consumidor no controle orçamentário doméstico. O aplicativo <strong>não possui afiliação, representação ou vínculo comercial direto</strong> com as redes de supermercados citadas na plataforma. Todos os preços exibidos decorrem de registros públicos e colaborações voluntárias da comunidade.</p>

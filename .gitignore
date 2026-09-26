@@ -1,0 +1,13 @@
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Dependências e artefatos
+node_modules/
+dist/
+coverage/
+.DS_Store
+
+# Arquivos temporários do sandbox
+*.log

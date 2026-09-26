@@ -1,6 +1,7 @@
 {
   "name": "NutriPreço - Cabo Frio",
   "short_name": "NutriPreço",
+  "id": "./index.html",
   "description": "Calculadora de supermercado e inteligência de preços em Cabo Frio e região.",
   "start_url": "./index.html",
   "scope": "./",
@@ -8,6 +9,10 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#2e7d32",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "categories": ["shopping", "food", "utilities"],
   "icons": [
     {
       "src": "icon-192.png",
@@ -23,4 +28,3 @@
     }
   ]
 }
-
