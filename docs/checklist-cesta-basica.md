@@ -146,6 +146,40 @@ Referência de trabalho baseada na composição tradicional informada para o pro
 - [ ] Validar o site publicado no celular.
 - [ ] Atualizar este checklist com os itens realmente concluídos.
 
+## Especificação aprovada — Mascote da Economia
+
+O mascote representa a contribuição real do usuário para alimentar o aplicativo. A regra aprovada é:
+
+```text
+bipar produto → informar preço → adicionar ao carrinho → salvar a cotação
+→ contribuição válida → mascote evolui
+```
+
+Não contam como contribuição válida: apenas bipar, consultar um produto, informar um preço e cancelar, ou adicionar algo sem que a informação seja salva.
+
+### Implementação futura do mascote
+
+- [ ] Separar `itens no carrinho` de `contribuições válidas`.
+- [ ] Fazer o mascote evoluir somente após confirmação de salvamento da cotação.
+- [ ] Evitar contagem duplicada do mesmo registro ou repetição acidental da operação.
+- [ ] Criar identificador do evento de contribuição para permitir idempotência na sincronização.
+- [ ] Com internet, confirmar a evolução após a gravação bem-sucedida no Supabase.
+- [ ] Sem internet, registrar a contribuição como `pendente` na fila local.
+- [ ] Confirmar a evolução permanente somente depois da sincronização bem-sucedida.
+- [ ] Exibir estado claro para contribuição pendente, sincronizada ou com erro.
+- [ ] Persistir o progresso histórico do mascote para que ele não volte a zero ao esvaziar o carrinho.
+- [ ] Definir níveis, metas e recompensas sem prejudicar o fluxo de leitura, carrinho ou offline.
+- [ ] Manter a animação e a apresentação atuais como evolução visual incremental.
+- [ ] Testar cancelamento, falha de rede, reenvio da fila, logout e troca de dispositivo.
+
+### Critério de aceite do mascote
+
+- Bipar sem salvar não altera o progresso.
+- Cancelar antes de salvar não altera o progresso.
+- Salvar uma cotação válida aumenta o progresso uma única vez.
+- Uma cotação offline fica pendente e só se torna contribuição confirmada após sincronização.
+- Esvaziar o carrinho não apaga o progresso histórico do mascote.
+
 ## Critérios de aceite
 
 - O carrinho continua funcionando como antes.
