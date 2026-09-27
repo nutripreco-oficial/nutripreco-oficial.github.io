@@ -28,19 +28,23 @@ Aplicativo web progressivo para consulta colaborativa de preços, leitura de có
 - [x] **Minhas Compras Salvas & Comparador Inteligente:**
   - Filtros de período: `[ ☀️ Hoje ]`, `[ 📅 Esta Semana ]`, `[ 🗓️ Este Mês ]`, `[ 📂 Todas ]` com totais dinâmicos.
   - Compartilhamento individual de compras salvas via WhatsApp formatado.
+  - Ferramenta "⚖️ Comparar 2 Compras": cruzamento item a item por código de barras/nome, apontando itens que subiram (🔺), baixaram (🟢) ou mantiveram preço (⏸️), além do saldo geral de economia.
 - [x] **Visor de Caixa Registradora (Frente de Caixa / PDV):**
   - Display estilo visor de caixa registradora para todas as idades: `[ Quantidade/Peso ] × [ Preço Unitário/Kg ] = [ Total a Pagar ]`.
-  - Zero margem para erro de cálculo: display claro com grandes dígitos e atualização instantânea.
+  - Zero margem para erro de cálculo: display escuro de alto contraste, grandes dígitos em verde LED e atualização instantânea.
+  - Botões de ajuste rápido (`-` e `+`) e chips táteis para seleção imediata de quantidades e pesagens.
 - [x] **Cálculo & Comparação por Quilo (R$/kg):**
   - Normalização automática para itens de açougue, hortifrúti, padaria e frios em `R$/kg`.
-  - Cálculo bidirecional: permite informar o preço por quilo OU o valor da bandeja da balança com dedução do preço/kg.
+  - Cálculo bidirecional: permite informar o preço por quilo OU o valor da bandeja da balança com dedução automática do preço/kg (`Total ÷ Peso = R$/kg`).
+  - Leitura inteligente de etiquetas de balança (EAN iniciado em 2) com decodificação de centavos da bandeja e atalhos rápidos por setor (🥩 Açougue, 🍗 Frango, 🧀 Frios, 🥖 Padaria, 🍎 Hortifrúti).
   - Alerta comparativo indicando economia ou sobrepreço por quilo (ex: *"R$ 3,00/kg mais barato no Assaí"*).
 - [x] **Destaque Imediato do Menor Preço da Cidade ao Bipar:**
   - Banner no topo da tela informando onde aquele produto foi encontrado pelo menor preço na cidade.
-  - Sinalização instantânea: verde quando o mercado atual for o mais barato, ou vermelho apontando onde comprar mais barato.
+  - Sinalização visual dinâmica: badge verde quando o mercado atual for o mais barato, ou âmbar/vermelho apontando onde comprar mais barato.
 - [x] **Busca em Cascata Multi-Base (100% Gratuita):**
-  - Encadeamento sequencial: Cache Local ➔ Supabase `produtos` ➔ Open Food Facts (Alimentos) ➔ Open Beauty Facts (Higiene/Bebê) ➔ Open Products Facts (Limpeza/Pet).
-  - Triplicação da cobertura automática de produtos industrializados sem custo de API.
+  - Encadeamento sequencial sem custo de API: Cache Local ➔ Supabase `produtos` ➔ Open Food Facts (Alimentos) ➔ Open Beauty Facts (Higiene/Bebê) ➔ Open Products Facts (Limpeza/Pet).
+  - Fusão automática de gramatura/volume ao nome (ex: "Café Pilão" + "500g" = "Café Pilão 500g").
+  - Triplicação da cobertura automática de produtos de mercado.
 - [ ] **Organização do código:** separar o monólito `index.html` em módulos após cobertura mínima de testes e sem alterar o comportamento em produção.
 
 ## Desenvolvimento local
