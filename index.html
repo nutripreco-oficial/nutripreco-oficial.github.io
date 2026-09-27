@@ -502,10 +502,15 @@
           </button>
 
           <div style="margin-top:16px;">
-            <h5 style="font-size:13px; color:#1b5e20; margin-bottom:6px; font-weight:bold;">Encartes Vigentes Publicados:</h5>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <h5 style="font-size:13px; color:#1b5e20; margin:0; font-weight:bold;">Encartes Vigentes Publicados:</h5>
+            </div>
             <div id="active-photo-encartes-list" style="font-size:12px; color:#666; background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:8px;">
               Carregando encartes ativos...
             </div>
+            <button type="button" onclick="syncAllActiveEncartesToCesta()" style="margin-top:10px; width:100%; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border:none; padding:10px 12px; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 6px rgba(46,125,50,0.25);">
+              ⚡ Sincronizar Encartes Ativos com a Cesta Básica
+            </button>
           </div>
         </div>
       </div>
@@ -871,6 +876,34 @@
         <button id="viewer-gemini-btn" onclick="extractFromCurrentViewer()" style="background: linear-gradient(135deg, #1a73e8, #1557b0); color: #fff; border: none; border-radius: 8px; padding: 7px 12px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
           ✨ Listar Ofertas (Gemini IA)
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: OFERTAS DIGITALIZADAS DO ENCARTE -->
+  <div class="modal hidden" id="encarte-offers-modal" style="z-index: 260;">
+    <div class="modal-content" style="max-height: 90vh;">
+      <div class="modal-header">
+        <div>
+          <h3 id="encarte-offers-title" style="color: #1b5e20; display:flex; align-items:center; gap:8px; font-size: 16px; margin:0;">
+            🏷️ Ofertas do Encarte
+          </h3>
+          <span id="encarte-offers-subtitle" style="font-size:11.5px; color:#666;">Produtos digitalizados via Google Gemini</span>
+        </div>
+        <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeEncarteOffersModal()">&times;</button>
+      </div>
+
+      <div style="margin: 10px 0;">
+        <input type="text" id="encarte-offers-filter-input" placeholder="🔍 Filtrar produto (ex: arroz, café, carne)..." oninput="filterEncarteOffersList()" style="width: 100%; padding: 8px 10px; border-radius: 8px; border: 1.5px solid #a5d6a7; font-size: 12.5px; box-sizing: border-box;">
+      </div>
+
+      <div id="encarte-offers-list-container" style="max-height: 50vh; overflow-y: auto; margin-bottom: 12px;"></div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="save-btn" onclick="closeEncarteOffersModal(); openRadarModal();" style="flex:1; margin:0; background:#2e7d32; font-size:12.5px; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px;">
+          🧺 Ver Cesta Básica da Cidade
+        </button>
+        <button class="reset-btn" onclick="closeEncarteOffersModal()" style="margin:0; padding:10px; font-size:12.5px;">Fechar</button>
       </div>
     </div>
   </div>
@@ -2729,25 +2762,106 @@ async function exportPricesCSV() {
 
     // Os 13 Itens Oficiais da Cesta Básica Nacional (DIEESE / Decreto-Lei 399)
     const CESTA_OFICIAL_ITENS = [
-      { id: 'arroz', nome: 'Arroz', icon: '🌾', terms: ['arroz'] },
-      { id: 'feijao', nome: 'Feijão', icon: '🫘', terms: ['feijao', 'feijão'] },
-      { id: 'carne', nome: 'Carne / Frango', icon: '🥩', terms: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito de frango', 'bovino', 'bovina'] },
-      { id: 'leite', nome: 'Leite', icon: '🥛', terms: ['leite'] },
-      { id: 'cafe', nome: 'Café em Pó', icon: '☕', terms: ['cafe', 'café'] },
-      { id: 'pao', nome: 'Pão Francês', icon: '🍞', terms: ['pao', 'pão', 'bisnaga', 'torrada'] },
-      { id: 'oleo', nome: 'Óleo de Soja', icon: '🌻', terms: ['oleo', 'óleo', 'soja'] },
-      { id: 'manteiga', nome: 'Manteiga / Margarina', icon: '🧈', terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia'] },
-      { id: 'acucar', nome: 'Açúcar', icon: '🍬', terms: ['acucar', 'açúcar', 'açucar'] },
-      { id: 'farinha', nome: 'Farinha (Trigo/Mandioca)', icon: '🌾', terms: ['farinha'] },
-      { id: 'batata', nome: 'Batata', icon: '🥔', terms: ['batata'] },
-      { id: 'tomate', nome: 'Tomate', icon: '🍅', terms: ['tomate'] },
-      { id: 'banana', nome: 'Banana', icon: '🍌', terms: ['banana'] }
+      { 
+        id: 'arroz', 
+        nome: 'Arroz', 
+        icon: '🌾', 
+        terms: ['arroz'], 
+        exclude: ['biscoito', 'vinagre', 'doce de arroz'] 
+      },
+      { 
+        id: 'feijao', 
+        nome: 'Feijão', 
+        icon: '🫘', 
+        terms: ['feijao', 'feijão'], 
+        exclude: ['biscoito', 'snack'] 
+      },
+      { 
+        id: 'carne', 
+        nome: 'Carne / Frango', 
+        icon: '🥩', 
+        terms: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito de frango', 'bovino', 'bovina', 'costela', 'picanha', 'contra file', 'contra-filé', 'contrafilé', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 'linguiça', 'suino', 'suíno', 'porco', 'pernil'], 
+        exclude: ['hamburguer', 'hambúrguer', 'nugget', 'empanado', 'ração', 'racao', 'petisco'] 
+      },
+      { 
+        id: 'leite', 
+        nome: 'Leite', 
+        icon: '🥛', 
+        terms: ['leite'], 
+        exclude: ['condensado', 'creme de leite', 'coco', 'rosas', 'fermentado', 'doce de leite'] 
+      },
+      { 
+        id: 'cafe', 
+        nome: 'Café em Pó', 
+        icon: '☕', 
+        terms: ['cafe', 'café'], 
+        exclude: ['cafeteira', 'capsula', 'cápsula', 'biscoito', 'bala', 'copo'] 
+      },
+      { 
+        id: 'pao', 
+        nome: 'Pão Francês', 
+        icon: '🍞', 
+        terms: ['pao', 'pão', 'bisnaga', 'torrada', 'forma'], 
+        exclude: ['pao de queijo', 'pão de queijo', 'mel'] 
+      },
+      { 
+        id: 'oleo', 
+        nome: 'Óleo de Soja', 
+        icon: '🌻', 
+        terms: ['oleo', 'óleo', 'soja'], 
+        exclude: ['azeite', 'motor', 'corporal', 'capilar', 'bronzeador', 'composto'] 
+      },
+      { 
+        id: 'manteiga', 
+        nome: 'Manteiga / Margarina', 
+        icon: '🧈', 
+        terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia', 'delícia', 'doriana', 'primor'], 
+        exclude: ['cacau', 'garrafa', 'biscoito'] 
+      },
+      { 
+        id: 'acucar', 
+        nome: 'Açúcar', 
+        icon: '🍬', 
+        terms: ['acucar', 'açúcar', 'açucar', 'refinado', 'cristal'], 
+        exclude: ['adocante', 'adoçante', 'confeiteiro', 'vanilla'] 
+      },
+      { 
+        id: 'farinha', 
+        nome: 'Farinha (Trigo/Mandioca)', 
+        icon: '🌾', 
+        terms: ['farinha', 'trigo', 'fuba', 'fubá', 'mandioca'], 
+        exclude: ['lactea', 'láctea'] 
+      },
+      { 
+        id: 'batata', 
+        nome: 'Batata', 
+        icon: '🥔', 
+        terms: ['batata'], 
+        exclude: ['palha', 'chips', 'doce', 'congelada'] 
+      },
+      { 
+        id: 'tomate', 
+        nome: 'Tomate', 
+        icon: '🍅', 
+        terms: ['tomate'], 
+        exclude: ['molho', 'extrato', 'polpa', 'seco'] 
+      },
+      { 
+        id: 'banana', 
+        nome: 'Banana', 
+        icon: '🍌', 
+        terms: ['banana'], 
+        exclude: ['doce', 'bananada', 'bala'] 
+      }
     ];
 
     function identifyCestaCategory(productName) {
       if (!productName || typeof productName !== 'string') return null;
       const clean = productName.toLowerCase();
       for (const item of CESTA_OFICIAL_ITENS) {
+        if (item.exclude && item.exclude.some(ex => clean.includes(ex))) {
+          continue;
+        }
         if (item.terms.some(t => clean.includes(t))) {
           return item;
         }
@@ -3003,12 +3117,13 @@ async function exportPricesCSV() {
           const { data: mkts } = await client
             .from('mercados')
             .select('id, nome, cidade')
-            .ilike('cidade', `%${city}%`)
             .order('nome');
           if (mkts && mkts.length > 0) {
             const addedNames = new Set();
+            const cleanCityName = (city || 'Cabo Frio').toLowerCase().replace(/\s*-\s*[a-z]{2}$/i, '').trim();
             mkts.forEach(m => {
-              if (m.nome && !addedNames.has(m.nome)) {
+              const mkCity = (m.cidade || '').toLowerCase();
+              if ((!mkCity || mkCity.includes(cleanCityName)) && m.nome && !addedNames.has(m.nome)) {
                 addedNames.add(m.nome);
                 const opt = document.createElement('option');
                 opt.value = m.nome;
@@ -3043,13 +3158,19 @@ async function exportPricesCSV() {
       try {
         const { data, error } = await client
           .from('registros_precos')
-          .select('preco, data_registro, mercados!inner(id, nome, cidade), produtos!inner(id, nome, marca, codigo_barras)')
-          .ilike('mercados.cidade', `%${city}%`)
+          .select('preco, data_registro, mercados(id, nome, cidade), produtos(id, nome, marca, codigo_barras)')
           .order('data_registro', { ascending: false })
-          .limit(300);
+          .limit(500);
 
         if (error) throw error;
-        cestaRawData = data || [];
+        
+        const cleanCityName = (city || 'Cabo Frio').toLowerCase().replace(/\s*-\s*[a-z]{2}$/i, '').trim();
+        cestaRawData = (data || []).filter(r => {
+          if (!r.produtos || !r.preco) return false;
+          const mkCity = (r.mercados?.cidade || '').toLowerCase();
+          return !mkCity || mkCity.includes(cleanCityName);
+        });
+
         if (loadingEl) loadingEl.classList.add('hidden');
         renderCestaScreen();
       } catch (err) {
@@ -3232,13 +3353,18 @@ async function exportPricesCSV() {
               `;
             }
 
+            const isFlyer = (best.prod.codigo_barras || '').startsWith('ENC_');
+            const sourceBadge = isFlyer 
+              ? `<span class="cesta-badge" style="background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;">📰 Folheto</span>`
+              : `<span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">📱 Bipe Loja</span>`;
+
             card.innerHTML = `
               <div class="radar-card-header">
                 <div>
                   <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
                   <div class="radar-prod-meta">${escapeHTML(best.prod.nome)} ${best.prod.marca ? '• ' + escapeHTML(best.prod.marca) : ''}</div>
                 </div>
-                <span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">Cotado</span>
+                ${sourceBadge}
               </div>
               <div class="radar-price-comparison" style="margin-top:6px;">
                 <div class="best-market-row">
@@ -3314,13 +3440,18 @@ async function exportPricesCSV() {
           card.className = 'radar-card';
 
           if (itemQuote) {
+            const isFlyer = (itemQuote.prod.codigo_barras || '').startsWith('ENC_');
+            const sourceBadge = isFlyer 
+              ? `<span class="cesta-badge" style="background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;">📰 Folheto</span>`
+              : `<span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">📱 Bipe Loja</span>`;
+
             card.innerHTML = `
               <div class="radar-card-header">
                 <div>
                   <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
                   <div class="radar-prod-meta">${escapeHTML(itemQuote.prod.nome)} ${itemQuote.prod.marca ? '• ' + escapeHTML(itemQuote.prod.marca) : ''}</div>
                 </div>
-                <span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">Disponível</span>
+                ${sourceBadge}
               </div>
               <div class="best-market-row" style="margin-top:6px;">
                 <span style="font-size:12px; color:#555;">Preço praticado:</span>
@@ -5190,6 +5321,15 @@ async function exportPricesCSV() {
       // 1. Salva no aparelho local (garantia 100% de funcionamento)
       let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
       encartesLocais = encartesLocais.filter(e => e.mercado.toLowerCase() !== market.toLowerCase());
+      
+      // Se houver ofertas extraídas pelo Gemini nesta sessão, vincula ao encarte e salva no catálogo
+      if (detectedGeminiAdminItems && detectedGeminiAdminItems.length > 0) {
+        encarteObj.ofertas = detectedGeminiAdminItems;
+        showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo e Cesta Básica...`, 'info');
+        saveGeminiItemsBatch(market, detectedGeminiAdminItems);
+        detectedGeminiAdminItems = [];
+      }
+
       encartesLocais.unshift(encarteObj);
       localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
 
@@ -5211,6 +5351,8 @@ async function exportPricesCSV() {
       currentEncartePhotoBase64 = null;
       document.getElementById('encarte-photo-preview-box').classList.add('hidden');
       document.getElementById('encarte-photo-file').value = '';
+      const resultsBox = document.getElementById('gemini-admin-results');
+      if (resultsBox) resultsBox.classList.add('hidden');
 
       loadActivePhotoEncartes();
       renderPublicEncartes();
@@ -5878,21 +6020,30 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         return;
       }
 
-      showToast(`🤖 Lendo ofertas do ${item.mercado} com Google Gemini IA...`, 'info');
-      try {
-        const offers = await callGeminiFlashVision(item.imagem, item.mercado);
-        if (!offers || offers.length === 0) {
-          showToast('Nenhuma oferta detectada nesta imagem.', 'warning');
+      let offers = item.ofertas || null;
+      if (!offers || offers.length === 0) {
+        showToast(`🤖 Lendo ofertas do ${item.mercado} com Google Gemini IA...`, 'info');
+        try {
+          offers = await callGeminiFlashVision(item.imagem, item.mercado);
+          if (!offers || offers.length === 0) {
+            showToast('Nenhuma oferta detectada nesta imagem.', 'warning');
+            return;
+          }
+          item.ofertas = offers;
+          localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
+        } catch(err) {
+          showToast('Erro: ' + err.message, 'error');
           return;
         }
-
-        // Salva as ofertas no banco para enriquecer a base da cidade
-        await saveGeminiItemsBatch(item.mercado, offers);
-        showToast(`✨ ${offers.length} ofertas do ${item.mercado} sincronizadas no catálogo da cidade!`, 'success');
-        addMascotXP(20, 'Explorou Encarte com IA');
-      } catch(err) {
-        showToast('Erro: ' + err.message, 'error');
       }
+
+      // Salva as ofertas no banco para enriquecer a base da cidade e a Cesta Básica
+      const totalSalvos = await saveGeminiItemsBatch(item.mercado, offers);
+      showToast(`✨ ${totalSalvos} ofertas do ${item.mercado} integradas à Cesta Básica!`, 'success');
+      addMascotXP(20, 'Explorou Encarte com IA');
+
+      // Exibe visualizador de ofertas digitalizadas para o usuário
+      openEncarteOffersModal(item.mercado, offers);
     }
 
     function extractFromCurrentViewer() {
@@ -5903,21 +6054,145 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       }
     }
 
-    // Função Compartilhada de Gravação em Lote no Supabase
+    // Modal de Visualização das Ofertas Digitalizadas do Encarte
+    let currentEncarteModalOffers = [];
+    let currentEncarteModalMarket = '';
+
+    function openEncarteOffersModal(marketName, offers) {
+      currentEncarteModalMarket = marketName || 'Supermercado';
+      currentEncarteModalOffers = offers || [];
+
+      const modal = document.getElementById('encarte-offers-modal');
+      const title = document.getElementById('encarte-offers-title');
+      const subtitle = document.getElementById('encarte-offers-subtitle');
+      const filterInput = document.getElementById('encarte-offers-filter-input');
+
+      if (title) title.innerHTML = `🏷️ Ofertas: <b>${escapeHTML(currentEncarteModalMarket)}</b>`;
+      if (subtitle) subtitle.innerText = `${currentEncarteModalOffers.length} ofertas digitalizadas via Gemini IA`;
+      if (filterInput) filterInput.value = '';
+
+      renderEncarteOffersList(currentEncarteModalOffers);
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeEncarteOffersModal() {
+      const modal = document.getElementById('encarte-offers-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function filterEncarteOffersList() {
+      const filterInput = document.getElementById('encarte-offers-filter-input');
+      const q = (filterInput ? filterInput.value : '').toLowerCase().trim();
+      if (!q) {
+        renderEncarteOffersList(currentEncarteModalOffers);
+        return;
+      }
+      const filtered = currentEncarteModalOffers.filter(it => 
+        (it.nome || '').toLowerCase().includes(q) || 
+        (it.marca || '').toLowerCase().includes(q)
+      );
+      renderEncarteOffersList(filtered);
+    }
+
+    function renderEncarteOffersList(offers) {
+      const container = document.getElementById('encarte-offers-list-container');
+      if (!container) return;
+
+      if (!offers || offers.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:20px; color:#888; font-size:12.5px;">Nenhuma oferta encontrada para este filtro.</div>';
+        return;
+      }
+
+      let html = '';
+      offers.forEach(it => {
+        const cat = identifyCestaCategory(it.nome);
+        const cestaBadge = cat 
+          ? `<span style="background:#e8f5e9; color:#1b5e20; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:8px; border:1px solid #c8e6c9;">🧺 ${cat.icon} Cesta: ${cat.nome}</span>`
+          : `<span style="background:#f1f5f9; color:#475569; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:8px;">Oferta</span>`;
+
+        html += `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:9px 10px; border-bottom:1px solid #f1f5f9; background:#fff; border-radius:8px; margin-bottom:5px; box-shadow:0 1px 3px rgba(0,0,0,0.03);">
+            <div>
+              <strong style="font-size:13px; color:#1e293b; display:block;">${escapeHTML(it.nome)}</strong>
+              <div style="margin-top:2px;">${cestaBadge}</div>
+            </div>
+            <div style="text-align:right;">
+              <span style="font-size:15px; font-weight:800; color:#166534;">R$ ${parseFloat(it.preco || 0).toFixed(2).replace('.', ',')}</span>
+              ${it.unidade && it.unidade !== 'un' ? `<small style="display:block; font-size:10.5px; color:#64748b;">/${it.unidade}</small>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // Sincronização em Lote de Todos os Encartes com a Cesta Básica
+    async function syncAllActiveEncartesToCesta() {
+      const today = new Date().toISOString().split('T')[0];
+      let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+      try {
+        const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
+        if (data && data.length > 0) encartes = data;
+      } catch(e) {}
+
+      const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
+      if (valid.length === 0) {
+        showToast('Nenhum encarte ativo encontrado para sincronizar.', 'warning');
+        return;
+      }
+
+      showToast(`🔄 Sincronizando ofertas de ${valid.length} encartes com a Cesta Básica...`, 'info');
+      let totalSalvos = 0;
+      for (const e of valid) {
+        let offers = e.ofertas;
+        if (!offers || offers.length === 0) {
+          if (e.imagem) {
+            try {
+              offers = await callGeminiFlashVision(e.imagem, e.mercado);
+              e.ofertas = offers;
+            } catch(err) {
+              console.warn(`Erro ao ler encarte de ${e.mercado}:`, err);
+            }
+          }
+        }
+        if (offers && offers.length > 0) {
+          const s = await saveGeminiItemsBatch(e.mercado, offers);
+          totalSalvos += s;
+        }
+      }
+      localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
+      showToast(`🎉 Sucesso! ${totalSalvos} ofertas vinculadas à Cesta Básica da cidade!`, 'success');
+      openRadarModal();
+    }
+
+    // Função Compartilhada de Gravação em Lote no Supabase (Compatível com Schema RLS)
     async function saveGeminiItemsBatch(marketName, itemsToSave) {
-      if (!itemsToSave || itemsToSave.length === 0) return;
-      const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      if (!itemsToSave || itemsToSave.length === 0) return 0;
+      const rawCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      const cleanCity = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
 
       let mercadoId = null;
       try {
-        const { data: mkData } = await client.from('mercados').select('id').eq('nome', marketName).limit(1);
+        const { data: mkData } = await client.from('mercados').select('id, cidade').ilike('nome', marketName.trim()).limit(1);
         if (mkData && mkData.length > 0) {
           mercadoId = mkData[0].id;
+          if (!mkData[0].cidade) {
+            await client.from('mercados').update({ cidade: cleanCity }).eq('id', mercadoId);
+          }
         } else {
-          const { data: newMk } = await client.from('mercados').insert({ nome: marketName, cidade: currentCity }).select();
+          const { data: newMk } = await client.from('mercados').insert({ nome: marketName.trim(), cidade: cleanCity }).select();
           if (newMk && newMk[0]) mercadoId = newMk[0].id;
         }
-      } catch(e) {}
+      } catch(e) {
+        console.warn('Erro ao obter/criar mercado:', e);
+      }
+
+      if (!mercadoId) {
+        try {
+          const { data: fallbackMk } = await client.from('mercados').select('id').limit(1);
+          if (fallbackMk && fallbackMk[0]) mercadoId = fallbackMk[0].id;
+        } catch(e) {}
+      }
 
       let salvos = 0;
       for (const it of itemsToSave) {
@@ -5925,36 +6200,53 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           const priceNum = parseFloat(it.preco);
           if (!priceNum || isNaN(priceNum) || priceNum <= 0) continue;
 
-          const cleanCode = 'ENC_' + it.nome.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 14);
+          const cleanCode = 'ENC_' + (it.nome || '').toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 16);
+          const catItem = identifyCestaCategory(it.nome);
+          const categoria = catItem ? catItem.id : 'encarte';
 
           let prodId = null;
           try {
-            const { data: pData } = await client.from('produtos').upsert({
+            const { data: pData, error: pErr } = await client.from('produtos').upsert({
               codigo_barras: cleanCode,
-              nome: it.nome,
-              marca: '',
-              unidade: it.unidade || 'un'
-            }, { onConflict: 'codigo_barras' }).select();
-            if (pData && pData[0]) prodId = pData[0].id;
-          } catch(e) {}
+              nome: (it.nome || 'Produto').trim(),
+              marca: (it.marca || '').trim(),
+              categoria: categoria
+            }, { onConflict: 'codigo_barras' }).select('id');
 
-          await client.from('registros_precos').insert({
-            codigo_barras: cleanCode,
-            produto_id: prodId,
-            mercado_id: mercadoId,
-            mercado: marketName,
-            preco: priceNum,
-            data_registro: new Date().toISOString()
-          });
+            if (pData && pData[0]) {
+              prodId = pData[0].id;
+            } else if (pErr) {
+              console.warn('Erro no upsert de produtos:', pErr);
+              const { data: exP } = await client.from('produtos').select('id').eq('codigo_barras', cleanCode).maybeSingle();
+              if (exP) prodId = exP.id;
+            }
+          } catch(e) {
+            console.warn('Exceção upsert produto:', e);
+          }
 
-          saveProductToLocalCache(cleanCode, it.nome, '');
-          salvos++;
+          if (prodId && mercadoId) {
+            const { error: rErr } = await client.from('registros_precos').insert({
+              produto_id: prodId,
+              mercado_id: mercadoId,
+              preco: priceNum,
+              usuario_id: currentUser?.id || null,
+              data_registro: new Date().toISOString()
+            });
+
+            if (!rErr) {
+              saveProductToLocalCache(cleanCode, it.nome, it.marca || '');
+              salvos++;
+            } else {
+              console.warn('Erro ao inserir registros_precos:', rErr);
+            }
+          }
         } catch(err) {
-          console.warn('Erro ao inserir item:', err);
+          console.warn('Erro ao processar item do encarte:', err);
         }
       }
 
       showToast(`✅ ${salvos} ofertas integradas ao catálogo de ${marketName}!`, 'success');
+      return salvos;
     }
 
     // ==========================================
