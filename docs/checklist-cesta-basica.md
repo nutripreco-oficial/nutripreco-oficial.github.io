@@ -204,6 +204,33 @@ O acesso completo ao aplicativo deverá exigir cadastro com e-mail, senha e conf
 - [ ] Testar logout, login posterior e atualização da sessão após confirmação.
 - [ ] Atualizar a Política de Privacidade com o fluxo de autenticação adotado.
 
+## Especificação aprovada — Métricas do painel administrativo
+
+O painel administrativo deverá separar claramente métricas de cadastro, uso e contribuição, sem expor dados pessoais individuais. O resumo desejado é:
+
+```text
+Contas cadastradas
+Contas confirmadas
+Usuários ativos nos últimos 30 dias
+Contribuidores de preços
+Cotações registradas
+Mercados cobertos
+Cidades com dados
+```
+
+- [ ] Substituir o indicador ambíguo `Usuários / Acessos` por métricas com definições claras.
+- [ ] Contar contas cadastradas diretamente no backend/Auth, sem usar apenas `device_id`.
+- [ ] Contar contas com e-mail confirmado por `email_confirmed_at`.
+- [ ] Definir e calcular usuários ativos em janelas de 1, 7 e 30 dias.
+- [ ] Contar contribuidores distintos que salvaram ao menos uma cotação válida.
+- [ ] Contar cotações válidas, sem duplicar reenvios offline.
+- [ ] Contar mercados cobertos e cidades com dados por registros válidos.
+- [ ] Exibir data/hora da última atualização das métricas.
+- [ ] Implementar consulta administrativa protegida, Edge Function ou view segura; nunca expor `service_role` no navegador.
+- [ ] Garantir que o painel mostre apenas dados agregados, sem e-mails, nomes, IDs de dispositivo ou localização individual.
+- [ ] Definir retenção e minimização da telemetria conforme a Política de Privacidade.
+- [ ] Testar as métricas com usuário não confirmado, usuário confirmado, visitante, contribuidor e registros offline.
+
 ## Critérios de aceite
 
 - O carrinho continua funcionando como antes.
