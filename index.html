@@ -400,7 +400,7 @@
           </p>
 
           <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado do Encarte:</label>
-          <select id="encarte-photo-market" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:10px; background:#fff;">
+          <select id="encarte-photo-market" onchange="handleAdminEncarteMarketChange(this)" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:10px; background:#fff;">
             <option value="Supermercado Avistão">Supermercado Avistão</option>
             <option value="Princesa Supermercados">Princesa Supermercados</option>
             <option value="Multimarket">Multimarket</option>
@@ -408,8 +408,17 @@
             <option value="Atacadão">Atacadão</option>
             <option value="Assaí Atacadista">Assaí Atacadista</option>
             <option value="Extra">Extra</option>
-            <option value="Outro">Outro Mercado de Bairro</option>
+            <option value="__manual__">➕ Inserir Outro Mercado Manualmente...</option>
           </select>
+
+          <!-- Campo Manual de Inserção de Mercado pelo Administrador -->
+          <div id="encarte-admin-manual-market-box" class="hidden" style="margin-bottom:12px; background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; padding:10px;">
+            <label style="font-size:11.5px; font-weight:bold; color:#166534; display:block; margin-bottom:4px;">
+              ✍️ Nome do Supermercado / Estabelecimento:
+            </label>
+            <input type="text" id="encarte-admin-manual-market-input" placeholder="Ex: Mercado Esperança, Açougue Boi Bom..." 
+                   style="width:100%; padding:9px 10px; border-radius:6px; border:1px solid #4ade80; font-size:13px; background:#fff;">
+          </div>
 
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
             <div>
@@ -756,8 +765,8 @@
         🏆 Ganhe <b>+50 XP para o seu Mascote</b> enviando folhetos da sua cidade! A inteligência artificial do Google lê os preços da imagem automaticamente.
       </div>
 
-      <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado:</label>
-      <select id="user-flyer-market" style="width:100%; padding:9px; border-radius:8px; border:1px solid #ccc; font-size:13px; margin-bottom:10px; background:#fff;">
+      <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado / Comércio:</label>
+      <select id="user-flyer-market" onchange="handleUserFlyerMarketChange(this)" style="width:100%; padding:9px; border-radius:8px; border:1px solid #ccc; font-size:13px; margin-bottom:10px; background:#fff;">
         <option value="Atacadão">Atacadão</option>
         <option value="Assaí">Assaí Atacadista</option>
         <option value="Avistão">Supermercado Avistão</option>
@@ -765,8 +774,33 @@
         <option value="Multimarket">Multimarket</option>
         <option value="Supermarket">Supermarket</option>
         <option value="Extra">Extra</option>
-        <option value="Outro">Outro Mercado de Bairro</option>
+        <option value="__manual_gps__">📍 Cadastrar Comércio Local / Mercadinho (com GPS)...</option>
       </select>
+
+      <!-- Box de Cadastro de Mercadinho Local com GPS para Usuários / Comerciantes -->
+      <div id="user-flyer-gps-box" class="hidden" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:12px; margin-bottom:12px;">
+        <div style="font-size:12.5px; font-weight:bold; color:#166534; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+          🏪 Cadastrar Meu Comércio ou Mercadinho de Bairro
+        </div>
+        <p style="font-size:11px; color:#475569; margin:0 0 8px 0; line-height:1.35;">
+          Permite a comerciantes e moradores cadastrarem seu comércio local com a localização precisa do GPS.
+        </p>
+        
+        <label style="font-size:11.5px; font-weight:bold; color:#333; display:block; margin-bottom:3px;">Nome do Estabelecimento:</label>
+        <input type="text" id="user-flyer-new-market-name" placeholder="Ex: Mercado da Família / Padaria Bom Preço" style="width:100%; padding:8px 10px; border-radius:6px; border:1px solid #86efac; font-size:12.5px; margin-bottom:8px; background:#fff;">
+
+        <label style="font-size:11.5px; font-weight:bold; color:#333; display:block; margin-bottom:3px;">Bairro:</label>
+        <input type="text" id="user-flyer-new-market-bairro" placeholder="Ex: São Cristóvão, Braga, Passagem..." style="width:100%; padding:8px 10px; border-radius:6px; border:1px solid #86efac; font-size:12.5px; margin-bottom:8px; background:#fff;">
+
+        <div style="background:#ecfdf5; border:1px dashed #059669; border-radius:8px; padding:8px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+          <div style="font-size:11px; color:#065f46; display:flex; align-items:center; gap:6px;" id="user-flyer-gps-status">
+            📍 Capturando localização pelo GPS...
+          </div>
+          <button type="button" onclick="captureUserFlyerGPS(true)" style="background:#059669; color:#fff; border:none; border-radius:6px; padding:4px 9px; font-size:10.5px; font-weight:bold; cursor:pointer;">
+            Atualizar GPS
+          </button>
+        </div>
+      </div>
 
       <div style="background:#f8fafc; border:2px dashed #93c5fd; border-radius:12px; padding:14px; text-align:center; margin-bottom:12px;">
         <input type="file" id="user-flyer-file" accept="image/*" onchange="handleUserFlyerSelect(event)" style="display:none;">
@@ -778,26 +812,6 @@
         <div id="user-flyer-preview-box" class="hidden" style="margin-top:10px;">
           <img id="user-flyer-preview-img" style="max-width:100%; max-height:220px; border-radius:8px; border:1px solid #ccc; object-fit:contain;">
           <div style="font-size:11.5px; color:#16a34a; font-weight:bold; margin-top:4px;">Foto pronta para leitura!</div>
-        </div>
-      </div>
-
-      <!-- Campo Chave Gemini API no Modal Público -->
-      <div style="background:#f1f5f9; padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid #cbd5e1;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <span style="font-size:11.5px; font-weight:bold; color:#1e293b;">🔑 Chave Google Gemini (Grátis):</span>
-          <span id="user-flyer-key-status-label" style="font-size:11px; color:#16a34a; font-weight:bold;"></span>
-        </div>
-        <div style="display:flex; gap:6px; align-items:center; margin-bottom:4px;">
-          <div style="position:relative; flex:1; display:flex; align-items:center;">
-            <input type="password" id="user-flyer-key-input" placeholder="Cole sua chave (AQ... ou AIzaSy...)" style="width:100%; font-size:12px; padding:7px 32px 7px 9px; border-radius:8px; border:1px solid #93c5fd; background:#fff; font-family:monospace;">
-            <button type="button" onclick="toggleGeminiKeyVisibility('user-flyer-key-input')" title="Ver/Ocultar chave" style="position:absolute; right:8px; background:none; border:none; cursor:pointer; font-size:14px; padding:0; line-height:1;">👁️</button>
-          </div>
-          <button type="button" onclick="saveGeminiApiKeyFromInput('user-flyer-key-input')" style="background:#1a73e8; color:#fff; border:none; padding:7px 12px; border-radius:8px; font-size:11.5px; font-weight:bold; cursor:pointer;">Salvar</button>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="font-size:10.5px; color:#1a73e8; text-decoration:underline; font-weight:500;">
-            Criar chave no Google AI Studio (1 minuto) ↗
-          </a>
         </div>
       </div>
 
@@ -5103,8 +5117,36 @@ async function exportPricesCSV() {
       });
     }
 
+    function handleAdminEncarteMarketChange(select) {
+      const box = document.getElementById('encarte-admin-manual-market-box');
+      const input = document.getElementById('encarte-admin-manual-market-input');
+      if (select && select.value === '__manual__') {
+        if (box) box.classList.remove('hidden');
+        if (input) input.focus();
+      } else {
+        if (box) box.classList.add('hidden');
+      }
+    }
+
+    function getAdminEncarteMarket() {
+      const select = document.getElementById('encarte-photo-market');
+      if (!select) return 'Supermercado';
+      if (select.value === '__manual__') {
+        const input = document.getElementById('encarte-admin-manual-market-input');
+        const val = (input ? input.value : '').trim();
+        if (!val) {
+          showToast('Digite o nome do supermercado no campo manual.', 'warning');
+          if (input) input.focus();
+          return null;
+        }
+        return val;
+      }
+      return select.value;
+    }
+
     async function publishPhotoEncarte() {
-      const market = document.getElementById('encarte-photo-market').value;
+      const market = getAdminEncarteMarket();
+      if (!market) return;
       const start = document.getElementById('encarte-photo-start').value || new Date().toISOString().split('T')[0];
       const end = document.getElementById('encarte-photo-end').value;
       const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
@@ -5119,6 +5161,16 @@ async function exportPricesCSV() {
       }
 
       showToast('Publicando encarte oficial...', 'info');
+
+      // Se for mercado inserido manualmente, cadastra no banco e na lista de conhecidos
+      try {
+        const known = getAllKnownMarkets();
+        if (!known.some(m => m.nome.toLowerCase() === market.toLowerCase())) {
+          known.push({ nome: market, lat: null, lon: null, bairro: '' });
+          localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+          client.from('mercados').insert({ nome: market, cidade: userCity }).catch(()=>{});
+        }
+      } catch(e) {}
 
       const encarteObj = {
         id: 'ENC_' + Date.now(),
@@ -5174,7 +5226,7 @@ async function exportPricesCSV() {
         }
       } catch(e) {}
 
-      const valid = encartes.filter(e => e.validade >= today);
+      const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
 
       if (valid.length === 0) {
         container.innerHTML = '<p style="color:#888; font-style:italic;">Nenhum encarte publicado ativo no momento.</p>';
@@ -5220,18 +5272,24 @@ async function exportPricesCSV() {
     let detectedGeminiUserItems = [];
     let currentUserFlyerBase64 = null;
 
-    function getGeminiApiKey() {
+    async function getGeminiApiKey() {
       let key = localStorage.getItem('nutri_gemini_api_key') || '';
       if (!key) {
         const inputAdmin = document.getElementById('gemini-api-key-input');
-        const inputUser = document.getElementById('user-flyer-key-input');
-        if (inputUser && inputUser.value.trim()) {
-          key = inputUser.value.trim().replace(/[\r\n\t"'\s]/g, '');
-          localStorage.setItem('nutri_gemini_api_key', key);
-        } else if (inputAdmin && inputAdmin.value.trim()) {
+        if (inputAdmin && inputAdmin.value.trim()) {
           key = inputAdmin.value.trim().replace(/[\r\n\t"'\s]/g, '');
           localStorage.setItem('nutri_gemini_api_key', key);
         }
+      }
+      // Se não tiver localmente, recupera da configuração em nuvem sincronizada pelo administrador
+      if (!key) {
+        try {
+          const { data } = await client.from('encartes').select('imagem').eq('mercado', '__CONFIG_GEMINI_KEY__').limit(1);
+          if (data && data.length > 0 && data[0].imagem) {
+            key = data[0].imagem.trim();
+            localStorage.setItem('nutri_gemini_api_key', key);
+          }
+        } catch(e) {}
       }
       return key;
     }
@@ -5242,7 +5300,7 @@ async function exportPricesCSV() {
       input.type = input.type === 'password' ? 'text' : 'password';
     }
 
-    function saveGeminiApiKeyFromInput(inputId) {
+    async function saveGeminiApiKeyFromInput(inputId) {
       const el = document.getElementById(inputId);
       let val = (el ? el.value : '').trim().replace(/[\r\n\t"'\s]/g, '');
       if (!val) {
@@ -5255,18 +5313,33 @@ async function exportPricesCSV() {
       }
       localStorage.setItem('nutri_gemini_api_key', val);
       updateGeminiKeyStatusLabels();
-      showToast('✅ Chave Google Gemini salva com sucesso!', 'success');
+
+      // Sincroniza em nuvem no Supabase para uso seguro e transparente dos usuários
+      try {
+        const { data: existing } = await client.from('encartes').select('id').eq('mercado', '__CONFIG_GEMINI_KEY__').limit(1);
+        if (existing && existing.length > 0) {
+          await client.from('encartes').update({ imagem: val }).eq('id', existing[0].id);
+        } else {
+          await client.from('encartes').insert({
+            mercado: '__CONFIG_GEMINI_KEY__',
+            cidade: 'Sistema',
+            validade: '2099-12-31',
+            imagem: val
+          });
+        }
+      } catch(e) {
+        console.warn('Sincronização cloud:', e);
+      }
+
+      showToast('✅ Chave Google Gemini salva e sincronizada com sucesso!', 'success');
     }
 
     function updateGeminiKeyStatusLabels() {
-      const key = getGeminiApiKey();
+      const key = localStorage.getItem('nutri_gemini_api_key') || '';
       const statusAdmin = document.getElementById('gemini-key-status-label');
       const inputAdmin = document.getElementById('gemini-api-key-input');
-      const statusUser = document.getElementById('user-flyer-key-status-label');
-      const inputUser = document.getElementById('user-flyer-key-input');
 
       if (inputAdmin && key) inputAdmin.value = key;
-      if (inputUser && key) inputUser.value = key;
 
       const isValid = key && (key.startsWith('AQ.') || key.startsWith('AIzaSy'));
       const statusText = isValid ? '🟢 Chave configurada' : (key ? '⚠️ Formato suspeito' : '⚠️ Chave pendente');
@@ -5276,23 +5349,25 @@ async function exportPricesCSV() {
         statusAdmin.innerText = statusText;
         statusAdmin.style.color = statusColor;
       }
-      if (statusUser) {
-        statusUser.innerText = statusText;
-        statusUser.style.color = statusColor;
-      }
     }
     setTimeout(updateGeminiKeyStatusLabels, 100);
 
     async function callGeminiFlashVision(base64Image, marketName) {
-      let apiKey = getGeminiApiKey();
+      let apiKey = await getGeminiApiKey();
       if (!apiKey) {
-        apiKey = prompt('✨ Para analisar com o Google Gemini Flash, cole sua chave gratuita do Google AI Studio:');
-        if (apiKey && apiKey.trim()) {
-          apiKey = apiKey.trim().replace(/[\r\n\t"'\s]/g, '');
-          localStorage.setItem('nutri_gemini_api_key', apiKey);
-          updateGeminiKeyStatusLabels();
+        const isAdmin = document.getElementById('sidebar-admin-section') && !document.getElementById('sidebar-admin-section').classList.contains('hidden');
+        if (isAdmin) {
+          apiKey = prompt('✨ Para analisar com o Google Gemini Flash, cole sua chave gratuita do Google AI Studio:');
+          if (apiKey && apiKey.trim()) {
+            apiKey = apiKey.trim().replace(/[\r\n\t"'\s]/g, '');
+            localStorage.setItem('nutri_gemini_api_key', apiKey);
+            updateGeminiKeyStatusLabels();
+          } else {
+            showToast('Chave da API do Gemini necessária para a leitura.', 'warning');
+            return null;
+          }
         } else {
-          showToast('Chave da API do Gemini necessária para a leitura.', 'warning');
+          showToast('A leitura inteligente com IA está sendo conectada. Tente em instantes.', 'info');
           return null;
         }
       }
@@ -5391,7 +5466,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         showToast('Selecione ou tire a foto do folheto primeiro.', 'warning');
         return;
       }
-      const market = document.getElementById('encarte-photo-market')?.value || 'Supermercado';
+      const market = getAdminEncarteMarket();
+      if (!market) return;
       const loading = document.getElementById('gemini-admin-loading');
       const resultsBox = document.getElementById('gemini-admin-results');
       const btn = document.getElementById('gemini-admin-extract-btn');
@@ -5474,7 +5550,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     }
 
     async function confirmAndSaveAdminGeminiItems() {
-      const market = document.getElementById('encarte-photo-market')?.value || 'Supermercado';
+      const market = getAdminEncarteMarket();
+      if (!market) return;
       const container = document.getElementById('gemini-admin-items-list');
       if (!container) return;
 
@@ -5504,6 +5581,84 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       if (resultsBox) resultsBox.classList.add('hidden');
     }
 
+    // ==========================================
+    // SEÇÃO DE FOLHETOS PÚBLICOS & COMÉRCIO LOCAL (COM GPS)
+    // ==========================================
+    let userFlyerCapturedCoords = null;
+
+    function handleUserFlyerMarketChange(select) {
+      const box = document.getElementById('user-flyer-gps-box');
+      if (select && select.value === '__manual_gps__') {
+        if (box) box.classList.remove('hidden');
+        captureUserFlyerGPS();
+        const input = document.getElementById('user-flyer-new-market-name');
+        if (input) input.focus();
+      } else {
+        if (box) box.classList.add('hidden');
+      }
+    }
+
+    function captureUserFlyerGPS(notify = false) {
+      const statusEl = document.getElementById('user-flyer-gps-status');
+      if (!navigator.geolocation) {
+        if (statusEl) statusEl.innerHTML = '⚠️ GPS não disponível neste aparelho';
+        return;
+      }
+      if (statusEl) statusEl.innerHTML = '📍 Capturando localização pelo GPS...';
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          userFlyerCapturedCoords = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+          if (statusEl) {
+            statusEl.innerHTML = `✅ GPS vinculado: <b>${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}</b>`;
+          }
+          if (notify) showToast('📍 Coordenadas do comércio capturadas com sucesso!', 'success');
+        },
+        err => {
+          if (statusEl) statusEl.innerHTML = '📍 Sem sinal de GPS (salvando pelo bairro)';
+          if (notify) showToast('GPS não obtido. O comércio será salvo com o bairro informado.', 'info');
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    }
+
+    async function getUserFlyerMarket() {
+      const select = document.getElementById('user-flyer-market');
+      if (!select) return 'Supermercado';
+      if (select.value === '__manual_gps__') {
+        const nameInput = document.getElementById('user-flyer-new-market-name');
+        const name = (nameInput ? nameInput.value : '').trim();
+        if (!name) {
+          showToast('Digite o nome do estabelecimento / mercadinho.', 'warning');
+          if (nameInput) nameInput.focus();
+          return null;
+        }
+        const bairroInput = document.getElementById('user-flyer-new-market-bairro');
+        const bairro = (bairroInput ? bairroInput.value : '').trim();
+        const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+        // Salva novo comércio local no banco com GPS
+        try {
+          const marketObj = {
+            nome: name,
+            cidade: currentCity,
+            bairro: bairro,
+            latitude: userFlyerCapturedCoords ? userFlyerCapturedCoords.lat : null,
+            longitude: userFlyerCapturedCoords ? userFlyerCapturedCoords.lon : null
+          };
+          await client.from('mercados').insert(marketObj);
+          const known = getAllKnownMarkets();
+          if (!known.some(m => m.nome.toLowerCase() === name.toLowerCase())) {
+            known.push({ nome: name, lat: marketObj.latitude, lon: marketObj.longitude, bairro: bairro });
+            localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+          }
+          addMascotXP(20, 'Cadastrou Novo Comércio Local');
+        } catch(e) {}
+
+        return name;
+      }
+      return select.value;
+    }
+
     // Modal de Envio Público para Usuários
     function openPublicFlyerSubmitModal() {
       const modal = document.getElementById('public-flyer-modal');
@@ -5513,7 +5668,10 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       if (previewBox) previewBox.classList.add('hidden');
       const resultsBox = document.getElementById('user-flyer-results');
       if (resultsBox) resultsBox.classList.add('hidden');
-      updateGeminiKeyStatusLabels();
+      const gpsBox = document.getElementById('user-flyer-gps-box');
+      if (gpsBox) gpsBox.classList.add('hidden');
+      const select = document.getElementById('user-flyer-market');
+      if (select) select.value = 'Atacadão';
     }
 
     function closePublicFlyerSubmitModal() {
@@ -5538,7 +5696,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         showToast('Selecione ou fotografe o encarte primeiro.', 'warning');
         return;
       }
-      const market = document.getElementById('user-flyer-market')?.value || 'Supermercado';
+      const market = await getUserFlyerMarket();
+      if (!market) return;
       const loading = document.getElementById('user-flyer-loading');
       const resultsBox = document.getElementById('user-flyer-results');
       const btn = document.getElementById('user-flyer-extract-btn');
@@ -5567,7 +5726,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     }
 
     async function confirmAndSaveUserFlyerItems() {
-      const market = document.getElementById('user-flyer-market')?.value || 'Supermercado';
+      const market = await getUserFlyerMarket();
+      if (!market) return;
       const container = document.getElementById('user-flyer-items-list');
       if (!container) return;
 
@@ -5724,7 +5884,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         }
       } catch(e) {}
 
-      const valid = encartes.filter(e => e.validade >= today);
+      const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
 
       if (valid.length === 0) {
         container.innerHTML = `
