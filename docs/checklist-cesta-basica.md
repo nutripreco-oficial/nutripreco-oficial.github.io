@@ -219,6 +219,27 @@ As seções **Comunidade & Ajuda** e **Legal & Institucional** deverão ficar re
 - [ ] Usar transição curta e respeitar `prefers-reduced-motion`.
 - [ ] Testar o menu em telas pequenas e com o painel administrativo visível.
 
+## Decisões aprovadas — Tela principal e fluxo de leitura
+
+Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e retornar à tela principal. A câmera não será reaberta automaticamente: a área do scanner ficará pronta visualmente, mas a câmera do dispositivo permanecerá desligada até o usuário tocar novamente em `Iniciar Câmera`.
+
+- [ ] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, por exemplo `R$ 0,00 • 0 itens`.
+- [ ] Manter o retorno à tela principal depois de confirmar/adicionar um produto.
+- [ ] Não reabrir a câmera automaticamente após o retorno.
+- [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.
+- [ ] Deixar o botão `Iniciar Câmera` disponível para a próxima leitura manual.
+- [ ] Inserir na tela principal o botão `Encerrar compra`.
+- [ ] Pedir confirmação antes de encerrar uma compra.
+- [ ] Ao encerrar, preservar histórico e cotações, fechar o período atual do mascote, limpar somente o carrinho ativo e preparar uma nova compra.
+- [ ] Padronizar o fluxo de preço já existente e novo preço em uma única rotina de validação e salvamento.
+- [ ] Garantir nome válido, preço válido e confirmação de discrepância antes da gravação.
+- [ ] No modo online, confirmar o salvamento da cotação antes de considerar a contribuição válida.
+- [ ] No modo offline, inserir primeiro na fila local com identificador único e status `pendente` antes de considerar a contribuição pendente.
+- [ ] Adicionar o produto ao carrinho sem perder a compra pessoal, mas separar esse estado da confirmação da contribuição colaborativa.
+- [ ] Fazer o mascote contar somente a contribuição confirmada ou pendente conforme a regra definida, nunca apenas a presença no carrinho.
+- [ ] Retornar à tela principal sem perder nome, preço, mercado, produto ou status de sincronização.
+- [ ] Testar confirmação de preço existente, novo preço, cancelamento, erro de rede, fila offline e nova leitura manual.
+
 ## Especificação aprovada — Métricas do painel administrativo
 
 O painel administrativo deverá separar claramente métricas de cadastro, uso e contribuição, sem expor dados pessoais individuais. O resumo desejado é:
