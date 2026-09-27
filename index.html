@@ -26,7 +26,7 @@
     /* Cabeçalho */
     header { background-color: #2e7d32; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 10px; }
-    .menu-btn { background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 2px 6px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+    .menu-btn { background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 2px 6px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
     header h1 { font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
     .auth-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 6px 11px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; }
@@ -38,7 +38,7 @@
     .sidebar-drawer { position: fixed; top: 0; bottom: 0; left: 0; width: 82%; max-width: 310px; background: #fff; z-index: 160; box-shadow: 4px 0 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1); }
     .sidebar-drawer.open { transform: translateX(0); }
     .sidebar-header { padding: 18px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #f9fbf9; }
-    .close-sidebar-btn { background: none; border: none; font-size: 26px; color: #666; cursor: pointer; padding: 2px 6px; line-height: 1; }
+    .close-sidebar-btn { background: none; border: none; font-size: 26px; color: #666; cursor: pointer; padding: 2px 6px; line-height: 1; min-width: 44px; min-height: 44px; }
     .sidebar-body { flex: 1; overflow-y: auto; padding: 12px 10px; }
     .sidebar-section-title { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #888; padding: 10px 10px 4px 10px; letter-spacing: 0.5px; }
     .sidebar-section-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; border: 0; background: none; color: #888; padding: 10px 10px 7px; font: inherit; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; text-align: left; cursor: pointer; }
@@ -68,6 +68,8 @@
     .scanner-empty-state strong { font-size: 17px; font-weight: 700; }
     .scanner-empty-state span { max-width: 260px; color: #d7d7d7; font-size: 13px; line-height: 1.4; }
     .scan-btn { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(46,125,50,0.25); }
+    #top-cart-btn, #start-btn, #torch-btn, #manual-barcode-btn { min-height: 48px; }
+    #top-cart-btn:focus-visible, #start-btn:focus-visible, #torch-btn:focus-visible, #manual-barcode-btn:focus-visible { outline: 3px solid #81c784; outline-offset: 3px; }
 
     /* Cartões */
     .card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
@@ -886,7 +888,7 @@
         <span id="top-hud-count" style="font-size: 12px; color: #666;">0 itens</span>
       </div>
     </div>
-    <button onclick="openCartModal()" style="background: #2e7d32; color: white; border: none; padding: 9px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(46,125,50,0.25);">
+    <button id="top-cart-btn" onclick="openCartModal()" style="background: #2e7d32; color: white; border: none; padding: 9px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(46,125,50,0.25);">
       🛒 Ver Carrinho
     </button>
   </div>
@@ -1038,7 +1040,7 @@
         <button type="button" onclick="toggleFlashlight()" id="torch-btn" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           🔦 Lanterna
         </button>
-        <button type="button" onclick="openManualBarcodePrompt()" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <button type="button" id="manual-barcode-btn" onclick="openManualBarcodePrompt()" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           ⌨️ Digitar Código
         </button>
       </div>

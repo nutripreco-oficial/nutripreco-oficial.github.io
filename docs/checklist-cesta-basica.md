@@ -251,7 +251,7 @@ A nova tela inicial deverá funcionar como uma estação de caixa simples e prof
 - [ ] Usar textos claros em português, evitando depender apenas de ícones, emojis ou abreviações.
 - [ ] Usar tamanho de texto confortável e permitir ampliação sem quebrar o layout.
 - [ ] Garantir contraste suficiente entre texto, fundo, botões e estados de erro/sucesso.
-- [ ] Usar áreas de toque grandes e bem espaçadas, especialmente em `Iniciar Câmera`, `Ver Carrinho` e confirmação de preço.
+- [x] Usar áreas de toque grandes e bem espaçadas nos controles principais, incluindo `Iniciar Câmera`, `Ver Carrinho`, `Lanterna` e `Digitar Código`.
 - [ ] Não depender somente de cor para comunicar estado; combinar cor com texto, ícone ou mensagem.
 - [ ] Manter botões e posições previsíveis entre as telas.
 - [ ] Evitar mudanças automáticas inesperadas, incluindo reabertura automática da câmera.
