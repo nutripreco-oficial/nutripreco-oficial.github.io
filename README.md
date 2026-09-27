@@ -8,8 +8,10 @@ Aplicativo web progressivo para consulta colaborativa de preços, leitura de có
 - [x] **PWA:** manifesto com metadados de instalação, ícones 192/512 e service worker com atualização de cache e fallback offline.
 - [x] **Modo offline local-first:** catálogo mínimo, preferências, carrinho, lista e fila de sincronização permanecem disponíveis sem rede.
 - [x] **LGPD no cliente:** política publicada, minimização da telemetria e aviso de que dados locais ficam no dispositivo.
-- [x] **Segurança do Supabase:** script de schema e RLS completo pronto para execução em [`supabase_schema_rls.sql`](supabase_schema_rls.sql).
+- [x] **Segurança do Supabase:** schema, índices, bucket e RLS executados com sucesso no Supabase.
 - [x] **Exclusão de conta (LGPD):** função segura `excluir_minha_conta_lgpd()` com anonimização de cotações criada e conectada no cliente.
+- [x] **Simplificação de UX:** Lista Prévia Dinâmica removida para focar 100% no carrinho pré-caixa de gôndola.
+- [x] **Cesta Básica Nacional (DIEESE):** modal atualizado com 3 seletores dinâmicos (Estado, Cidade, Mercado), cálculo de cesta fechada dos 13 itens oficiais e ranking com cobertura.
 - [ ] **Organização do código:** separar o monólito `index.html` em módulos após cobertura mínima de testes e sem alterar o comportamento em produção.
 
 ## Desenvolvimento local

@@ -15,17 +15,17 @@
 ## Regras de negócio consolidadas
 
 - [x] Renomear visualmente a opção e o título do modal para **“Cesta Básica”**, mantendo IDs/funções internas compatíveis durante a migração.
-- [ ] Manter o Radar geral e os produtos/cotações existentes em compatibilidade durante a migração; remover apenas a apresentação antiga após validação.
-- [ ] A Cesta Básica deve ser uma visão dos registros de preços já feitos pelos usuários; não haverá cadastro de preço separado.
-- [ ] O fluxo atual deve continuar funcionando: bipar → identificar/informar produto → informar preço → adicionar ao carrinho → registrar cotação.
-- [ ] Produto fora da lista oficial continua no carrinho e no Radar geral, mas não entra na Cesta Básica.
-- [ ] O indicador principal será **Menor total estimado da cesta**.
-- [ ] O menor total será a soma do menor preço válido encontrado para cada item na localização escolhida.
-- [ ] **Média de preços** será indicador secundário e nunca será usada como nome do menor total.
-- [ ] Com “Todos os mercados”, cada item pode vir do mercado mais barato diferente.
-- [ ] Com mercado específico, calcular somente com cotações daquele mercado.
-- [ ] Não misturar cidades, estados, embalagens ou períodos sem deixar isso explícito.
-- [ ] Ausência de cotação deve aparecer como “sem cotação”; não inventar nem substituir o preço.
+- [x] Manter o Radar geral e os produtos/cotações existentes em compatibilidade durante a migração; remover apenas a apresentação antiga após validação.
+- [x] A Cesta Básica deve ser uma visão dos registros de preços já feitos pelos usuários; não haverá cadastro de preço separado.
+- [x] O fluxo atual deve continuar funcionando: bipar → identificar/informar produto → informar preço → adicionar ao carrinho → registrar cotação.
+- [x] Produto fora da lista oficial continua no carrinho e no Radar geral, mas não entra na Cesta Básica.
+- [x] O indicador principal será **Menor total estimado da cesta**.
+- [x] O menor total será a soma do menor preço válido encontrado para cada item na localização escolhida.
+- [x] **Média de preços** será indicador secundário e nunca será usada como nome do menor total.
+- [x] Com “Todos os mercados”, cada item pode vir do mercado mais barato diferente.
+- [x] Com mercado específico, calcular somente com cotações daquele mercado.
+- [x] Não misturar cidades, estados, embalagens ou períodos sem deixar isso explícito.
+- [x] Ausência de cotação deve aparecer como “sem cotação”; não inventar nem substituir o preço.
 
 ## Lista de referência da cesta
 

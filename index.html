@@ -185,18 +185,7 @@
     .budget-chip { padding: 6px 10px; background: #fff; border: 1px solid #ccc; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; color: #444; }
     .budget-chip.active { background: #2e7d32; color: #fff; border-color: #2e7d32; }
 
-    /* Grade de Seleção Rápida na Lista Prévia (1 Toque) */
-    .quick-catalog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-height: 38vh; overflow-y: auto; padding: 2px; }
-    .quick-item-card { background: #fafafa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.15s ease; }
-    .quick-item-card:active { background: #e8f5e9; border-color: #2e7d32; transform: scale(0.98); }
-    .quick-item-icon { font-size: 22px; width: 28px; text-align: center; }
-    .quick-item-name { font-size: 13px; font-weight: 600; color: #222; line-height: 1.2; }
 
-    /* Lista Prévia - Itens */
-    .prelist-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; border: 1px solid #eee; border-radius: 10px; margin-bottom: 6px; }
-    .prelist-item.done { opacity: 0.55; text-decoration: line-through; background: #f9f9f9; }
-    .prelist-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #2e7d32; cursor: pointer; }
-    .prelist-text { flex: 1; font-size: 14px; font-weight: 500; }
 
     /* Relatório Executivo B2B / Administrativo */
     .report-sheet { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); font-family: monospace, sans-serif; }
@@ -268,62 +257,7 @@
   <!-- Cabeçalho com Botão do Menu Hambúrguer -->
   
   
-  <!-- ========================================== -->
-  <!-- MODAL: LISTA PRÉVIA DINÂMICA (MONTAR NO SOFÁ) -->
-  <!-- ========================================== -->
-  <div class="modal hidden" id="prelist-modal">
-    <div class="modal-content" style="max-height: 92vh;">
-      <div class="modal-header">
-        <h3 style="color: #2e7d32; display:flex; align-items:center; gap:8px;">
-          📝 Lista Prévia Dinâmica
-        </h3>
-        <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePreListModal()">&times;</button>
-      </div>
 
-      <!-- Abas Secundárias de Organização -->
-      <div class="tab-bar">
-        <button class="tab-btn active" id="tab-btn-quick" onclick="switchPrelistTab('quick')">🧺 Cesta & Populares</button>
-        <button class="tab-btn" id="tab-btn-catalog" onclick="switchPrelistTab('catalog')">🔍 Catálogo da Cidade</button>
-        <button class="tab-btn" id="tab-btn-mylist" onclick="switchPrelistTab('mylist')">📋 Minha Lista (<span id="prelist-count-badge">0</span>)</button>
-      </div>
-
-      <!-- CONTEÚDO DA ABA 1: CESTA BÁSICA & POPULARES (1 TOQUE) -->
-      <div id="prelist-tab-quick-content">
-        <p style="font-size:12.5px; color:#666; margin-bottom:10px;">Toque em qualquer item para colocar na sua lista sem digitar:</p>
-        <div class="quick-catalog-grid" id="quick-cesta-grid">
-          <!-- Gerado dinamicamente -->
-        </div>
-      </div>
-
-      <!-- CONTEÚDO DA ABA 2: CATÁLOGO GERAL DA CIDADE (DO SUPABASE) -->
-      <div id="prelist-tab-catalog-content" class="hidden">
-        <input type="text" id="catalog-search-input" placeholder="🔍 Filtrar produtos cadastrados na cidade..." oninput="filterCatalogSearch()" style="margin-bottom: 10px;">
-        <div class="quick-catalog-grid" id="catalog-db-grid">
-          <div style="grid-column: 1 / -1; text-align:center; padding:20px; color:#888;">Carregando produtos cadastrados...</div>
-        </div>
-      </div>
-
-      <!-- CONTEÚDO DA ABA 3: MINHA LISTA ATIVA -->
-      <div id="prelist-tab-mylist-content" class="hidden">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <span style="font-size:13px; font-weight:bold; color:#444;">Itens a Comprar:</span>
-          <button onclick="clearCompletedPrelist()" style="background:none; border:none; color:#2e7d32; font-size:12px; font-weight:bold; cursor:pointer;">Limpar Marcados</button>
-        </div>
-        <div id="prelist-items-container" style="max-height: 40vh; overflow-y:auto; margin-bottom:12px;">
-          <!-- Itens da lista -->
-        </div>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="manual-prelist-input" placeholder="Ou digite outro item..." style="flex:1;">
-          <button onclick="addManualPrelistItem()" class="save-btn" style="width:auto; padding:0 16px; margin:0; font-size:14px;">+ Adicionar</button>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:8px; margin-top:16px; border-top:1px solid #eee; padding-top:12px;">
-        <button onclick="clearAllPrelist()" class="reset-btn" style="flex:1; background:#ffebee; color:#c62828; margin:0;">🗑️ Limpar Lista</button>
-        <button onclick="closePreListModal()" class="save-btn" style="flex:1; margin:0;">Concluir</button>
-      </div>
-    </div>
-  </div>
 
   <!-- ========================================== -->
   <!-- MODAL: RELATÓRIO EXECUTIVO (B2C & B2B) -->
@@ -940,14 +874,7 @@
         </div>
       </button>
 
-      <button class="sidebar-item" onclick="toggleSidebar(false); openPreListModal();">
-        <span class="sidebar-icon">📝</span>
-        <div class="sidebar-item-text">
-          <strong>Lista Prévia de Compras</strong>
-          <small>Planeje os gastos antes de ir ao mercado</small>
-        </div>
-        <span class="badge-highlight">Disponível</span>
-      </button>
+
 
       <button type="button" class="sidebar-section-toggle" onclick="toggleSidebarSection('community-section')" aria-expanded="false" aria-controls="community-section">
         <span>Comunidade &amp; Ajuda</span><span class="sidebar-section-chevron" aria-hidden="true">▸</span>
@@ -1292,39 +1219,59 @@
 
   <!-- Barra fixa inferior duplicada removida: o HUD no topo já exibe o total e botão do carrinho -->
 
-  <!-- Modal do Radar de Preços & Cesta Básica -->
+  <!-- Modal da Cesta Básica Oficial Nacional -->
   <div class="modal hidden" id="radar-modal">
-    <div class="modal-content" style="max-height: 88vh;">
+    <div class="modal-content" style="max-height: 90vh;">
       <div class="modal-header">
         <div>
-          <h3 style="color: #2e7d32; display:flex; align-items:center; gap:6px;">🧺 Cesta Básica</h3>
-          <span style="font-size:12px; color:#666;">Cabo Frio • Cotações da Cidade</span>
+          <h3 style="color: #1b5e20; display:flex; align-items:center; gap:8px;">🧺 Cesta Básica Oficial</h3>
+          <span style="font-size:12px; color:#666;" id="cesta-region-subtitle">Total fechado com os 13 alimentos essenciais</span>
         </div>
-        <button style="border:none; background:none; font-size:24px; cursor:pointer;" onclick="closeRadarModal()">&times;</button>
+        <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeRadarModal()">&times;</button>
       </div>
 
-      <!-- Abas / Filtros Rápidos -->
-      <div class="radar-tabs">
-        <button class="radar-tab active" id="tab-all-products" onclick="setRadarFilter('all')">🌐 Todos os Produtos</button>
-        <button class="radar-tab" id="tab-cesta-basica" onclick="setRadarFilter('cesta')">🧺 Cesta Básica Oficial</button>
+      <!-- SELETORES EM CASCATA: ESTADO -> CIDADE -> MERCADO -->
+      <div style="background:#f4f9f4; border:1.5px solid #c8e6c9; border-radius:12px; padding:12px; margin-bottom:12px;">
+        <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:8px; margin-bottom:8px;">
+          <div>
+            <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">🌎 Estado (UF):</label>
+            <select id="cesta-select-uf" onchange="onCestaUfChanged()" style="width:100%; padding:8px 6px; border-radius:8px; border:1px solid #ccc; font-size:13px; background:#fff; font-weight:600; color:#222;">
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">📍 Cidade:</label>
+            <select id="cesta-select-city" onchange="onCestaCityChanged()" style="width:100%; padding:8px 6px; border-radius:8px; border:1.5px solid #2e7d32; font-size:13px; background:#fff; font-weight:bold; color:#1b5e20;">
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">🏪 Supermercado:</label>
+          <select id="cesta-select-market" onchange="onCestaMarketChanged()" style="width:100%; padding:9px 10px; border-radius:8px; border:1.5px solid #2e7d32; font-size:13px; background:#fff; font-weight:bold; color:#1b5e20;">
+            <option value="__ALL__">Todos os Mercados (Comparativo Geral)</option>
+          </select>
+        </div>
       </div>
 
-      <!-- Campo de Busca em Tempo Real -->
-      <div style="margin: 11px 0;">
-        <input type="text" id="radar-search-input" placeholder="🔍 Buscar produto (ex: café, arroz, leite, carne)..." oninput="renderRadarProducts()" style="padding: 10px 14px; font-size: 14px;">
+      <!-- Card do Total Fechado & Indicador de Cobertura -->
+      <div id="cesta-summary-card" class="cesta-summary-box" style="background:#e8f5e9; border:1.5px solid #a5d6a7; border-radius:12px; padding:12px 14px; margin-bottom:12px;">
+        <!-- Preenchido dinamicamente -->
       </div>
 
-      <!-- Placar da Cesta Básica -->
-      <div id="cesta-summary-box" class="cesta-summary-box hidden">
-        <div style="font-size:13px; font-weight:bold; color:#1b5e20; margin-bottom:6px;">🧺 Placar Cesta Básica em Cabo Frio:</div>
-        <div id="cesta-markets-ranking"></div>
+      <!-- Status de Carregamento -->
+      <div id="radar-loading" class="loading" style="padding: 16px; text-align:center; color:#2e7d32; font-size:13px;">
+        ⏳ Carregando cotações da Cesta Básica...
       </div>
 
-      <!-- Lista Comparativa Tipo Planilha -->
-      <div id="radar-loading" class="loading" style="padding: 20px;">🔍 Carregando cotações de Cabo Frio...</div>
-      <div id="radar-products-list" style="margin-bottom: 16px;"></div>
+      <!-- Título da Lista dos 13 Itens Oficiais -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:0 2px;">
+        <span style="font-size:13px; font-weight:bold; color:#333;">Composição dos 13 Itens (DIEESE):</span>
+        <span style="font-size:11.5px; font-weight:bold; color:#2e7d32;" id="cesta-items-covered-label">0 de 13 itens</span>
+      </div>
 
-      <button class="reset-btn" onclick="closeRadarModal()">Fechar Radar</button>
+      <!-- Lista detalhada dos 13 Itens -->
+      <div id="radar-products-list" style="margin-bottom: 16px; max-height: 48vh; overflow-y:auto;"></div>
+
+      <button class="reset-btn" onclick="closeRadarModal()">Fechar Cesta Básica</button>
     </div>
   </div>
 
@@ -1908,85 +1855,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
-    // ==========================================
-    // 2. LISTA PRÉVIA DINÂMICA (MONTAR NO SOFÁ)
-    // ==========================================
-    let preShoppingList = JSON.parse(localStorage.getItem('nutri_pre_shopping_list') || '[]');
-    const cestaBasicaDefault = [
-      { name: 'Arroz 5kg', icon: '🍚' },
-      { name: 'Feijão Preto 1kg', icon: '🫘' },
-      { name: 'Óleo de Soja', icon: '🌻' },
-      { name: 'Leite Integral 1L', icon: '🥛' },
-      { name: 'Café em Pó 500g', icon: '☕' },
-      { name: 'Açúcar Refinado 1kg', icon: '🧂' },
-      { name: 'Farinha de Trigo 1kg', icon: '🌾' },
-      { name: 'Ovos (Cartela)', icon: '🥚' },
-      { name: 'Macarrão Espaguete', icon: '🍝' },
-      { name: 'Frango / Carne', icon: '🍗' },
-      { name: 'Pão de Forma', icon: '🍞' },
-      { name: 'Sabão em Pó', icon: '🧼' },
-      { name: 'Detergente Líquido', icon: '🫧' },
-      { name: 'Papel Higiênico', icon: '🧻' }
-    ];
-
-    let cachedDbProducts = [];
-
-    function openPreListModal() {
-      renderPrelistTabQuick();
-      renderMyPrelistItems();
-      loadDbCatalogForPrelist();
-      document.getElementById('prelist-modal').classList.remove('hidden');
-    }
-
-    function closePreListModal() {
-      document.getElementById('prelist-modal').classList.add('hidden');
-    }
-
-    function switchPrelistTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById('prelist-tab-quick-content').classList.add('hidden');
-      document.getElementById('prelist-tab-catalog-content').classList.add('hidden');
-      document.getElementById('prelist-tab-mylist-content').classList.add('hidden');
-
-      if (tab === 'quick') {
-        document.getElementById('tab-btn-quick').classList.add('active');
-        document.getElementById('prelist-tab-quick-content').classList.remove('hidden');
-      } else if (tab === 'catalog') {
-        document.getElementById('tab-btn-catalog').classList.add('active');
-        document.getElementById('prelist-tab-catalog-content').classList.remove('hidden');
-      } else {
-        document.getElementById('tab-btn-mylist').classList.add('active');
-        document.getElementById('prelist-tab-mylist-content').classList.remove('hidden');
-      }
-    }
-
-    function renderPrelistTabQuick() {
-      const grid = document.getElementById('quick-cesta-grid');
-      grid.innerHTML = '';
-      cestaBasicaDefault.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'quick-item-card';
-        card.onclick = () => addPrelistItem(item.name);
-        card.innerHTML = `
-          <div class="quick-item-icon">${item.icon}</div>
-          <div class="quick-item-name">${item.name}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    async function loadDbCatalogForPrelist() {
-      const grid = document.getElementById('catalog-db-grid');
-      try {
-        const { data: prods, error } = await client.from('produtos').select('id, nome, marca').order('nome').limit(60);
-        if (error) throw error;
-        cachedDbProducts = prods || [];
-        renderDbCatalogGrid(cachedDbProducts);
-      } catch (e) {
-        grid.innerHTML = '<div style="grid-column:1/-1; color:#888; text-align:center; padding:15px;">Use a busca acima ou a aba Cesta Básica.</div>';
-      }
-    }
-
+    // Validação de nomes de produtos
     function isValidProductName(name) {
       if (!name || typeof name !== 'string') return false;
       const clean = name.trim().toLowerCase();
@@ -1995,119 +1864,6 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         return false;
       }
       return true;
-    }
-
-    function renderDbCatalogGrid(prods) {
-      const grid = document.getElementById('catalog-db-grid');
-      grid.innerHTML = '';
-      const validProds = (prods || []).filter(p => isValidProductName(p.nome));
-      if (validProds.length === 0) {
-        grid.innerHTML = '<div style="grid-column:1/-1; color:#888; text-align:center; padding:15px;">Nenhum produto correspondente cadastrado.</div>';
-        return;
-      }
-      validProds.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'quick-item-card';
-        card.onclick = () => addPrelistItem(p.nome);
-        card.innerHTML = `
-          <div class="quick-item-icon">🛒</div>
-          <div class="quick-item-name">${p.nome}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function filterCatalogSearch() {
-      const q = document.getElementById('catalog-search-input').value.toLowerCase().trim();
-      const filtered = cachedDbProducts.filter(p => isValidProductName(p.nome) && p.nome.toLowerCase().includes(q));
-      renderDbCatalogGrid(filtered);
-    }
-
-    function addPrelistItem(name) {
-      if (!name || name.trim() === '') return;
-      const exists = preShoppingList.find(i => i.name.toLowerCase() === name.toLowerCase());
-      if (exists) {
-        showToast(`'${name}' já está na sua lista!`, 'info');
-        return;
-      }
-      preShoppingList.push({ id: Date.now(), name: name.trim(), done: false });
-      savePrelist();
-      renderMyPrelistItems();
-      showToast(`+ '${name}' adicionado à sua lista!`, 'success');
-    }
-
-    function addManualPrelistItem() {
-      const input = document.getElementById('manual-prelist-input');
-      const val = input.value.trim();
-      if (!val) return;
-      addPrelistItem(val);
-      input.value = '';
-    }
-
-    function togglePrelistItemDone(id) {
-      const item = preShoppingList.find(i => i.id === id);
-      if (item) {
-        item.done = !item.done;
-        savePrelist();
-        renderMyPrelistItems();
-      }
-    }
-
-    function removePrelistItem(id) {
-      preShoppingList = preShoppingList.filter(i => i.id !== id);
-      savePrelist();
-      renderMyPrelistItems();
-    }
-
-    function renderMyPrelistItems() {
-      const container = document.getElementById('prelist-items-container');
-      const badge = document.getElementById('prelist-count-badge');
-      badge.innerText = preShoppingList.length;
-
-      if (preShoppingList.length === 0) {
-        container.innerHTML = '<div style="text-align:center; color:#888; padding:25px; font-size:13px;">Sua lista de compras está vazia.<br>Toque nos produtos das outras abas para adicionar.</div>';
-        return;
-      }
-
-      container.innerHTML = '';
-      preShoppingList.forEach(item => {
-        const row = document.createElement('div');
-        row.className = 'prelist-item' + (item.done ? ' done' : '');
-        row.innerHTML = `
-          <input type="checkbox" ${item.done ? 'checked' : ''} onchange="togglePrelistItemDone(${item.id})">
-          <span class="prelist-text">${item.name}</span>
-          <button onclick="removePrelistItem(${item.id})" style="border:none; background:none; color:#c62828; font-size:18px; cursor:pointer;">&times;</button>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function clearCompletedPrelist() {
-      preShoppingList = preShoppingList.filter(i => !i.done);
-      savePrelist();
-      renderMyPrelistItems();
-      showToast('Itens marcados removidos.', 'info');
-    }
-
-    async function clearAllPrelist() {
-      if (preShoppingList.length === 0) return;
-      const conf = await showConfirmDialog({
-        title: 'Limpar Lista',
-        message: 'Deseja remover todos os itens da sua lista prévia?',
-        icon: '🗑️',
-        okText: 'Limpar',
-        isDestructive: true
-      });
-      if (conf) {
-        preShoppingList = [];
-        savePrelist();
-        renderMyPrelistItems();
-        showToast('Lista prévia zerada.', 'info');
-      }
-    }
-
-    function savePrelist() {
-      localStorage.setItem('nutri_pre_shopping_list', JSON.stringify(preShoppingList));
     }
 
     // ==========================================
@@ -2601,12 +2357,67 @@ async function exportPricesCSV() {
     let currentUser = null;
         checkAdminAccess(null);
 
-    // Estado do Radar de Preços & Cesta Básica
-    let radarData = [];
-    let currentRadarFilter = 'all';
+    // Estado da Cesta Básica Oficial
+    let cestaRawData = [];
 
-    // Termos que qualificam a Cesta Básica Oficial (DIEESE / Governo)
-    const CESTA_TERMS = ['arroz', 'feijão', 'feijao', 'café', 'cafe', 'leite', 'óleo', 'oleo', 'açúcar', 'acucar', 'farinha', 'carne', 'frango', 'pão', 'pao', 'manteiga', 'margarina', 'tomate', 'banana', 'batata'];
+    // Lista dos 27 Estados Brasileiros (UFs)
+    const BRAZIL_UFS = [
+      { uf: 'AC', nome: 'Acre (AC)' },
+      { uf: 'AL', nome: 'Alagoas (AL)' },
+      { uf: 'AP', nome: 'Amapá (AP)' },
+      { uf: 'AM', nome: 'Amazonas (AM)' },
+      { uf: 'BA', nome: 'Bahia (BA)' },
+      { uf: 'CE', nome: 'Ceará (CE)' },
+      { uf: 'DF', nome: 'Distrito Federal (DF)' },
+      { uf: 'ES', nome: 'Espírito Santo (ES)' },
+      { uf: 'GO', nome: 'Goiás (GO)' },
+      { uf: 'MA', nome: 'Maranhão (MA)' },
+      { uf: 'MT', nome: 'Mato Grosso (MT)' },
+      { uf: 'MS', nome: 'Mato Grosso do Sul (MS)' },
+      { uf: 'MG', nome: 'Minas Gerais (MG)' },
+      { uf: 'PA', nome: 'Pará (PA)' },
+      { uf: 'PB', nome: 'Paraíba (PB)' },
+      { uf: 'PR', nome: 'Paraná (PR)' },
+      { uf: 'PE', nome: 'Pernambuco (PE)' },
+      { uf: 'PI', nome: 'Piauí (PI)' },
+      { uf: 'RJ', nome: 'Rio de Janeiro (RJ)' },
+      { uf: 'RN', nome: 'Rio Grande do Norte (RN)' },
+      { uf: 'RS', nome: 'Rio Grande do Sul (RS)' },
+      { uf: 'RO', nome: 'Rondônia (RO)' },
+      { uf: 'RR', nome: 'Roraima (RR)' },
+      { uf: 'SC', nome: 'Santa Catarina (SC)' },
+      { uf: 'SP', nome: 'São Paulo (SP)' },
+      { uf: 'SE', nome: 'Sergipe (SE)' },
+      { uf: 'TO', nome: 'Tocantins (TO)' }
+    ];
+
+    // Os 13 Itens Oficiais da Cesta Básica Nacional (DIEESE / Decreto-Lei 399)
+    const CESTA_OFICIAL_ITENS = [
+      { id: 'arroz', nome: 'Arroz', icon: '🌾', terms: ['arroz'] },
+      { id: 'feijao', nome: 'Feijão', icon: '🫘', terms: ['feijao', 'feijão'] },
+      { id: 'carne', nome: 'Carne / Frango', icon: '🥩', terms: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito de frango', 'bovino', 'bovina'] },
+      { id: 'leite', nome: 'Leite', icon: '🥛', terms: ['leite'] },
+      { id: 'cafe', nome: 'Café em Pó', icon: '☕', terms: ['cafe', 'café'] },
+      { id: 'pao', nome: 'Pão Francês', icon: '🍞', terms: ['pao', 'pão', 'bisnaga', 'torrada'] },
+      { id: 'oleo', nome: 'Óleo de Soja', icon: '🌻', terms: ['oleo', 'óleo', 'soja'] },
+      { id: 'manteiga', nome: 'Manteiga / Margarina', icon: '🧈', terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia'] },
+      { id: 'acucar', nome: 'Açúcar', icon: '🍬', terms: ['acucar', 'açúcar', 'açucar'] },
+      { id: 'farinha', nome: 'Farinha (Trigo/Mandioca)', icon: '🌾', terms: ['farinha'] },
+      { id: 'batata', nome: 'Batata', icon: '🥔', terms: ['batata'] },
+      { id: 'tomate', nome: 'Tomate', icon: '🍅', terms: ['tomate'] },
+      { id: 'banana', nome: 'Banana', icon: '🍌', terms: ['banana'] }
+    ];
+
+    function identifyCestaCategory(productName) {
+      if (!productName || typeof productName !== 'string') return null;
+      const clean = productName.toLowerCase();
+      for (const item of CESTA_OFICIAL_ITENS) {
+        if (item.terms.some(t => clean.includes(t))) {
+          return item;
+        }
+      }
+      return null;
+    }
 
         // ==========================================
     // ONBOARDING DE BOAS-VINDAS & SAUDAÇÃO PERSONALIZADA
@@ -2753,185 +2564,448 @@ async function exportPricesCSV() {
       badge.innerText = `${city} - ${savedUf}`;
     }
 
-    // Modal do Radar de Preços & Cesta Básica
+    // ==========================================
+    // CESTA BÁSICA NACIONAL (13 ITENS OFICIAIS & 3 SELETORES)
+    // ==========================================
+
     function openRadarModal() {
-      document.getElementById('radar-modal').classList.remove('hidden');
-      fetchRadarData();
+      const modal = document.getElementById('radar-modal');
+      if (modal) modal.classList.remove('hidden');
+      initCestaUfDropdown();
     }
 
     function closeRadarModal() {
-      document.getElementById('radar-modal').classList.add('hidden');
+      const modal = document.getElementById('radar-modal');
+      if (modal) modal.classList.add('hidden');
     }
 
-    function setRadarFilter(filter) {
-      currentRadarFilter = filter;
-      document.getElementById('tab-all-products').classList.toggle('active', filter === 'all');
-      document.getElementById('tab-cesta-basica').classList.toggle('active', filter === 'cesta');
-      renderRadarProducts();
+    function initCestaUfDropdown() {
+      const ufSelect = document.getElementById('cesta-select-uf');
+      if (!ufSelect) return;
+
+      const savedUf = localStorage.getItem('nutri_user_state') || localStorage.getItem('nutri_user_uf') || 'RJ';
+      let savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      savedCity = savedCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+
+      ufSelect.innerHTML = '';
+      BRAZIL_UFS.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.uf;
+        opt.innerText = item.nome;
+        if (item.uf === savedUf) opt.selected = true;
+        ufSelect.appendChild(opt);
+      });
+
+      onCestaUfChanged(savedCity);
     }
 
-    async function fetchRadarData() {
+    async function onCestaUfChanged(preselectedCity = null) {
+      const ufSelect = document.getElementById('cesta-select-uf');
+      const citySelect = document.getElementById('cesta-select-city');
+      if (!ufSelect || !citySelect) return;
+
+      const uf = ufSelect.value;
+      citySelect.innerHTML = '<option value="">Carregando cidades...</option>';
+
+      const cacheKey = 'nutri_cities_' + uf;
+      const cached = localStorage.getItem(cacheKey);
+
+      let cities = [];
+      if (cached) {
+        try { cities = JSON.parse(cached); } catch(e){}
+      }
+
+      if (!cities || cities.length === 0) {
+        if (!navigator.onLine && OFFLINE_CITIES_BACKUP[uf]) {
+          cities = OFFLINE_CITIES_BACKUP[uf];
+        } else {
+          try {
+            const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
+            const data = await res.json();
+            cities = data.map(c => c.nome);
+            localStorage.setItem(cacheKey, JSON.stringify(cities));
+          } catch (err) {
+            cities = OFFLINE_CITIES_BACKUP[uf] || ['Capital', 'Interior'];
+          }
+        }
+      }
+
+      citySelect.innerHTML = '';
+      cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
+          opt.selected = true;
+        }
+        citySelect.appendChild(opt);
+      });
+
+      if (!citySelect.value && cities.length > 0) {
+        citySelect.value = cities[0];
+      }
+
+      onCestaCityChanged();
+    }
+
+    async function onCestaCityChanged() {
+      const citySelect = document.getElementById('cesta-select-city');
+      const ufSelect = document.getElementById('cesta-select-uf');
+      const marketSelect = document.getElementById('cesta-select-market');
+      const subtitle = document.getElementById('cesta-region-subtitle');
+
+      const city = citySelect ? citySelect.value : 'Cabo Frio';
+      const uf = ufSelect ? ufSelect.value : 'RJ';
+
+      if (subtitle) {
+        subtitle.innerText = `${city} - ${uf} • Cesta dos 13 Itens Oficiais`;
+      }
+
+      if (marketSelect) {
+        marketSelect.innerHTML = '<option value="__ALL__">Todos os Mercados (Comparativo Geral)</option>';
+        try {
+          const { data: mkts } = await client
+            .from('mercados')
+            .select('id, nome, cidade')
+            .ilike('cidade', `%${city}%`)
+            .order('nome');
+          if (mkts && mkts.length > 0) {
+            const addedNames = new Set();
+            mkts.forEach(m => {
+              if (m.nome && !addedNames.has(m.nome)) {
+                addedNames.add(m.nome);
+                const opt = document.createElement('option');
+                opt.value = m.nome;
+                opt.innerText = m.nome;
+                marketSelect.appendChild(opt);
+              }
+            });
+          }
+        } catch (e) {
+          console.error('Erro ao buscar mercados:', e);
+        }
+      }
+
+      fetchCestaData();
+    }
+
+    function onCestaMarketChanged() {
+      renderCestaScreen();
+    }
+
+    async function fetchCestaData() {
       const loadingEl = document.getElementById('radar-loading');
-      loadingEl.classList.remove('hidden');
-      document.getElementById('radar-products-list').innerHTML = '';
+      const listContainer = document.getElementById('radar-products-list');
+      const summaryCard = document.getElementById('cesta-summary-card');
+      const citySelect = document.getElementById('cesta-select-city');
+      const city = citySelect ? citySelect.value : 'Cabo Frio';
+
+      if (loadingEl) loadingEl.classList.remove('hidden');
+      if (listContainer) listContainer.innerHTML = '';
+      if (summaryCard) summaryCard.innerHTML = '';
 
       try {
         const { data, error } = await client
           .from('registros_precos')
-          .select('preco, data_registro, mercados(nome), produtos(id, nome, marca, codigo_barras)')
+          .select('preco, data_registro, mercados!inner(id, nome, cidade), produtos!inner(id, nome, marca, codigo_barras)')
+          .ilike('mercados.cidade', `%${city}%`)
           .order('data_registro', { ascending: false })
-          .limit(150);
+          .limit(300);
 
         if (error) throw error;
-        radarData = data || [];
-        loadingEl.classList.add('hidden');
-        renderRadarProducts();
+        cestaRawData = data || [];
+        if (loadingEl) loadingEl.classList.add('hidden');
+        renderCestaScreen();
       } catch (err) {
-        console.error('Erro ao carregar radar:', err);
-        loadingEl.innerHTML = '<div style="color:#c62828; font-size:13px; text-align:center;">Não foi possível carregar as cotações neste momento.</div>';
+        console.error('Erro ao carregar cesta:', err);
+        if (loadingEl) {
+          loadingEl.innerHTML = '<div style="color:#c62828; font-size:13px; text-align:center;">Não foi possível carregar as cotações neste momento.</div>';
+        }
       }
     }
 
-    function renderRadarProducts() {
+    function renderCestaScreen() {
+      const citySelect = document.getElementById('cesta-select-city');
+      const marketSelect = document.getElementById('cesta-select-market');
+      const summaryCard = document.getElementById('cesta-summary-card');
       const listContainer = document.getElementById('radar-products-list');
-      const searchVal = (document.getElementById('radar-search-input').value || '').toLowerCase().trim();
-      const cestaBox = document.getElementById('cesta-summary-box');
+      const coveredLabel = document.getElementById('cesta-items-covered-label');
+
+      const city = citySelect ? citySelect.value : 'Cabo Frio';
+      const selectedMarket = marketSelect ? marketSelect.value : '__ALL__';
+
+      if (!summaryCard || !listContainer) return;
+      summaryCard.innerHTML = '';
       listContainer.innerHTML = '';
 
-      if (radarData.length === 0) {
-        listContainer.innerHTML = '<div style="text-align:center; color:#888; font-size:13px; padding:25px;">Nenhum preço registrado ainda nesta região.<br>Bipe produtos na gôndola para alimentar o Radar da sua cidade!</div>';
-        cestaBox.classList.add('hidden');
-        return;
-      }
+      if (cestaRawData.length === 0) {
+        summaryCard.innerHTML = `
+          <div style="text-align:center; padding:10px 0;">
+            <div style="font-size:24px; margin-bottom:4px;">🧺📍</div>
+            <strong style="font-size:14px; color:#1b5e20; display:block;">Sem cotações em ${escapeHTML(city)}</strong>
+            <p style="font-size:12px; color:#555; margin-top:4px;">
+              Ainda não foram registrados preços para esta cidade nos últimos dias.<br>Bipe produtos na gôndola para alimentar o primeiro cálculo da sua região!
+            </p>
+          </div>
+        `;
+        if (coveredLabel) coveredLabel.innerText = '0 de 13 itens cotados';
 
-      // Agrupa os registros por produto
-      const grouped = {};
-      radarData.forEach(item => {
-        const p = item.produtos;
-        if (!p || !p.nome) return;
-        if (!grouped[p.id]) {
-          grouped[p.id] = {
-            id: p.id,
-            nome: p.nome,
-            marca: p.marca || '',
-            codigo_barras: p.codigo_barras || '',
-            precos: []
-          };
-        }
-        grouped[p.id].precos.push({
-          preco: parseFloat(item.preco),
-          mercado: item.mercados?.nome || 'Supermercado',
-          data: new Date(item.data_registro)
-        });
-      });
-
-      let productsList = Object.values(grouped);
-
-      // Filtro de Busca
-      if (searchVal) {
-        productsList = productsList.filter(p => 
-          p.nome.toLowerCase().includes(searchVal) || 
-          p.marca.toLowerCase().includes(searchVal)
-        );
-      }
-
-      // Filtro da Cesta Básica Oficial
-      if (currentRadarFilter === 'cesta') {
-        productsList = productsList.filter(p => {
-          const nomeLower = p.nome.toLowerCase();
-          return CESTA_TERMS.some(t => nomeLower.includes(t));
-        });
-        renderCestaRanking(productsList);
-        cestaBox.classList.remove('hidden');
-      } else {
-        cestaBox.classList.add('hidden');
-      }
-
-      if (productsList.length === 0) {
-        listContainer.innerHTML = '<div style="text-align:center; color:#888; font-size:13px; padding:20px;">Nenhum produto encontrado com os filtros selecionados.</div>';
-        return;
-      }
-
-      productsList.forEach(p => {
-        // Encontra o menor preço e os outros
-        const sorted = [...p.precos].sort((a, b) => a.preco - b.preco);
-        const menor = sorted[0];
-        const maior = sorted[sorted.length - 1];
-        const isCesta = CESTA_TERMS.some(t => p.nome.toLowerCase().includes(t));
-
-        let diffHtml = '';
-        if (sorted.length > 1 && maior.preco > menor.preco) {
-          const diffAbs = (maior.preco - menor.preco).toFixed(2).replace('.', ',');
-          const perc = Math.round(((maior.preco - menor.preco) / menor.preco) * 100);
-          diffHtml = `
-            <div class="other-market-row">
-              <span>Mais caro no ${escapeHTML(maior.mercado)}: R$ ${maior.preco.toFixed(2).replace('.', ',')}</span>
-              <span class="diff-bad">+${perc}% (+R$ ${diffAbs})</span>
+        CESTA_OFICIAL_ITENS.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'radar-card';
+          card.style.opacity = '0.65';
+          card.innerHTML = `
+            <div class="radar-card-header">
+              <div>
+                <div class="radar-prod-title">${item.icon} ${escapeHTML(item.nome)}</div>
+                <div class="radar-prod-meta">Gênero essencial da cesta oficial</div>
+              </div>
+              <span style="font-size:11px; background:#f0f0f0; color:#777; padding:3px 8px; border-radius:10px;">Sem cotação</span>
             </div>
           `;
-        }
-
-        const card = document.createElement('div');
-        card.className = 'radar-card';
-        card.innerHTML = `
-          <div class="radar-card-header">
-            <div>
-              <div class="radar-prod-title">${escapeHTML(p.nome)}</div>
-              <div class="radar-prod-meta">${p.marca ? escapeHTML(p.marca) + ' • ' : ''}EAN: ${escapeHTML(p.codigo_barras)}</div>
-            </div>
-            ${isCesta ? '<span class="cesta-badge">🧺 Cesta Básica</span>' : ''}
-          </div>
-
-          <div class="radar-price-comparison">
-            <div class="best-market-row">
-              <span>🟢 Menor Preço: ${escapeHTML(menor.mercado)}</span>
-              <span style="font-size:15px; color:#2e7d32;">R$ ${menor.preco.toFixed(2).replace('.', ',')}</span>
-            </div>
-            ${diffHtml}
-          </div>
-        `;
-        listContainer.appendChild(card);
-      });
-    }
-
-    function renderCestaRanking(cestaProducts) {
-      const box = document.getElementById('cesta-markets-ranking');
-      if (cestaProducts.length === 0) {
-        box.innerHTML = '<div style="color:#666;">Ainda não há dados suficientes de itens da Cesta Básica registrados.</div>';
+          listContainer.appendChild(card);
+        });
         return;
       }
 
-      // Soma por mercado
-      const marketSums = {};
-      cestaProducts.forEach(p => {
-        p.precos.forEach(item => {
-          if (!marketSums[item.mercado]) marketSums[item.mercado] = { total: 0, count: 0 };
-          marketSums[item.mercado].total += item.preco;
-          marketSums[item.mercado].count += 1;
+      // Mapeia todas as cotações válidas para as 13 categorias
+      const mappedQuotes = [];
+      cestaRawData.forEach(row => {
+        const prod = row.produtos;
+        const mkt = row.mercados;
+        if (!prod || !prod.nome || !row.preco) return;
+        const category = identifyCestaCategory(prod.nome);
+        if (!category) return;
+
+        mappedQuotes.push({
+          category,
+          prod,
+          preco: parseFloat(row.preco),
+          mercado: mkt?.nome || 'Supermercado',
+          data: new Date(row.data_registro)
         });
       });
 
-      const ranking = Object.keys(marketSums)
-        .map(m => ({ mercado: m, total: marketSums[m].total, count: marketSums[m].count }))
-        .sort((a, b) => (a.total / a.count) - (b.total / b.count));
+      // MODO A: TODOS OS MERCADOS (COMPARATIVO GERAL DA CIDADE)
+      if (selectedMarket === '__ALL__') {
+        const bestByCat = {};
+        mappedQuotes.forEach(q => {
+          const catId = q.category.id;
+          if (!bestByCat[catId] || q.preco < bestByCat[catId].preco) {
+            bestByCat[catId] = q;
+          }
+        });
 
-      if (ranking.length === 0) {
-        box.innerHTML = '<div style="color:#666;">Bipe os itens da cesta básica para gerar o ranking da cidade.</div>';
-        return;
-      }
+        let totalGarimpo = 0;
+        let countGarimpo = 0;
+        CESTA_OFICIAL_ITENS.forEach(cat => {
+          if (bestByCat[cat.id]) {
+            totalGarimpo += bestByCat[cat.id].preco;
+            countGarimpo++;
+          }
+        });
 
-      const campeao = ranking[0];
-      let html = `<div style="margin-bottom:6px; font-weight:bold; color:#2e7d32;">🏆 Mercado Mais Barato do Básico: <b>${campeao.mercado}</b></div>`;
-      ranking.forEach((r, idx) => {
-        const medal = idx === 0 ? '🟢 1º' : idx === 1 ? '🟡 2º' : '🔴 ' + (idx + 1) + 'º';
-        html += `
-          <div class="cesta-ranking-row">
-            <span>${medal} ${r.mercado} (${r.count} itens cotados)</span>
-            <strong>Média R$ ${(r.total / r.count).toFixed(2)} / item</strong>
+        const marketQuotes = {};
+        mappedQuotes.forEach(q => {
+          const m = q.mercado;
+          if (!marketQuotes[m]) marketQuotes[m] = {};
+          const catId = q.category.id;
+          if (!marketQuotes[m][catId] || q.preco < marketQuotes[m][catId].preco) {
+            marketQuotes[m][catId] = q;
+          }
+        });
+
+        const marketRankings = Object.keys(marketQuotes).map(mktName => {
+          const itemsMap = marketQuotes[mktName];
+          let total = 0;
+          let count = 0;
+          Object.values(itemsMap).forEach(q => {
+            total += q.preco;
+            count++;
+          });
+          return { mercado: mktName, total, count };
+        });
+
+        marketRankings.sort((a, b) => {
+          if (b.count !== a.count) return b.count - a.count;
+          return a.total - b.total;
+        });
+
+        if (coveredLabel) {
+          coveredLabel.innerText = `${countGarimpo} de 13 itens na cidade`;
+        }
+
+        let rankingHtml = '';
+        if (marketRankings.length > 0) {
+          rankingHtml = `<div style="margin-top:12px; border-top:1px dashed #a5d6a7; padding-top:10px;">
+            <div style="font-size:12.5px; font-weight:bold; color:#1b5e20; margin-bottom:6px;">🏪 Cesta Fechada por Supermercado:</div>`;
+          marketRankings.forEach((r, idx) => {
+            const medal = idx === 0 ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
+            const coverageBadge = r.count === 13 
+              ? `<span style="font-size:10.5px; background:#c8e6c9; color:#1b5e20; padding:2px 6px; border-radius:10px; font-weight:bold;">13/13 Completa</span>`
+              : `<span style="font-size:10.5px; background:#fff3e0; color:#e65100; padding:2px 6px; border-radius:10px; font-weight:bold;">${r.count}/13 itens</span>`;
+            rankingHtml += `
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px dashed #c8e6c9; font-size:12.5px;">
+                <div>
+                  <strong>${medal} ${escapeHTML(r.mercado)}</strong><br>
+                  ${coverageBadge}
+                </div>
+                <div style="text-align:right;">
+                  <strong style="font-size:14px; color:#1b5e20;">R$ ${r.total.toFixed(2).replace('.', ',')}</strong>
+                </div>
+              </div>
+            `;
+          });
+          rankingHtml += '</div>';
+        }
+
+        summaryCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:#2e7d32; font-weight:bold;">Menor Total Estimado (Garimpo)</span>
+              <div style="font-size:24px; font-weight:800; color:#1b5e20; margin-top:2px;">
+                R$ ${totalGarimpo.toFixed(2).replace('.', ',')}
+              </div>
+            </div>
+            <span style="font-size:11.5px; font-weight:bold; padding:4px 8px; border-radius:12px; background:${countGarimpo === 13 ? '#2e7d32' : '#e65100'}; color:#fff;">
+              ${countGarimpo === 13 ? 'Cesta 100% Completa' : `${countGarimpo}/13 itens cotados`}
+            </span>
           </div>
+          <small style="display:block; font-size:11px; color:#555; margin-top:4px;">
+            💡 Soma dos menores preços de cada item encontrados nos mercados de ${escapeHTML(city)}.
+          </small>
+          ${rankingHtml}
         `;
-      });
-      box.innerHTML = html;
+
+        CESTA_OFICIAL_ITENS.forEach(cat => {
+          const best = bestByCat[cat.id];
+          const card = document.createElement('div');
+          card.className = 'radar-card';
+
+          if (best) {
+            const others = mappedQuotes.filter(q => q.category.id === cat.id && q.preco > best.preco);
+            let diffHtml = '';
+            if (others.length > 0) {
+              const highest = others.reduce((max, cur) => cur.preco > max.preco ? cur : max, others[0]);
+              const perc = Math.round(((highest.preco - best.preco) / best.preco) * 100);
+              diffHtml = `
+                <div class="other-market-row" style="margin-top:4px;">
+                  <span>Mais caro no ${escapeHTML(highest.mercado)}: R$ ${highest.preco.toFixed(2).replace('.', ',')}</span>
+                  <span class="diff-bad">+${perc}%</span>
+                </div>
+              `;
+            }
+
+            card.innerHTML = `
+              <div class="radar-card-header">
+                <div>
+                  <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
+                  <div class="radar-prod-meta">${escapeHTML(best.prod.nome)} ${best.prod.marca ? '• ' + escapeHTML(best.prod.marca) : ''}</div>
+                </div>
+                <span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">Cotado</span>
+              </div>
+              <div class="radar-price-comparison" style="margin-top:6px;">
+                <div class="best-market-row">
+                  <span>🟢 Menor no ${escapeHTML(best.mercado)}</span>
+                  <span style="font-size:15px; color:#1b5e20;">R$ ${best.preco.toFixed(2).replace('.', ',')}</span>
+                </div>
+                ${diffHtml}
+              </div>
+            `;
+          } else {
+            card.style.opacity = '0.65';
+            card.innerHTML = `
+              <div class="radar-card-header">
+                <div>
+                  <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
+                  <div class="radar-prod-meta">Gênero essencial da cesta oficial</div>
+                </div>
+                <span style="font-size:11px; background:#f0f0f0; color:#777; padding:3px 8px; border-radius:10px;">Sem cotação recente</span>
+              </div>
+            `;
+          }
+          listContainer.appendChild(card);
+        });
+
+      } else {
+        // MODO B: MERCADO ESPECÍFICO SELECIONADO
+        const filtered = mappedQuotes.filter(q => q.mercado === selectedMarket);
+        const bestInMarket = {};
+
+        filtered.forEach(q => {
+          const catId = q.category.id;
+          if (!bestInMarket[catId] || q.preco < bestInMarket[catId].preco) {
+            bestInMarket[catId] = q;
+          }
+        });
+
+        let marketTotal = 0;
+        let marketCount = 0;
+        CESTA_OFICIAL_ITENS.forEach(cat => {
+          if (bestInMarket[cat.id]) {
+            marketTotal += bestInMarket[cat.id].preco;
+            marketCount++;
+          }
+        });
+
+        if (coveredLabel) {
+          coveredLabel.innerText = `${marketCount} de 13 itens neste mercado`;
+        }
+
+        const isFull = marketCount === 13;
+        summaryCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:#2e7d32; font-weight:bold;">
+                Cesta Fechada no ${escapeHTML(selectedMarket)}
+              </span>
+              <div style="font-size:24px; font-weight:800; color:#1b5e20; margin-top:2px;">
+                R$ ${marketTotal.toFixed(2).replace('.', ',')}
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:bold; padding:4px 8px; border-radius:12px; background:${isFull ? '#2e7d32' : '#e65100'}; color:#fff;">
+              ${isFull ? '13/13 Completa' : `${marketCount}/13 Itens`}
+            </span>
+          </div>
+          <small style="display:block; font-size:11px; color:#555; margin-top:4px;">
+            ${isFull ? 'Parabéns! Todos os 13 itens da cesta básica possuem cotação ativa neste mercado.' : `Atenção: ${13 - marketCount} item(ns) ainda não foram cotados neste supermercado.`}
+          </small>
+        `;
+
+        CESTA_OFICIAL_ITENS.forEach(cat => {
+          const itemQuote = bestInMarket[cat.id];
+          const card = document.createElement('div');
+          card.className = 'radar-card';
+
+          if (itemQuote) {
+            card.innerHTML = `
+              <div class="radar-card-header">
+                <div>
+                  <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
+                  <div class="radar-prod-meta">${escapeHTML(itemQuote.prod.nome)} ${itemQuote.prod.marca ? '• ' + escapeHTML(itemQuote.prod.marca) : ''}</div>
+                </div>
+                <span class="cesta-badge" style="background:#e8f5e9; color:#1b5e20; border-color:#a5d6a7;">Disponível</span>
+              </div>
+              <div class="best-market-row" style="margin-top:6px;">
+                <span style="font-size:12px; color:#555;">Preço praticado:</span>
+                <span style="font-size:15px; color:#1b5e20; font-weight:bold;">R$ ${itemQuote.preco.toFixed(2).replace('.', ',')}</span>
+              </div>
+            `;
+          } else {
+            card.style.opacity = '0.65';
+            card.innerHTML = `
+              <div class="radar-card-header">
+                <div>
+                  <div class="radar-prod-title">${cat.icon} ${cat.nome}</div>
+                  <div class="radar-prod-meta">Gênero essencial da cesta oficial</div>
+                </div>
+                <span style="font-size:11px; background:#fff3e0; color:#e65100; padding:3px 8px; border-radius:10px;">Não cotado neste mercado</span>
+              </div>
+            `;
+          }
+          listContainer.appendChild(card);
+        });
+      }
     }
 
     // PWA Install Prompt Listener
