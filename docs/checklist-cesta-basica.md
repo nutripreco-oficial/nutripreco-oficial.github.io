@@ -224,6 +224,7 @@ As seções **Comunidade & Ajuda** e **Legal & Institucional** deverão ficar re
 Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e retornar à tela principal. A câmera não será reaberta automaticamente: a área do scanner ficará pronta visualmente, mas a câmera do dispositivo permanecerá desligada até o usuário tocar novamente em `Iniciar Câmera`.
 
 - [x] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, exibindo o número e a palavra `item/itens`.
+- [x] Adicionar orientação visual quando a câmera estiver desligada: `Pronto para registrar sua compra`.
 - [ ] Manter o retorno à tela principal depois de confirmar/adicionar um produto.
 - [ ] Não reabrir a câmera automaticamente após o retorno.
 - [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.

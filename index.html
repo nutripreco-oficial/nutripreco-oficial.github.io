@@ -64,6 +64,9 @@
     /* Scanner / Câmera */
     #scanner-container { background: #000; border-radius: 14px; overflow: hidden; position: relative; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     #reader { width: 100%; min-height: 240px; }
+    .scanner-empty-state { position: absolute; inset: 0; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: #fff; text-align: center; background: linear-gradient(145deg, #111 0%, #242424 100%); }
+    .scanner-empty-state strong { font-size: 17px; font-weight: 700; }
+    .scanner-empty-state span { max-width: 260px; color: #d7d7d7; font-size: 13px; line-height: 1.4; }
     .scan-btn { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(46,125,50,0.25); }
 
     /* Cartões */
@@ -1020,10 +1023,14 @@
   <!-- Tela Principal com Câmera e Leitor (100% Limpa) -->
   <div class="container">
     <!-- Seção Scanner -->
-    <div id="scan-section">
-      <div id="scanner-container">
-        <div id="reader"></div>
-      </div>
+      <div id="scan-section">
+        <div id="scanner-container">
+          <div id="reader"></div>
+          <div id="scanner-empty-state" class="scanner-empty-state" aria-live="polite">
+            <strong>Pronto para registrar sua compra</strong>
+            <span>Toque em “Iniciar Câmera” quando estiver diante do produto.</span>
+          </div>
+        </div>
       <button class="scan-btn" id="start-btn" onclick="startScanner()">📷 Iniciar Câmera</button>
 
       <!-- Botões de Apoio na Gôndola (Lanterna & Digitação Manual) -->
@@ -3039,6 +3046,7 @@ async function exportPricesCSV() {
     function startScanner() {
       detectGPSLocation(false);
       document.getElementById('start-btn').classList.add('hidden');
+      document.getElementById('scanner-empty-state')?.classList.add('hidden');
       html5QrCode = new Html5Qrcode("reader");
       html5QrCode.start(
         { facingMode: "environment" },
@@ -3048,6 +3056,7 @@ async function exportPricesCSV() {
       ).catch(err => {
         showToast("Erro ao acessar a câmera: " + err, "error");
         document.getElementById('start-btn').classList.remove('hidden');
+        document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       });
     }
 
@@ -3682,6 +3691,7 @@ async function exportPricesCSV() {
     function resetScan() {
       const scaleBadge = document.getElementById('scale-badge-box');
       if (scaleBadge) scaleBadge.classList.add('hidden');
+      document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       document.getElementById('price-input').value = '';
       document.getElementById('manual-name-input').value = '';
       document.getElementById('compare-alert').classList.add('hidden');
