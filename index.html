@@ -5341,22 +5341,6 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       throw lastError || new Error('Não foi possível conectar ao Google Gemini.');
     }
 
-      const resData = await response.json();
-      const rawText = resData.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!rawText) throw new Error('O Gemini não retornou texto na resposta.');
-
-      let items = [];
-      try {
-        items = JSON.parse(rawText);
-      } catch(e) {
-        const jsonMatch = rawText.match(/\[\s*\{[\s\S]*\}\s*\]/);
-        if (jsonMatch) items = JSON.parse(jsonMatch[0]);
-        else throw new Error('Não foi possível interpretar os dados de preços retornados pela IA.');
-      }
-
-      return Array.isArray(items) ? items : [];
-    }
-
     async function triggerAdminGeminiExtraction() {
       if (!currentEncartePhotoBase64) {
         showToast('Selecione ou tire a foto do folheto primeiro.', 'warning');
