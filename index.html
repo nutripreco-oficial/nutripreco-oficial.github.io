@@ -450,7 +450,7 @@
               <!-- Campo Chave Gemini API com alternador de visibilidade -->
               <div style="display:flex; gap:6px; margin-bottom:6px; align-items:center;">
                 <div style="position:relative; flex:1; display:flex; align-items:center;">
-                  <input type="password" id="gemini-api-key-input" placeholder="Cole sua chave (começa com AIzaSy...)" style="width:100%; font-size:12px; padding:8px 32px 8px 10px; border-radius:8px; border:1px solid #93c5fd; background:#fff;">
+                  <input type="password" id="gemini-api-key-input" placeholder="Cole sua chave (AQ... ou AIzaSy...)" style="width:100%; font-size:12px; padding:8px 32px 8px 10px; border-radius:8px; border:1px solid #93c5fd; background:#fff;">
                   <button type="button" onclick="toggleGeminiKeyVisibility('gemini-api-key-input')" title="Ver/Ocultar chave" style="position:absolute; right:8px; background:none; border:none; cursor:pointer; font-size:15px; padding:0; line-height:1;">👁️</button>
                 </div>
                 <button type="button" onclick="saveGeminiApiKeyFromInput('gemini-api-key-input')" style="background:#1a73e8; color:#fff; border:none; padding:8px 14px; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">Salvar</button>
@@ -464,13 +464,13 @@
 
               <!-- Botão de Ação do Gemini -->
               <button type="button" id="gemini-admin-extract-btn" onclick="triggerAdminGeminiExtraction()" style="width:100%; background:linear-gradient(135deg, #1a73e8, #0d47a1); color:#fff; border:none; padding:12px; border-radius:10px; font-size:13.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(26,115,232,0.3);">
-                ⚡ Analisar Foto e Extrair Preços com Gemini Flash
+                ⚡ Analisar Foto e Extrair Preços com Google Gemini 3.8 Flash
               </button>
 
               <!-- Loading da IA -->
               <div id="gemini-admin-loading" class="hidden" style="text-align:center; padding:14px; margin-top:10px; background:#fff; border-radius:8px; border:1px solid #bfdbfe;">
                 <div style="font-size:24px;">🤖✨</div>
-                <strong style="color:#1a73e8; font-size:13px; display:block; margin-top:4px;">Google Gemini 1.5 Flash lendo o encarte...</strong>
+                <strong style="color:#1a73e8; font-size:13px; display:block; margin-top:4px;">Google Gemini 3.8 Flash lendo o encarte...</strong>
                 <span style="font-size:11px; color:#64748b;">Extraindo marcas, ofertas e calculando preços de quilo e unidade...</span>
               </div>
 
@@ -781,15 +781,35 @@
         </div>
       </div>
 
+      <!-- Campo Chave Gemini API no Modal Público -->
+      <div style="background:#f1f5f9; padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid #cbd5e1;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:11.5px; font-weight:bold; color:#1e293b;">🔑 Chave Google Gemini (Grátis):</span>
+          <span id="user-flyer-key-status-label" style="font-size:11px; color:#16a34a; font-weight:bold;"></span>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center; margin-bottom:4px;">
+          <div style="position:relative; flex:1; display:flex; align-items:center;">
+            <input type="password" id="user-flyer-key-input" placeholder="Cole sua chave (AQ... ou AIzaSy...)" style="width:100%; font-size:12px; padding:7px 32px 7px 9px; border-radius:8px; border:1px solid #93c5fd; background:#fff; font-family:monospace;">
+            <button type="button" onclick="toggleGeminiKeyVisibility('user-flyer-key-input')" title="Ver/Ocultar chave" style="position:absolute; right:8px; background:none; border:none; cursor:pointer; font-size:14px; padding:0; line-height:1;">👁️</button>
+          </div>
+          <button type="button" onclick="saveGeminiApiKeyFromInput('user-flyer-key-input')" style="background:#1a73e8; color:#fff; border:none; padding:7px 12px; border-radius:8px; font-size:11.5px; font-weight:bold; cursor:pointer;">Salvar</button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="font-size:10.5px; color:#1a73e8; text-decoration:underline; font-weight:500;">
+            Criar chave no Google AI Studio (1 minuto) ↗
+          </a>
+        </div>
+      </div>
+
       <button type="button" id="user-flyer-extract-btn" onclick="triggerUserGeminiExtraction()" style="width:100%; background:linear-gradient(135deg, #1a73e8, #0d47a1); color:#fff; border:none; padding:12px; border-radius:10px; font-size:14px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(26,115,232,0.3); margin-bottom:10px;">
-        ⚡ Extrair Ofertas com Google Gemini IA
+        ⚡ Extrair Ofertas com Google Gemini 3.8 Flash
       </button>
 
       <!-- Loading do Usuário -->
       <div id="user-flyer-loading" class="hidden" style="text-align:center; padding:12px; background:#f0f9ff; border-radius:8px; margin-bottom:10px; border:1px solid #bae6fd;">
         <div style="font-size:22px;">🤖✨</div>
-        <strong style="color:#0369a1; font-size:12.5px; display:block;">IA do Google lendo o encarte...</strong>
-        <span style="font-size:11px; color:#64748b;">Extraindo ofertas e preços em reais...</span>
+        <strong style="color:#0369a1; font-size:12.5px; display:block;">Google Gemini 3.8 Flash lendo o folheto...</strong>
+        <span style="font-size:11px; color:#64748b;">Extraindo ofertas e calculando preços de quilo e unidade...</span>
       </div>
 
       <!-- Resultados Detectados do Usuário -->
@@ -5194,14 +5214,26 @@ async function exportPricesCSV() {
     }
 
     // ==========================================
-    // GOOGLE GEMINI 1.5 FLASH AI - OCR & EXTRAÇÃO DE OFERTAS
+    // GOOGLE GEMINI 3.8 FLASH AI - OCR & EXTRAÇÃO DE OFERTAS
     // ==========================================
     let detectedGeminiAdminItems = [];
     let detectedGeminiUserItems = [];
     let currentUserFlyerBase64 = null;
 
     function getGeminiApiKey() {
-      return localStorage.getItem('nutri_gemini_api_key') || '';
+      let key = localStorage.getItem('nutri_gemini_api_key') || '';
+      if (!key) {
+        const inputAdmin = document.getElementById('gemini-api-key-input');
+        const inputUser = document.getElementById('user-flyer-key-input');
+        if (inputUser && inputUser.value.trim()) {
+          key = inputUser.value.trim().replace(/[\r\n\t"'\s]/g, '');
+          localStorage.setItem('nutri_gemini_api_key', key);
+        } else if (inputAdmin && inputAdmin.value.trim()) {
+          key = inputAdmin.value.trim().replace(/[\r\n\t"'\s]/g, '');
+          localStorage.setItem('nutri_gemini_api_key', key);
+        }
+      }
+      return key;
     }
 
     function toggleGeminiKeyVisibility(inputId) {
@@ -5230,13 +5262,26 @@ async function exportPricesCSV() {
       const key = getGeminiApiKey();
       const statusAdmin = document.getElementById('gemini-key-status-label');
       const inputAdmin = document.getElementById('gemini-api-key-input');
+      const statusUser = document.getElementById('user-flyer-key-status-label');
+      const inputUser = document.getElementById('user-flyer-key-input');
+
       if (inputAdmin && key) inputAdmin.value = key;
+      if (inputUser && key) inputUser.value = key;
+
+      const isValid = key && (key.startsWith('AQ.') || key.startsWith('AIzaSy'));
+      const statusText = isValid ? '🟢 Chave configurada' : (key ? '⚠️ Formato suspeito' : '⚠️ Chave pendente');
+      const statusColor = isValid ? '#16a34a' : '#b45309';
+
       if (statusAdmin) {
-        const isValid = key && (key.startsWith('AQ.') || key.startsWith('AIzaSy'));
-        statusAdmin.innerText = isValid ? '🟢 Chave configurada' : (key ? '⚠️ Formato suspeito' : '⚠️ Chave pendente');
-        statusAdmin.style.color = isValid ? '#16a34a' : '#b45309';
+        statusAdmin.innerText = statusText;
+        statusAdmin.style.color = statusColor;
+      }
+      if (statusUser) {
+        statusUser.innerText = statusText;
+        statusUser.style.color = statusColor;
       }
     }
+    setTimeout(updateGeminiKeyStatusLabels, 100);
 
     async function callGeminiFlashVision(base64Image, marketName) {
       let apiKey = getGeminiApiKey();
@@ -5468,6 +5513,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       if (previewBox) previewBox.classList.add('hidden');
       const resultsBox = document.getElementById('user-flyer-results');
       if (resultsBox) resultsBox.classList.add('hidden');
+      updateGeminiKeyStatusLabels();
     }
 
     function closePublicFlyerSubmitModal() {
