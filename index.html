@@ -5393,8 +5393,15 @@ Para cada item:
 Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 [{"nome": "...", "preco": 0.00, "unidade": "un|kg"}]`;
 
-      // Modelo prioritário oficial 2026: gemini-3.8-flash com fallback transparente para versões anteriores
-      const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+      // Modelos multimodais Google Gemini Flash ativos com fallback transparente entre cotas
+      const candidateModels = [
+        'gemini-3.8-flash',
+        'gemini-3.6-flash',
+        'gemini-3.5-flash',
+        'gemini-3-flash-preview',
+        'gemini-3.1-flash-lite',
+        'gemini-3.7-flash'
+      ];
       let lastError = null;
 
       for (const model of candidateModels) {
@@ -5427,8 +5434,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           if (!response.ok) {
             const errData = await response.json().catch(() => ({}));
             const msg = errData.error?.message || `Erro ${response.status} na API do Gemini`;
-            // Se for 404 de modelo descontinuado, tenta o próximo modelo
-            if (response.status === 404) {
+            // Se for 404 (modelo descontinuado), 429 (cota do modelo atingida) ou 503 (alta demanda), passa para o próximo modelo com cota livre
+            if (response.status === 404 || response.status === 429 || response.status === 503) {
               lastError = new Error(msg);
               continue;
             }
@@ -5451,13 +5458,16 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           return Array.isArray(items) ? items : [];
         } catch(err) {
           lastError = err;
-          // Se for erro de autenticação (400/401/403), interrompe
-          if (err.message && (err.message.includes('API key') || err.message.includes('authentication') || err.message.includes('OAuth'))) {
+          // Se for erro de autenticação de chave, interrompe imediatamente
+          if (err.message && (err.message.includes('API key not valid') || err.message.includes('API_KEY_INVALID') || err.message.includes('authentication'))) {
             throw new Error('Chave de API inválida. Verifique sua chave no Google AI Studio.');
           }
         }
       }
 
+      if (lastError && (lastError.message.includes('quota') || lastError.message.includes('429') || lastError.message.includes('RESOURCE_EXHAUSTED'))) {
+        throw new Error('Limite temporário de requisições atingido. Aguarde alguns instantes e tente novamente.');
+      }
       throw lastError || new Error('Não foi possível conectar ao Google Gemini.');
     }
 
