@@ -5217,14 +5217,13 @@ async function exportPricesCSV() {
         showToast('Cole sua chave do Google AI Studio.', 'warning');
         return;
       }
-      if (!val.startsWith('AIzaSy')) {
-        showToast('⚠️ A chave do Google Gemini deve começar com "AIzaSy". Verifique se copiou a chave correta no Google AI Studio.', 'warning');
+      const isValid = val.startsWith('AQ.') || val.startsWith('AIzaSy');
+      if (!isValid) {
+        showToast('⚠️ A chave do Google Gemini começa com "AQ." ou "AIzaSy".', 'warning');
       }
       localStorage.setItem('nutri_gemini_api_key', val);
       updateGeminiKeyStatusLabels();
-      if (val.startsWith('AIzaSy')) {
-        showToast('✅ Chave Google Gemini salva com sucesso!', 'success');
-      }
+      showToast('✅ Chave Google Gemini salva com sucesso!', 'success');
     }
 
     function updateGeminiKeyStatusLabels() {
@@ -5233,15 +5232,16 @@ async function exportPricesCSV() {
       const inputAdmin = document.getElementById('gemini-api-key-input');
       if (inputAdmin && key) inputAdmin.value = key;
       if (statusAdmin) {
-        statusAdmin.innerText = key ? (key.startsWith('AIzaSy') ? '🟢 Chave configurada' : '⚠️ Formato suspeito') : '⚠️ Chave pendente';
-        statusAdmin.style.color = key && key.startsWith('AIzaSy') ? '#16a34a' : '#b45309';
+        const isValid = key && (key.startsWith('AQ.') || key.startsWith('AIzaSy'));
+        statusAdmin.innerText = isValid ? '🟢 Chave configurada' : (key ? '⚠️ Formato suspeito' : '⚠️ Chave pendente');
+        statusAdmin.style.color = isValid ? '#16a34a' : '#b45309';
       }
     }
 
     async function callGeminiFlashVision(base64Image, marketName) {
       let apiKey = getGeminiApiKey();
       if (!apiKey) {
-        apiKey = prompt('✨ Para analisar com o Google Gemini Flash, cole sua chave gratuita do Google AI Studio (começa com AIzaSy...):');
+        apiKey = prompt('✨ Para analisar com o Google Gemini Flash, cole sua chave gratuita do Google AI Studio:');
         if (apiKey && apiKey.trim()) {
           apiKey = apiKey.trim().replace(/[\r\n\t"'\s]/g, '');
           localStorage.setItem('nutri_gemini_api_key', apiKey);
@@ -5253,10 +5253,6 @@ async function exportPricesCSV() {
       }
 
       apiKey = apiKey.trim().replace(/[\r\n\t"'\s]/g, '');
-
-      if (!apiKey.startsWith('AIzaSy')) {
-        showToast('⚠️ Sua chave não começa com "AIzaSy". Verifique se copiou a chave correta no Google AI Studio (aistudio.google.com/apikey).', 'warning');
-      }
 
       let cleanBase64 = base64Image;
       let mimeType = 'image/jpeg';
@@ -5277,43 +5273,73 @@ Para cada item:
 Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 [{"nome": "...", "preco": 0.00, "unidade": "un|kg"}]`;
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+      // Modelo prioritário oficial 2026: gemini-3.8-flash com fallback transparente para versões anteriores
+      const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+      let lastError = null;
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: promptText },
-              {
-                inline_data: {
-                  mime_type: mimeType,
-                  data: cleanBase64
-                }
+      for (const model of candidateModels) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: promptText },
+                  {
+                    inline_data: {
+                      mime_type: mimeType,
+                      data: cleanBase64
+                    }
+                  }
+                ]
+              }],
+              generationConfig: {
+                response_mime_type: 'application/json',
+                temperature: 0.1
               }
-            ]
-          }],
-          generationConfig: {
-            response_mime_type: 'application/json',
-            temperature: 0.1
-          }
-        })
-      });
+            })
+          });
 
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        let rawErrMsg = errData.error?.message || `Erro ${response.status} na API do Gemini`;
-        if (response.status === 400 || response.status === 401 || response.status === 403) {
-          if (rawErrMsg.includes('invalid authentication') || rawErrMsg.includes('OAuth') || rawErrMsg.includes('API key')) {
-            rawErrMsg = 'Chave inválida. Certifique-se de copiar a chave de API que começa com "AIzaSy..." gerada no Google AI Studio (aistudio.google.com/apikey).';
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            const msg = errData.error?.message || `Erro ${response.status} na API do Gemini`;
+            // Se for 404 de modelo descontinuado, tenta o próximo modelo
+            if (response.status === 404) {
+              lastError = new Error(msg);
+              continue;
+            }
+            throw new Error(msg);
+          }
+
+          const resData = await response.json();
+          const rawText = resData.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!rawText) throw new Error('O Gemini não retornou texto na resposta.');
+
+          let items = [];
+          try {
+            items = JSON.parse(rawText);
+          } catch(e) {
+            const jsonMatch = rawText.match(/\[\s*\{[\s\S]*\}\s*\]/);
+            if (jsonMatch) items = JSON.parse(jsonMatch[0]);
+            else throw new Error('Não foi possível interpretar os dados de preços retornados pela IA.');
+          }
+
+          return Array.isArray(items) ? items : [];
+        } catch(err) {
+          lastError = err;
+          // Se for erro de autenticação (400/401/403), interrompe
+          if (err.message && (err.message.includes('API key') || err.message.includes('authentication') || err.message.includes('OAuth'))) {
+            throw new Error('Chave de API inválida. Verifique sua chave no Google AI Studio.');
           }
         }
-        throw new Error(rawErrMsg);
       }
+
+      throw lastError || new Error('Não foi possível conectar ao Google Gemini.');
+    }
 
       const resData = await response.json();
       const rawText = resData.candidates?.[0]?.content?.parts?.[0]?.text;
