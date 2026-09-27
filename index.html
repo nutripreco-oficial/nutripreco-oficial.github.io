@@ -1216,6 +1216,16 @@
         </button>
       </div>
 
+      <!-- Atalhos Visuais Diretos para Cesta Básica e Encartes -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+        <button type="button" onclick="openRadarModal()" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1.5px solid #86efac; color: #166534; border-radius: 12px; padding: 11px 8px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 5px rgba(22,101,52,0.08);">
+          🧺 Cesta Básica
+        </button>
+        <button type="button" onclick="openPublicEncartesModal()" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1.5px solid #93c5fd; color: #1e40af; border-radius: 12px; padding: 11px 8px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 5px rgba(30,64,175,0.08);">
+          📰 Encartes & Ofertas
+        </button>
+      </div>
+
       <div id="last-item-feedback" class="card hidden" style="padding: 12px 14px; margin-top: 12px; margin-bottom: 0; border: 1px solid #c8e6c9; background: #f8fff8;" aria-live="polite">
         <div style="font-size: 11px; color: #2e7d32; font-weight: 800; text-transform: uppercase; letter-spacing: .35px;">Último item registrado</div>
         <div id="last-item-name" style="font-size: 15px; color: #1b5e20; font-weight: 700; margin-top: 3px;"></div>
@@ -3197,12 +3207,15 @@ async function exportPricesCSV() {
 
       if (cestaRawData.length === 0) {
         summaryCard.innerHTML = `
-          <div style="text-align:center; padding:10px 0;">
-            <div style="font-size:24px; margin-bottom:4px;">🧺📍</div>
-            <strong style="font-size:14px; color:#1b5e20; display:block;">Sem cotações em ${escapeHTML(city)}</strong>
-            <p style="font-size:12px; color:#555; margin-top:4px;">
-              Ainda não foram registrados preços para esta cidade nos últimos dias.<br>Bipe produtos na gôndola para alimentar o primeiro cálculo da sua região!
+          <div style="text-align:center; padding:12px 6px;">
+            <div style="font-size:26px; margin-bottom:4px;">🧺📍</div>
+            <strong style="font-size:14px; color:#1b5e20; display:block;">Sem cotações ativas em ${escapeHTML(city)}</strong>
+            <p style="font-size:12px; color:#555; margin-top:4px; line-height:1.4;">
+              Ainda não há preços registrados para alimentar o cálculo.<br>Você pode bipe produtos na gôndola ou carregar os encartes publicados!
             </p>
+            <button type="button" onclick="syncAllActiveEncartesToCesta()" style="margin-top:10px; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border:none; padding:10px 16px; border-radius:10px; font-size:12.5px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 8px rgba(27,94,32,0.25);">
+              ⚡ Sincronizar Ofertas dos Encartes com a Cesta Básica
+            </button>
           </div>
         `;
         if (coveredLabel) coveredLabel.innerText = '0 de 13 itens cotados';
@@ -5736,6 +5749,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       await saveGeminiItemsBatch(market, itemsToSave);
       const resultsBox = document.getElementById('gemini-admin-results');
       if (resultsBox) resultsBox.classList.add('hidden');
+      openEncarteOffersModal(market, itemsToSave);
     }
 
     // ==========================================
@@ -6009,6 +6023,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       addMascotXP(50, 'Envio de Encarte com IA');
       showToast(`🎉 +50 XP! ${itemsToSave.length} ofertas salvas para ${market}!`, 'success');
       closePublicFlyerSubmitModal();
+      openEncarteOffersModal(market, itemsToSave);
     }
 
     // Leitura a partir de um Encarte Público já publicado
@@ -6322,8 +6337,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
             <button onclick="openEncarteViewer('${e.id}')" class="save-btn" style="margin:0 0 6px 0; background:#1b5e20; font-size:13.5px; padding:11px; display:flex; align-items:center; justify-content:center; gap:8px;">
               🔍 Abrir Folheto em Tela Cheia (Com Zoom)
             </button>
-            <button onclick="extractOffersFromPublicEncarte('${e.id}')" style="width:100%; background:linear-gradient(135deg, #1a73e8, #1557b0); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:bold; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; box-shadow:0 2px 6px rgba(26,115,232,0.25);">
-              ✨ Ver Ofertas com Google Gemini IA
+            <button onclick="extractOffersFromPublicEncarte('${e.id}')" style="width:100%; background:linear-gradient(135deg, ${e.ofertas && e.ofertas.length > 0 ? '#166534, #15803d' : '#1a73e8, #1557b0'}); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:bold; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+              ${e.ofertas && e.ofertas.length > 0 ? `🏷️ Ver ${e.ofertas.length} Ofertas Digitalizadas` : '✨ Extrair Ofertas com Google Gemini IA'}
             </button>
           </div>
         `;
