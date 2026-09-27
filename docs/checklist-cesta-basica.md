@@ -224,6 +224,7 @@ As seções **Comunidade & Ajuda** e **Legal & Institucional** deverão ficar re
 Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e retornar à tela principal. A câmera não será reaberta automaticamente: a área do scanner ficará pronta visualmente, mas a câmera do dispositivo permanecerá desligada até o usuário tocar novamente em `Iniciar Câmera`.
 
 - [x] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, exibindo o número e a palavra `item/itens`.
+- [x] Usar o rótulo mais claro `Compra atual · Pré-Caixa` no visor principal.
 - [x] Adicionar orientação visual quando a câmera estiver desligada: `Pronto para registrar sua compra`.
 - [x] Adicionar cartão `Último item registrado` com nome, preço informado e confirmação de inclusão no Pré-Caixa.
 - [x] Ocultar o cartão do último item ao limpar o carrinho ou finalizar a compra.
