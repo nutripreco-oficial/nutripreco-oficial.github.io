@@ -761,12 +761,14 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePublicFlyerSubmitModal()">&times;</button>
       </div>
 
-      <div style="background:#e8f0fe; border-radius:10px; padding:10px; margin-bottom:12px; font-size:12px; color:#1e40af; line-height:1.4;">
-        🏆 Ganhe <b>+50 XP para o seu Mascote</b> enviando folhetos da sua cidade! A inteligência artificial do Google lê os preços da imagem automaticamente.
+      <!-- Badge de Metas e Limite Diário (Máx 3 por dia) -->
+      <div id="user-flyer-daily-badge" style="display:flex; justify-content:space-between; align-items:center; background:#e8f0fe; border-radius:10px; padding:9px 12px; margin-bottom:12px; font-size:12px; color:#1e40af;">
+        <span>🏆 Ganhe <b>+50 XP para o seu Mascote</b> por envio!</span>
+        <span id="user-flyer-quota-pill" style="background:#2563eb; color:#fff; font-size:11px; font-weight:bold; padding:3px 9px; border-radius:12px;">Envios hoje: 0/3</span>
       </div>
 
       <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado / Comércio:</label>
-      <select id="user-flyer-market" onchange="handleUserFlyerMarketChange(this)" style="width:100%; padding:9px; border-radius:8px; border:1px solid #ccc; font-size:13px; margin-bottom:10px; background:#fff;">
+      <select id="user-flyer-market" onchange="handleUserFlyerMarketChange(this)" style="width:100%; padding:9px; border-radius:8px; border:1px solid #ccc; font-size:13px; margin-bottom:8px; background:#fff;">
         <option value="Atacadão">Atacadão</option>
         <option value="Assaí">Assaí Atacadista</option>
         <option value="Avistão">Supermercado Avistão</option>
@@ -776,6 +778,9 @@
         <option value="Extra">Extra</option>
         <option value="__manual_gps__">📍 Cadastrar Comércio Local / Mercadinho (com GPS)...</option>
       </select>
+
+      <!-- Alerta Dinâmico quando o mercado já possui folheto ativo -->
+      <div id="user-flyer-existing-notice" class="hidden"></div>
 
       <!-- Box de Cadastro de Mercadinho Local com GPS para Usuários / Comerciantes -->
       <div id="user-flyer-gps-box" class="hidden" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:12px; margin-bottom:12px;">
@@ -5594,7 +5599,83 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     // ==========================================
     // SEÇÃO DE FOLHETOS PÚBLICOS & COMÉRCIO LOCAL (COM GPS)
     // ==========================================
+    const USER_FLYER_DAILY_LIMIT = 3;
     let userFlyerCapturedCoords = null;
+
+    function getUserFlyerDailyUsage() {
+      const today = new Date().toISOString().split('T')[0];
+      try {
+        const data = JSON.parse(localStorage.getItem('nutri_user_flyer_daily_usage') || '{}');
+        if (data.date === today) return data.count || 0;
+      } catch(e) {}
+      return 0;
+    }
+
+    function incrementUserFlyerDailyUsage() {
+      const today = new Date().toISOString().split('T')[0];
+      const count = getUserFlyerDailyUsage();
+      localStorage.setItem('nutri_user_flyer_daily_usage', JSON.stringify({
+        date: today,
+        count: count + 1
+      }));
+      updateUserFlyerDailyBadge();
+    }
+
+    function updateUserFlyerDailyBadge() {
+      const pill = document.getElementById('user-flyer-quota-pill');
+      if (!pill) return;
+      const usage = getUserFlyerDailyUsage();
+      pill.innerText = `Envios hoje: ${usage}/${USER_FLYER_DAILY_LIMIT}`;
+      if (usage >= USER_FLYER_DAILY_LIMIT) {
+        pill.style.background = '#16a34a';
+        pill.innerText = `Meta atingida! (${usage}/${USER_FLYER_DAILY_LIMIT})`;
+      } else {
+        pill.style.background = '#2563eb';
+      }
+    }
+
+    function checkActiveFlyerForMarket(marketName) {
+      if (!marketName || marketName === '__manual_gps__') return null;
+      const today = new Date().toISOString().split('T')[0];
+      try {
+        const encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+        return encartes.find(e => 
+          e.validade >= today && 
+          !e.mercado.startsWith('__') && 
+          e.mercado.trim().toLowerCase() === marketName.trim().toLowerCase()
+        ) || null;
+      } catch(e) {
+        return null;
+      }
+    }
+
+    function updateMarketFlyerStatusNotice() {
+      const select = document.getElementById('user-flyer-market');
+      const noticeBox = document.getElementById('user-flyer-existing-notice');
+      if (!select || !noticeBox) return;
+
+      const market = select.value;
+      if (market === '__manual_gps__') {
+        noticeBox.classList.add('hidden');
+        return;
+      }
+
+      const existing = checkActiveFlyerForMarket(market);
+      if (existing) {
+        noticeBox.innerHTML = `
+          <div style="background:#eff6ff; border:1px solid #93c5fd; border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:11.5px; color:#1e40af; display:flex; align-items:flex-start; gap:6px;">
+            <span style="font-size:15px; line-height:1;">ℹ️</span>
+            <div>
+              <strong>Folheto já publicado nesta semana!</strong><br>
+              O encarte do <b>${escapeHTML(existing.mercado)}</b> (válido até ${formatDateBR(existing.validade)}) já está ativo no catálogo da cidade. Você pode conferi-lo na vitrine de ofertas ou colaborar cadastrando um mercadinho local!
+            </div>
+          </div>
+        `;
+        noticeBox.classList.remove('hidden');
+      } else {
+        noticeBox.classList.add('hidden');
+      }
+    }
 
     function handleUserFlyerMarketChange(select) {
       const box = document.getElementById('user-flyer-gps-box');
@@ -5606,6 +5687,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       } else {
         if (box) box.classList.add('hidden');
       }
+      updateMarketFlyerStatusNotice();
     }
 
     function captureUserFlyerGPS(notify = false) {
@@ -5682,6 +5764,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       if (gpsBox) gpsBox.classList.add('hidden');
       const select = document.getElementById('user-flyer-market');
       if (select) select.value = 'Atacadão';
+      updateUserFlyerDailyBadge();
+      updateMarketFlyerStatusNotice();
     }
 
     function closePublicFlyerSubmitModal() {
@@ -5702,10 +5786,26 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     }
 
     async function triggerUserGeminiExtraction() {
+      const usage = getUserFlyerDailyUsage();
+      if (usage >= USER_FLYER_DAILY_LIMIT) {
+        showToast(`🏆 Você atingiu a meta de ${USER_FLYER_DAILY_LIMIT} folhetos hoje! Volte amanhã para ganhar mais XP.`, 'info');
+        return;
+      }
+
       if (!currentUserFlyerBase64) {
         showToast('Selecione ou fotografe o encarte primeiro.', 'warning');
         return;
       }
+
+      const select = document.getElementById('user-flyer-market');
+      if (select && select.value !== '__manual_gps__') {
+        const existing = checkActiveFlyerForMarket(select.value);
+        if (existing) {
+          const proceed = confirm(`ℹ️ O folheto do mercado "${select.value}" já está ativo no catálogo da cidade até ${formatDateBR(existing.validade)}.\n\nDeseja analisar esta nova foto mesmo assim?`);
+          if (!proceed) return;
+        }
+      }
+
       const market = await getUserFlyerMarket();
       if (!market) return;
       const loading = document.getElementById('user-flyer-loading');
@@ -5763,6 +5863,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       });
 
       await saveGeminiItemsBatch(market, itemsToSave);
+      incrementUserFlyerDailyUsage();
       addMascotXP(50, 'Envio de Encarte com IA');
       showToast(`🎉 +50 XP! ${itemsToSave.length} ofertas salvas para ${market}!`, 'success');
       closePublicFlyerSubmitModal();
