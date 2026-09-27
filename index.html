@@ -435,6 +435,54 @@
               <img id="encarte-photo-preview-img" style="max-width:100%; max-height:260px; border-radius:8px; border:1px solid #aaa; box-shadow:0 2px 8px rgba(0,0,0,0.15); object-fit:contain;">
               <div style="font-size:12px; color:#2e7d32; font-weight:bold; margin-top:6px;" id="encarte-photo-info">Foto pronta para publicação</div>
             </div>
+            <!-- Card de IA Google Gemini Flash (Leitura Inteligente de Encartes) -->
+            <div style="background: linear-gradient(135deg, #f0f7ff, #e8f0fe); border: 2px solid #4285f4; border-radius: 12px; padding: 14px; margin-top: 14px; text-align: left;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <h4 style="font-size:14px; color:#1a73e8; font-weight:800; display:flex; align-items:center; gap:6px; margin:0;">
+                  ✨ Leitura Inteligente com Google Gemini Flash
+                </h4>
+                <span style="font-size:10px; background:#1a73e8; color:#fff; padding:2px 8px; border-radius:10px; font-weight:bold;">Google AI Studio</span>
+              </div>
+              <p style="font-size:12px; color:#475569; line-height:1.4; margin:0 0 10px 0;">
+                A IA multimodal do Google lê todos os produtos, preços e unidades (un/kg) deste folheto para você aprovar e cadastrar no catálogo em lote com 1 clique!
+              </p>
+
+              <!-- Campo Chave Gemini API -->
+              <div style="display:flex; gap:6px; margin-bottom:6px; align-items:center;">
+                <input type="password" id="gemini-api-key-input" placeholder="Chave Gemini API (AIzaSy...)" style="flex:1; font-size:12px; padding:8px 10px; border-radius:8px; border:1px solid #93c5fd; background:#fff;">
+                <button type="button" onclick="saveGeminiApiKeyFromInput('gemini-api-key-input')" style="background:#1a73e8; color:#fff; border:none; padding:8px 12px; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">Salvar</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="font-size:11px; color:#1a73e8; text-decoration:underline; font-weight:bold;">
+                  🔑 Criar chave grátis no Google AI Studio (1 minuto) ↗
+                </a>
+                <span id="gemini-key-status-label" style="font-size:11px; color:#16a34a; font-weight:bold;"></span>
+              </div>
+
+              <!-- Botão de Ação do Gemini -->
+              <button type="button" id="gemini-admin-extract-btn" onclick="triggerAdminGeminiExtraction()" style="width:100%; background:linear-gradient(135deg, #1a73e8, #0d47a1); color:#fff; border:none; padding:12px; border-radius:10px; font-size:13.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(26,115,232,0.3);">
+                ⚡ Analisar Foto e Extrair Preços com Gemini Flash
+              </button>
+
+              <!-- Loading da IA -->
+              <div id="gemini-admin-loading" class="hidden" style="text-align:center; padding:14px; margin-top:10px; background:#fff; border-radius:8px; border:1px solid #bfdbfe;">
+                <div style="font-size:24px;">🤖✨</div>
+                <strong style="color:#1a73e8; font-size:13px; display:block; margin-top:4px;">Google Gemini 1.5 Flash lendo o encarte...</strong>
+                <span style="font-size:11px; color:#64748b;">Extraindo marcas, ofertas e calculando preços de quilo e unidade...</span>
+              </div>
+
+              <!-- Tabela de Itens Detectados -->
+              <div id="gemini-admin-results" class="hidden" style="margin-top:12px; background:#fff; border-radius:10px; border:1.5px solid #86efac; padding:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <strong style="font-size:13px; color:#166534;" id="gemini-admin-count-label">🎯 0 ofertas detectadas</strong>
+                  <button type="button" onclick="toggleAllGeminiCheckboxes('gemini-admin-items-list', true)" style="background:none; border:none; color:#166534; font-size:11px; font-weight:bold; cursor:pointer; text-decoration:underline;">Marcar todos</button>
+                </div>
+                <div id="gemini-admin-items-list" style="max-height:240px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:10px; font-size:12px;"></div>
+                <button type="button" onclick="confirmAndSaveAdminGeminiItems()" class="save-btn" style="margin:0; background:#16a34a; font-size:13.5px; padding:11px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  💾 Gravar Ofertas Selecionadas no Catálogo da Cidade
+                </button>
+              </div>
+            </div>
           </div>
 
           <button onclick="publishPhotoEncarte()" class="save-btn" style="margin:0; background:#2e7d32; font-size:14px; padding:13px; display:flex; align-items:center; justify-content:center; gap:8px;">
@@ -662,6 +710,21 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePublicEncartesModal()">&times;</button>
       </div>
 
+      <!-- Banner de Colaboração da Comunidade com Gemini IA -->
+      <div style="background: linear-gradient(135deg, #e8f0fe, #f0fdf4); border: 1.5px solid #4285f4; border-radius: 12px; padding: 12px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div style="flex:1;">
+          <strong style="color: #1a73e8; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+            ✨ Enviar Folheto com IA (+50 XP)
+          </strong>
+          <p style="font-size: 11px; color: #475569; margin: 2px 0 0 0; line-height: 1.35;">
+            Tire foto de um folheto impresso ou print do WhatsApp. A <b>IA Google Gemini</b> lê os preços e ajuda toda a cidade!
+          </p>
+        </div>
+        <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex-shrink:0; background: #1a73e8; color: #fff; border: none; border-radius: 8px; padding: 9px 12px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(26,115,232,0.3);">
+          📸 Enviar
+        </button>
+      </div>
+
       <p style="font-size:12.5px; color:#666; margin-bottom:12px;">
         Folhetos oficiais vigentes na sua cidade. Toque para ver em tela cheia com zoom:
       </p>
@@ -673,6 +736,72 @@
       </div>
 
       <button class="reset-btn" onclick="closePublicEncartesModal()">Fechar Encartes</button>
+    </div>
+  </div>
+
+  <!-- MODAL: ENVIO DE FOLHETO PELO USUÁRIO (COM GEMINI FLASH IA) -->
+  <div class="modal hidden" id="public-flyer-modal" style="z-index: 220;">
+    <div class="modal-content" style="max-height: 90vh;">
+      <div class="modal-header">
+        <h3 style="color: #1a73e8; display:flex; align-items:center; gap:8px; font-size:17px;">
+          ✨ Colaborar com Folheto de Ofertas
+        </h3>
+        <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePublicFlyerSubmitModal()">&times;</button>
+      </div>
+
+      <div style="background:#e8f0fe; border-radius:10px; padding:10px; margin-bottom:12px; font-size:12px; color:#1e40af; line-height:1.4;">
+        🏆 Ganhe <b>+50 XP para o seu Mascote</b> enviando folhetos da sua cidade! A inteligência artificial do Google lê os preços da imagem automaticamente.
+      </div>
+
+      <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado:</label>
+      <select id="user-flyer-market" style="width:100%; padding:9px; border-radius:8px; border:1px solid #ccc; font-size:13px; margin-bottom:10px; background:#fff;">
+        <option value="Atacadão">Atacadão</option>
+        <option value="Assaí">Assaí Atacadista</option>
+        <option value="Avistão">Supermercado Avistão</option>
+        <option value="Princesa">Princesa Supermercados</option>
+        <option value="Multimarket">Multimarket</option>
+        <option value="Supermarket">Supermarket</option>
+        <option value="Extra">Extra</option>
+        <option value="Outro">Outro Mercado de Bairro</option>
+      </select>
+
+      <div style="background:#f8fafc; border:2px dashed #93c5fd; border-radius:12px; padding:14px; text-align:center; margin-bottom:12px;">
+        <input type="file" id="user-flyer-file" accept="image/*" onchange="handleUserFlyerSelect(event)" style="display:none;">
+        <button type="button" onclick="document.getElementById('user-flyer-file').click()" style="background:#1a73e8; color:#fff; border:none; padding:11px 18px; border-radius:10px; font-size:13.5px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 8px rgba(26,115,232,0.25);">
+          📸 Tirar Foto ou Escolher Print do Folheto
+        </button>
+        <span style="display:block; font-size:11px; color:#64748b; margin-top:5px;">Foto do folheto de papel ou print do Instagram/WhatsApp</span>
+
+        <div id="user-flyer-preview-box" class="hidden" style="margin-top:10px;">
+          <img id="user-flyer-preview-img" style="max-width:100%; max-height:220px; border-radius:8px; border:1px solid #ccc; object-fit:contain;">
+          <div style="font-size:11.5px; color:#16a34a; font-weight:bold; margin-top:4px;">Foto pronta para leitura!</div>
+        </div>
+      </div>
+
+      <button type="button" id="user-flyer-extract-btn" onclick="triggerUserGeminiExtraction()" style="width:100%; background:linear-gradient(135deg, #1a73e8, #0d47a1); color:#fff; border:none; padding:12px; border-radius:10px; font-size:14px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(26,115,232,0.3); margin-bottom:10px;">
+        ⚡ Extrair Ofertas com Google Gemini IA
+      </button>
+
+      <!-- Loading do Usuário -->
+      <div id="user-flyer-loading" class="hidden" style="text-align:center; padding:12px; background:#f0f9ff; border-radius:8px; margin-bottom:10px; border:1px solid #bae6fd;">
+        <div style="font-size:22px;">🤖✨</div>
+        <strong style="color:#0369a1; font-size:12.5px; display:block;">IA do Google lendo o encarte...</strong>
+        <span style="font-size:11px; color:#64748b;">Extraindo ofertas e preços em reais...</span>
+      </div>
+
+      <!-- Resultados Detectados do Usuário -->
+      <div id="user-flyer-results" class="hidden" style="background:#fff; border-radius:10px; border:1.5px solid #86efac; padding:10px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <strong style="font-size:12.5px; color:#166534;" id="user-flyer-count-label">🎯 0 ofertas detectadas</strong>
+          <span style="font-size:11px; color:#64748b;">Confira as ofertas</span>
+        </div>
+        <div id="user-flyer-items-list" style="max-height:200px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:8px; font-size:11.5px;"></div>
+        <button type="button" onclick="confirmAndSaveUserFlyerItems()" class="save-btn" style="margin:0; background:#16a34a; font-size:13.5px; padding:11px; display:flex; align-items:center; justify-content:center; gap:6px;">
+          🚀 Publicar Ofertas na Minha Cidade (+50 XP)
+        </button>
+      </div>
+
+      <button class="reset-btn" onclick="closePublicFlyerSubmitModal()" style="padding:8px; font-size:12px;">Cancelar</button>
     </div>
   </div>
 
@@ -695,8 +824,11 @@
         <img id="viewer-encarte-img" src="" style="max-width: 100%; height: auto; transition: transform 0.2s ease; transform-origin: center center; border-radius: 6px;">
       </div>
 
-      <div style="padding: 10px; background: rgba(0,0,0,0.7); text-align: center; color: #ccc; font-size: 11.5px;">
-        💡 Use a pinça de dois dedos ou os botões de lupa no topo para dar zoom nas ofertas.
+      <div style="padding: 10px 14px; background: rgba(0,0,0,0.85); display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+        <span style="color: #ccc; font-size: 11px;">💡 Use a pinça de dois dedos para zoom</span>
+        <button id="viewer-gemini-btn" onclick="extractFromCurrentViewer()" style="background: linear-gradient(135deg, #1a73e8, #1557b0); color: #fff; border: none; border-radius: 8px; padding: 7px 12px; font-size: 11.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+          ✨ Listar Ofertas (Gemini IA)
+        </button>
       </div>
     </div>
   </div>
@@ -2286,6 +2418,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       const modalContent = modalEl.querySelector('.modal-content');
       if (modalContent) modalContent.scrollTop = 0;
       switchAdminMainTab('metrics');
+      updateGeminiKeyStatusLabels();
       try {
         const { count: prodCount } = await client.from('produtos').select('*', { count: 'exact', head: true });
         const { count: precoCount } = await client.from('registros_precos').select('*', { count: 'exact', head: true });
@@ -5058,6 +5191,417 @@ async function exportPricesCSV() {
     }
 
     // ==========================================
+    // GOOGLE GEMINI 1.5 FLASH AI - OCR & EXTRAÇÃO DE OFERTAS
+    // ==========================================
+    let detectedGeminiAdminItems = [];
+    let detectedGeminiUserItems = [];
+    let currentUserFlyerBase64 = null;
+
+    function getGeminiApiKey() {
+      return localStorage.getItem('nutri_gemini_api_key') || '';
+    }
+
+    function saveGeminiApiKeyFromInput(inputId) {
+      const el = document.getElementById(inputId);
+      const val = (el ? el.value : '').trim();
+      if (!val) {
+        showToast('Cole sua chave do Google AI Studio.', 'warning');
+        return;
+      }
+      localStorage.setItem('nutri_gemini_api_key', val);
+      updateGeminiKeyStatusLabels();
+      showToast('✅ Chave Google Gemini salva com sucesso!', 'success');
+    }
+
+    function updateGeminiKeyStatusLabels() {
+      const key = getGeminiApiKey();
+      const statusAdmin = document.getElementById('gemini-key-status-label');
+      const inputAdmin = document.getElementById('gemini-api-key-input');
+      if (inputAdmin && key) inputAdmin.value = key;
+      if (statusAdmin) {
+        statusAdmin.innerText = key ? '🟢 Chave configurada' : '⚠️ Chave pendente';
+        statusAdmin.style.color = key ? '#16a34a' : '#b45309';
+      }
+    }
+
+    async function callGeminiFlashVision(base64Image, marketName) {
+      let apiKey = getGeminiApiKey();
+      if (!apiKey) {
+        apiKey = prompt('✨ Para analisar com o Google Gemini Flash, cole sua chave gratuita do Google AI Studio (acesse https://aistudio.google.com/apikey):');
+        if (apiKey && apiKey.trim()) {
+          apiKey = apiKey.trim();
+          localStorage.setItem('nutri_gemini_api_key', apiKey);
+          updateGeminiKeyStatusLabels();
+        } else {
+          showToast('Chave da API do Gemini necessária para a leitura.', 'warning');
+          return null;
+        }
+      }
+
+      let cleanBase64 = base64Image;
+      let mimeType = 'image/jpeg';
+      if (cleanBase64.includes(';base64,')) {
+        const parts = cleanBase64.split(';base64,');
+        mimeType = parts[0].replace('data:', '') || 'image/jpeg';
+        cleanBase64 = parts[1];
+      }
+
+      const promptText = `Você é um assistente especialista em supermercados do Brasil no aplicativo NutriPreço.
+Analise detalhadamente esta imagem de folheto/encarte de ofertas do mercado "${marketName || 'Supermercado'}".
+Extraia todos os produtos alimentícios, bebidas e itens de feira/açougue visíveis com preços promocionais.
+Para cada item:
+1. "nome": Nome completo, marca e peso/volume (Ex: "Arroz Camil Tipo 1 5kg", "Café Pilão Tradicional 500g", "Alcatra Bovina kg", "Leite Integral Piracanjuba 1L").
+2. "preco": Valor numérico do preço em reais com ponto decimal (Ex: 23.90).
+3. "unidade": Use "kg" se for vendido por quilo (açougue, hortifrúti, fatiados), ou "un" se for embalagem, garrafa, lata ou pacote.
+
+Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
+[{"nome": "...", "preco": 0.00, "unidade": "un|kg"}]`;
+
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [
+              { text: promptText },
+              {
+                inline_data: {
+                  mime_type: mimeType,
+                  data: cleanBase64
+                }
+              }
+            ]
+          }],
+          generationConfig: {
+            response_mime_type: 'application/json',
+            temperature: 0.1
+          }
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error?.message || `Erro ${response.status} na API do Gemini`);
+      }
+
+      const resData = await response.json();
+      const rawText = resData.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) throw new Error('O Gemini não retornou texto na resposta.');
+
+      let items = [];
+      try {
+        items = JSON.parse(rawText);
+      } catch(e) {
+        const jsonMatch = rawText.match(/\[\s*\{[\s\S]*\}\s*\]/);
+        if (jsonMatch) items = JSON.parse(jsonMatch[0]);
+        else throw new Error('Não foi possível interpretar os dados de preços retornados pela IA.');
+      }
+
+      return Array.isArray(items) ? items : [];
+    }
+
+    async function triggerAdminGeminiExtraction() {
+      if (!currentEncartePhotoBase64) {
+        showToast('Selecione ou tire a foto do folheto primeiro.', 'warning');
+        return;
+      }
+      const market = document.getElementById('encarte-photo-market')?.value || 'Supermercado';
+      const loading = document.getElementById('gemini-admin-loading');
+      const resultsBox = document.getElementById('gemini-admin-results');
+      const btn = document.getElementById('gemini-admin-extract-btn');
+
+      if (loading) loading.classList.remove('hidden');
+      if (resultsBox) resultsBox.classList.add('hidden');
+      if (btn) btn.disabled = true;
+
+      try {
+        const items = await callGeminiFlashVision(currentEncartePhotoBase64, market);
+        if (!items || items.length === 0) {
+          showToast('Nenhum preço legível detectado nesta foto. Tente uma foto mais nítida ou aproximada.', 'warning');
+          return;
+        }
+
+        detectedGeminiAdminItems = items;
+        renderGeminiItemsTable(items, 'gemini-admin-items-list', 'gemini-admin-count-label');
+        if (resultsBox) resultsBox.classList.remove('hidden');
+        showToast(`✨ Gemini Flash detectou ${items.length} ofertas!`, 'success');
+      } catch(err) {
+        showToast('Erro na leitura da IA: ' + err.message, 'error');
+      } finally {
+        if (loading) loading.classList.add('hidden');
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    function renderGeminiItemsTable(items, containerId, countLabelId) {
+      const container = document.getElementById(containerId);
+      const countLabel = document.getElementById(countLabelId);
+      if (countLabel) countLabel.innerText = `🎯 ${items.length} ofertas detectadas`;
+      if (!container) return;
+
+      let html = '<table style="width:100%; border-collapse:collapse; text-align:left;">';
+      html += `
+        <thead>
+          <tr style="background:#f1f5f9; border-bottom:1px solid #cbd5e1; font-size:11px; color:#475569;">
+            <th style="padding:6px; width:28px; text-align:center;">✓</th>
+            <th style="padding:6px;">Produto Detectado</th>
+            <th style="padding:6px; width:65px; text-align:right;">Preço</th>
+            <th style="padding:6px; width:50px; text-align:center;">Un.</th>
+          </tr>
+        </thead>
+        <tbody>
+      `;
+
+      items.forEach((item, idx) => {
+        const priceNum = parseFloat(item.preco) || 0;
+        const priceFmt = priceNum.toFixed(2);
+        html += `
+          <tr style="border-bottom:1px solid #f1f5f9; background: ${idx % 2 === 0 ? '#fff' : '#fcfcfc'};">
+            <td style="padding:6px; text-align:center;">
+              <input type="checkbox" class="gemini-item-check" data-idx="${idx}" checked style="cursor:pointer; width:16px; height:16px;">
+            </td>
+            <td style="padding:6px;">
+              <input type="text" id="gemini-item-name-${containerId}-${idx}" value="${escapeHTML(item.nome)}" style="width:100%; font-size:11.5px; border:1px solid #e2e8f0; border-radius:4px; padding:3px 5px;">
+            </td>
+            <td style="padding:6px; text-align:right;">
+              <input type="number" step="0.01" id="gemini-item-price-${containerId}-${idx}" value="${priceFmt}" style="width:65px; font-size:11.5px; font-weight:bold; color:#166534; border:1px solid #e2e8f0; border-radius:4px; padding:3px 4px; text-align:right;">
+            </td>
+            <td style="padding:6px; text-align:center;">
+              <select id="gemini-item-unit-${containerId}-${idx}" style="font-size:11px; border:1px solid #e2e8f0; border-radius:4px; padding:3px;">
+                <option value="un" ${item.unidade === 'un' ? 'selected' : ''}>un</option>
+                <option value="kg" ${item.unidade === 'kg' ? 'selected' : ''}>kg</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    function toggleAllGeminiCheckboxes(containerId, checked) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const checks = container.querySelectorAll('.gemini-item-check');
+      checks.forEach(c => c.checked = checked);
+    }
+
+    async function confirmAndSaveAdminGeminiItems() {
+      const market = document.getElementById('encarte-photo-market')?.value || 'Supermercado';
+      const container = document.getElementById('gemini-admin-items-list');
+      if (!container) return;
+
+      const checks = container.querySelectorAll('.gemini-item-check:checked');
+      if (checks.length === 0) {
+        showToast('Marque ao menos um produto para cadastrar.', 'warning');
+        return;
+      }
+
+      const itemsToSave = [];
+      checks.forEach(c => {
+        const idx = c.getAttribute('data-idx');
+        const nameEl = document.getElementById(`gemini-item-name-gemini-admin-items-list-${idx}`);
+        const priceEl = document.getElementById(`gemini-item-price-gemini-admin-items-list-${idx}`);
+        const unitEl = document.getElementById(`gemini-item-unit-gemini-admin-items-list-${idx}`);
+        if (nameEl && priceEl) {
+          itemsToSave.push({
+            nome: nameEl.value.trim(),
+            preco: parseFloat(priceEl.value) || 0,
+            unidade: unitEl ? unitEl.value : 'un'
+          });
+        }
+      });
+
+      await saveGeminiItemsBatch(market, itemsToSave);
+      const resultsBox = document.getElementById('gemini-admin-results');
+      if (resultsBox) resultsBox.classList.add('hidden');
+    }
+
+    // Modal de Envio Público para Usuários
+    function openPublicFlyerSubmitModal() {
+      const modal = document.getElementById('public-flyer-modal');
+      if (modal) modal.classList.remove('hidden');
+      currentUserFlyerBase64 = null;
+      const previewBox = document.getElementById('user-flyer-preview-box');
+      if (previewBox) previewBox.classList.add('hidden');
+      const resultsBox = document.getElementById('user-flyer-results');
+      if (resultsBox) resultsBox.classList.add('hidden');
+    }
+
+    function closePublicFlyerSubmitModal() {
+      const modal = document.getElementById('public-flyer-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleUserFlyerSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const previewBox = document.getElementById('user-flyer-preview-box');
+      const previewImg = document.getElementById('user-flyer-preview-img');
+      resizeFlyerImage(file, 1600).then(b64 => {
+        currentUserFlyerBase64 = b64;
+        if (previewImg) previewImg.src = b64;
+        if (previewBox) previewBox.classList.remove('hidden');
+      }).catch(e => showToast('Erro na imagem: ' + e.message, 'error'));
+    }
+
+    async function triggerUserGeminiExtraction() {
+      if (!currentUserFlyerBase64) {
+        showToast('Selecione ou fotografe o encarte primeiro.', 'warning');
+        return;
+      }
+      const market = document.getElementById('user-flyer-market')?.value || 'Supermercado';
+      const loading = document.getElementById('user-flyer-loading');
+      const resultsBox = document.getElementById('user-flyer-results');
+      const btn = document.getElementById('user-flyer-extract-btn');
+
+      if (loading) loading.classList.remove('hidden');
+      if (resultsBox) resultsBox.classList.add('hidden');
+      if (btn) btn.disabled = true;
+
+      try {
+        const items = await callGeminiFlashVision(currentUserFlyerBase64, market);
+        if (!items || items.length === 0) {
+          showToast('Nenhuma oferta legível detectada. Tente aproximar a foto.', 'warning');
+          return;
+        }
+
+        detectedGeminiUserItems = items;
+        renderGeminiItemsTable(items, 'user-flyer-items-list', 'user-flyer-count-label');
+        if (resultsBox) resultsBox.classList.remove('hidden');
+        showToast(`✨ ${items.length} ofertas detectadas pelo Gemini Flash!`, 'success');
+      } catch(e) {
+        showToast('Erro ao ler ofertas: ' + e.message, 'error');
+      } finally {
+        if (loading) loading.classList.add('hidden');
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    async function confirmAndSaveUserFlyerItems() {
+      const market = document.getElementById('user-flyer-market')?.value || 'Supermercado';
+      const container = document.getElementById('user-flyer-items-list');
+      if (!container) return;
+
+      const checks = container.querySelectorAll('.gemini-item-check:checked');
+      if (checks.length === 0) {
+        showToast('Selecione ao menos uma oferta para enviar.', 'warning');
+        return;
+      }
+
+      const itemsToSave = [];
+      checks.forEach(c => {
+        const idx = c.getAttribute('data-idx');
+        const nameEl = document.getElementById(`gemini-item-name-user-flyer-items-list-${idx}`);
+        const priceEl = document.getElementById(`gemini-item-price-user-flyer-items-list-${idx}`);
+        const unitEl = document.getElementById(`gemini-item-unit-user-flyer-items-list-${idx}`);
+        if (nameEl && priceEl) {
+          itemsToSave.push({
+            nome: nameEl.value.trim(),
+            preco: parseFloat(priceEl.value) || 0,
+            unidade: unitEl ? unitEl.value : 'un'
+          });
+        }
+      });
+
+      await saveGeminiItemsBatch(market, itemsToSave);
+      addMascotXP(50, 'Envio de Encarte com IA');
+      showToast(`🎉 +50 XP! ${itemsToSave.length} ofertas salvas para ${market}!`, 'success');
+      closePublicFlyerSubmitModal();
+    }
+
+    // Leitura a partir de um Encarte Público já publicado
+    async function extractOffersFromPublicEncarte(encarteId) {
+      const encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+      const item = encartes.find(e => String(e.id) === String(encarteId));
+      if (!item || !item.imagem) {
+        showToast('Imagem do encarte não disponível.', 'warning');
+        return;
+      }
+
+      showToast(`🤖 Lendo ofertas do ${item.mercado} com Google Gemini IA...`, 'info');
+      try {
+        const offers = await callGeminiFlashVision(item.imagem, item.mercado);
+        if (!offers || offers.length === 0) {
+          showToast('Nenhuma oferta detectada nesta imagem.', 'warning');
+          return;
+        }
+
+        // Salva as ofertas no banco para enriquecer a base da cidade
+        await saveGeminiItemsBatch(item.mercado, offers);
+        showToast(`✨ ${offers.length} ofertas do ${item.mercado} sincronizadas no catálogo da cidade!`, 'success');
+        addMascotXP(20, 'Explorou Encarte com IA');
+      } catch(err) {
+        showToast('Erro: ' + err.message, 'error');
+      }
+    }
+
+    function extractFromCurrentViewer() {
+      if (currentViewerEncarteId) {
+        extractOffersFromPublicEncarte(currentViewerEncarteId);
+      } else {
+        showToast('Nenhum encarte selecionado no momento.', 'warning');
+      }
+    }
+
+    // Função Compartilhada de Gravação em Lote no Supabase
+    async function saveGeminiItemsBatch(marketName, itemsToSave) {
+      if (!itemsToSave || itemsToSave.length === 0) return;
+      const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+      let mercadoId = null;
+      try {
+        const { data: mkData } = await client.from('mercados').select('id').eq('nome', marketName).limit(1);
+        if (mkData && mkData.length > 0) {
+          mercadoId = mkData[0].id;
+        } else {
+          const { data: newMk } = await client.from('mercados').insert({ nome: marketName, cidade: currentCity }).select();
+          if (newMk && newMk[0]) mercadoId = newMk[0].id;
+        }
+      } catch(e) {}
+
+      let salvos = 0;
+      for (const it of itemsToSave) {
+        try {
+          const priceNum = parseFloat(it.preco);
+          if (!priceNum || isNaN(priceNum) || priceNum <= 0) continue;
+
+          const cleanCode = 'ENC_' + it.nome.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 14);
+
+          let prodId = null;
+          try {
+            const { data: pData } = await client.from('produtos').upsert({
+              codigo_barras: cleanCode,
+              nome: it.nome,
+              marca: '',
+              unidade: it.unidade || 'un'
+            }, { onConflict: 'codigo_barras' }).select();
+            if (pData && pData[0]) prodId = pData[0].id;
+          } catch(e) {}
+
+          await client.from('registros_precos').insert({
+            codigo_barras: cleanCode,
+            produto_id: prodId,
+            mercado_id: mercadoId,
+            mercado: marketName,
+            preco: priceNum,
+            data_registro: new Date().toISOString()
+          });
+
+          saveProductToLocalCache(cleanCode, it.nome, '');
+          salvos++;
+        } catch(err) {
+          console.warn('Erro ao inserir item:', err);
+        }
+      }
+
+      showToast(`✅ ${salvos} ofertas integradas ao catálogo de ${marketName}!`, 'success');
+    }
+
+    // ==========================================
     // VITRINE PÚBLICA DE ENCARTES (VISÍVEL AOS USUÁRIOS)
     // ==========================================
     async function openPublicEncartesModal() {
@@ -5127,8 +5671,11 @@ async function exportPricesCSV() {
               <img src="${e.imagem}" style="max-width:100%; max-height:280px; border-radius:8px; border:1px solid #ddd; object-fit:contain; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
             </div>
 
-            <button onclick="openEncarteViewer('${e.id}')" class="save-btn" style="margin:0; background:#1b5e20; font-size:14px; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <button onclick="openEncarteViewer('${e.id}')" class="save-btn" style="margin:0 0 6px 0; background:#1b5e20; font-size:13.5px; padding:11px; display:flex; align-items:center; justify-content:center; gap:8px;">
               🔍 Abrir Folheto em Tela Cheia (Com Zoom)
+            </button>
+            <button onclick="extractOffersFromPublicEncarte('${e.id}')" style="width:100%; background:linear-gradient(135deg, #1a73e8, #1557b0); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:bold; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; cursor:pointer; box-shadow:0 2px 6px rgba(26,115,232,0.25);">
+              ✨ Ver Ofertas com Google Gemini IA
             </button>
           </div>
         `;
