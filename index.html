@@ -3440,6 +3440,11 @@ async function exportPricesCSV() {
       feedback.classList.remove('hidden');
     }
 
+    function clearLastItemFeedback() {
+      const feedback = document.getElementById('last-item-feedback');
+      if (feedback) feedback.classList.add('hidden');
+    }
+
     function updateCartDisplay() {
       const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
       const count = cart.reduce((acc, item) => acc + item.qty, 0);
@@ -3556,6 +3561,7 @@ async function exportPricesCSV() {
       if (confirmed) {
         cart = [];
         localStorage.removeItem('nutri_cart');
+        clearLastItemFeedback();
         updateCartDisplay();
       updateBudgetDisplay();
         closeCartModal();
@@ -3590,6 +3596,7 @@ async function exportPricesCSV() {
       // Limpa carrinho atual
       cart = [];
       localStorage.removeItem('nutri_cart');
+      clearLastItemFeedback();
       updateCartDisplay();
       updateBudgetDisplay();
       closeCartModal();
