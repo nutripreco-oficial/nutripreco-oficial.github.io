@@ -526,11 +526,11 @@
       <label style="font-size:12px; font-weight:bold;">Nome do Estabelecimento:</label>
       <input type="text" id="new-market-name" placeholder="Ex: Mercado e Açougue São Pedro" style="margin-bottom:10px;">
 
-      <label style="font-size:12px; font-weight:bold;">Bairro em Cabo Frio:</label>
-      <input type="text" id="new-market-neighborhood" placeholder="Ex: Boa Viagem, Centro, São Cristóvão, etc." style="margin-bottom:10px;">
+      <label id="new-market-city-label" style="font-size:12px; font-weight:bold;">Bairro:</label>
+      <input type="text" id="new-market-neighborhood" placeholder="Ex: Centro, Bairro Nobre, etc." style="margin-bottom:10px;">
 
-      <div style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin:10px 0; font-size:12px; color:#2e7d32;">
-        📍 O app vai associar as coordenadas GPS atuais para sugerir este mercado automaticamente aos clientes próximos.
+      <div id="new-market-gps-box" style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin:10px 0; font-size:12px; color:#2e7d32;">
+        <span id="new-market-gps-status">📍 Capturando coordenadas GPS para vincular este mercado...</span>
       </div>
 
       <button class="save-btn" onclick="saveNewMarket()" style="margin-top:10px;">💾 Salvar Estabelecimento</button>
@@ -956,6 +956,38 @@
   <div class="container">
     <!-- Seção Scanner -->
       <div id="scan-section">
+        <!-- Barra de Contexto do Mercado Atual com Troca Rápida e GPS -->
+        <div id="scanner-market-bar" style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:7px 12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:12.5px; color:#1b5e20; display:flex; align-items:center; gap:6px;">
+            <span>🏪</span>
+            <span>Mercado atual: <strong id="scanner-market-name">Atacadão</strong></span>
+          </div>
+          <button type="button" onclick="toggleMarketPickerMain()" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; border-radius:12px; padding:3px 10px; font-size:11px; font-weight:bold; cursor:pointer;">
+            Trocar ▾
+          </button>
+        </div>
+
+        <!-- Seletor Rápido na Tela Inicial (Expansível) -->
+        <div id="main-market-dropdown" class="hidden" style="background:#fff; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin-bottom:10px; box-shadow:0 3px 8px rgba(0,0,0,0.06);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:11.5px; font-weight:bold; color:#555;">Onde você está comprando agora?</span>
+            <button type="button" onclick="detectGPSLocation(true)" style="background:none; border:none; color:#1b5e20; font-size:11px; font-weight:bold; cursor:pointer;">📍 GPS</button>
+          </div>
+          <div class="market-chips" id="main-market-chips" style="margin-bottom:8px;">
+            <div class="chip active" onclick="selectMarketMain(this, 'Atacadão')">Atacadão</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Assaí')">Assaí</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Avistão')">Avistão</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Multimarket')">Multimarket</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Supermarket')">Supermarket</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Princesa')">Princesa</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Extra')">Extra</div>
+            <div class="chip" onclick="selectMarketMain(this, 'Outro')">Outro</div>
+          </div>
+          <button type="button" onclick="openNewMarketModal()" style="width:100%; background:#f1f8e9; border:1px dashed #2e7d32; color:#1b5e20; border-radius:8px; padding:7px 10px; font-size:12px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+            🏪 ➕ Cadastrar Novo Mercado Aqui
+          </button>
+        </div>
+
         <div id="scanner-container">
           <div id="reader"></div>
           <div id="scanner-empty-state" class="scanner-empty-state" aria-live="polite">
@@ -1034,8 +1066,8 @@
 
         <!-- Alerta se o produto não tem nome no catálogo -->
         <div id="unnamed-box" class="hidden" style="background:#fff8e1; border:1px solid #ffe082; border-radius:10px; padding:10px 12px; margin-bottom:12px;">
-          <span style="font-size:12px; font-weight:bold; color:#f57f17; display:block; margin-bottom:4px;">⚠️ Produto sem nome no catálogo. Digite o nome:</span>
-          <input type="text" id="manual-name-input" placeholder="Ex: Biscoito Cream Cracker, Detergente..." style="margin-top:2px; font-size:14px; padding:9px; border-radius:8px; border:1.5px solid #ffd54f;">
+          <span style="font-size:12px; font-weight:bold; color:#f57f17; display:block; margin-bottom:4px;">⚠️ Produto sem nome no catálogo. Digite nome e gramatura/tamanho:</span>
+          <input type="text" id="manual-name-input" placeholder="Ex: Arroz Camil 5kg, Café Pilão 500g, Óleo Liza 900ml..." style="margin-top:2px; font-size:14px; padding:9px; border-radius:8px; border:1.5px solid #ffd54f;">
         </div>
 
         <!-- Banner de Balança (Se detectado) -->
@@ -1076,7 +1108,10 @@
             <div class="chip" onclick="selectMarket(this, 'Extra')">Extra</div>
             <div class="chip" onclick="selectMarket(this, 'Outro')">Outro</div>
           </div>
-          <input type="text" id="market-input" value="Atacadão" oninput="checkPriceComparison()" style="font-size:13px; padding:8px;">
+          <input type="text" id="market-input" value="Atacadão" oninput="checkPriceComparison()" style="font-size:13px; padding:8px; margin-bottom:8px;">
+          <button type="button" onclick="openNewMarketModal()" style="width:100%; background:#f1f8e9; border:1px dashed #2e7d32; color:#1b5e20; border-radius:8px; padding:7px 10px; font-size:12px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+            🏪 ➕ Cadastrar Novo Mercado Aqui
+          </button>
         </div>
 
         <!-- Atalho Preço Confere (Se já houver cotação) -->
@@ -1332,7 +1367,7 @@
 
   <!-- Modal Minhas Compras Salvas -->
   <div class="modal hidden" id="history-modal">
-    <div class="modal-content">
+    <div class="modal-content" style="max-height: 92vh; overflow-y: auto;">
       <div class="modal-header">
         <h3 style="color: #2e7d32;">📂 Minhas Compras Salvas</h3>
         <button style="border:none; background:none; font-size:22px; cursor:pointer;" onclick="closeHistoryModal()">&times;</button>
@@ -1341,7 +1376,7 @@
       <!-- Estatísticas do Histórico -->
       <div class="history-stat-box">
         <div class="stat-card">
-          <span>Total Acumulado</span>
+          <span id="stat-period-label">Total no Período</span>
           <strong id="stat-month-total">R$ 0,00</strong>
         </div>
         <div class="stat-card">
@@ -1350,8 +1385,54 @@
         </div>
       </div>
 
+      <!-- Filtros de Período -->
+      <div style="display:flex; gap:6px; margin: 4px 0 12px 0; overflow-x:auto; padding-bottom:4px;" role="tablist" aria-label="Filtro de período das compras">
+        <button type="button" class="budget-chip active" id="hist-filter-all" onclick="filterHistory('all')">📂 Todas</button>
+        <button type="button" class="budget-chip" id="hist-filter-month" onclick="filterHistory('month')">🗓️ Este Mês</button>
+        <button type="button" class="budget-chip" id="hist-filter-week" onclick="filterHistory('week')">📅 Esta Semana</button>
+        <button type="button" class="budget-chip" id="hist-filter-today" onclick="filterHistory('today')">☀️ Hoje</button>
+      </div>
+
+      <!-- Botão para Abrir Ferramenta de Comparação de Compras -->
+      <div style="margin-bottom:14px;">
+        <button type="button" onclick="openComparePurchasesModal()" style="width:100%; background:#e8f5e9; border:1.5px solid #a5d6a7; color:#1b5e20; border-radius:10px; padding:9px 12px; font-size:13px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 2px 5px rgba(46,125,50,0.06);">
+          ⚖️ Comparar 2 Compras Anteriores
+        </button>
+      </div>
+
       <div id="history-items-container" style="margin-bottom: 16px;"></div>
       <button class="reset-btn" onclick="closeHistoryModal()">Fechar Histórico</button>
+    </div>
+  </div>
+
+  <!-- Modal: Comparar 2 Compras Anteriores -->
+  <div class="modal hidden" id="compare-purchases-modal" style="z-index: 150;">
+    <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h3 style="color: #1b5e20; display:flex; align-items:center; gap:8px;">
+          ⚖️ Comparar 2 Compras
+        </h3>
+        <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeComparePurchasesModal()">&times;</button>
+      </div>
+      <p style="font-size:12.5px; color:#555; margin-bottom:12px;">
+        Compare os preços item a item entre duas compras registradas para ver quais itens subiram, baixaram ou se mantiveram.
+      </p>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:12px;">
+        <div>
+          <label style="font-size:11px; font-weight:bold; color:#444; display:block; margin-bottom:4px;">Compra Base (A):</label>
+          <select id="compare-select-a" onchange="runPurchasesComparison()" style="width:100%; padding:7px; font-size:12px; border-radius:8px; border:1px solid #ccc; background:#fff;"></select>
+        </div>
+        <div>
+          <label style="font-size:11px; font-weight:bold; color:#444; display:block; margin-bottom:4px;">Compra Comparada (B):</label>
+          <select id="compare-select-b" onchange="runPurchasesComparison()" style="width:100%; padding:7px; font-size:12px; border-radius:8px; border:1px solid #ccc; background:#fff;"></select>
+        </div>
+      </div>
+
+      <div id="compare-summary-box" style="margin-bottom:12px;"></div>
+      <div id="compare-results-container" style="margin-bottom:16px;"></div>
+
+      <button class="reset-btn" onclick="closeComparePurchasesModal()">Fechar Comparação</button>
     </div>
   </div>
 
@@ -1969,6 +2050,21 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       return R * c;
     }
 
+    function getAllKnownMarkets() {
+      try {
+        const cached = JSON.parse(localStorage.getItem('nutri_known_markets') || '[]');
+        if (cached && Array.isArray(cached) && cached.length > 0) {
+          const names = new Set(cached.map(m => m.nome.toLowerCase()));
+          const combined = [...cached];
+          CABO_FRIO_MARKETS_GPS.forEach(m => {
+            if (!names.has(m.nome.toLowerCase())) combined.push(m);
+          });
+          return combined;
+        }
+      } catch(e) {}
+      return CABO_FRIO_MARKETS_GPS;
+    }
+
     function detectGPSLocation(forceNotify = false) {
       if (!navigator.geolocation) {
         if (forceNotify) showToast('Geolocalização não suportada neste aparelho.', 'warning');
@@ -1985,9 +2081,11 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
           let closestMarket = null;
           let minDistance = Infinity;
+          const knownMarkets = getAllKnownMarkets();
 
           // 1. Checa mercados conhecidos
-          for (const m of CABO_FRIO_MARKETS_GPS) {
+          for (const m of knownMarkets) {
+            if (!m.lat || !m.lon) continue;
             const dist = getHaversineDistance(lat, lon, m.lat, m.lon);
             if (dist < minDistance) {
               minDistance = dist;
@@ -1995,12 +2093,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             }
           }
 
-          // 2. Checa se o usuário está dentro de 250m de um mercado conhecido
-          if (closestMarket && minDistance <= 250) {
+          // 2. Geofence de 350m para atacarejos e hipermercados
+          if (closestMarket && minDistance <= 350) {
             autoSelectMarket(closestMarket.nome);
-            if (forceNotify) showToast(`📍 Mercado detectado via GPS: ${closestMarket.nome}`, 'success');
+            if (forceNotify) showToast(`📍 Mercado detectado via GPS: ${closestMarket.nome} (a ${Math.round(minDistance)}m)`, 'success');
           } else {
-            if (forceNotify) showToast('📍 Nenhum grande atacarejo a menos de 250m. Selecione na lista.', 'info');
+            if (forceNotify) showToast('📍 Nenhum supermercado cadastrado a menos de 350m. Selecione na lista.', 'info');
           }
         },
         (error) => {
@@ -2010,43 +2108,80 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       );
     }
 
+    function toggleMarketPickerMain() {
+      const drop = document.getElementById('main-market-dropdown');
+      if (drop) drop.classList.toggle('hidden');
+    }
+
+    function selectMarketMain(el, name) {
+      if (el) {
+        document.querySelectorAll('#main-market-chips .chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+      }
+      autoSelectMarket(name);
+      const drop = document.getElementById('main-market-dropdown');
+      if (drop) drop.classList.add('hidden');
+    }
+
     function autoSelectMarket(name) {
-      const badge = document.getElementById('current-market-badge');
-      if (badge) badge.innerText = name;
+      const scannerBadge = document.getElementById('scanner-market-name');
+      if (scannerBadge) scannerBadge.innerText = name;
+      const resultBadge = document.getElementById('current-market-badge');
+      if (resultBadge) resultBadge.innerText = name;
+      localStorage.setItem('nutri_selected_market', name);
+
       const chips = document.querySelectorAll('.chip');
-      let found = false;
       chips.forEach(c => {
         if (c.innerText.trim().toLowerCase() === name.trim().toLowerCase()) {
-          selectMarket(c, name);
-          found = true;
+          c.classList.add('active');
+        } else if (c.parentElement && (c.parentElement.id === 'market-chips-container' || c.parentElement.id === 'main-market-chips')) {
+          c.classList.remove('active');
         }
       });
-      if (!found) {
-        const input = document.getElementById('market-input');
-        if (input) input.value = name;
-        checkQuickConfirm();
-        checkPriceComparison();
-      }
+
+      const input = document.getElementById('market-input');
+      if (input) input.value = name;
+      if (typeof checkQuickConfirm === 'function') checkQuickConfirm();
+      if (typeof checkPriceComparison === 'function') checkPriceComparison();
     }
 
     function openNewMarketModal() {
-      document.getElementById('new-market-modal').classList.remove('hidden');
-      if (navigator.geolocation && !userCurrentCoords) {
+      const modal = document.getElementById('new-market-modal');
+      if (modal) modal.classList.remove('hidden');
+
+      const currentCity = localStorage.getItem('nutri_user_city') || 'sua cidade';
+      const cityLabel = document.getElementById('new-market-city-label');
+      if (cityLabel) cityLabel.innerText = `Bairro em ${currentCity}:`;
+
+      const gpsStatus = document.getElementById('new-market-gps-status');
+      if (gpsStatus) gpsStatus.innerHTML = '📍 Capturando coordenadas GPS para vincular este mercado...';
+
+      if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(pos => {
           userCurrentCoords = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-        }, () => {});
+          if (gpsStatus) {
+            gpsStatus.innerHTML = `📍 GPS detectado: <b>${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}</b> (Pronto para vincular)`;
+          }
+        }, () => {
+          if (gpsStatus) gpsStatus.innerHTML = '⚠️ GPS não detectado. O mercado será cadastrado sem coordenadas.';
+        }, { enableHighAccuracy: true, timeout: 6000 });
       }
     }
 
     function closeNewMarketModal() {
-      document.getElementById('new-market-modal').classList.add('hidden');
-      document.getElementById('new-market-name').value = '';
-      document.getElementById('new-market-neighborhood').value = '';
+      const modal = document.getElementById('new-market-modal');
+      if (modal) modal.classList.add('hidden');
+      const nameInput = document.getElementById('new-market-name');
+      if (nameInput) nameInput.value = '';
+      const bInput = document.getElementById('new-market-neighborhood');
+      if (bInput) bInput.value = '';
     }
 
     async function saveNewMarket() {
-      const name = document.getElementById('new-market-name').value.trim();
-      const neighborhood = document.getElementById('new-market-neighborhood').value.trim();
+      const nameInput = document.getElementById('new-market-name');
+      const name = (nameInput ? nameInput.value : '').trim();
+      const bInput = document.getElementById('new-market-neighborhood');
+      const neighborhood = (bInput ? bInput.value : '').trim();
 
       if (!name) {
         showToast('Digite o nome do estabelecimento.', 'warning');
@@ -2065,45 +2200,39 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           longitude: userCurrentCoords ? userCurrentCoords.lon : null
         };
 
-        const { data, error } = await client.from('mercados').insert(marketObj).select();
-        if (error) throw error;
+        // Cache local imediato
+        const known = getAllKnownMarkets();
+        known.push({ nome: name, lat: marketObj.latitude, lon: marketObj.longitude, bairro: neighborhood });
+        localStorage.setItem('nutri_known_markets', JSON.stringify(known));
 
-        // Adiciona um chip dinâmico ao container
-        const container = document.getElementById('market-chips-container');
-        if (container) {
-          const newChip = document.createElement('div');
-          newChip.className = 'chip active';
-          newChip.innerText = name;
-          newChip.onclick = function() { selectMarket(this, name); };
-          // Insere antes do botão +
-          container.insertBefore(newChip, container.lastElementChild);
-          selectMarket(newChip, name);
+        // Insere chips nas interfaces
+        ['market-chips-container', 'main-market-chips'].forEach(containerId => {
+          const container = document.getElementById(containerId);
+          if (container) {
+            const newChip = document.createElement('div');
+            newChip.className = 'chip active';
+            newChip.innerText = name;
+            newChip.onclick = function() {
+              if (containerId === 'main-market-chips') selectMarketMain(this, name);
+              else selectMarket(this, name);
+            };
+            container.appendChild(newChip);
+          }
+        });
+
+        // Grava no Supabase
+        if (navigator.onLine) {
+          await client.from('mercados').insert(marketObj).select();
         }
 
-        // Adiciona à lista do select do painel admin
-        const select = document.getElementById('encarte-photo-market');
-        if (select) {
-          const opt = document.createElement('option');
-          opt.value = name;
-          opt.innerText = name + (neighborhood ? ` (${neighborhood})` : '');
-          select.appendChild(opt);
-        }
-
+        autoSelectMarket(name);
         closeNewMarketModal();
         showToast(`Mercado "${name}" cadastrado com sucesso!`, 'success');
       } catch (err) {
-        // Fallback local caso tabela esteja restrita
-        const container = document.getElementById('market-chips-container');
-        if (container) {
-          const newChip = document.createElement('div');
-          newChip.className = 'chip active';
-          newChip.innerText = name;
-          newChip.onclick = function() { selectMarket(this, name); };
-          container.insertBefore(newChip, container.lastElementChild);
-          selectMarket(newChip, name);
-        }
+        console.warn('Erro ao salvar mercado no banco, selecionando localmente:', err);
+        autoSelectMarket(name);
         closeNewMarketModal();
-        showToast(`Mercado "${name}" selecionado!`, 'success');
+        showToast(`Mercado "${name}" selecionado localmente!`, 'success');
       }
     }
 
@@ -3306,14 +3435,25 @@ async function exportPricesCSV() {
           clearTimeout(timeoutId);
           const data = await res.json();
 
-          if (data.status === 1 && data.product && data.product.product_name) {
+          if (data.status === 1 && data.product) {
             const p = data.product;
-            currentName = p.product_name;
-            currentBrand = p.brands || 'Marca não informada';
-            document.getElementById('prod-name').innerText = currentName;
-            document.getElementById('prod-brand').innerText = `${currentBrand} | EAN: ${barcode}`;
-            document.getElementById('unnamed-box').classList.add('hidden');
-            saveProductToLocalCache(barcode, currentName, currentBrand);
+            let rawName = (p.product_name_pt || p.product_name || '').trim();
+            const brand = (p.brands || '').trim() || 'Marca não informada';
+            const quantity = (p.quantity || '').trim();
+
+            // Tratamento inteligente: Se houver gramatura/volume (ex: 500g, 1kg, 900ml) e ela não estiver no nome, concatena automaticamente
+            if (rawName && quantity && !rawName.toLowerCase().includes(quantity.toLowerCase())) {
+              rawName = `${rawName} ${quantity}`;
+            }
+
+            if (rawName) {
+              currentName = rawName;
+              currentBrand = brand;
+              document.getElementById('prod-name').innerText = currentName;
+              document.getElementById('prod-brand').innerText = `${currentBrand} | EAN: ${barcode}`;
+              document.getElementById('unnamed-box').classList.add('hidden');
+              saveProductToLocalCache(barcode, currentName, currentBrand);
+            }
           }
         } catch(e) {
           console.warn('Busca remota offline ou lenta, seguindo com dados locais.');
@@ -3476,6 +3616,7 @@ async function exportPricesCSV() {
       }
       await recordPriceInDb(existingPriceForCurrentMarket);
       addToCart(currentName, existingPriceForCurrentMarket);
+      addMascotXP(10, 'Preço Confere');
       resetScan();
     }
 
@@ -3538,6 +3679,8 @@ async function exportPricesCSV() {
       // 2. Grava no banco ou adiciona na fila offline
       await recordPriceInDb(priceVal);
 
+      addMascotXP(15, 'Gravar no Pré-Caixa');
+
       resetScan();
     }
 
@@ -3561,10 +3704,17 @@ async function exportPricesCSV() {
 
       try {
         let mercadoId = null;
-        const { data: mkData } = await client.from('mercados').select('id').eq('nome', marketName).limit(1);
+        const { data: mkData } = await client.from('mercados').select('id, latitude, longitude').eq('nome', marketName).limit(1);
         
         if (mkData && mkData.length > 0) {
           mercadoId = mkData[0].id;
+          // Auto-calibração GPS se o mercado não tiver coordenadas e o usuário estiver com GPS ativo
+          if (userCurrentCoords && (!mkData[0].latitude || !mkData[0].longitude)) {
+            client.from('mercados').update({
+              latitude: userCurrentCoords.lat,
+              longitude: userCurrentCoords.lon
+            }).eq('id', mercadoId).catch(() => {});
+          }
         } else {
           const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
           const { data: newMk } = await client.from('mercados').insert({
@@ -3601,33 +3751,89 @@ async function exportPricesCSV() {
       }
     }
 
-    function addToCart(name, price) {
+    function addToCart(name, price, qty = null, unit = null) {
+      const qtyInput = document.getElementById('product-qty-input');
+      const inputQty = qty !== null ? qty : (parseFloat(qtyInput?.value) || 1);
+      const inputUnit = unit !== null ? unit : (currentProductUnitType || 'un');
+      const marketName = (document.getElementById('market-input')?.value || 'Supermercado').trim();
+
+      // Proteção de carrinho vs mercado
+      const currentCartMarket = localStorage.getItem('nutri_cart_market');
+      if (cart.length > 0 && currentCartMarket && currentCartMarket.toLowerCase() !== marketName.toLowerCase()) {
+        const trocar = confirm(`Seu carrinho atual possui itens de "${currentCartMarket}". Deseja iniciar uma nova lista para "${marketName}"? Toque em OK para iniciar nova compra ou Cancelar para manter a lista anterior.`);
+        if (trocar) {
+          cart = [];
+          localStorage.removeItem('nutri_cart');
+          localStorage.setItem('nutri_cart_market', marketName);
+        } else {
+          return;
+        }
+      } else {
+        localStorage.setItem('nutri_cart_market', marketName);
+      }
+
       const existing = cart.find(i => i.barcode === currentBarcode);
       if (existing) {
-        existing.qty += 1;
+        existing.qty = parseFloat((existing.qty + inputQty).toFixed(2));
+        existing.unit = inputUnit;
       } else {
-        cart.push({ barcode: currentBarcode, name: name, price: price, qty: 1 });
+        cart.push({
+          barcode: currentBarcode,
+          name: name,
+          price: price,
+          qty: inputQty,
+          unit: inputUnit,
+          mercado: marketName
+        });
       }
       localStorage.setItem('nutri_cart', JSON.stringify(cart));
       updateCartDisplay();
       updateBudgetDisplay();
-      updateLastItemFeedback(name, price);
-      showToast(`🛒 ${name} adicionado ao Pré-Caixa!`, "success");
+      updateLastItemFeedback(name, price, inputQty, inputUnit);
+      showToast(`🛒 ${inputQty} ${inputUnit} de ${name} no Pré-Caixa!`, "success");
     }
 
-    function updateLastItemFeedback(name, price) {
+    function updateLastItemFeedback(name, price, qty = 1, unit = 'un') {
       const feedback = document.getElementById('last-item-feedback');
       const nameEl = document.getElementById('last-item-name');
       const priceEl = document.getElementById('last-item-price');
       if (!feedback || !nameEl || !priceEl) return;
-      nameEl.textContent = name || 'Produto';
-      priceEl.textContent = `Preço informado: R$ ${Number(price || 0).toFixed(2).replace('.', ',')}`;
+      nameEl.textContent = `${qty} ${unit} • ${name || 'Produto'}`;
+      const subtotal = Number(price || 0) * Number(qty || 1);
+      priceEl.textContent = `Unit: R$ ${Number(price || 0).toFixed(2).replace('.', ',')} | Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}`;
       feedback.classList.remove('hidden');
     }
 
     function clearLastItemFeedback() {
       const feedback = document.getElementById('last-item-feedback');
       if (feedback) feedback.classList.add('hidden');
+    }
+
+    // Mascote da Economia: Pontuação Persistente (XP) da Comunidade
+    function getMascotXP() {
+      return parseInt(localStorage.getItem('nutri_user_xp') || '0', 10);
+    }
+
+    function getMascotLevel(xp) {
+      if (xp >= 300) return { level: 5, title: 'Mestre dos Preços 👑', color: '#ffb300' };
+      if (xp >= 150) return { level: 4, title: 'Guardião da Economia 🛡️', color: '#1b5e20' };
+      if (xp >= 60) return { level: 3, title: 'Garimpeiro Ouro 🥇', color: '#2e7d32' };
+      if (xp >= 20) return { level: 2, title: 'Cotador Ativo 🥈', color: '#43a047' };
+      return { level: 1, title: 'Iniciante 🥉', color: '#558b2f' };
+    }
+
+    function addMascotXP(points, reason) {
+      const currentXP = getMascotXP();
+      const newXP = currentXP + points;
+      localStorage.setItem('nutri_user_xp', newXP.toString());
+      const oldLvl = getMascotLevel(currentXP);
+      const newLvl = getMascotLevel(newXP);
+      if (newLvl.level > oldLvl.level) {
+        showToast(`🎉 Subiu de nível! Agora você é ${newLvl.title}!`, 'success');
+      } else {
+        showToast(`⭐ +${points} XP (${reason})!`, 'info');
+      }
+      updateCartDisplay();
     }
 
     function updateCartDisplay() {
@@ -3656,33 +3862,34 @@ async function exportPricesCSV() {
 
       if (!walkingMascot || !progressBar) return;
 
+      const xp = getMascotXP();
+      const lvlInfo = getMascotLevel(xp);
+      if (levelBadge) {
+        levelBadge.innerText = `${lvlInfo.title} (${xp} XP)`;
+      }
+
       const targetGoal = 15;
       const rawPct = Math.min(Math.round((count / targetGoal) * 100), 100);
       const safePct = count === 0 ? 6 : Math.min(Math.max(rawPct, 6), 94);
       walkingMascot.style.left = safePct + '%';
       progressBar.style.width = rawPct + '%';
 
-      if (bipsLabel) bipsLabel.innerText = `${count} item${count === 1 ? '' : 'ns'} (R$ ${total.toFixed(2).replace('.', ',')})`;
+      if (bipsLabel) bipsLabel.innerText = `${count} ${count === 1 ? 'item' : 'itens'} (R$ ${total.toFixed(2).replace('.', ',')})`;
 
       if (count === 0) {
         if (bubble) bubble.innerText = 'Bipe um item! 🛒';
-        if (levelBadge) levelBadge.innerText = 'Nível 1';
-        if (hint) hint.innerText = 'Alimente o mascote bipando suas compras';
+        if (hint) hint.innerText = `Nível comunitário: ${lvlInfo.title}. Bipando você ganha XP permanente!`;
       } else if (count < 5) {
         if (bubble) bubble.innerText = 'Economizando! 😋';
-        if (levelBadge) levelBadge.innerText = 'Iniciante';
-        if (hint) hint.innerText = `Faltam ${targetGoal - count} itens para completar o carrinho!`;
+        if (hint) hint.innerText = `Faltam ${targetGoal - count} itens para completar a meta do carrinho!`;
       } else if (count < 10) {
         if (bubble) bubble.innerText = 'Carrinho cheio! ⚡';
-        if (levelBadge) levelBadge.innerText = 'Guardião';
         if (hint) hint.innerText = 'Ótimo ritmo de economia no atacarejo!';
       } else if (count < targetGoal) {
         if (bubble) bubble.innerText = 'Quase lá! 🔥';
-        if (levelBadge) levelBadge.innerText = 'Mestre';
         if (hint) hint.innerText = `Só mais ${targetGoal - count} itens para atingir a meta!`;
       } else {
         if (bubble) bubble.innerText = 'Meta batida! 🏆';
-        if (levelBadge) levelBadge.innerText = 'Lenda';
         if (hint) hint.innerText = 'Carrinho 100% calculado e sob controle!';
       }
     }
@@ -3698,15 +3905,17 @@ async function exportPricesCSV() {
         cart.forEach((item, idx) => {
           const itemDiv = document.createElement('div');
           itemDiv.className = 'cart-item';
+          const unitText = item.unit === 'kg' ? 'kg' : 'un';
+          const stepVal = item.unit === 'kg' ? 0.5 : 1;
           itemDiv.innerHTML = `
             <div>
               <strong>${escapeHTML(item.name)}</strong>
-              <div style="font-size:12px; color:#666;">R$ ${item.price.toFixed(2).replace('.', ',')} un.</div>
+              <div style="font-size:12px; color:#666;">R$ ${item.price.toFixed(2).replace('.', ',')} / ${unitText}</div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
-              <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
-              <span style="font-weight:bold;">${item.qty}</span>
-              <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+              <button class="qty-btn" onclick="changeQty(${idx}, -${stepVal})">-</button>
+              <span style="font-weight:bold; min-width:32px; text-align:center;">${item.qty} ${unitText}</span>
+              <button class="qty-btn" onclick="changeQty(${idx}, ${stepVal})">+</button>
               <strong style="margin-left:8px; color:#2e7d32;">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</strong>
             </div>
           `;
@@ -3722,7 +3931,8 @@ async function exportPricesCSV() {
     }
 
     function changeQty(idx, delta) {
-      cart[idx].qty += delta;
+      if (!cart[idx]) return;
+      cart[idx].qty = parseFloat((cart[idx].qty + delta).toFixed(2));
       if (cart[idx].qty <= 0) cart.splice(idx, 1);
       localStorage.setItem('nutri_cart', JSON.stringify(cart));
       updateCartDisplay();
@@ -3746,9 +3956,10 @@ async function exportPricesCSV() {
       if (confirmed) {
         cart = [];
         localStorage.removeItem('nutri_cart');
+        localStorage.removeItem('nutri_cart_market');
         clearLastItemFeedback();
         updateCartDisplay();
-      updateBudgetDisplay();
+        updateBudgetDisplay();
         closeCartModal();
         showToast('Carrinho limpo com sucesso.', 'info');
       }
@@ -3778,6 +3989,7 @@ async function exportPricesCSV() {
 
       const newPurchase = {
         id: Date.now(),
+        timestamp: now.getTime(),
         data: dateStr,
         mercado: marketName,
         total: total,
@@ -3791,6 +4003,7 @@ async function exportPricesCSV() {
       // Limpa carrinho atual
       cart = [];
       localStorage.removeItem('nutri_cart');
+      localStorage.removeItem('nutri_cart_market');
       clearLastItemFeedback();
       updateCartDisplay();
       updateBudgetDisplay();
@@ -3799,43 +4012,117 @@ async function exportPricesCSV() {
       showToast(`🎉 Compra de R$ ${total.toFixed(2).replace(".", ",")} salva com sucesso nas Minhas Compras!`, "success");
     }
 
-    // Modal de Histórico de Compras Salvas
+    // ==========================================
+    // MINHAS COMPRAS SALVAS & COMPARAÇÃO
+    // ==========================================
+    let currentHistoryFilter = 'all';
+
+    function filterHistory(type) {
+      currentHistoryFilter = type;
+      ['all', 'month', 'week', 'today'].forEach(f => {
+        const btn = document.getElementById(`hist-filter-${f}`);
+        if (btn) {
+          if (f === type) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      renderHistoryItems();
+    }
+
     function openHistoryModal() {
+      currentHistoryFilter = 'all';
+      ['all', 'month', 'week', 'today'].forEach(f => {
+        const btn = document.getElementById(`hist-filter-${f}`);
+        if (btn) {
+          if (f === 'all') btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      renderHistoryItems();
+      document.getElementById('history-modal').classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('history-modal').classList.add('hidden');
+    }
+
+    function renderHistoryItems() {
       const container = document.getElementById('history-items-container');
+      if (!container) return;
       container.innerHTML = '';
 
-      const totalMonth = purchaseHistory.reduce((acc, p) => acc + (p.total || 0), 0);
-      document.getElementById('stat-month-total').innerText = `R$ ${totalMonth.toFixed(2)}`;
-      document.getElementById('stat-purchases-count').innerText = purchaseHistory.length;
+      const now = new Date();
+      const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const startWeek = now.getTime() - (7 * 24 * 60 * 60 * 1000);
+      const startMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
 
-      if (purchaseHistory.length === 0) {
-        container.innerHTML = '<div style="text-align:center; color:#888; padding:25px;">Você ainda não salvou nenhuma compra.<br>Ao terminar as compras, toque em "Finalizar e Salvar" no carrinho!</div>';
+      const filtered = purchaseHistory.filter(compra => {
+        const t = compra.timestamp || compra.id || 0;
+        if (currentHistoryFilter === 'today') return t >= startToday;
+        if (currentHistoryFilter === 'week') return t >= startWeek;
+        if (currentHistoryFilter === 'month') return t >= startMonth;
+        return true;
+      });
+
+      const totalFiltered = filtered.reduce((acc, p) => acc + (p.total || 0), 0);
+      const periodLabel = document.getElementById('stat-period-label');
+      if (periodLabel) {
+        if (currentHistoryFilter === 'today') periodLabel.innerText = 'Total de Hoje';
+        else if (currentHistoryFilter === 'week') periodLabel.innerText = 'Total Esta Semana';
+        else if (currentHistoryFilter === 'month') periodLabel.innerText = 'Total Este Mês';
+        else periodLabel.innerText = 'Total Acumulado';
+      }
+
+      document.getElementById('stat-month-total').innerText = `R$ ${totalFiltered.toFixed(2).replace('.', ',')}`;
+      document.getElementById('stat-purchases-count').innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; color:#888; padding:25px; background:#fafafa; border-radius:10px; border:1px dashed #ddd;">
+            ${purchaseHistory.length === 0 ? 'Você ainda não salvou nenhuma compra.<br>Ao terminar suas compras na gôndola, toque em "Finalizar e Salvar" no carrinho!' : 'Nenhuma compra registrada para o período selecionado.'}
+          </div>
+        `;
       } else {
-        purchaseHistory.forEach((compra, index) => {
+        filtered.forEach((compra) => {
+          const originalIndex = purchaseHistory.findIndex(p => p.id === compra.id);
           const card = document.createElement('div');
           card.className = 'saved-purchase-card';
-          
-          let itensHtml = compra.itens.map(i => `• ${i.qty}x ${escapeHTML(i.name)} (R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')})`).join('<br>');
+
+          const itensHtml = compra.itens.map(i => {
+            const unit = i.unit || 'un';
+            const sub = (i.price * i.qty).toFixed(2).replace('.', ',');
+            return `<div style="display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed #eee;">
+              <span>• <b>${i.qty} ${unit}</b> ${escapeHTML(i.name)}</span>
+              <span style="color:#2e7d32; font-weight:600;">R$ ${sub}</span>
+            </div>`;
+          }).join('');
 
           card.innerHTML = `
             <div class="purchase-header">
               <span class="purchase-market">🛒 ${escapeHTML(compra.mercado)}</span>
-              <strong style="color:#2e7d32; font-size:15px;">R$ ${compra.total.toFixed(2).replace('.', ',')}</strong>
+              <strong style="color:#2e7d32; font-size:16px;">R$ ${compra.total.toFixed(2).replace('.', ',')}</strong>
             </div>
             <div class="purchase-date">📅 ${escapeHTML(compra.data)} • ${compra.itensQtd} itens</div>
-            <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
-              <button style="background:none; border:none; color:#2e7d32; font-size:12px; font-weight:bold; cursor:pointer; text-decoration:underline;" onclick="toggleDetails(${compra.id})">Ver produtos</button>
-              <button style="background:none; border:none; color:#c62828; font-size:12px; cursor:pointer;" onclick="deleteSavedPurchase(${index})">🗑️ Apagar</button>
+            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:6px; flex-wrap:wrap;">
+              <button type="button" style="background:#f1f8e9; border:1px solid #c8e6c9; color:#1b5e20; font-size:12px; font-weight:bold; border-radius:6px; padding:5px 9px; cursor:pointer;" onclick="toggleDetails(${compra.id})">
+                👁️ Ver Itens
+              </button>
+              <div style="display:flex; gap:6px;">
+                <button type="button" style="background:#25D366; color:#fff; border:none; border-radius:6px; padding:5px 9px; font-size:12px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" onclick="shareSavedPurchaseWhatsApp(${compra.id})">
+                  📲 WhatsApp
+                </button>
+                <button type="button" style="background:#ffebee; border:none; color:#c62828; border-radius:6px; padding:5px 9px; font-size:12px; cursor:pointer;" onclick="deleteSavedPurchase(${originalIndex})">
+                  🗑️ Apagar
+                </button>
+              </div>
             </div>
-            <div id="details-${compra.id}" class="purchase-items-detail hidden">
+            <div id="details-${compra.id}" class="purchase-items-detail hidden" style="margin-top:10px; background:#fff; border:1px solid #eee; border-radius:8px; padding:8px 10px;">
               ${itensHtml}
             </div>
           `;
           container.appendChild(card);
         });
       }
-
-      document.getElementById('history-modal').classList.remove('hidden');
     }
 
     function toggleDetails(id) {
@@ -3855,13 +4142,206 @@ async function exportPricesCSV() {
       if (confirmed) {
         purchaseHistory.splice(index, 1);
         localStorage.setItem('nutri_purchases_history', JSON.stringify(purchaseHistory));
-        openHistoryModal();
+        renderHistoryItems();
         showToast('Compra removida do histórico.', 'info');
       }
     }
 
-    function closeHistoryModal() {
-      document.getElementById('history-modal').classList.add('hidden');
+    function shareSavedPurchaseWhatsApp(id) {
+      const compra = purchaseHistory.find(p => p.id === id);
+      if (!compra) return;
+
+      let msg = `🛒 *Minha Compra no NutriPreço*\n`;
+      msg += `📍 Supermercado: *${compra.mercado}*\n`;
+      msg += `📅 Data: ${compra.data}\n`;
+      msg += `────────────────────────────\n`;
+      msg += `📋 *ITENS COMPRADOS:*\n\n`;
+
+      compra.itens.forEach((item, idx) => {
+        const unit = item.unit || 'un';
+        const sub = (item.price * item.qty).toFixed(2).replace('.', ',');
+        const unitPrice = item.price.toFixed(2).replace('.', ',');
+        msg += `${idx + 1}. *${item.name}*\n   ${item.qty} ${unit} × R$ ${unitPrice} = R$ ${sub}\n`;
+      });
+
+      msg += `────────────────────────────\n`;
+      msg += `💰 *Total Pago:* R$ ${compra.total.toFixed(2).replace('.', ',')}\n\n`;
+      msg += `🥗 Calculado e controlado pelo *NutriPreço*!\n`;
+      msg += `👉 https://nutripreco-oficial.github.io/`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // ==========================================
+    // COMPARADOR INTELIGENTE DE 2 COMPRAS
+    // ==========================================
+    function openComparePurchasesModal() {
+      if (!purchaseHistory || purchaseHistory.length < 2) {
+        showToast('Você precisa de pelo menos 2 compras salvas no histórico para fazer uma comparação.', 'warning');
+        return;
+      }
+
+      const selectA = document.getElementById('compare-select-a');
+      const selectB = document.getElementById('compare-select-b');
+      if (!selectA || !selectB) return;
+
+      selectA.innerHTML = '';
+      selectB.innerHTML = '';
+
+      purchaseHistory.forEach((compra, idx) => {
+        const optText = `${compra.data.split(' às')[0]} - ${compra.mercado} (R$ ${compra.total.toFixed(2).replace('.', ',')})`;
+        const optA = document.createElement('option');
+        optA.value = compra.id;
+        optA.innerText = optText;
+        selectA.appendChild(optA);
+
+        const optB = document.createElement('option');
+        optB.value = compra.id;
+        optB.innerText = optText;
+        selectB.appendChild(optB);
+      });
+
+      // Default: A é a mais antiga/anterior (idx 1) e B é a mais recente (idx 0)
+      if (purchaseHistory.length > 1) {
+        selectA.selectedIndex = 1;
+        selectB.selectedIndex = 0;
+      }
+
+      runPurchasesComparison();
+      document.getElementById('compare-purchases-modal').classList.remove('hidden');
+    }
+
+    function closeComparePurchasesModal() {
+      document.getElementById('compare-purchases-modal').classList.add('hidden');
+    }
+
+    function runPurchasesComparison() {
+      const selectA = document.getElementById('compare-select-a');
+      const selectB = document.getElementById('compare-select-b');
+      const summaryBox = document.getElementById('compare-summary-box');
+      const resultsContainer = document.getElementById('compare-results-container');
+
+      if (!selectA || !selectB || !summaryBox || !resultsContainer) return;
+
+      const idA = parseInt(selectA.value, 10);
+      const idB = parseInt(selectB.value, 10);
+
+      const compraA = purchaseHistory.find(p => p.id === idA);
+      const compraB = purchaseHistory.find(p => p.id === idB);
+
+      if (!compraA || !compraB) return;
+
+      if (idA === idB) {
+        summaryBox.innerHTML = `
+          <div style="background:#fff3e0; border:1px solid #ffe082; border-radius:8px; padding:10px; font-size:12.5px; color:#e65100; text-align:center;">
+            ⚠️ Selecione duas compras diferentes nos seletores acima para comparar.
+          </div>
+        `;
+        resultsContainer.innerHTML = '';
+        return;
+      }
+
+      const totalDiff = compraB.total - compraA.total;
+      const totalDiffAbs = Math.abs(totalDiff).toFixed(2).replace('.', ',');
+      const pctTotal = compraA.total > 0 ? Math.round((Math.abs(totalDiff) / compraA.total) * 100) : 0;
+
+      let bannerBg = '#e8f5e9';
+      let bannerBorder = '#a5d6a7';
+      let bannerColor = '#1b5e20';
+      let bannerTitle = `🟢 Compra B mais econômica!`;
+      let bannerDesc = `A Compra B ficou <b>R$ ${totalDiffAbs} mais barata (-${pctTotal}%)</b> que a Compra A.`;
+
+      if (totalDiff > 0.05) {
+        bannerBg = '#ffebee';
+        bannerBorder = '#ef9a9a';
+        bannerColor = '#c62828';
+        bannerTitle = `🔴 Compra B mais cara!`;
+        bannerDesc = `A Compra B ficou <b>R$ ${totalDiffAbs} mais cara (+${pctTotal}%)</b> em relação à Compra A.`;
+      } else if (Math.abs(totalDiff) <= 0.05) {
+        bannerBg = '#f5f5f5';
+        bannerBorder = '#ccc';
+        bannerColor = '#444';
+        bannerTitle = `⚖️ Total idêntico!`;
+        bannerDesc = `Ambas as compras fecharam exatamente no mesmo valor total.`;
+      }
+
+      summaryBox.innerHTML = `
+        <div style="background:${bannerBg}; border:1px solid ${bannerBorder}; border-radius:10px; padding:12px; margin-bottom:12px;">
+          <div style="font-weight:bold; color:${bannerColor}; font-size:14px; margin-bottom:4px;">${bannerTitle}</div>
+          <div style="font-size:12.5px; color:#333; line-height:1.4;">${bannerDesc}</div>
+          <div style="display:flex; justify-content:space-between; margin-top:8px; padding-top:8px; border-top:1px dashed rgba(0,0,0,0.1); font-size:11.5px; color:#555;">
+            <span>Compra A: <b>R$ ${compraA.total.toFixed(2).replace('.', ',')}</b> (${compraA.mercado})</span>
+            <span>Compra B: <b>R$ ${compraB.total.toFixed(2).replace('.', ',')}</b> (${compraB.mercado})</span>
+          </div>
+        </div>
+      `;
+
+      // Casamento de itens pelo barcode ou nome normalizado
+      const norm = str => (str || '').toLowerCase().trim();
+      const mapA = new Map();
+      compraA.itens.forEach(i => {
+        const key = i.barcode || norm(i.name);
+        mapA.set(key, i);
+      });
+
+      const mapB = new Map();
+      compraB.itens.forEach(i => {
+        const key = i.barcode || norm(i.name);
+        mapB.set(key, i);
+      });
+
+      let itemsComparedHtml = '';
+      let matchedCount = 0;
+
+      // Itens presentes em ambas
+      mapB.forEach((itemB, key) => {
+        if (mapA.has(key)) {
+          matchedCount++;
+          const itemA = mapA.get(key);
+          const priceA = itemA.price;
+          const priceB = itemB.price;
+          const diff = priceB - priceA;
+          const diffAbs = Math.abs(diff).toFixed(2).replace('.', ',');
+          const pct = priceA > 0 ? Math.round((Math.abs(diff) / priceA) * 100) : 0;
+
+          let badgeHtml = '';
+          if (diff < -0.05) {
+            badgeHtml = `<span style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:bold; padding:2px 7px; border-radius:8px; border:1px solid #a5d6a7;">🟢 -R$ ${diffAbs} (-${pct}%)</span>`;
+          } else if (diff > 0.05) {
+            badgeHtml = `<span style="background:#ffebee; color:#c62828; font-size:11px; font-weight:bold; padding:2px 7px; border-radius:8px; border:1px solid #ef9a9a;">🔺 +R$ ${diffAbs} (+${pct}%)</span>`;
+          } else {
+            badgeHtml = `<span style="background:#eee; color:#666; font-size:11px; font-weight:bold; padding:2px 7px; border-radius:8px;">⏸️ Mesmo preço</span>`;
+          }
+
+          itemsComparedHtml += `
+            <div style="background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:9px 12px; margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="font-size:13px; color:#222;">${escapeHTML(itemB.name)}</strong>
+                ${badgeHtml}
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#666;">
+                <span>Compra A: <b>R$ ${priceA.toFixed(2).replace('.', ',')}</b></span>
+                <span>Compra B: <b>R$ ${priceB.toFixed(2).replace('.', ',')}</b></span>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      if (matchedCount === 0) {
+        itemsComparedHtml = `
+          <div style="background:#fafafa; border:1px dashed #ccc; border-radius:8px; padding:12px; text-align:center; font-size:12px; color:#777; margin-bottom:10px;">
+            Nenhum produto idêntico foi encontrado entre estas duas compras.
+          </div>
+        `;
+      }
+
+      resultsContainer.innerHTML = `
+        <div style="font-size:12px; font-weight:bold; color:#1b5e20; text-transform:uppercase; margin-bottom:6px; letter-spacing:0.3px;">
+          Itens Comparados Diretos (${matchedCount}):
+        </div>
+        ${itemsComparedHtml}
+      `;
     }
 
     // Compartilhamento no WhatsApp

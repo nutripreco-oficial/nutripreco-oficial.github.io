@@ -12,6 +12,23 @@ Aplicativo web progressivo para consulta colaborativa de preços, leitura de có
 - [x] **Exclusão de conta (LGPD):** função segura `excluir_minha_conta_lgpd()` com anonimização de cotações criada e conectada no cliente.
 - [x] **Simplificação de UX:** Lista Prévia Dinâmica removida para focar 100% no carrinho pré-caixa de gôndola.
 - [x] **Cesta Básica Nacional (DIEESE):** modal atualizado com 3 seletores dinâmicos (Estado, Cidade, Mercado), cálculo de cesta fechada dos 13 itens oficiais e ranking com cobertura.
+- [x] **Gamificação do Mascote:** pontuação cumulativa permanente (+10 XP no 'Preço Confere' e +15 XP no 'Gravar no Pré-Caixa', nunca zera ao finalizar compra ou limpar carrinho, títulos e níveis 1 a 5 persistentes).
+- [x] **GPS e Confirmação de Mercados (Integridade Presencial):**
+  - Confirmação e seletor rápido no topo da tela do leitor com troca em 1 toque.
+  - Fim do padrão fixo cego (mercado selecionado persistente ou autodetectado).
+  - Cache local-first dos mercados com coordenadas para funcionar 100% offline em galpões e atacarejos.
+  - Raio de tolerância de 350 metros (geofencing realista para hipermercados e estacionamentos).
+  - Auto-calibração silenciosa (mercados com coordenadas nulas recebem GPS automaticamente no registro presencial).
+  - Botão visível "🏪 ➕ Cadastrar Novo Mercado Aqui" com captura ao vivo de coordenadas.
+  - Proteção contra mistura de produtos de mercados diferentes no mesmo carrinho pré-caixa.
+- [x] **Tratamento Inteligente de Código de Barras e Gramatura:**
+  - Fusão automática de `product_name` + `quantity` da base Open Food Facts (ex: "Café Pilão" + "500g" = "Café Pilão 500g").
+  - Placeholder orientativo para produtos inéditos com tamanho/peso (Ex: Arroz Camil 5kg, Óleo Liza 900ml).
+  - Suporte completo a itens de balança (`kg` vs `un`) com quantidade gravada fielmente no carrinho.
+- [x] **Minhas Compras Salvas & Comparador Inteligente:**
+  - Filtros de período: `[ ☀️ Hoje ]`, `[ 📅 Esta Semana ]`, `[ 🗓️ Este Mês ]`, `[ 📂 Todas ]` com totais dinâmicos.
+  - Compartilhamento individual de compras salvas via WhatsApp formatado.
+  - Ferramenta "⚖️ Comparar 2 Compras": cruzamento item a item por código de barras/nome, apontando itens que subiram (🔺), baixaram (🟢) ou mantiveram preço (⏸️), além do saldo geral de economia.
 - [ ] **Organização do código:** separar o monólito `index.html` em módulos após cobertura mínima de testes e sem alterar o comportamento em produção.
 
 ## Desenvolvimento local
