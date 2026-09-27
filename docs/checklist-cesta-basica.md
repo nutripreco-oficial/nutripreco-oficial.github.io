@@ -14,7 +14,7 @@
 
 ## Regras de negócio consolidadas
 
-- [ ] Renomear a opção **“Radar de Preços & Cesta Básica”** para **“Cesta Básica”**.
+- [x] Renomear visualmente a opção e o título do modal para **“Cesta Básica”**, mantendo IDs/funções internas compatíveis durante a migração.
 - [ ] Manter o Radar geral e os produtos/cotações existentes em compatibilidade durante a migração; remover apenas a apresentação antiga após validação.
 - [ ] A Cesta Básica deve ser uma visão dos registros de preços já feitos pelos usuários; não haverá cadastro de preço separado.
 - [ ] O fluxo atual deve continuar funcionando: bipar → identificar/informar produto → informar preço → adicionar ao carrinho → registrar cotação.
