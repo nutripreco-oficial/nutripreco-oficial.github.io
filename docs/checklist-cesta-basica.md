@@ -231,6 +231,19 @@ Cidades com dados
 - [ ] Definir retenção e minimização da telemetria conforme a Política de Privacidade.
 - [ ] Testar as métricas com usuário não confirmado, usuário confirmado, visitante, contribuidor e registros offline.
 
+## Decisão aprovada — Estratégia de custos e escala
+
+O NutriPreço está em fase inicial de desenvolvimento. A implementação começará usando os recursos gratuitos do Supabase, sem contratar planos pagos antecipadamente. A migração para planos pagos será avaliada quando o aplicativo atingir escala nacional, quando os limites gratuitos estiverem próximos de ser alcançados ou quando forem necessários recursos adicionais de disponibilidade, backup, suporte, armazenamento ou processamento.
+
+- [ ] Monitorar usuários ativos mensais, banco, armazenamento, transferência e invocações de Edge Functions.
+- [ ] Definir alertas internos antes de atingir os limites do plano gratuito.
+- [ ] Revisar mensalmente o consumo e registrar a decisão no projeto.
+- [ ] Não expor chaves administrativas para evitar uso indevido e custos inesperados.
+- [ ] Avaliar plano pago somente quando houver necessidade técnica ou crescimento real.
+- [ ] Antes da migração, comparar custos, backups, retenção, disponibilidade e recursos necessários.
+- [ ] Planejar a migração sem interromper autenticação, preços, métricas, Cesta Básica e modo offline.
+- [ ] Registrar a aprovação do plano pago e seu impacto operacional antes de contratar.
+
 ## Critérios de aceite
 
 - O carrinho continua funcionando como antes.
