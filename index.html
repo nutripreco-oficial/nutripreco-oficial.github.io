@@ -1128,37 +1128,43 @@
         </div>
 
         <!-- PRIORIDADE 3: O Visor do Caixa (Compacto, Central e Imersivo) -->
-        <div class="pos-register-display" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.18);">
+        <div class="pos-register-display" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.18);">
           <!-- Topo do Visor: LED e Alternador -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 10.5px; font-weight: 700; color: #94a3b8; letter-spacing: 0.4px;">📟 CALCULADORA DO CAIXA</span>
-            <div style="display: inline-flex; background: #1e293b; border-radius: 12px; padding: 2px; border: 1px solid #334155;">
-              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background: #22c55e; color: #0f172a; border: none; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 800; cursor: pointer;">unidade</button>
-              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background: transparent; color: #94a3b8; border: none; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 800; cursor: pointer;">quilo (kg)</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 11px; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px;">📟 CALCULADORA DO CAIXA</span>
+            <div style="display: inline-flex; background: #1e293b; border-radius: 14px; padding: 2px; border: 1px solid #334155;">
+              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background: #22c55e; color: #0f172a; border: none; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer;">🏷️ Unidade</button>
+              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background: transparent; color: #94a3b8; border: none; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; cursor: pointer;">⚖️ Quilo (kg)</button>
             </div>
           </div>
 
-          <!-- Campos Preço e Quantidade lado a lado -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+          <!-- Campos Preço e Quantidade lado a lado com Touch Targets Acessíveis (WCAG AAA) -->
+          <div style="display: grid; grid-template-columns: 1fr 1.05fr; gap: 8px; margin-bottom: 10px;">
             <div>
-              <label id="price-label-text" style="font-size: 10px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 2px;">🏷️ Preço Unitário (R$):</label>
-              <input type="number" step="0.01" id="price-input" placeholder="0,00" oninput="onPriceOrQtyInput('price')" style="width: 100%; height: 40px; font-size: 20px; font-weight: 800; text-align: center; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: #f8fafc;">
+              <label id="price-label-text" style="font-size: 11.5px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 4px;">🏷️ Preço Unitário:</label>
+              <div style="position: relative; display: flex; align-items: center;">
+                <span id="price-currency-symbol" style="position: absolute; left: 10px; color: #22c55e; font-weight: 800; font-size: 14px; pointer-events: none;">R$</span>
+                <input type="number" step="0.01" id="price-input" placeholder="0,00" oninput="onPriceOrQtyInput('price')" style="width: 100%; height: 44px; font-size: 20px; font-weight: 800; text-align: right; padding-right: 10px; padding-left: 34px; border-radius: 8px; border: 1.5px solid #334155; background: #1e293b; color: #f8fafc; -moz-appearance: textfield;">
+              </div>
             </div>
 
             <div>
-              <label id="qty-label-text" style="font-size: 10px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 2px;">📦 Quantidade (un):</label>
-              <div style="display: flex; align-items: center; gap: 3px;">
-                <button type="button" onclick="adjustProductQty(-1)" style="width: 32px; height: 40px; background: #334155; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">-</button>
-                <input type="number" id="product-qty-input" value="1" step="1" min="0.05" oninput="onPriceOrQtyInput('qty')" style="width: 100%; height: 40px; font-size: 18px; font-weight: 800; text-align: center; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #f8fafc; padding: 0;">
-                <button type="button" onclick="adjustProductQty(1)" style="width: 32px; height: 40px; background: #334155; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">+</button>
+              <label id="qty-label-text" style="font-size: 11.5px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 4px;">📦 Quantidade (un):</label>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button type="button" onclick="adjustProductQty(-1)" aria-label="Diminuir quantidade" style="width: 42px; height: 44px; min-width: 42px; background: #334155; color: #fff; border: 1px solid #475569; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; touch-action: manipulation;">−</button>
+                <input type="number" id="product-qty-input" value="1" step="1" min="0.05" oninput="onPriceOrQtyInput('qty')" style="width: 100%; height: 44px; font-size: 19px; font-weight: 800; text-align: center; border-radius: 8px; border: 1.5px solid #334155; background: #1e293b; color: #f8fafc; padding: 0;">
+                <button type="button" onclick="adjustProductQty(1)" aria-label="Aumentar quantidade" style="width: 42px; height: 44px; min-width: 42px; background: #334155; color: #fff; border: 1px solid #475569; border-radius: 8px; font-size: 22px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; touch-action: manipulation;">+</button>
               </div>
             </div>
           </div>
 
           <!-- Total da Bandeja da Balança (só aparece no modo kg) -->
-          <div id="scale-reverse-calc-box" class="hidden" style="background:#1e293b; border:1px solid #334155; border-radius:6px; padding:4px 8px; margin-bottom:8px; font-size:11px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:#94a3b8;">Ou digite o total da bandeja:</span>
-            <input type="number" step="0.01" id="scale-total-input" placeholder="R$ Bandeja" oninput="onScaleTotalInput()" style="width:95px; height:28px; font-size:13px; font-weight:bold; text-align:center; border-radius:5px; border:1px solid #475569; background:#0f172a; color:#22c55e;">
+          <div id="scale-reverse-calc-box" class="hidden" style="background:#1e293b; border:1px solid #334155; border-radius:8px; padding:6px 10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:#cbd5e1; font-weight:600;">⚖️ Total na etiqueta da balança:</span>
+            <div style="display:flex; align-items:center; gap:4px;">
+              <span style="color:#22c55e; font-weight:bold;">R$</span>
+              <input type="number" step="0.01" id="scale-total-input" placeholder="0,00" oninput="onScaleTotalInput()" style="width:95px; height:34px; font-size:15px; font-weight:800; text-align:center; border-radius:6px; border:1.5px solid #22c55e; background:#0f172a; color:#22c55e;">
+            </div>
           </div>
 
           <!-- Chips de Seleção Rápida -->
@@ -3877,6 +3883,7 @@ async function exportPricesCSV() {
       const isConfirm = existingPriceForCurrentMarket && Math.abs(priceVal - existingPriceForCurrentMarket) < 0.01;
 
       // 1. LOCAL-FIRST: Adiciona SEMPRE ao carrinho no celular (nunca falha sem internet)
+      if (navigator.vibrate) { try { navigator.vibrate([25, 30, 25]); } catch(e){} }
       addToCart(currentName || 'Produto', priceVal);
 
       // 2. Grava no banco ou adiciona na fila offline
@@ -4718,6 +4725,7 @@ async function exportPricesCSV() {
     let currentProductUnitType = 'un';
 
     function setProductUnitType(type) {
+      if (navigator.vibrate) { try { navigator.vibrate(15); } catch(e){} }
       currentProductUnitType = type;
       const btnUn = document.getElementById('type-btn-un');
       const btnKg = document.getElementById('type-btn-kg');
@@ -4737,7 +4745,7 @@ async function exportPricesCSV() {
           btnKg.style.background = 'transparent';
           btnKg.style.color = '#94a3b8';
         }
-        if (priceLabel) priceLabel.innerHTML = '🏷️ Preço Unitário (R$):';
+        if (priceLabel) priceLabel.innerHTML = '🏷️ Preço Unitário:';
         if (qtyLabel) qtyLabel.innerHTML = '📦 Quantidade (un):';
         if (priceInput) priceInput.placeholder = '0,00';
         if (scaleReverseBox) scaleReverseBox.classList.add('hidden');
@@ -4761,7 +4769,7 @@ async function exportPricesCSV() {
           btnUn.style.background = 'transparent';
           btnUn.style.color = '#94a3b8';
         }
-        if (priceLabel) priceLabel.innerHTML = '⚖️ Preço do Quilo (R$/kg):';
+        if (priceLabel) priceLabel.innerHTML = '⚖️ Preço do Quilo:';
         if (qtyLabel) qtyLabel.innerHTML = '⚖️ Peso Líquido (kg):';
         if (priceInput) priceInput.placeholder = '0,00';
         if (scaleReverseBox) scaleReverseBox.classList.remove('hidden');
@@ -4824,6 +4832,7 @@ async function exportPricesCSV() {
     }
 
     function adjustProductQty(delta) {
+      if (navigator.vibrate) { try { navigator.vibrate(15); } catch(e){} }
       const qtyInput = document.getElementById('product-qty-input');
       if (!qtyInput) return;
       let val = parseFloat(qtyInput.value) || 1;
@@ -4837,6 +4846,7 @@ async function exportPricesCSV() {
     }
 
     function setQuickQty(val, btnElement) {
+      if (navigator.vibrate) { try { navigator.vibrate(15); } catch(e){} }
       const qtyInput = document.getElementById('product-qty-input');
       if (qtyInput) qtyInput.value = val;
       const chips = document.querySelectorAll('#quick-qty-chips .budget-chip');
