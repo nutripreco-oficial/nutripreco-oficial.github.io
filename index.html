@@ -1294,6 +1294,7 @@
             <span style="font-size:11.5px; font-weight:bold; color:#475569;">Trocar estabelecimento:</span>
             <button type="button" onclick="detectGPSLocation(true)" style="background:none; border:none; color:#166534; font-size:11px; font-weight:bold; cursor:pointer;">📍 Detectar GPS</button>
           </div>
+          <span id="market-selection-status" class="market-selection-status" style="margin-bottom:6px;"></span>
           <div class="market-chips" id="market-chips-container" style="margin-bottom:6px;">
             <div class="chip active" onclick="selectMarket(this, 'Atacadão')">Atacadão</div>
             <div class="chip" onclick="selectMarket(this, 'Assaí')">Assaí</div>
@@ -3016,12 +3017,13 @@ async function exportPricesCSV() {
     }
 
     function updateQuoteRegionBadge() {
-      const badge = document.getElementById('quote-region-badge');
-      if (!badge) return;
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const savedUf = localStorage.getItem('nutri_user_state') || localStorage.getItem('nutri_user_uf') || 'RJ';
       const city = savedCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
-      badge.innerText = `${city} - ${savedUf}`;
+      const formatted = `${city} - ${savedUf}`;
+
+      const bannerCity = document.getElementById('banner-user-city');
+      if (bannerCity) bannerCity.innerText = formatted;
     }
 
     // ==========================================
@@ -3550,8 +3552,6 @@ async function exportPricesCSV() {
       if (isRunningStandalone()) {
         const installBtn = document.getElementById('install-pwa-btn');
         if (installBtn) installBtn.classList.add('hidden');
-        const welcomeInstall = document.getElementById('welcome-install-box');
-        if (welcomeInstall) welcomeInstall.classList.add('hidden');
         return;
       }
 
@@ -5339,7 +5339,7 @@ async function exportPricesCSV() {
       if (detectedGeminiAdminItems && detectedGeminiAdminItems.length > 0) {
         encarteObj.ofertas = detectedGeminiAdminItems;
         showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo e Cesta Básica...`, 'info');
-        saveGeminiItemsBatch(market, detectedGeminiAdminItems);
+        await saveGeminiItemsBatch(market, detectedGeminiAdminItems);
         detectedGeminiAdminItems = [];
       }
 
@@ -5348,13 +5348,17 @@ async function exportPricesCSV() {
 
       // 2. Tenta sincronizar na nuvem Supabase se a tabela encartes existir
       try {
-        await client.from('encartes').insert({
+        const payload = {
           mercado: market,
           cidade: userCity,
           data_inicio: start,
           validade: end,
           imagem: currentEncartePhotoBase64
-        });
+        };
+        if (encarteObj.ofertas && encarteObj.ofertas.length > 0) {
+          payload.ofertas = encarteObj.ofertas;
+        }
+        await client.from('encartes').insert(payload);
       } catch(cloudErr) {
         console.log('Aviso cloud:', cloudErr);
       }
@@ -5381,7 +5385,15 @@ async function exportPricesCSV() {
       try {
         const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
         if (data && data.length > 0) {
-          encartes = data;
+          const localMap = new Map(encartes.map(e => [String(e.id), e]));
+          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
+          encartes = data.map(remote => {
+            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
+            return {
+              ...remote,
+              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+            };
+          });
           localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
         }
       } catch(e) {}
@@ -5560,6 +5572,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         'gemini-3.5-flash',
         'gemini-3-flash-preview',
         'gemini-3.1-flash-lite',
+        'gemini-2.5-flash',
+        'gemini-2.5-flash-lite',
         'gemini-3.7-flash'
       ];
       let lastError = null;
@@ -6021,6 +6035,39 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       await saveGeminiItemsBatch(market, itemsToSave);
       incrementUserFlyerDailyUsage();
       addMascotXP(50, 'Envio de Encarte com IA');
+
+      if (currentUserFlyerBase64) {
+        const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        const today = new Date().toISOString().split('T')[0];
+        const endValid = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
+        const flyerObj = {
+          id: 'USER_ENC_' + Date.now(),
+          mercado: market,
+          cidade: userCity,
+          data_inicio: today,
+          validade: endValid,
+          imagem: currentUserFlyerBase64,
+          ofertas: itemsToSave,
+          criado_em: new Date().toISOString()
+        };
+        let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+        encartesLocais = encartesLocais.filter(e => e.mercado.toLowerCase() !== market.toLowerCase());
+        encartesLocais.unshift(flyerObj);
+        localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+
+        try {
+          const payload = {
+            mercado: market,
+            cidade: userCity,
+            data_inicio: today,
+            validade: endValid,
+            imagem: currentUserFlyerBase64,
+            ofertas: itemsToSave
+          };
+          await client.from('encartes').insert(payload);
+        } catch(e) {}
+      }
+
       showToast(`🎉 +50 XP! ${itemsToSave.length} ofertas salvas para ${market}!`, 'success');
       closePublicFlyerSubmitModal();
       openEncarteOffersModal(market, itemsToSave);
@@ -6147,7 +6194,17 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
       try {
         const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
-        if (data && data.length > 0) encartes = data;
+        if (data && data.length > 0) {
+          const localMap = new Map(encartes.map(e => [String(e.id), e]));
+          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
+          encartes = data.map(remote => {
+            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
+            return {
+              ...remote,
+              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+            };
+          });
+        }
       } catch(e) {}
 
       const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
@@ -6177,6 +6234,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       }
       localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
       showToast(`🎉 Sucesso! ${totalSalvos} ofertas vinculadas à Cesta Básica da cidade!`, 'success');
+      await fetchCestaData();
       openRadarModal();
     }
 
@@ -6215,7 +6273,9 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           const priceNum = parseFloat(it.preco);
           if (!priceNum || isNaN(priceNum) || priceNum <= 0) continue;
 
-          const cleanCode = 'ENC_' + (it.nome || '').toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 16);
+          let slug = (it.nome || 'produto').toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (slug.length < 4) slug = (slug + '0000').substring(0, 4);
+          const cleanCode = ('ENC_' + slug).substring(0, 30);
           const catItem = identifyCestaCategory(it.nome);
           const categoria = catItem ? catItem.id : 'encarte';
 
@@ -6297,7 +6357,15 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       try {
         const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
         if (data && data.length > 0) {
-          encartes = data;
+          const localMap = new Map(encartes.map(e => [String(e.id), e]));
+          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
+          encartes = data.map(remote => {
+            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
+            return {
+              ...remote,
+              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+            };
+          });
           localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
         }
       } catch(e) {}

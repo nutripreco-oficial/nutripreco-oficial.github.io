@@ -83,9 +83,14 @@ CREATE TABLE IF NOT EXISTS public.encartes (
     data_inicio DATE DEFAULT CURRENT_DATE NOT NULL,
     validade DATE NOT NULL,
     imagem TEXT NOT NULL,
+    ofertas JSONB DEFAULT '[]'::jsonb,
     usuario_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
+
+-- Garante existência da coluna ofertas caso a tabela já tenha sido criada anteriormente
+ALTER TABLE public.encartes ADD COLUMN IF NOT EXISTS ofertas JSONB DEFAULT '[]'::jsonb;
+
 
 -- ==============================================================================
 -- 4. ÍNDICES DE PERFORMANCE (VELOCIDADE NAS GÔNDOLAS)
