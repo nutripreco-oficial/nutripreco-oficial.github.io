@@ -69,6 +69,7 @@
     .scanner-empty-state span { max-width: 260px; color: #d7d7d7; font-size: 13px; line-height: 1.4; }
     .scan-btn { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(46,125,50,0.25); }
     .quote-region-context { background: #f8fbff; border: 1px solid #bbdefb; border-radius: 8px; padding: 7px 10px; margin: -4px 0 12px; color: #245b7a; font-size: 12px; }
+    .market-selection-status { display: block; margin-top: 3px; color: #4d6b55; font-size: 10.5px; font-weight: 600; }
     #top-cart-btn, #start-btn, #torch-btn, #manual-barcode-btn { min-height: 48px; }
     #top-cart-btn:focus-visible, #start-btn:focus-visible, #torch-btn:focus-visible, #manual-barcode-btn:focus-visible { outline: 3px solid #81c784; outline-offset: 3px; }
 
@@ -1116,13 +1117,16 @@
         </div>
 
         <!-- SELETOR COMPACTO DE SUPERMERCADO (1 LINHA - NÃO OCUPA O MEIO DA TELA) -->
-        <div style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#1b5e20;">
-            <span>📍</span>
-            <span>Mercado:</span>
-            <strong id="current-market-badge" style="color:#2e7d32;">Atacadão</strong>
+        <div id="market-context-card" style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;" role="status" aria-live="polite">
+          <div style="display:flex; align-items:flex-start; gap:6px; font-size:13px; font-weight:600; color:#1b5e20;">
+            <span aria-hidden="true">📍</span>
+            <div>
+              <span>Mercado da cotação:</span>
+              <strong id="current-market-badge" style="color:#2e7d32;">Atacadão</strong>
+              <span id="market-selection-status" class="market-selection-status">Selecionado para esta cotação</span>
+            </div>
           </div>
-          <button type="button" onclick="toggleMarketPicker()" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; padding:4px 10px; border-radius:14px; font-size:11.5px; font-weight:bold; cursor:pointer;">
+          <button type="button" id="change-market-btn" onclick="toggleMarketPicker()" aria-label="Trocar o mercado da cotação" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; padding:4px 10px; border-radius:14px; font-size:11.5px; font-weight:bold; cursor:pointer; min-height:44px;">
             Trocar ▾
           </button>
         </div>
@@ -3053,7 +3057,9 @@ async function exportPricesCSV() {
       el.classList.add('active');
       const input = document.getElementById('market-input');
       const badge = document.getElementById('current-market-badge');
+      const status = document.getElementById('market-selection-status');
       if (badge) badge.innerText = name;
+      if (status) status.innerText = `Selecionado: ${name}`;
       if (name === 'Outro') {
         input.value = '';
         input.focus();

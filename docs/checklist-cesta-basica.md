@@ -228,6 +228,7 @@ Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e re
 - [x] Adicionar cartão `Último item registrado` com nome, preço informado e confirmação de inclusão no Pré-Caixa.
 - [x] Ocultar o cartão do último item ao limpar o carrinho ou finalizar a compra.
 - [x] Exibir cidade e estado da cotação na tela de conferência, atualizados quando a região for alterada.
+- [x] Exibir claramente o mercado da cotação e confirmar textualmente quando ele for trocado.
 - [ ] Manter o retorno à tela principal depois de confirmar/adicionar um produto.
 - [ ] Não reabrir a câmera automaticamente após o retorno.
 - [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.
