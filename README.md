@@ -8,8 +8,8 @@ Aplicativo web progressivo para consulta colaborativa de preços, leitura de có
 - [x] **PWA:** manifesto com metadados de instalação, ícones 192/512 e service worker com atualização de cache e fallback offline.
 - [x] **Modo offline local-first:** catálogo mínimo, preferências, carrinho, lista e fila de sincronização permanecem disponíveis sem rede.
 - [x] **LGPD no cliente:** política publicada, minimização da telemetria e aviso de que dados locais ficam no dispositivo.
-- [ ] **Segurança do Supabase:** aplicar o roteiro de `SECURITY.md` no painel/projeto Supabase e validar com testes anônimos.
-- [ ] **Exclusão de conta:** implementar uma Edge Function protegida ou fluxo administrativo no Supabase; o cliente não pode excluir usuários por conta própria.
+- [x] **Segurança do Supabase:** script de schema e RLS completo pronto para execução em [`supabase_schema_rls.sql`](supabase_schema_rls.sql).
+- [x] **Exclusão de conta (LGPD):** função segura `excluir_minha_conta_lgpd()` com anonimização de cotações criada e conectada no cliente.
 - [ ] **Organização do código:** separar o monólito `index.html` em módulos após cobertura mínima de testes e sem alterar o comportamento em produção.
 
 ## Desenvolvimento local

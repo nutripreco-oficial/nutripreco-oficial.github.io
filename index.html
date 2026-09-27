@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -866,6 +866,7 @@
       <h1>🥗 NutriPreço</h1>
     </div>
     <div class="header-actions">
+      <span id="network-status-badge" style="font-size:11px; padding:4px 9px; border-radius:14px; font-weight:bold; background:rgba(255,255,255,0.22); color:#fff; display:inline-flex; align-items:center; gap:3px;">📶 Online</span>
       <button class="install-pwa-btn hidden" id="install-pwa-btn" onclick="installPWA()">📲 Instalar</button>
       <button class="auth-btn" id="header-auth-btn" onclick="openAuthModal()">👤 Entrar</button>
     </div>
@@ -1376,6 +1377,7 @@
       <!-- Ações do Carrinho -->
       <button class="save-btn" style="margin-top:0; margin-bottom:8px; background:#1b5e20;" onclick="finalizeAndSavePurchase()">💾 Finalizar e Salvar no Histórico</button>
       <button class="whatsapp-btn" onclick="shareCartWhatsApp()">📲 Enviar Lista no WhatsApp</button>
+      <button class="save-btn" style="margin-top:8px; margin-bottom:0; background:#37474f;" onclick="copyCartToClipboard()">📋 Copiar Lista (Texto)</button>
       <button class="reset-btn" style="background:#ffebee; color:#c62828; margin-top:8px;" onclick="clearCart()">🗑️ Limpar Carrinho</button>
     </div>
   </div>
@@ -2645,12 +2647,36 @@ async function exportPricesCSV() {
 
 
 
+    function updateNetworkStatus() {
+      const badge = document.getElementById('network-status-badge');
+      if (!badge) return;
+      if (navigator.onLine) {
+        badge.innerHTML = '📶 Online';
+        badge.style.background = 'rgba(255,255,255,0.22)';
+        badge.style.color = '#fff';
+      } else {
+        badge.innerHTML = '📴 Offline';
+        badge.style.background = '#ffd600';
+        badge.style.color = '#1b5e20';
+      }
+    }
+
+    window.addEventListener('online', () => {
+      updateNetworkStatus();
+    });
+
+    window.addEventListener('offline', () => {
+      updateNetworkStatus();
+      showToast('📴 Modo Offline: você ainda pode somar itens e registrar cotações no aparelho.', 'info');
+    });
+
     window.addEventListener('DOMContentLoaded', () => {
       trackAppEvent('app_access');
       checkFirstAccessOnboarding();
       updateCartDisplay();
       updateBudgetDisplay();
       updateQuoteRegionBadge();
+      updateNetworkStatus();
       checkAuthSession();
     });
 
@@ -3016,7 +3042,15 @@ async function exportPricesCSV() {
         isDestructive: true
       });
       if (confirmed) {
-        showToast('Para concluir a exclusão, envie a solicitação pelo contato da Política de Privacidade. Você será desconectado agora.', 'info');
+        showToast('Processando solicitação de exclusão...', 'info');
+        try {
+          const { data, error } = await client.rpc('excluir_minha_conta_lgpd');
+          if (error) throw error;
+          showToast(data?.message || 'Conta e dados excluídos com sucesso.', 'success');
+        } catch(err) {
+          console.warn('RPC excluir_minha_conta_lgpd não configurada ou erro:', err);
+          showToast('Sua sessão foi encerrada. Para garantia de exclusão definitiva, contate o encarregado LGPD em arthurlvdss@gmail.com.', 'info');
+        }
         await logoutUser();
       }
     }
@@ -3089,7 +3123,27 @@ async function exportPricesCSV() {
       });
     }
 
+    function playScanBeep() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1760, ctx.currentTime); // 1760Hz (A6), bipe clássico de scanner
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.12);
+        if (navigator.vibrate) navigator.vibrate(60);
+      } catch(e) {}
+    }
+
     async function onCodeScanned(barcode) {
+      playScanBeep();
       if (html5QrCode) await html5QrCode.stop();
 
       document.getElementById('scan-section').classList.add('hidden');
@@ -3725,6 +3779,32 @@ async function exportPricesCSV() {
 
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
+    }
+
+    function copyCartToClipboard() {
+      if (cart.length === 0) {
+        showToast('Adicione itens ao carrinho antes de copiar!', 'warning');
+        return;
+      }
+      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
+      const city = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+      let text = `🛒 Minha Compra no NutriPreço\n📍 Mercado: ${marketName} (${city})\n\n`;
+      cart.forEach(i => {
+        text += `• ${i.qty}x ${i.name} — R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}\n`;
+      });
+      text += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}\n🥗 Calculado com o NutriPreço!`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('📋 Lista copiada para a área de transferência!', 'success');
+        }).catch(() => {
+          prompt('Copie sua lista abaixo:', text);
+        });
+      } else {
+        prompt('Copie sua lista abaixo:', text);
+      }
     }
 
     function shareAppWhatsApp() {

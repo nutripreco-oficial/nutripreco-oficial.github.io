@@ -6,6 +6,9 @@ O frontend contém apenas uma chave pública do Supabase (`sb_publishable_*`). E
 
 ## Obrigatório no Supabase antes de produção
 
+> [!TIP]
+> O arquivo [`supabase_schema_rls.sql`](supabase_schema_rls.sql) já reúne o script SQL integral com ativação de RLS, funções de segurança (`is_admin()`), exclusão de conta LGPD (`excluir_minha_conta_lgpd()`) e políticas por tabela. Basta executá-lo no SQL Editor do painel Supabase.
+
 1. Ativar RLS em todas as tabelas: `produtos`, `mercados`, `registros_precos`, `app_telemetria` e tabelas auxiliares.
 2. Permitir leitura pública somente dos campos necessários para consulta colaborativa.
 3. Permitir inserção de preços para usuários autenticados ou, se visitante for permitido, validar limites, formato, cidade e frequência em uma Edge Function.
