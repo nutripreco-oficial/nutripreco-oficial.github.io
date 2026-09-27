@@ -3590,14 +3590,24 @@ async function exportPricesCSV() {
     }
 
     // Finalizar e Salvar no Histórico Local
-    function finalizeAndSavePurchase() {
+    async function finalizeAndSavePurchase() {
       if (cart.length === 0) {
         showToast('Seu carrinho está vazio!', 'warning');
         return;
       }
 
       const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
+      const confirmed = await showConfirmDialog({
+        title: 'Finalizar compra?',
+        message: `Salvar ${itemCount} ${itemCount === 1 ? 'item' : 'itens'} no histórico por R$ ${total.toFixed(2).replace('.', ',')} em ${marketName}?`,
+        icon: '✅',
+        okText: 'Finalizar e Salvar',
+        cancelText: 'Continuar Comprando'
+      });
+      if (!confirmed) return;
+
       const now = new Date();
       const dateStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 

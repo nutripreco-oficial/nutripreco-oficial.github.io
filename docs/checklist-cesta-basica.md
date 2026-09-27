@@ -234,7 +234,7 @@ Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e re
 - [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.
 - [ ] Deixar o botão `Iniciar Câmera` disponível para a próxima leitura manual.
 - [x] Confirmado no código: o carrinho já oferece `Finalizar e Salvar no Histórico`.
-- [ ] Avaliar se a finalização existente precisa de confirmação antes de salvar.
+- [x] Implementar confirmação antes de salvar, exibindo quantidade de itens, total e mercado selecionado.
 - [ ] Ao finalizar, preservar histórico e cotações, fechar o período atual do mascote, limpar somente o carrinho ativo e preparar uma nova compra.
 - [ ] Padronizar o fluxo de preço já existente e novo preço em uma única rotina de validação e salvamento.
 - [ ] Garantir nome válido, preço válido e confirmação de discrepância antes da gravação.
