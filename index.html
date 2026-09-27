@@ -4,49 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#2e7d32">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>NutriPreço - Cabo Frio</title>
+
 
   <!-- Manifesto PWA para instalação no Android -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2424/2424444.png">
+
 
   <!-- Bibliotecas externas -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
+
 <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: #f4f6f8; color: #222; padding-bottom: 25px; }
 
+
     /* Cabeçalho */
     header { background-color: #2e7d32; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 10px; }
-    .menu-btn { background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 2px 6px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+    .menu-btn { background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 2px 6px; line-height: 1; display: flex; align-items: center; justify-content: center; }
     header h1 { font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     .header-actions { display: flex; align-items: center; gap: 8px; }
     .auth-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); padding: 6px 11px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; }
     .install-pwa-btn { background: #ffd600; color: #1b5e20; border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); animation: pulse 2s infinite; }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
 
+
     /* Menu Lateral Deslizante (Drawer) */
     .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; backdrop-filter: blur(2px); transition: opacity 0.25s ease; }
     .sidebar-drawer { position: fixed; top: 0; bottom: 0; left: 0; width: 82%; max-width: 310px; background: #fff; z-index: 160; box-shadow: 4px 0 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.28s cubic-bezier(0.25, 0.8, 0.25, 1); }
     .sidebar-drawer.open { transform: translateX(0); }
     .sidebar-header { padding: 18px 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #f9fbf9; }
-    .close-sidebar-btn { background: none; border: none; font-size: 26px; color: #666; cursor: pointer; padding: 2px 6px; line-height: 1; min-width: 44px; min-height: 44px; }
+    .close-sidebar-btn { background: none; border: none; font-size: 26px; color: #666; cursor: pointer; padding: 2px 6px; line-height: 1; }
     .sidebar-body { flex: 1; overflow-y: auto; padding: 12px 10px; }
     .sidebar-section-title { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #888; padding: 10px 10px 4px 10px; letter-spacing: 0.5px; }
-    .sidebar-section-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; border: 0; background: none; color: #888; padding: 10px 10px 7px; font: inherit; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; text-align: left; cursor: pointer; }
-    .sidebar-section-toggle:focus-visible { outline: 3px solid #81c784; outline-offset: 2px; border-radius: 6px; }
-    .sidebar-section-chevron { color: #2e7d32; font-size: 16px; line-height: 1; transition: transform 0.18s ease; }
-    .sidebar-section-toggle[aria-expanded="true"] .sidebar-section-chevron { transform: rotate(90deg); }
-    .sidebar-collapsible { overflow: hidden; }
-    @media (prefers-reduced-motion: reduce) { .sidebar-section-chevron { transition: none; } }
     .sidebar-item { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 12px; background: none; border: none; border-radius: 10px; text-align: left; cursor: pointer; margin-bottom: 3px; font-family: inherit; transition: background 0.15s; }
     .sidebar-item:active { background: #e8f5e9; }
     .sidebar-icon { font-size: 20px; width: 28px; text-align: center; }
@@ -58,25 +58,22 @@
     .sidebar-footer { padding: 14px 16px; border-top: 1px solid #eee; background: #fafafa; }
     .sidebar-login-btn { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; }
 
+
     /* Conteúdo Principal (Câmera e Leitor em Destaque) */
     .container { max-width: 480px; margin: 0 auto; padding: 14px 16px; }
+
 
     /* Scanner / Câmera */
     #scanner-container { background: #000; border-radius: 14px; overflow: hidden; position: relative; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     #reader { width: 100%; min-height: 240px; }
-    .scanner-empty-state { position: absolute; inset: 0; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: #fff; text-align: center; background: linear-gradient(145deg, #111 0%, #242424 100%); }
-    .scanner-empty-state strong { font-size: 17px; font-weight: 700; }
-    .scanner-empty-state span { max-width: 260px; color: #d7d7d7; font-size: 13px; line-height: 1.4; }
     .scan-btn { width: 100%; background: #2e7d32; color: #fff; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(46,125,50,0.25); }
-    .quote-region-context { background: #f8fbff; border: 1px solid #bbdefb; border-radius: 8px; padding: 7px 10px; margin: -4px 0 12px; color: #245b7a; font-size: 12px; }
-    .market-selection-status { display: block; margin-top: 3px; color: #4d6b55; font-size: 10.5px; font-weight: 600; }
-    #top-cart-btn, #start-btn, #torch-btn, #manual-barcode-btn { min-height: 48px; }
-    #top-cart-btn:focus-visible, #start-btn:focus-visible, #torch-btn:focus-visible, #manual-barcode-btn:focus-visible { outline: 3px solid #81c784; outline-offset: 3px; }
+
 
     /* Cartões */
     .card { background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
     .card-title { font-size: 15px; font-weight: bold; color: #2e7d32; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
     .card-title-price { color: #1b5e20; font-size: 16px; }
+
 
     /* Preço e Comparativo */
     .best-price-badge { background: #e8f5e9; color: #2e7d32; padding: 10px 12px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; font-size: 14px; text-align: center; border: 1px solid #c8e6c9; }
@@ -85,37 +82,45 @@
     .compare-alert.expensive { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
     .compare-alert.equal { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
 
+
     /* Atalho Preço Confere */
     .confirm-price-box { background: #f1f8e9; border: 1.5px dashed #2e7d32; border-radius: 10px; padding: 12px; margin-bottom: 14px; text-align: center; }
     .confirm-price-btn { background: #2e7d32; color: #fff; border: none; padding: 11px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 8px; width: 100%; box-shadow: 0 2px 6px rgba(46,125,50,0.2); }
+
 
     /* Seletor de Mercados */
     .market-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
     .chip { padding: 6px 11px; background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .chip.active { background: #2e7d32; color: #fff; border-color: #2e7d32; }
 
+
     label { font-size: 13px; color: #555; display: block; margin-top: 10px; margin-bottom: 4px; font-weight: 500; }
     input { width: 100%; padding: 11px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
     .price-input { font-size: 28px; font-weight: bold; text-align: center; color: #2e7d32; border: 2px solid #2e7d32; margin-top: 4px; background: #fafafa; }
+
 
     /* Histórico */
     .history-item { display: flex; justify-content: space-between; align-items: center; padding: 9px; background: #fafafa; border-radius: 8px; margin-bottom: 7px; border-left: 4px solid #2e7d32; }
     .time-badge { font-size: 11px; color: #666; display: inline-block; background: #eee; padding: 2px 6px; border-radius: 4px; margin-top: 3px; }
 
+
     /* Nutrição */
     .nutri-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #f0f0f0; font-size: 14px; }
     .nutri-val { font-weight: bold; }
+
 
     /* Botões Principais */
     .save-btn { width: 100%; background: #2e7d32; color: white; border: none; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; margin-top: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(46,125,50,0.25); }
     .reset-btn { width: 100%; background: #eceff1; color: #444; border: none; padding: 11px; font-size: 14px; font-weight: 600; border-radius: 10px; margin-top: 8px; cursor: pointer; }
     .whatsapp-btn { background: #25d366; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; }
 
+
     /* Barra Fixa Pré-Caixa */
     .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 2px solid #2e7d32; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 99; }
     .cart-info strong { font-size: 19px; color: #2e7d32; display: block; }
     .cart-info span { font-size: 12px; color: #666; }
     .cart-btn { background: #2e7d32; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
 
     
     /* Sistema de Feedback Profissional (Toasts & Confirm Dialog) */
@@ -158,16 +163,19 @@
     .toast-warning { background: #e65100; border-left: 5px solid #ffa726; }
     .toast-info { background: #1565c0; border-left: 5px solid #42a5f5; }
 
+
     @keyframes toastSlideDown {
       from { opacity: 0; transform: translateY(-20px) scale(0.95); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
+
 
     
     /* Abas Secundárias (Tabs Elegantes) */
     .tab-bar { display: flex; background: #e8f5e9; border-radius: 12px; padding: 4px; margin-bottom: 14px; gap: 4px; }
     .tab-btn { flex: 1; padding: 9px 8px; border: none; background: none; border-radius: 9px; font-size: 13px; font-weight: 600; color: #2e7d32; cursor: pointer; text-align: center; transition: all 0.2s ease; }
     .tab-btn.active { background: #2e7d32; color: #ffffff; box-shadow: 0 2px 6px rgba(46,125,50,0.25); }
+
 
     /* Barra de Progresso do Teto de Gastos */
     .budget-progress-box { background: #f9fbf9; border-radius: 12px; padding: 12px; margin-bottom: 14px; border: 1px solid #e0e0e0; }
@@ -176,14 +184,17 @@
     .budget-progress-fill { height: 100%; width: 0%; transition: width 0.35s ease, background-color 0.35s ease; border-radius: 10px; }
     .budget-status-text { font-size: 12px; font-weight: 600; margin-top: 5px; text-align: right; }
 
+
     /* Mini Barra de Teto na Barra Fixa Inferior */
     .cart-bar-budget-line { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #e0e0e0; }
     .cart-bar-budget-fill { height: 100%; width: 0%; transition: width 0.3s ease; }
+
 
     /* Chips de Seleção Rápida de Orçamento */
     .budget-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .budget-chip { padding: 6px 10px; background: #fff; border: 1px solid #ccc; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; color: #444; }
     .budget-chip.active { background: #2e7d32; color: #fff; border-color: #2e7d32; }
+
 
     /* Grade de Seleção Rápida na Lista Prévia (1 Toque) */
     .quick-catalog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; max-height: 38vh; overflow-y: auto; padding: 2px; }
@@ -192,11 +203,13 @@
     .quick-item-icon { font-size: 22px; width: 28px; text-align: center; }
     .quick-item-name { font-size: 13px; font-weight: 600; color: #222; line-height: 1.2; }
 
+
     /* Lista Prévia - Itens */
     .prelist-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #fff; border: 1px solid #eee; border-radius: 10px; margin-bottom: 6px; }
     .prelist-item.done { opacity: 0.55; text-decoration: line-through; background: #f9f9f9; }
     .prelist-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #2e7d32; cursor: pointer; }
     .prelist-text { flex: 1; font-size: 14px; font-weight: 500; }
+
 
     /* Relatório Executivo B2B / Administrativo */
     .report-sheet { background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); font-family: monospace, sans-serif; }
@@ -205,10 +218,12 @@
     .report-kpi-val { font-size: 17px; font-weight: bold; color: #1b5e20; }
     .report-kpi-lbl { font-size: 11px; color: #666; text-transform: uppercase; margin-top: 2px; }
 
+
     /* Painel do Administrador */
     .admin-stat-card { background: #f1f8e9; border: 1px solid #c8e6c9; border-radius: 12px; padding: 12px; text-align: center; margin-bottom: 10px; }
     .admin-stat-num { font-size: 26px; font-weight: bold; color: #1b5e20; }
     .admin-stat-label { font-size: 12px; color: #444; font-weight: 600; }
+
 
     /* Modais */
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: flex-end; z-index: 200; }
@@ -217,14 +232,17 @@
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
     .qty-btn { background: #eee; border: none; width: 26px; height: 26px; border-radius: 50%; font-weight: bold; cursor: pointer; }
 
+
     /* Radar de Preços & Cesta Básica */
     .radar-tabs { display: flex; gap: 8px; border-bottom: 2px solid #e8f5e9; padding-bottom: 8px; margin-top: 4px; }
     .radar-tab { flex: 1; background: #f1f8e9; border: 1px solid #c8e6c9; color: #2e7d32; padding: 9px 8px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; text-align: center; }
     .radar-tab.active { background: #2e7d32; color: #fff; border-color: #2e7d32; }
 
+
     .cesta-summary-box { background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
     .cesta-ranking-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #c8e6c9; font-size: 13px; }
     .cesta-ranking-row:last-child { border-bottom: none; }
+
 
     .radar-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 11px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
     .radar-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
@@ -232,10 +250,12 @@
     .radar-prod-meta { font-size: 11.5px; color: #666; }
     .cesta-badge { background: #fff3e0; color: #e65100; font-size: 10.5px; font-weight: bold; padding: 2px 7px; border-radius: 12px; border: 1px solid #ffe0b2; white-space: nowrap; }
 
+
     .radar-price-comparison { background: #fbfbfb; border-radius: 8px; padding: 8px 10px; margin-top: 8px; border: 1px solid #f0f0f0; }
     .best-market-row { display: flex; justify-content: space-between; align-items: center; color: #1b5e20; font-size: 13.5px; font-weight: bold; margin-bottom: 4px; }
     .other-market-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #555; padding-top: 4px; border-top: 1px dashed #eee; }
     .diff-bad { color: #c62828; font-weight: bold; }
+
 
     /* Estatísticas do Histórico */
     .history-stat-box { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -243,15 +263,18 @@
     .stat-card span { font-size: 11px; color: #555; text-transform: uppercase; font-weight: bold; }
     .stat-card strong { font-size: 18px; color: #2e7d32; display: block; margin-top: 4px; }
 
+
     .saved-purchase-card { background: #fafafa; border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; margin-bottom: 12px; }
     .purchase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .purchase-date { font-size: 12px; color: #666; }
     .purchase-market { font-weight: bold; color: #1b5e20; font-size: 14px; }
     .purchase-items-detail { font-size: 12.5px; color: #444; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ddd; }
 
+
     /* Rodapé & Legal */
     footer { text-align: center; padding: 25px 16px 20px 16px; font-size: 11.5px; color: #777; line-height: 1.5; border-top: 1px solid #e0e0e0; margin-top: 25px; }
     footer a { color: #2e7d32; text-decoration: none; font-weight: bold; }
+
 
     .loading { text-align: center; padding: 30px 20px; font-weight: bold; color: #2e7d32; }
     .hidden { display: none !important; }
@@ -261,9 +284,28 @@
       100% { transform: translateY(-3px) rotate(3deg); }
     }
 
+
+  
+    /* Melhorias de Acessibilidade e Accordion */
+    .sidebar-section-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; border: 0; background: none; color: #888; padding: 10px 10px 7px; font: inherit; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; text-align: left; cursor: pointer; }
+    .sidebar-section-toggle:focus-visible { outline: 3px solid #81c784; outline-offset: 2px; border-radius: 6px; }
+    .sidebar-section-chevron { color: #2e7d32; font-size: 16px; line-height: 1; transition: transform 0.18s ease; }
+    .sidebar-section-toggle[aria-expanded="true"] .sidebar-section-chevron { transform: rotate(90deg); }
+    .sidebar-collapsible { overflow: hidden; }
+    @media (prefers-reduced-motion: reduce) { .sidebar-section-chevron { transition: none; } }
+
+    .scanner-empty-state { position: absolute; inset: 0; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: #fff; text-align: center; background: linear-gradient(145deg, #111 0%, #242424 100%); }
+    .scanner-empty-state strong { font-size: 17px; font-weight: 700; }
+    .scanner-empty-state span { max-width: 260px; color: #d7d7d7; font-size: 13px; line-height: 1.4; }
+    .quote-region-context { background: #f8fbff; border: 1px solid #bbdefb; border-radius: 8px; padding: 7px 10px; margin: -4px 0 12px; color: #245b7a; font-size: 12px; }
+    .market-selection-status { display: block; margin-top: 3px; color: #4d6b55; font-size: 10.5px; font-weight: 600; }
+    #top-cart-btn, #start-btn, #torch-btn, #manual-barcode-btn { min-height: 48px; }
+    #top-cart-btn:focus-visible, #start-btn:focus-visible, #torch-btn:focus-visible, #manual-barcode-btn:focus-visible { outline: 3px solid #81c784; outline-offset: 3px; }
+
   </style>
 </head>
 <body>
+
 
   <!-- Cabeçalho com Botão do Menu Hambúrguer -->
   
@@ -280,12 +322,14 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePreListModal()">&times;</button>
       </div>
 
+
       <!-- Abas Secundárias de Organização -->
       <div class="tab-bar">
         <button class="tab-btn active" id="tab-btn-quick" onclick="switchPrelistTab('quick')">🧺 Cesta & Populares</button>
         <button class="tab-btn" id="tab-btn-catalog" onclick="switchPrelistTab('catalog')">🔍 Catálogo da Cidade</button>
         <button class="tab-btn" id="tab-btn-mylist" onclick="switchPrelistTab('mylist')">📋 Minha Lista (<span id="prelist-count-badge">0</span>)</button>
       </div>
+
 
       <!-- CONTEÚDO DA ABA 1: CESTA BÁSICA & POPULARES (1 TOQUE) -->
       <div id="prelist-tab-quick-content">
@@ -295,6 +339,7 @@
         </div>
       </div>
 
+
       <!-- CONTEÚDO DA ABA 2: CATÁLOGO GERAL DA CIDADE (DO SUPABASE) -->
       <div id="prelist-tab-catalog-content" class="hidden">
         <input type="text" id="catalog-search-input" placeholder="🔍 Filtrar produtos cadastrados na cidade..." oninput="filterCatalogSearch()" style="margin-bottom: 10px;">
@@ -302,6 +347,7 @@
           <div style="grid-column: 1 / -1; text-align:center; padding:20px; color:#888;">Carregando produtos cadastrados...</div>
         </div>
       </div>
+
 
       <!-- CONTEÚDO DA ABA 3: MINHA LISTA ATIVA -->
       <div id="prelist-tab-mylist-content" class="hidden">
@@ -318,12 +364,14 @@
         </div>
       </div>
 
+
       <div style="display:flex; gap:8px; margin-top:16px; border-top:1px solid #eee; padding-top:12px;">
         <button onclick="clearAllPrelist()" class="reset-btn" style="flex:1; background:#ffebee; color:#c62828; margin:0;">🗑️ Limpar Lista</button>
         <button onclick="closePreListModal()" class="save-btn" style="flex:1; margin:0;">Concluir</button>
       </div>
     </div>
   </div>
+
 
   <!-- ========================================== -->
   <!-- MODAL: RELATÓRIO EXECUTIVO (B2C & B2B) -->
@@ -336,6 +384,7 @@
         </h3>
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeReportModal()">&times;</button>
       </div>
+
 
       <div class="report-kpi-grid">
         <div class="report-kpi-card">
@@ -356,6 +405,7 @@
         </div>
       </div>
 
+
       <div class="report-sheet">
         <div style="text-align:center; margin-bottom:12px; border-bottom:1px dashed #bbb; padding-bottom:8px;">
           <strong>🥗 NUTRIPREÇO • COMPROVANTE EXECUTIVO</strong><br>
@@ -363,15 +413,18 @@
           <span style="font-size:11px; color:#666;" id="rep-date-time"></span>
         </div>
 
+
         <div id="rep-items-table" style="font-size:12px; margin-bottom:12px;">
           <!-- Linhas formatadas de produtos -->
         </div>
+
 
         <div style="border-top:1px dashed #bbb; padding-top:8px; display:flex; justify-content:space-between; font-weight:bold; font-size:14px;">
           <span>TOTAL GERAL:</span>
           <span id="rep-footer-total">R$ 0,00</span>
         </div>
       </div>
+
 
       <div style="display:flex; flex-direction:column; gap:8px;">
         <button onclick="shareExecutiveReportWhatsApp()" style="width:100%; background:#25D366; color:white; border:none; padding:13px; border-radius:10px; font-weight:bold; font-size:14px; cursor:pointer; display:flex; justify-content:center; align-items:center; gap:8px;">
@@ -381,6 +434,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- ========================================== -->
   <!-- MODAL: PAINEL DO ADMINISTRADOR (ADMIN & CSV) -->
@@ -394,6 +448,7 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeAdminModal()">&times;</button>
       </div>
 
+
       <!-- Abas Principais do Painel Admin -->
       <div style="display:flex; gap:6px; margin-bottom:14px; position:sticky; top:0; z-index:10; background:#fff; padding-bottom:6px;">
         <button type="button" id="admin-main-tab-metrics" onclick="switchAdminMainTab('metrics')" style="flex:1; padding:9px 6px; border:1px solid #1b5e20; background:#1b5e20; color:#fff; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer;">
@@ -406,6 +461,7 @@
           🛡️ Moderação
         </button>
       </div>
+
 
       <!-- ABA 1: MÉTRICAS, USUÁRIOS, DOWNLOADS E PLANILHA CSV -->
       <div id="admin-main-view-metrics">
@@ -423,6 +479,7 @@
           </div>
         </div>
 
+
         <!-- Métricas do Catálogo da Cidade -->
         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:16px;">
           <div class="admin-stat-card">
@@ -439,6 +496,7 @@
           </div>
         </div>
 
+
         <div style="background:#fafafa; border:1px solid #e0e0e0; border-radius:12px; padding:14px; margin-bottom:16px;">
           <h4 style="font-size:14px; color:#1b5e20; margin-bottom:6px; font-weight:bold;">📥 Exportação de Dados em Planilha (CSV)</h4>
           <p style="font-size:12.5px; color:#555; line-height:1.4; margin-bottom:12px;">
@@ -449,6 +507,7 @@
           </button>
         </div>
       </div>
+
 
       <!-- ABA 2: GESTÃO DE ENCARTES (FOTO) -->
       <div id="admin-main-view-encartes" class="hidden">
@@ -463,6 +522,7 @@
             Selecione a foto ou print do folheto do mercado (<b>Avistão, Princesa, Multimarket, etc.</b>). Ele fica imediatamente disponível na aba pública de encartes com zoom interativo para os clientes!
           </p>
 
+
           <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado do Encarte:</label>
           <select id="encarte-photo-market" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:10px; background:#fff;">
             <option value="Supermercado Avistão">Supermercado Avistão</option>
@@ -475,6 +535,7 @@
             <option value="Outro">Outro Mercado de Bairro</option>
           </select>
 
+
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
             <div>
               <label style="font-size:12px; font-weight:bold; color:#333;">Início das Ofertas:</label>
@@ -486,6 +547,7 @@
             </div>
           </div>
 
+
           <!-- Botão de Tirar Foto / Selecionar Arquivo -->
           <div style="background:#e8f5e9; border:2px dashed #2e7d32; border-radius:12px; padding:16px; text-align:center; margin-bottom:12px;">
             <input type="file" id="encarte-photo-file" accept="image/*" onchange="handleEncartePhotoSelect(event)" style="display:none;">
@@ -494,6 +556,7 @@
             </button>
             <span style="display:block; font-size:11.5px; color:#555; margin-top:6px;">Aceita foto da câmera ou print do WhatsApp/Instagram</span>
 
+
             <!-- Preview da foto selecionada -->
             <div id="encarte-photo-preview-box" class="hidden" style="margin-top:12px;">
               <img id="encarte-photo-preview-img" style="max-width:100%; max-height:260px; border-radius:8px; border:1px solid #aaa; box-shadow:0 2px 8px rgba(0,0,0,0.15); object-fit:contain;">
@@ -501,9 +564,11 @@
             </div>
           </div>
 
+
           <button onclick="publishPhotoEncarte()" class="save-btn" style="margin:0; background:#2e7d32; font-size:14px; padding:13px; display:flex; align-items:center; justify-content:center; gap:8px;">
             🚀 Publicar Encarte na Vitrine de Ofertas
           </button>
+
 
           <div style="margin-top:16px;">
             <h5 style="font-size:13px; color:#1b5e20; margin-bottom:6px; font-weight:bold;">Encartes Vigentes Publicados:</h5>
@@ -513,6 +578,7 @@
           </div>
         </div>
       </div>
+
 
       <!-- ABA 3: MODERAÇÃO & LIMPEZA DE DADOS -->
       <div id="admin-main-view-mod" class="hidden">
@@ -527,6 +593,7 @@
             Exclua encartes desatualizados, remova preços errados/troll informados por usuários ou apague mercados duplicados.
           </p>
 
+
           <!-- Botão Especial: Limpeza de Produtos Sem Nome -->
           <div style="margin-bottom:14px; background:#fff; border:1px dashed #ef9a9a; border-radius:8px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
             <div>
@@ -537,6 +604,7 @@
               Limpar Testes
             </button>
           </div>
+
 
           <!-- Sub-abas de Moderação -->
           <div style="display:flex; gap:6px; margin-bottom:10px;">
@@ -551,17 +619,20 @@
             </button>
           </div>
 
+
           <div id="admin-mod-encartes-view">
             <div id="admin-manage-encartes-list" style="max-height:220px; overflow-y:auto; font-size:12px;">
               Carregando encartes para moderação...
             </div>
           </div>
 
+
           <div id="admin-mod-precos-view" class="hidden">
             <div id="admin-manage-prices-list" style="max-height:220px; overflow-y:auto; font-size:12px;">
               Carregando cotações recentes...
             </div>
           </div>
+
 
           <div id="admin-mod-mercados-view" class="hidden">
             <div id="admin-manage-markets-list" style="max-height:220px; overflow-y:auto; font-size:12px;">
@@ -571,9 +642,11 @@
         </div>
       </div>
 
+
       <button onclick="closeAdminModal()" class="reset-btn" style="margin:0;">Fechar Painel</button>
     </div>
   </div>
+
 
   <!-- Container de Toasts (Notificações Flutuantes) -->
   
@@ -592,17 +665,21 @@
       <label style="font-size:12px; font-weight:bold;">Nome do Estabelecimento:</label>
       <input type="text" id="new-market-name" placeholder="Ex: Mercado e Açougue São Pedro" style="margin-bottom:10px;">
 
+
       <label style="font-size:12px; font-weight:bold;">Bairro em Cabo Frio:</label>
       <input type="text" id="new-market-neighborhood" placeholder="Ex: Boa Viagem, Centro, São Cristóvão, etc." style="margin-bottom:10px;">
+
 
       <div style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin:10px 0; font-size:12px; color:#2e7d32;">
         📍 O app vai associar as coordenadas GPS atuais para sugerir este mercado automaticamente aos clientes próximos.
       </div>
 
+
       <button class="save-btn" onclick="saveNewMarket()" style="margin-top:10px;">💾 Salvar Estabelecimento</button>
       <button class="reset-btn" onclick="closeNewMarketModal()">Cancelar</button>
     </div>
   </div>
+
 
     <!-- ========================================== -->
   <!-- MODAL: BOAS-VINDAS & PRIMEIRO ACESSO (ONBOARDING) -->
@@ -618,6 +695,7 @@
         </span>
       </div>
 
+
       <!-- ETAPA 1: NOME, ESTADO E CIDADE -->
       <div id="welcome-step-1">
         <h2 style="color: #1b5e20; font-size: 20px; margin-bottom: 6px; font-weight: bold;">
@@ -627,51 +705,66 @@
           Seu assistente inteligente de supermercado na gôndola. Diga quem é você e sua cidade de origem para ativar suas cotações:
         </p>
 
+
         <div style="background: #f9fbf9; border: 1px solid #c8e6c9; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 14px;">
           <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
             👤 1. Como podemos te chamar?
           </label>
           <input type="text" id="welcome-user-name" placeholder="Ex: Arthur" style="margin-bottom: 12px; font-size: 14px; padding: 10px; border-radius: 8px;">
 
+
           <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
             🌎 2. Qual é o seu Estado (UF)?
           </label>
           <select id="welcome-select-uf" onchange="onWelcomeUfChanged()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:12px; background:#fff;">
-            <option value="RJ" selected>Rio de Janeiro (RJ)</option>
-            <option value="SP">São Paulo (SP)</option>
-            <option value="MG">Minas Gerais (MG)</option>
-            <option value="ES">Espírito Santo (ES)</option>
+            <option value="AC">Acre (AC)</option>
+            <option value="AL">Alagoas (AL)</option>
+            <option value="AP">Amapá (AP)</option>
+            <option value="AM">Amazonas (AM)</option>
             <option value="BA">Bahia (BA)</option>
-            <option value="PR">Paraná (PR)</option>
-            <option value="SC">Santa Catarina (SC)</option>
-            <option value="RS">Rio Grande do Sul (RS)</option>
-            <option value="GO">Goiás (GO)</option>
-            <option value="DF">Distrito Federal (DF)</option>
-            <option value="PE">Pernambuco (PE)</option>
             <option value="CE">Ceará (CE)</option>
-            <option value="OUTRO">Outro Estado...</option>
+            <option value="DF">Distrito Federal (DF)</option>
+            <option value="ES">Espírito Santo (ES)</option>
+            <option value="GO">Goiás (GO)</option>
+            <option value="MA">Maranhão (MA)</option>
+            <option value="MT">Mato Grosso (MT)</option>
+            <option value="MS">Mato Grosso do Sul (MS)</option>
+            <option value="MG">Minas Gerais (MG)</option>
+            <option value="PA">Pará (PA)</option>
+            <option value="PB">Paraíba (PB)</option>
+            <option value="PR">Paraná (PR)</option>
+            <option value="PE">Pernambuco (PE)</option>
+            <option value="PI">Piauí (PI)</option>
+            <option value="RJ" selected>Rio de Janeiro (RJ)</option>
+            <option value="RN">Rio Grande do Norte (RN)</option>
+            <option value="RS">Rio Grande do Sul (RS)</option>
+            <option value="RO">Rondônia (RO)</option>
+            <option value="RR">Roraima (RR)</option>
+            <option value="SC">Santa Catarina (SC)</option>
+            <option value="SP">São Paulo (SP)</option>
+            <option value="SE">Sergipe (SE)</option>
+            <option value="TO">Tocantins (TO)</option>
           </select>
 
-          <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
+
+                    <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
             📍 3. Qual é a sua Cidade?
           </label>
+          <div id="welcome-city-loading-indicator" class="hidden" style="font-size:11.5px; color:#2e7d32; margin-bottom:4px;">
+            ⏳ Carregando municípios do IBGE...
+          </div>
           <select id="welcome-select-city" style="width:100%; padding:10px; border-radius:8px; border:1px solid #2e7d32; font-size:13.5px; margin-bottom:4px; background:#fff; font-weight:600; color:#1b5e20;">
             <option value="Cabo Frio">Cabo Frio</option>
-            <option value="Araruama">Araruama</option>
-            <option value="São Pedro da Aldeia">São Pedro da Aldeia</option>
-            <option value="Búzios">Armação dos Búzios</option>
-            <option value="Arraial do Cabo">Arraial do Cabo</option>
-            <option value="Rio de Janeiro">Rio de Janeiro</option>
-            <option value="Niterói">Niterói</option>
-            <option value="Macaé">Macaé</option>
           </select>
           <small style="font-size: 11px; color: #777; display: block; margin-top: 4px;">Você poderá trocar de cidade a qualquer momento no app.</small>
         </div>
+
 
         <button type="button" onclick="goToWelcomeStep(2)" class="save-btn" style="margin-top:0; font-size:15px; padding:13px; border-radius:10px; display:flex; align-items:center; justify-content:center; gap:8px;">
           Avançar para Cadastro ➔
         </button>
       </div>
+
 
       <!-- ETAPA 2: CADASTRO RÁPIDO COM E-MAIL E SENHA -->
       <div id="welcome-step-2" class="hidden">
@@ -682,11 +775,13 @@
           Crie seu acesso grátis para salvar seu histórico de compras e consultar os melhores preços em <b id="welcome-city-preview">Cabo Frio - RJ</b>:
         </p>
 
+
         <div style="background: #f9fbf9; border: 1px solid #c8e6c9; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 14px;">
           <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
             ✉️ Seu melhor E-mail:
           </label>
           <input type="email" id="welcome-auth-email" placeholder="seuemail@exemplo.com" style="margin-bottom: 12px; font-size: 14px; padding: 10px; border-radius: 8px;">
+
 
           <label style="font-size: 12px; font-weight: bold; color: #1b5e20; display: block; margin-bottom: 5px;">
             🔒 Crie uma Senha (mínimo 6 dígitos):
@@ -695,9 +790,11 @@
           <small style="font-size: 11px; color: #777; display: block;">Sem burocracia de ativação. Acesso liberado no mesmo instante.</small>
         </div>
 
+
         <button type="button" onclick="finalizeWelcomeOnboarding()" class="save-btn" style="margin-top:0; font-size:15px; padding:14px; border-radius:10px; display:flex; align-items:center; justify-content:center; gap:8px;">
           🚀 Finalizar Cadastro & Entrar
         </button>
+
 
         <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; font-size:12px;">
           <button type="button" onclick="goToWelcomeStep(1)" style="background:none; border:none; color:#555; text-decoration:underline; cursor:pointer;">
@@ -709,8 +806,10 @@
         </div>
       </div>
 
+
     </div>
   </div>
+
 
   <div class="modal hidden" id="public-encartes-modal" style="z-index: 180;">
     <div class="modal-content" style="max-height: 90vh;">
@@ -726,9 +825,11 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePublicEncartesModal()">&times;</button>
       </div>
 
+
       <p style="font-size:12.5px; color:#666; margin-bottom:12px;">
         Folhetos oficiais vigentes na sua cidade. Toque para ver em tela cheia com zoom:
       </p>
+
 
       <div id="public-encartes-container" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
         <div style="text-align:center; padding:25px; color:#888; font-size:13px;">
@@ -736,9 +837,11 @@
         </div>
       </div>
 
+
       <button class="reset-btn" onclick="closePublicEncartesModal()">Fechar Encartes</button>
     </div>
   </div>
+
 
   <!-- MODAL: VISUALIZADOR DE ENCARTE EM TELA CHEIA (ZOOM) -->
   <div class="modal hidden" id="encarte-viewer-modal" style="z-index: 250; background: rgba(0,0,0,0.92); padding: 0;">
@@ -755,15 +858,18 @@
         </div>
       </div>
 
+
       <div style="flex: 1; overflow: auto; display: flex; justify-content: center; align-items: center; padding: 10px; -webkit-overflow-scrolling: touch;">
         <img id="viewer-encarte-img" src="" style="max-width: 100%; height: auto; transition: transform 0.2s ease; transform-origin: center center; border-radius: 6px;">
       </div>
+
 
       <div style="padding: 10px; background: rgba(0,0,0,0.7); text-align: center; color: #ccc; font-size: 11.5px;">
         💡 Use a pinça de dois dedos ou os botões de lupa no topo para dar zoom nas ofertas.
       </div>
     </div>
   </div>
+
 
   <!-- MODAL: BASE LEGAL & DIREITOS (ART. 31 DO CDC) -->
   <div class="modal hidden" id="legal-terms-modal" style="z-index: 220;">
@@ -793,6 +899,7 @@
     </div>
   </div>
 
+
   <!-- MODAL: SELETOR DE CIDADE & ESTADO (IBGE + OFFLINE) -->
   <div class="modal hidden" id="city-selector-modal" style="z-index: 190;">
     <div class="modal-content" style="max-height: 85vh;">
@@ -807,20 +914,33 @@
       </p>
       <label style="font-size:12px; font-weight:bold;">1. Estado (UF):</label>
       <select id="select-uf" onchange="onUfChanged()" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:12px; background:#fff;">
-        <option value="RJ">Rio de Janeiro (RJ)</option>
-        <option value="SP">São Paulo (SP)</option>
-        <option value="MG">Minas Gerais (MG)</option>
-        <option value="ES">Espírito Santo (ES)</option>
-        <option value="BA">Bahia (BA)</option>
-        <option value="PR">Paraná (PR)</option>
-        <option value="SC">Santa Catarina (SC)</option>
-        <option value="RS">Rio Grande do Sul (RS)</option>
-        <option value="GO">Goiás (GO)</option>
-        <option value="DF">Distrito Federal (DF)</option>
-        <option value="PE">Pernambuco (PE)</option>
-        <option value="CE">Ceará (CE)</option>
-        <option value="PA">Pará (PA)</option>
-        <option value="AM">Amazonas (AM)</option>
+            <option value="AC">Acre (AC)</option>
+            <option value="AL">Alagoas (AL)</option>
+            <option value="AP">Amapá (AP)</option>
+            <option value="AM">Amazonas (AM)</option>
+            <option value="BA">Bahia (BA)</option>
+            <option value="CE">Ceará (CE)</option>
+            <option value="DF">Distrito Federal (DF)</option>
+            <option value="ES">Espírito Santo (ES)</option>
+            <option value="GO">Goiás (GO)</option>
+            <option value="MA">Maranhão (MA)</option>
+            <option value="MT">Mato Grosso (MT)</option>
+            <option value="MS">Mato Grosso do Sul (MS)</option>
+            <option value="MG">Minas Gerais (MG)</option>
+            <option value="PA">Pará (PA)</option>
+            <option value="PB">Paraíba (PB)</option>
+            <option value="PR">Paraná (PR)</option>
+            <option value="PE">Pernambuco (PE)</option>
+            <option value="PI">Piauí (PI)</option>
+            <option value="RJ" selected >Rio de Janeiro (RJ)</option>
+            <option value="RN">Rio Grande do Norte (RN)</option>
+            <option value="RS">Rio Grande do Sul (RS)</option>
+            <option value="RO">Rondônia (RO)</option>
+            <option value="RR">Roraima (RR)</option>
+            <option value="SC">Santa Catarina (SC)</option>
+            <option value="SP">São Paulo (SP)</option>
+            <option value="SE">Sergipe (SE)</option>
+            <option value="TO">Tocantins (TO)</option>
       </select>
       <label style="font-size:12px; font-weight:bold;">2. Município:</label>
       <div id="city-loading-indicator" class="hidden" style="font-size:11.5px; color:#2e7d32; margin-bottom:4px;">
@@ -845,7 +965,9 @@
     </div>
   </div>
 
+
   <div id="toast-container"></div>
+
 
   <!-- Modal de Confirmação Customizado (Substitui confirm nativo) -->
   <div class="modal hidden" id="confirm-modal" style="z-index: 10000;">
@@ -860,6 +982,7 @@
     </div>
   </div>
 
+
   <header>
     <div class="header-left">
       <button class="menu-btn" onclick="toggleSidebar(true)" aria-label="Abrir Menu">☰</button>
@@ -871,6 +994,7 @@
     </div>
   </header>
 
+
   <!-- Barra de Saudação Personalizada & Cidade Ativa -->
   <div id="user-greeting-banner" style="background: #e8f5e9; border-bottom: 1px solid #c8e6c9; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: #1b5e20;">
     <div>
@@ -881,19 +1005,21 @@
     </div>
   </div>
 
+
   <!-- HUD CALCULADORA NO TOPO -->
   <div id="top-calculator-hud" style="background: #ffffff; border-bottom: 2px solid #2e7d32; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.06); position: sticky; top: 52px; z-index: 95;">
     <div>
-        <span style="font-size: 11px; color: #666; display: block; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Compra atual · Pré-Caixa</span>
+      <span style="font-size: 11px; color: #666; display: block; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Compra atual · Pré-Caixa</span>
       <div style="display: flex; align-items: baseline; gap: 6px;">
         <strong id="top-hud-total" style="font-size: 22px; color: #1b5e20; font-weight: 800;">R$ 0,00</strong>
-        <span id="top-hud-count" style="font-size: 12px; color: #666;">0 itens</span>
+        <span id="top-hud-count" style="font-size: 12px; color: #666;">(0 itens)</span>
       </div>
     </div>
-    <button id="top-cart-btn" onclick="openCartModal()" style="background: #2e7d32; color: white; border: none; padding: 9px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(46,125,50,0.25);">
+    <button onclick="openCartModal()" style="background: #2e7d32; color: white; border: none; padding: 9px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(46,125,50,0.25);">
       🛒 Ver Carrinho
     </button>
   </div>
+
 
   <!-- Menu Lateral Deslizante (Drawer) -->
   <div id="sidebar-overlay" class="sidebar-overlay hidden" onclick="toggleSidebar(false)"></div>
@@ -909,6 +1035,7 @@
       <button class="close-sidebar-btn" onclick="toggleSidebar(false)">&times;</button>
     </div>
 
+
     <div class="sidebar-body">
       <div class="sidebar-section-title">Menu Principal</div>
       
@@ -916,11 +1043,12 @@
       <button class="sidebar-item" onclick="toggleSidebar(false); openRadarModal();">
         <span class="sidebar-icon">📊</span>
         <div class="sidebar-item-text">
-          <strong>Cesta Básica</strong>
+          <strong>Radar de Preços & Cesta Básica</strong>
           <small>Planilha de cotações em Cabo Frio</small>
         </div>
         <span class="badge-highlight">Novo</span>
       </button>
+
 
       <button class="sidebar-item" onclick="toggleSidebar(false); openPublicEncartesModal();">
         <span class="sidebar-icon">📰</span>
@@ -931,6 +1059,7 @@
         <span class="badge-highlight">Ofertas</span>
       </button>
 
+
       <button class="sidebar-item" onclick="toggleSidebar(false); openHistoryModal();">
         <span class="sidebar-icon">📂</span>
         <div class="sidebar-item-text">
@@ -938,6 +1067,7 @@
           <small>Histórico e total acumulado do mês</small>
         </div>
       </button>
+
 
       <button class="sidebar-item" onclick="toggleSidebar(false); openPreListModal();">
         <span class="sidebar-icon">📝</span>
@@ -948,10 +1078,10 @@
         <span class="badge-highlight">Disponível</span>
       </button>
 
-      <button type="button" class="sidebar-section-toggle" onclick="toggleSidebarSection('community-section')" aria-expanded="false" aria-controls="community-section">
-        <span>Comunidade &amp; Ajuda</span><span class="sidebar-section-chevron" aria-hidden="true">▸</span>
-      </button>
-      <div id="community-section" class="sidebar-collapsible hidden">
+
+      <div class="sidebar-section-title">Comunidade & Ajuda</div>
+
+
       <button class="sidebar-item" onclick="toggleSidebar(false); shareAppWhatsApp();">
         <span class="sidebar-icon">📲</span>
         <div class="sidebar-item-text">
@@ -959,6 +1089,7 @@
           <small>Enviar recomendação no WhatsApp</small>
         </div>
       </button>
+
 
       <button class="sidebar-item" onclick="toggleSidebar(false); openSupportEmail();">
         <span class="sidebar-icon">💡</span>
@@ -968,6 +1099,7 @@
         </div>
       </button>
 
+
       <button class="sidebar-item" onclick="toggleSidebar(false); installPWA();">
         <span class="sidebar-icon">📲</span>
         <div class="sidebar-item-text">
@@ -975,7 +1107,7 @@
           <small>Adicionar à tela inicial do Android</small>
         </div>
       </button>
-      </div>
+
 
                   <!-- SEÇÃO EXCLUSIVA DO ADMINISTRADOR (SÓ APARECE PARA O ARTHUR LOGADO) -->
       <div id="sidebar-admin-section" class="hidden">
@@ -988,10 +1120,7 @@
           </div>
         </button>
       </div>
-      <button type="button" class="sidebar-section-toggle" onclick="toggleSidebarSection('legal-section')" aria-expanded="false" aria-controls="legal-section">
-        <span>Legal &amp; Institucional</span><span class="sidebar-section-chevron" aria-hidden="true">▸</span>
-      </button>
-      <div id="legal-section" class="sidebar-collapsible hidden">
+      <div class="sidebar-section-title">Legal & Institucional</div>
       <a href="privacidade.html" class="sidebar-item" style="text-decoration:none;">
         <span class="sidebar-icon">📄</span>
         <div class="sidebar-item-text">
@@ -1006,8 +1135,8 @@
           <small>Art. 31 do CDC & Transparência</small>
         </div>
       </button>
-      </div>
     </div>
+
 
     <!-- Assinatura Elegante do Autor no Rodapé do Menu -->
     <div style="padding: 10px 14px; font-size: 11.5px; color: #555; text-align: center; border-top: 1px solid #eee; background: #fafafa;">
@@ -1015,6 +1144,7 @@
       <span style="font-size: 10.5px; color: #777;">Cabo Frio • Rio de Janeiro</span><br>
       <a href="mailto:contato.nutripreco@gmail.com" style="color: #2e7d32; font-weight: bold; text-decoration: none; font-size: 11px;">contato.nutripreco@gmail.com</a>
     </div>
+
 
     <div class="sidebar-footer">
       <div id="sidebar-user-info" style="font-size:12px; color:#555; margin-bottom:8px;">
@@ -1024,30 +1154,29 @@
     </div>
   </div>
 
+
   <!-- Tela Principal com Câmera e Leitor (100% Limpa) -->
   <div class="container">
     <!-- Seção Scanner -->
-      <div id="scan-section">
-        <div id="scanner-container">
-          <div id="reader"></div>
-          <div id="scanner-empty-state" class="scanner-empty-state" aria-live="polite">
-            <strong>Pronto para registrar sua compra</strong>
-            <span>Toque em “Iniciar Câmera” quando estiver diante do produto.</span>
-          </div>
-        </div>
+    <div id="scan-section">
+      <div id="scanner-container">
+        <div id="reader"></div>
+      </div>
       <button class="scan-btn" id="start-btn" onclick="startScanner()">📷 Iniciar Câmera</button>
+
 
       <!-- Botões de Apoio na Gôndola (Lanterna & Digitação Manual) -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
         <button type="button" onclick="toggleFlashlight()" id="torch-btn" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           🔦 Lanterna
         </button>
-        <button type="button" id="manual-barcode-btn" onclick="openManualBarcodePrompt()" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <button type="button" onclick="openManualBarcodePrompt()" style="background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px 8px; font-size: 13px; font-weight: bold; color: #333; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
           ⌨️ Digitar Código
         </button>
       </div>
 
-      <div id="last-item-feedback" class="card hidden" style="padding: 12px 14px; margin-top: 12px; margin-bottom: 0; border: 1px solid #c8e6c9; background: #f8fff8;" aria-live="polite">
+
+            <div id="last-item-feedback" class="card hidden" style="padding: 12px 14px; margin-top: 12px; margin-bottom: 0; border: 1px solid #c8e6c9; background: #f8fff8;" aria-live="polite">
         <div style="font-size: 11px; color: #2e7d32; font-weight: 800; text-transform: uppercase; letter-spacing: .35px;">Último item registrado</div>
         <div id="last-item-name" style="font-size: 15px; color: #1b5e20; font-weight: 700; margin-top: 3px;"></div>
         <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:3px;">
@@ -1089,9 +1218,12 @@
         </div>
       </div>
 
+
     </div>
 
+
     <div id="loading" class="loading hidden">🔍 Consultando preços em Cabo Frio e produto...</div>
+
 
     <!-- Seção Resultado (Zero Rolagem na Gôndola) -->
     <div id="result-section" class="hidden">
@@ -1104,11 +1236,13 @@
           <div id="prod-brand" style="font-size: 12.5px; color: #666; font-weight: 500;">Marca | EAN</div>
         </div>
 
+
         <!-- Alerta se o produto não tem nome no catálogo -->
         <div id="unnamed-box" class="hidden" style="background:#fff8e1; border:1px solid #ffe082; border-radius:10px; padding:10px 12px; margin-bottom:12px;">
           <span style="font-size:12px; font-weight:bold; color:#f57f17; display:block; margin-bottom:4px;">⚠️ Produto sem nome no catálogo. Digite o nome:</span>
           <input type="text" id="manual-name-input" placeholder="Ex: Biscoito Cream Cracker, Detergente..." style="margin-top:2px; font-size:14px; padding:9px; border-radius:8px; border:1.5px solid #ffd54f;">
         </div>
+
 
         <!-- Banner de Balança (Se detectado) -->
         <div id="scale-badge-box" class="hidden" style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 6px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
@@ -1116,21 +1250,19 @@
           <strong id="scale-badge-price" style="color: #2e7d32; font-size: 13px;">R$ 0,00</strong>
         </div>
 
+
         <!-- SELETOR COMPACTO DE SUPERMERCADO (1 LINHA - NÃO OCUPA O MEIO DA TELA) -->
-        <div id="market-context-card" style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;" role="status" aria-live="polite">
-          <div style="display:flex; align-items:flex-start; gap:6px; font-size:13px; font-weight:600; color:#1b5e20;">
-            <span aria-hidden="true">📍</span>
-            <div>
-              <span>Mercado da cotação:</span>
-              <strong id="current-market-badge" style="color:#2e7d32;">Atacadão</strong>
-              <span id="market-selection-status" class="market-selection-status">Selecionado para esta cotação</span>
-            </div>
+        <div style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:#1b5e20;">
+            <span>📍</span>
+            <span>Mercado:</span>
+            <strong id="current-market-badge" style="color:#2e7d32;">Atacadão</strong>
           </div>
-          <button type="button" id="change-market-btn" onclick="toggleMarketPicker()" aria-label="Trocar o mercado da cotação" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; padding:4px 10px; border-radius:14px; font-size:11.5px; font-weight:bold; cursor:pointer; min-height:44px;">
+          <button type="button" onclick="toggleMarketPicker()" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; padding:4px 10px; border-radius:14px; font-size:11.5px; font-weight:bold; cursor:pointer;">
             Trocar ▾
           </button>
         </div>
-        <div class="quote-region-context" role="status">🌎 Região da cotação: <strong id="quote-region-badge">Cabo Frio - RJ</strong></div>
+
 
         <!-- Lista Expansível de Mercados (Apenas se clicar em Trocar) -->
         <div id="market-picker-dropdown" class="hidden" style="background:#fff; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin-bottom:12px; box-shadow:0 3px 8px rgba(0,0,0,0.06);">
@@ -1151,17 +1283,20 @@
           <input type="text" id="market-input" value="Atacadão" oninput="checkPriceComparison()" style="font-size:13px; padding:8px;">
         </div>
 
+
         <!-- Atalho Preço Confere (Se já houver cotação) -->
         <div id="confirm-price-box" class="confirm-price-box hidden">
           <div style="font-size: 13px; color: #1b5e20;">Preço recente neste mercado: <b id="existing-price-display">R$ 0,00</b></div>
           <button class="confirm-price-btn" onclick="confirmExistingPrice()">👍 Preço Confere (+ Colocar no Carrinho)</button>
         </div>
 
+
         <!-- BLOCO CENTRAL: PREÇO NA GÔNDOLA (GRANDE & VISÍVEL) -->
         <div style="margin-bottom: 12px; text-align: center;">
           <label style="font-size: 13px; font-weight: 700; color: #333; margin-bottom: 4px;">Preço deste Produto na Gôndola (R$):</label>
           <input type="number" step="0.01" id="price-input" class="price-input" placeholder="0,00" oninput="checkPriceComparison(); updateItemTotalCalc();" style="height: 56px; font-size: 32px; font-weight: 800; border-radius: 12px; width: 100%;">
         </div>
+
 
         <!-- SELETOR DE QUANTIDADE & TIPO (INTEGRADO LOGO ABAIXO DO VALOR) -->
         <div style="background: #fafafa; border: 1px solid #eee; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px;">
@@ -1174,12 +1309,14 @@
             </div>
           </div>
 
+
           <!-- Controle - / Valor / + -->
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
             <button type="button" onclick="adjustProductQty(-1)" style="width:42px; height:42px; background:#eee; border:none; border-radius:10px; font-size:20px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">-</button>
             <input type="number" id="product-qty-input" value="1" step="1" min="0.1" oninput="updateItemTotalCalc()" style="flex:1; text-align:center; font-size:18px; font-weight:bold; height:42px; padding:0; border:1px solid #ccc; border-radius:10px;">
             <button type="button" onclick="adjustProductQty(1)" style="width:42px; height:42px; background:#eee; border:none; border-radius:10px; font-size:20px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">+</button>
           </div>
+
 
           <!-- Chips de Quantidade Rápida -->
           <div id="quick-qty-chips" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:2px;">
@@ -1191,33 +1328,40 @@
           </div>
         </div>
 
+
         <!-- Subtotal Calculado em Tempo Real -->
         <div style="text-align: center; margin-bottom: 12px;">
           <span style="font-size: 13.5px; font-weight: bold; color: #1b5e20;" id="item-subtotal-display">Subtotal deste item: R$ 0,00 (1 un.)</span>
         </div>
 
+
         <!-- Alerta de Comparação com Outros Mercados -->
         <div id="compare-alert" class="compare-alert hidden"></div>
+
 
         <!-- BOTÃO PRINCIPAL DE GRAVAÇÃO (AO ALCANCE DO POLEGAR - ZERO ROLAGEM) -->
         <button class="save-btn" onclick="saveAndAddToCart()" style="margin-top: 0; margin-bottom: 8px; font-size: 16px; padding: 15px; border-radius: 12px; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 12px rgba(46,125,50,0.3);">
           ➕ Gravar e Colocar no Meu Pré-Caixa
         </button>
 
+
         <button class="reset-btn" onclick="resetScan()" style="margin-top: 0; background: #eceff1; border-radius: 10px; padding: 11px;">
           📷 Escanear Outro Produto
         </button>
       </div>
+
 
       <!-- Histórico de Outros Mercados (Abaixo, caso haja) -->
       <div class="card" style="padding: 14px; margin-bottom: 14px;">
         <div class="card-title" style="font-size: 13.5px; margin-bottom: 8px;">
           <span>📊 Últimos Preços em Outros Mercados</span>
         </div>
+        <div id="bestPriceBox" class="best-price-badge hidden"></div>
         <div id="history-list" style="font-size: 12px;"></div>
       </div>
     </div>
 </div>
+
 
   <!-- Modal de Instalação PWA Profissional -->
   <div class="modal hidden" id="install-modal">
@@ -1229,11 +1373,13 @@
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closeInstallModal()">&times;</button>
       </div>
 
+
       <div style="text-align: center; margin-bottom: 16px; padding: 6px 0;">
         <img src="https://cdn-icons-png.flaticon.com/512/2424/2424444.png" alt="NutriPreço" style="width: 68px; height: 68px; border-radius: 16px; box-shadow: 0 4px 12px rgba(46,125,50,0.2); margin-bottom: 8px;">
         <h4 style="font-size: 17px; color: #1b5e20; margin-bottom: 4px; font-weight: bold;">NutriPreço no seu Celular</h4>
         <p style="font-size: 13px; color: #555; line-height: 1.4;">Adicione o app à sua tela inicial para calcular o carrinho na gôndola e consultar preços mais rápido, mesmo sem internet.</p>
       </div>
+
 
       <!-- Vantagens do App -->
       <div style="display: flex; justify-content: space-around; background: #f1f8e9; border-radius: 12px; padding: 12px 6px; margin-bottom: 16px; border: 1px solid #c8e6c9;">
@@ -1251,12 +1397,14 @@
         </div>
       </div>
 
+
       <!-- Botão Direto (se suportado pelo navegador) -->
       <div id="install-native-box" class="hidden" style="margin-bottom: 14px;">
         <button onclick="triggerNativeInstall()" style="width: 100%; background: #2e7d32; color: white; border: none; padding: 13px; border-radius: 10px; font-weight: bold; font-size: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(46,125,50,0.25); display: flex; justify-content: center; align-items: center; gap: 8px;">
           ⬇️ Instalar Agora com 1 Toque
         </button>
       </div>
+
 
       <!-- Passo a passo visual Android -->
       <div style="background: #fafafa; border-radius: 12px; padding: 14px; border: 1px solid #e0e0e0; margin-bottom: 14px;">
@@ -1277,10 +1425,12 @@
         </div>
       </div>
 
+
       <!-- Guia rápido iOS/iPhone -->
       <div style="background: #fafafa; border-radius: 12px; padding: 12px 14px; border: 1px solid #e0e0e0; margin-bottom: 16px; font-size: 12px; color: #666;">
         <strong style="color: #222;">🍎 No iPhone (Safari):</strong> Toque no ícone de <strong>Compartilhar (quadrado com seta ⎋)</strong> e selecione <strong>'Adicionar à Tela de Início'</strong>.
       </div>
+
 
       <button class="save-btn" onclick="closeInstallModal()" style="margin-top: 0; background: #2e7d32;">
         Entendi
@@ -1288,18 +1438,21 @@
     </div>
   </div>
 
+
   <!-- Barra fixa inferior duplicada removida: o HUD no topo já exibe o total e botão do carrinho -->
+
 
   <!-- Modal do Radar de Preços & Cesta Básica -->
   <div class="modal hidden" id="radar-modal">
     <div class="modal-content" style="max-height: 88vh;">
       <div class="modal-header">
         <div>
-          <h3 style="color: #2e7d32; display:flex; align-items:center; gap:6px;">🧺 Cesta Básica</h3>
+          <h3 style="color: #2e7d32; display:flex; align-items:center; gap:6px;">📊 Radar de Preços</h3>
           <span style="font-size:12px; color:#666;">Cabo Frio • Cotações da Cidade</span>
         </div>
         <button style="border:none; background:none; font-size:24px; cursor:pointer;" onclick="closeRadarModal()">&times;</button>
       </div>
+
 
       <!-- Abas / Filtros Rápidos -->
       <div class="radar-tabs">
@@ -1307,10 +1460,12 @@
         <button class="radar-tab" id="tab-cesta-basica" onclick="setRadarFilter('cesta')">🧺 Cesta Básica Oficial</button>
       </div>
 
+
       <!-- Campo de Busca em Tempo Real -->
       <div style="margin: 11px 0;">
         <input type="text" id="radar-search-input" placeholder="🔍 Buscar produto (ex: café, arroz, leite, carne)..." oninput="renderRadarProducts()" style="padding: 10px 14px; font-size: 14px;">
       </div>
+
 
       <!-- Placar da Cesta Básica -->
       <div id="cesta-summary-box" class="cesta-summary-box hidden">
@@ -1318,13 +1473,16 @@
         <div id="cesta-markets-ranking"></div>
       </div>
 
+
       <!-- Lista Comparativa Tipo Planilha -->
       <div id="radar-loading" class="loading" style="padding: 20px;">🔍 Carregando cotações de Cabo Frio...</div>
       <div id="radar-products-list" style="margin-bottom: 16px;"></div>
 
+
       <button class="reset-btn" onclick="closeRadarModal()">Fechar Radar</button>
     </div>
   </div>
+
 
   <!-- Modal do Carrinho Atual -->
   <div class="modal hidden" id="cart-modal">
@@ -1350,6 +1508,7 @@
           <span id="budget-percent-label">--</span>
         </div>
 
+
         <!-- Chips de Seleção Rápida de Teto -->
         <div style="border-top:1px dashed #c8e6c9; padding-top:8px;">
           <div style="font-size:11px; font-weight:600; color:#555; margin-bottom:6px;">Toque para definir o limite desta compra:</div>
@@ -1366,12 +1525,14 @@
         </div>
       </div>
 
+
       <div id="cart-items-list" style="margin-bottom: 16px;"></div>
       
       <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-bottom:15px; padding:10px 0; border-top:1px solid #eee;">
         <span>Total da Compra:</span>
         <span id="modal-cart-total" style="color: #2e7d32;">R$ 0,00</span>
       </div>
+
 
       <!-- Ações do Carrinho -->
       <button class="save-btn" style="margin-top:0; margin-bottom:8px; background:#1b5e20;" onclick="finalizeAndSavePurchase()">💾 Finalizar e Salvar no Histórico</button>
@@ -1380,6 +1541,7 @@
     </div>
   </div>
 
+
   <!-- Modal Minhas Compras Salvas -->
   <div class="modal hidden" id="history-modal">
     <div class="modal-content">
@@ -1387,6 +1549,7 @@
         <h3 style="color: #2e7d32;">📂 Minhas Compras Salvas</h3>
         <button style="border:none; background:none; font-size:22px; cursor:pointer;" onclick="closeHistoryModal()">&times;</button>
       </div>
+
 
       <!-- Estatísticas do Histórico -->
       <div class="history-stat-box">
@@ -1400,10 +1563,12 @@
         </div>
       </div>
 
+
       <div id="history-items-container" style="margin-bottom: 16px;"></div>
       <button class="reset-btn" onclick="closeHistoryModal()">Fechar Histórico</button>
     </div>
   </div>
+
 
   <!-- Modal de Login & Conta -->
   <div class="modal hidden" id="auth-modal">
@@ -1429,6 +1594,7 @@
     </div>
   </div>
 
+
   <script>
     const SUPABASE_URL = 'https://fzoyldcfyiigwyxxhosd.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_asGr3f2xfay96fUJAkIHBg_L5vfLYvv';
@@ -1441,53 +1607,80 @@
       if (picker) picker.classList.toggle('hidden');
     }
 
+
     // ==========================================
     // ONBOARDING PROFISSIONAL EM 2 ETAPAS (WIZARD)
     // ==========================================
-    function onWelcomeUfChanged() {
+        async function onWelcomeUfChanged(preselectedCity = null) {
       const ufSelect = document.getElementById('welcome-select-uf');
       const citySelect = document.getElementById('welcome-select-city');
+      const loader = document.getElementById('welcome-city-loading-indicator');
       if (!ufSelect || !citySelect) return;
       const uf = ufSelect.value;
 
-      citySelect.innerHTML = '<option value="">Carregando cidades...</option>';
-      if (typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) {
-        citySelect.innerHTML = '';
-        OFFLINE_CITIES_BACKUP[uf].forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c;
-          opt.innerText = c;
-          if (c === 'Cabo Frio') opt.selected = true;
-          citySelect.appendChild(opt);
-        });
+      citySelect.innerHTML = '<option value="">⏳ Carregando municípios...</option>';
+      const cacheKey = 'nutri_cities_' + uf;
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try {
+          populateWelcomeCityDropdown(JSON.parse(cached), preselectedCity);
+          return;
+        } catch(e){}
       }
 
-      fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
-        .then(res => res.json())
-        .then(cities => {
-          if (Array.isArray(cities) && cities.length > 0) {
-            citySelect.innerHTML = '';
-            cities.forEach(item => {
-              const opt = document.createElement('option');
-              opt.value = item.nome;
-              opt.innerText = item.nome;
-              if (item.nome === 'Cabo Frio' || (uf === 'RJ' && item.nome === 'Cabo Frio')) opt.selected = true;
-              citySelect.appendChild(opt);
-            });
-          }
-        })
-        .catch(() => {});
+      if (!navigator.onLine && typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) {
+        populateWelcomeCityDropdown(OFFLINE_CITIES_BACKUP[uf], preselectedCity);
+        return;
+      }
+
+      if (loader) loader.classList.remove('hidden');
+      try {
+        const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
+        const data = await res.json();
+        const cityNames = data.map(c => c.nome);
+        localStorage.setItem(cacheKey, JSON.stringify(cityNames));
+        populateWelcomeCityDropdown(cityNames, preselectedCity);
+      } catch (err) {
+        const fallback = (typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) ? OFFLINE_CITIES_BACKUP[uf] : ['Capital', 'Interior'];
+        populateWelcomeCityDropdown(fallback, preselectedCity);
+      } finally {
+        if (loader) loader.classList.add('hidden');
+      }
     }
+
+    function populateWelcomeCityDropdown(cityList, preselectedCity) {
+      const citySelect = document.getElementById('welcome-select-city');
+      if (!citySelect) return;
+      citySelect.innerHTML = '';
+      const ufSelect = document.getElementById('welcome-select-uf');
+      const uf = ufSelect ? ufSelect.value : 'RJ';
+
+      cityList.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
+          opt.selected = true;
+        } else if (!preselectedCity && uf === 'RJ' && c === 'Cabo Frio') {
+          opt.selected = true;
+        }
+        citySelect.appendChild(opt);
+      });
+    }
+
 
     function goToWelcomeStep(step) {
       const step1 = document.getElementById('welcome-step-1');
       const step2 = document.getElementById('welcome-step-2');
       const indicator = document.getElementById('welcome-step-indicator');
 
+
       if (step === 2) {
         const name = (document.getElementById('welcome-user-name').value || '').trim();
         const city = document.getElementById('welcome-select-city').value;
         const uf = document.getElementById('welcome-select-uf').value;
+
 
         if (!name) {
           showToast('Por favor, informe seu nome para continuarmos.', 'warning');
@@ -1496,13 +1689,16 @@
           return;
         }
 
+
         if (!city) {
           showToast('Por favor, selecione sua cidade de origem.', 'warning');
           return;
         }
 
+
         document.getElementById('welcome-name-preview').innerText = name;
         document.getElementById('welcome-city-preview').innerText = `${city} - ${uf}`;
+
 
         step1.classList.add('hidden');
         step2.classList.remove('hidden');
@@ -1514,6 +1710,7 @@
       }
     }
 
+
     async function finalizeWelcomeOnboarding() {
       const name = (document.getElementById('welcome-user-name').value || '').trim();
       const uf = document.getElementById('welcome-select-uf').value;
@@ -1521,10 +1718,12 @@
       const email = (document.getElementById('welcome-auth-email').value || '').trim();
       const password = (document.getElementById('welcome-auth-password').value || '');
 
+
       if (!email || password.length < 6) {
         showToast('Digite um e-mail válido e uma senha de no mínimo 6 dígitos.', 'warning');
         return;
       }
+
 
       try {
         showToast('Criando sua conta...', 'info');
@@ -1537,15 +1736,19 @@
         });
         if (error) throw error;
 
+
         currentUser = data.user;
         checkAdminAccess(currentUser);
+
 
         localStorage.setItem('nutri_user_name', name);
         localStorage.setItem('nutri_user_uf', uf);
         localStorage.setItem('nutri_user_city', `${city} - ${uf}`);
         localStorage.setItem('nutri_onboarding_completed', 'true');
 
-        trackAppEvent('user_signup', { city: city, uf: uf });
+
+        trackAppEvent('user_signup', { name: name, city: city, uf: uf });
+
 
         const bannerName = document.getElementById('banner-user-name');
         const bannerCity = document.getElementById('banner-user-city');
@@ -1554,6 +1757,7 @@
         if (bannerCity) bannerCity.innerText = `${city} - ${uf}`;
         if (headerAuthBtn) headerAuthBtn.innerText = '👤 ' + name;
 
+
         document.getElementById('welcome-modal').classList.add('hidden');
         showToast(`🎉 Conta criada com sucesso! Bem-vindo, ${name}!`, 'success');
       } catch (err) {
@@ -1561,20 +1765,24 @@
       }
     }
 
+
     function skipWelcomeAuth() {
       const name = (document.getElementById('welcome-user-name').value || '').trim() || 'Visitante';
       const uf = document.getElementById('welcome-select-uf').value || 'RJ';
       const city = document.getElementById('welcome-select-city').value || 'Cabo Frio';
+
 
       localStorage.setItem('nutri_user_name', name);
       localStorage.setItem('nutri_user_uf', uf);
       localStorage.setItem('nutri_user_city', `${city} - ${uf}`);
       localStorage.setItem('nutri_onboarding_completed', 'true');
 
+
       const bannerName = document.getElementById('banner-user-name');
       const bannerCity = document.getElementById('banner-user-city');
       if (bannerName) bannerName.innerText = name;
       if (bannerCity) bannerCity.innerText = `${city} - ${uf}`;
+
 
       document.getElementById('welcome-modal').classList.add('hidden');
       showToast(`Bem-vindo, ${name}! Preços ativos para ${city} - ${uf}.`, 'info');
@@ -1587,20 +1795,26 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       try {
         let deviceId = localStorage.getItem('nutri_device_id');
         if (!deviceId) {
-          deviceId = (crypto.randomUUID ? crypto.randomUUID() : 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now());
+          deviceId = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now();
           localStorage.setItem('nutri_device_id', deviceId);
         }
         const city = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        const userEmail = (typeof currentUser !== 'undefined' && currentUser) ? currentUser.email : null;
+
+
         await client.from('app_telemetria').insert([{
           evento: eventType,
           device_id: deviceId,
           cidade: city,
+          email: userEmail,
           metadata: metadata
         }]);
       } catch (err) {
         // Silencioso para não interromper navegação do usuário
       }
     }
+
+
 
 
     // ==========================================
@@ -1658,6 +1872,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       '7891024132357': { nome: 'Esponja Multiuso Scotch-Brite', marca: '3M' }
     };
 
+
     function parseScaleBarcode(code) {
       if (!code || typeof code !== 'string') return null;
       const clean = code.trim();
@@ -1676,6 +1891,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       return null;
     }
 
+
     function setScaleProductName(name) {
       currentName = name;
       document.getElementById('prod-name').innerText = currentName;
@@ -1683,6 +1899,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       document.getElementById('unnamed-box').classList.add('hidden');
       showToast(`Setor definido: ${name}`, 'info');
     }
+
 
     function getCachedProduct(barcode) {
       try {
@@ -1695,6 +1912,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       return null;
     }
 
+
     function saveProductToLocalCache(barcode, name, brand) {
       if (!barcode || !name) return;
       try {
@@ -1703,6 +1921,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         localStorage.setItem('nutri_products_cache', JSON.stringify(localDb));
       } catch(e) {}
     }
+
 
     // ==========================================
     // FILA DE SINCRONIZAÇÃO OFFLINE (LOCAL-FIRST)
@@ -1715,6 +1934,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       } catch(e) {}
     }
 
+
     async function syncOfflineQueue() {
       if (!navigator.onLine) return;
       let queue = [];
@@ -1723,8 +1943,10 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       } catch(e) { return; }
       if (!queue || queue.length === 0) return;
 
+
       const remaining = [];
       let syncedCount = 0;
+
 
       for (const item of queue) {
         try {
@@ -1738,6 +1960,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             if (pData && pData[0]) prodId = pData[0].id;
           }
 
+
           let mercadoId = null;
           const { data: mkData } = await client.from('mercados').select('id').eq('nome', item.mercado || 'Supermercado Local').limit(1);
           if (mkData && mkData.length > 0) {
@@ -1750,6 +1973,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             }).select();
             if (newMk && newMk[0]) mercadoId = newMk[0].id;
           }
+
 
           if (prodId && mercadoId) {
             await client.from('registros_precos').insert({
@@ -1766,18 +1990,22 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
       }
 
+
       localStorage.setItem('nutri_offline_sync_queue', JSON.stringify(remaining));
       if (syncedCount > 0) {
         showToast(`🔄 Sincronização: ${syncedCount} cotações salvas offline foram gravadas no banco!`, 'success');
       }
     }
 
+
     window.addEventListener('online', () => {
       showToast('🌐 Internet reconectada! Sincronizando dados pendentes...', 'info');
       syncOfflineQueue();
     });
 
+
     setTimeout(syncOfflineQueue, 2500);
+
 
     // ==========================================
     
@@ -1785,6 +2013,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     // 1. TRAVA DE TETO DE GASTOS (ORÇAMENTO ANTI-SUFOCO)
     // ==========================================
     let budgetLimit = parseFloat(localStorage.getItem('nutri_budget_limit') || '0');
+
 
     function setBudgetLimit(val, chipEl = null) {
       budgetLimit = val;
@@ -1797,6 +2026,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         showToast('Teto de gastos desativado (Sem Teto).', 'info');
       }
     }
+
 
     function highlightActiveBudgetChip() {
       const container = document.getElementById('budget-chips-container');
@@ -1823,6 +2053,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     async function promptCustomBudget(chipEl = null) {
       const current = budgetLimit > 0 ? budgetLimit.toFixed(2).replace('.', ',') : '';
       const valStr = prompt('Digite o teto máximo de gastos em R$ (ex: 80 ou 250):', current);
@@ -1836,6 +2067,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function updateBudgetDisplay() {
       highlightActiveBudgetChip();
       const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
@@ -1844,6 +2076,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       const bar = document.getElementById('budget-progress-bar');
       const alertText = document.getElementById('budget-status-alert');
       if (!label || !bar) return;
+
 
       if (!budgetLimit || budgetLimit <= 0) {
         label.innerText = 'Não definido';
@@ -1855,10 +2088,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         return;
       }
 
+
       label.innerText = 'R$ ' + budgetLimit.toFixed(2).replace('.', ',');
       const pct = Math.round((total / budgetLimit) * 100);
       percLabel.innerText = pct + '%';
       bar.style.width = Math.min(pct, 100) + '%';
+
 
       if (pct < 80) {
         bar.style.backgroundColor = '#2e7d32';
@@ -1874,6 +2109,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         alertText.style.color = '#c62828';
       }
     }
+
 
     // ==========================================
     // 2. LISTA PRÉVIA DINÂMICA (MONTAR NO SOFÁ)
@@ -1896,7 +2132,9 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       { name: 'Papel Higiênico', icon: '🧻' }
     ];
 
+
     let cachedDbProducts = [];
+
 
     function openPreListModal() {
       renderPrelistTabQuick();
@@ -1905,15 +2143,18 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       document.getElementById('prelist-modal').classList.remove('hidden');
     }
 
+
     function closePreListModal() {
       document.getElementById('prelist-modal').classList.add('hidden');
     }
+
 
     function switchPrelistTab(tab) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('prelist-tab-quick-content').classList.add('hidden');
       document.getElementById('prelist-tab-catalog-content').classList.add('hidden');
       document.getElementById('prelist-tab-mylist-content').classList.add('hidden');
+
 
       if (tab === 'quick') {
         document.getElementById('tab-btn-quick').classList.add('active');
@@ -1926,6 +2167,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         document.getElementById('prelist-tab-mylist-content').classList.remove('hidden');
       }
     }
+
 
     function renderPrelistTabQuick() {
       const grid = document.getElementById('quick-cesta-grid');
@@ -1942,6 +2184,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       });
     }
 
+
     async function loadDbCatalogForPrelist() {
       const grid = document.getElementById('catalog-db-grid');
       try {
@@ -1954,6 +2197,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function isValidProductName(name) {
       if (!name || typeof name !== 'string') return false;
       const clean = name.trim().toLowerCase();
@@ -1963,6 +2207,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
       return true;
     }
+
 
     function renderDbCatalogGrid(prods) {
       const grid = document.getElementById('catalog-db-grid');
@@ -1984,11 +2229,13 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       });
     }
 
+
     function filterCatalogSearch() {
       const q = document.getElementById('catalog-search-input').value.toLowerCase().trim();
       const filtered = cachedDbProducts.filter(p => isValidProductName(p.nome) && p.nome.toLowerCase().includes(q));
       renderDbCatalogGrid(filtered);
     }
+
 
     function addPrelistItem(name) {
       if (!name || name.trim() === '') return;
@@ -2003,6 +2250,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       showToast(`+ '${name}' adicionado à sua lista!`, 'success');
     }
 
+
     function addManualPrelistItem() {
       const input = document.getElementById('manual-prelist-input');
       const val = input.value.trim();
@@ -2010,6 +2258,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       addPrelistItem(val);
       input.value = '';
     }
+
 
     function togglePrelistItemDone(id) {
       const item = preShoppingList.find(i => i.id === id);
@@ -2020,21 +2269,25 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function removePrelistItem(id) {
       preShoppingList = preShoppingList.filter(i => i.id !== id);
       savePrelist();
       renderMyPrelistItems();
     }
 
+
     function renderMyPrelistItems() {
       const container = document.getElementById('prelist-items-container');
       const badge = document.getElementById('prelist-count-badge');
       badge.innerText = preShoppingList.length;
 
+
       if (preShoppingList.length === 0) {
         container.innerHTML = '<div style="text-align:center; color:#888; padding:25px; font-size:13px;">Sua lista de compras está vazia.<br>Toque nos produtos das outras abas para adicionar.</div>';
         return;
       }
+
 
       container.innerHTML = '';
       preShoppingList.forEach(item => {
@@ -2049,12 +2302,14 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       });
     }
 
+
     function clearCompletedPrelist() {
       preShoppingList = preShoppingList.filter(i => !i.done);
       savePrelist();
       renderMyPrelistItems();
       showToast('Itens marcados removidos.', 'info');
     }
+
 
     async function clearAllPrelist() {
       if (preShoppingList.length === 0) return;
@@ -2073,9 +2328,11 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function savePrelist() {
       localStorage.setItem('nutri_pre_shopping_list', JSON.stringify(preShoppingList));
     }
+
 
     // ==========================================
     // 3. RELATÓRIO EXECUTIVO (B2C & B2B / PRESTAÇÃO DE CONTAS)
@@ -2086,11 +2343,13 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         return;
       }
 
+
       const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
       const itemsCount = cart.reduce((acc, i) => acc + i.qty, 0);
       const avg = itemsCount > 0 ? (total / itemsCount) : 0;
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado em Cabo Frio';
       const nowStr = new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
 
       document.getElementById('rep-kpi-total').innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
       document.getElementById('rep-kpi-items').innerText = itemsCount + ' un.';
@@ -2098,6 +2357,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       document.getElementById('rep-kpi-market').innerText = marketName;
       document.getElementById('rep-date-time').innerText = 'Data: ' + nowStr + ' | Estabelecimento: ' + marketName;
       document.getElementById('rep-footer-total').innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+
 
       const table = document.getElementById('rep-items-table');
       table.innerHTML = '';
@@ -2112,12 +2372,15 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         table.appendChild(row);
       });
 
+
       document.getElementById('report-modal').classList.remove('hidden');
     }
+
 
     function closeReportModal() {
       document.getElementById('report-modal').classList.add('hidden');
     }
+
 
     function shareExecutiveReportWhatsApp() {
       if (!cart || cart.length === 0) return;
@@ -2126,6 +2389,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       const avg = itemsCount > 0 ? (total / itemsCount) : 0;
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado em Cabo Frio';
       const nowStr = new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
 
       let msg = `📊 *NUTRIPREÇO • RELATÓRIO EXECUTIVO DE COMPRA*\n`;
       msg += `📍 *Estabelecimento:* ${marketName}\n`;
@@ -2137,17 +2401,21 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       msg += `────────────────────────────\n`;
       msg += `📋 *DISCRIMINAÇÃO DE ITENS:*\n\n`;
 
+
       cart.forEach((item, idx) => {
         const sub = item.price * item.qty;
         msg += `${idx + 1}. *${item.name}*\n   ${item.qty}x un. × R$ ${item.price.toFixed(2).replace('.', ',')} = R$ ${sub.toFixed(2).replace('.', ',')}\n`;
       });
 
+
       msg += `\n────────────────────────────\n`;
       msg += `💡 *Relatório gerado via NutriPreço Cabo Frio*\n`;
       msg += `👉 https://nutripreco-oficial.github.io/`;
 
+
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     }
+
 
     // ==========================================
     // 4. PAINEL DO ADMINISTRADOR (ADMIN & CSV)
@@ -2165,7 +2433,9 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       { nome: 'Extra', lat: -22.8800, lon: -42.0220, bairro: 'Centro' }
     ];
 
+
     let userCurrentCoords = null;
+
 
     function getHaversineDistance(lat1, lon1, lat2, lon2) {
       const R = 6371e3; // Metros
@@ -2180,13 +2450,16 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       return R * c;
     }
 
+
     function detectGPSLocation(forceNotify = false) {
       if (!navigator.geolocation) {
         if (forceNotify) showToast('Geolocalização não suportada neste aparelho.', 'warning');
         return;
       }
 
+
       if (forceNotify) showToast('📍 Detectando sua localização pelo GPS...', 'info');
+
 
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -2194,8 +2467,10 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const lon = position.coords.longitude;
           userCurrentCoords = { lat, lon };
 
+
           let closestMarket = null;
           let minDistance = Infinity;
+
 
           // 1. Checa mercados conhecidos
           for (const m of CABO_FRIO_MARKETS_GPS) {
@@ -2205,6 +2480,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
               closestMarket = m;
             }
           }
+
 
           // 2. Checa se o usuário está dentro de 250m de um mercado conhecido
           if (closestMarket && minDistance <= 250) {
@@ -2220,6 +2496,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
       );
     }
+
 
     function autoSelectMarket(name) {
       const badge = document.getElementById('current-market-badge');
@@ -2240,6 +2517,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function openNewMarketModal() {
       document.getElementById('new-market-modal').classList.remove('hidden');
       if (navigator.geolocation && !userCurrentCoords) {
@@ -2249,22 +2527,27 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     function closeNewMarketModal() {
       document.getElementById('new-market-modal').classList.add('hidden');
       document.getElementById('new-market-name').value = '';
       document.getElementById('new-market-neighborhood').value = '';
     }
 
+
     async function saveNewMarket() {
       const name = document.getElementById('new-market-name').value.trim();
       const neighborhood = document.getElementById('new-market-neighborhood').value.trim();
+
 
       if (!name) {
         showToast('Digite o nome do estabelecimento.', 'warning');
         return;
       }
 
+
       showToast('Cadastrando mercado...', 'info');
+
 
       try {
         const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
@@ -2276,8 +2559,10 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           longitude: userCurrentCoords ? userCurrentCoords.lon : null
         };
 
+
         const { data, error } = await client.from('mercados').insert(marketObj).select();
         if (error) throw error;
+
 
         // Adiciona um chip dinâmico ao container
         const container = document.getElementById('market-chips-container');
@@ -2291,6 +2576,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           selectMarket(newChip, name);
         }
 
+
         // Adiciona à lista do select do painel admin
         const select = document.getElementById('encarte-photo-market');
         if (select) {
@@ -2299,6 +2585,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           opt.innerText = name + (neighborhood ? ` (${neighborhood})` : '');
           select.appendChild(opt);
         }
+
 
         closeNewMarketModal();
         showToast(`Mercado "${name}" cadastrado com sucesso!`, 'success');
@@ -2318,6 +2605,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     // ==========================================
     // GESTÃO DE ENCARTES & SUBSTITUIÇÃO AUTOMÁTICA
     // ==========================================
@@ -2326,9 +2614,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     // ==========================================
     
 
-    
 
     
+
+
+    
+
 
     async function openAdminModal() {
       const modalEl = document.getElementById('admin-modal');
@@ -2341,9 +2632,11 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const { count: precoCount } = await client.from('registros_precos').select('*', { count: 'exact', head: true });
         const { count: marketCount } = await client.from('mercados').select('*', { count: 'exact', head: true });
 
+
         document.getElementById('admin-count-prods').innerText = prodCount ?? '0';
         document.getElementById('admin-count-precos').innerText = precoCount ?? '0';
         document.getElementById('admin-count-markets').innerText = marketCount ?? '0';
+
 
         // Consultas de Telemetria (Downloads e Usuários Únicos)
         try {
@@ -2356,6 +2649,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const elInstall = document.getElementById('admin-count-installs');
           if (elInstall) elInstall.innerText = '0';
         }
+
 
         try {
           const { data: usersData } = await client.from('app_telemetria')
@@ -2381,14 +2675,17 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+
     
     function loadActiveEncartes() {
       if (typeof loadActivePhotoEncartes === 'function') loadActivePhotoEncartes();
     }
 
+
     function closeAdminModal() {
       document.getElementById('admin-modal').classList.add('hidden');
     }
+
 
     
     function switchAdminMainTab(tab) {
@@ -2399,7 +2696,9 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       const viewEncartes = document.getElementById('admin-main-view-encartes');
       const viewMod = document.getElementById('admin-main-view-mod');
 
+
       if (!viewMetrics || !viewEncartes || !viewMod) return;
+
 
       [tabMetricsBtn, tabEncartesBtn, tabModBtn].forEach(b => {
         if (b) {
@@ -2409,6 +2708,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
       });
       [viewMetrics, viewEncartes, viewMod].forEach(v => v.classList.add('hidden'));
+
 
       if (tab === 'metrics') {
         if (tabMetricsBtn) {
@@ -2434,9 +2734,11 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         viewMod.classList.remove('hidden');
       }
 
+
       const modalContent = document.querySelector('#admin-modal .modal-content');
       if (modalContent) modalContent.scrollTop = 0;
     }
+
 
     async function cleanInvalidProducts() {
       const confirmed = await showConfirmDialog({
@@ -2466,11 +2768,13 @@ async function exportPricesCSV() {
           .select('id, preco, data_registro, produtos(nome, codigo_barras, marca), mercados(nome, cidade)')
           .order('data_registro', { ascending: false });
 
+
         if (error) throw error;
         if (!data || data.length === 0) {
           showToast('Nenhum dado registrado para exportar.', 'warning');
           return;
         }
+
 
         let csv = 'ID,Produto,Marca,Codigo_Barras,Preco_R$,Supermercado,Cidade,Data_Registro\n';
         data.forEach(r => {
@@ -2483,6 +2787,7 @@ async function exportPricesCSV() {
           const dataReg = r.data_registro || '';
           csv += `${r.id},"${prodNome}","${marca}","${ean}",${preco},"${mercado}","${cidade}","${dataReg}"\n`;
         });
+
 
         const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -2499,22 +2804,27 @@ async function exportPricesCSV() {
       }
     }
 
+
     // SISTEMA DE FEEDBACK PROFISSIONAL (TOASTS & CONFIRM)
     // ==========================================
     function showToast(message, type = 'info', duration = 3800) {
       const container = document.getElementById('toast-container');
       if (!container) return;
 
+
       const toast = document.createElement('div');
       toast.className = `toast-box toast-${type}`;
+
 
       let icon = 'ℹ️';
       if (type === 'success') icon = '✅';
       else if (type === 'error') icon = '❌';
       else if (type === 'warning') icon = '⚠️';
 
+
       toast.innerHTML = `<span style="font-size:18px; line-height:1;">${icon}</span><span style="flex:1;">${message}</span>`;
       container.appendChild(toast);
+
 
       setTimeout(() => {
         toast.classList.add('hiding');
@@ -2523,6 +2833,7 @@ async function exportPricesCSV() {
         }, 300);
       }, duration);
     }
+
 
     function showConfirmDialog({ title = 'Confirmação', message = '', icon = '⚠️', okText = 'Confirmar', cancelText = 'Cancelar', isDestructive = false }) {
       return new Promise((resolve) => {
@@ -2535,13 +2846,16 @@ async function exportPricesCSV() {
         okBtn.innerText = okText;
         cancelBtn.innerText = cancelText;
 
+
         if (isDestructive) {
           okBtn.style.background = '#c62828';
         } else {
           okBtn.style.background = '#2e7d32';
         }
 
+
         modal.classList.remove('hidden');
+
 
         const cleanup = () => {
           modal.classList.add('hidden');
@@ -2549,10 +2863,12 @@ async function exportPricesCSV() {
           cancelBtn.onclick = null;
         };
 
+
         okBtn.onclick = () => { cleanup(); resolve(true); };
         cancelBtn.onclick = () => { cleanup(); resolve(false); };
       });
     }
+
 
     let html5QrCode;
     let currentBarcode = '';
@@ -2563,17 +2879,21 @@ async function exportPricesCSV() {
     let existingPriceForCurrentMarket = null;
     let deferredPrompt = null;
 
+
     let cart = JSON.parse(localStorage.getItem('nutri_cart') || '[]');
     let purchaseHistory = JSON.parse(localStorage.getItem('nutri_purchases_history') || '[]');
     let currentUser = null;
         checkAdminAccess(null);
 
+
     // Estado do Radar de Preços & Cesta Básica
     let radarData = [];
     let currentRadarFilter = 'all';
 
+
     // Termos que qualificam a Cesta Básica Oficial (DIEESE / Governo)
     const CESTA_TERMS = ['arroz', 'feijão', 'feijao', 'café', 'cafe', 'leite', 'óleo', 'oleo', 'açúcar', 'acucar', 'farinha', 'carne', 'frango', 'pão', 'pao', 'manteiga', 'margarina', 'tomate', 'banana', 'batata'];
+
 
         // ==========================================
     // ONBOARDING DE BOAS-VINDAS & SAUDAÇÃO PERSONALIZADA
@@ -2585,10 +2905,12 @@ async function exportPricesCSV() {
       return 'Boa noite';
     }
 
+
     function isInsideWhatsAppOrInstagram() {
       const ua = navigator.userAgent || navigator.vendor || window.opera;
       return (ua.indexOf('WhatsApp') > -1 || ua.indexOf('Instagram') > -1 || ua.indexOf('FB_IAB') > -1);
     }
+
 
     function checkFirstAccessOnboarding() {
       const onboardDone = localStorage.getItem('nutri_onboarding_completed');
@@ -2596,19 +2918,26 @@ async function exportPricesCSV() {
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio - RJ';
       const greeting = getTimeBasedGreeting();
 
+
       const bannerGreeting = document.getElementById('banner-greeting-text');
       const bannerName = document.getElementById('banner-user-name');
       const bannerCity = document.getElementById('banner-user-city');
+
 
       if (bannerGreeting) bannerGreeting.innerHTML = `<b>${greeting}</b>`;
       if (bannerCity) bannerCity.innerText = savedCity;
       if (savedName && bannerName) bannerName.innerText = savedName;
 
+
       if (!onboardDone || !savedName) {
         const modal = document.getElementById('welcome-modal');
-        if (modal) modal.classList.remove('hidden');
+        if (modal) {
+          modal.classList.remove('hidden');
+          onWelcomeUfChanged('Cabo Frio');
+        }
       }
     }
+
 
     function triggerNativeInstallFromWelcome() {
       if (deferredPrompt) {
@@ -2622,14 +2951,19 @@ async function exportPricesCSV() {
       }
     }
 
+
     function saveWelcomeOnboarding() {
       const nameInput = document.getElementById('welcome-user-name');
 
+
       const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Amigo(a)';
+      const cityInput = document.getElementById('welcome-select-city');
       const city = (cityInput && cityInput.value.trim()) ? cityInput.value.trim() : 'Cabo Frio - RJ';
+
 
       localStorage.setItem('nutri_user_name', name);
       localStorage.setItem('nutri_user_city', city);
+
 
       // Atualiza banner
       const bannerName = document.getElementById('banner-user-name');
@@ -2637,11 +2971,16 @@ async function exportPricesCSV() {
       if (bannerName) bannerName.innerText = name;
       if (bannerCity) bannerCity.innerText = city;
 
+
       const modal = document.getElementById('welcome-modal');
       if (modal) modal.classList.add('hidden');
 
+
       showToast(`Tudo pronto, ${name}! Boas compras em ${city}.`, 'success');
     }
+
+
+
 
 
 
@@ -2650,9 +2989,9 @@ async function exportPricesCSV() {
       checkFirstAccessOnboarding();
       updateCartDisplay();
       updateBudgetDisplay();
-      updateQuoteRegionBadge();
       checkAuthSession();
     });
+
 
     // Controle do Menu Lateral Deslizante (Drawer)
     function toggleSidebar(show) {
@@ -2667,30 +3006,6 @@ async function exportPricesCSV() {
       }
     }
 
-    function toggleSidebarSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (!section) return;
-      const trigger = document.querySelector(`[aria-controls="${sectionId}"]`);
-      const isOpening = section.classList.contains('hidden');
-      document.querySelectorAll('.sidebar-collapsible').forEach((other) => {
-        if (other.id !== sectionId) {
-          other.classList.add('hidden');
-          const otherTrigger = document.querySelector(`[aria-controls="${other.id}"]`);
-          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
-        }
-      });
-      section.classList.toggle('hidden', !isOpening);
-      if (trigger) trigger.setAttribute('aria-expanded', String(isOpening));
-    }
-
-    function updateQuoteRegionBadge() {
-      const badge = document.getElementById('quote-region-badge');
-      if (!badge) return;
-      const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
-      const savedUf = localStorage.getItem('nutri_user_state') || localStorage.getItem('nutri_user_uf') || 'RJ';
-      const city = savedCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
-      badge.innerText = `${city} - ${savedUf}`;
-    }
 
     // Modal do Radar de Preços & Cesta Básica
     function openRadarModal() {
@@ -2698,9 +3013,11 @@ async function exportPricesCSV() {
       fetchRadarData();
     }
 
+
     function closeRadarModal() {
       document.getElementById('radar-modal').classList.add('hidden');
     }
+
 
     function setRadarFilter(filter) {
       currentRadarFilter = filter;
@@ -2709,10 +3026,12 @@ async function exportPricesCSV() {
       renderRadarProducts();
     }
 
+
     async function fetchRadarData() {
       const loadingEl = document.getElementById('radar-loading');
       loadingEl.classList.remove('hidden');
       document.getElementById('radar-products-list').innerHTML = '';
+
 
       try {
         const { data, error } = await client
@@ -2720,6 +3039,7 @@ async function exportPricesCSV() {
           .select('preco, data_registro, mercados(nome), produtos(id, nome, marca, codigo_barras)')
           .order('data_registro', { ascending: false })
           .limit(150);
+
 
         if (error) throw error;
         radarData = data || [];
@@ -2731,17 +3051,20 @@ async function exportPricesCSV() {
       }
     }
 
+
     function renderRadarProducts() {
       const listContainer = document.getElementById('radar-products-list');
       const searchVal = (document.getElementById('radar-search-input').value || '').toLowerCase().trim();
       const cestaBox = document.getElementById('cesta-summary-box');
       listContainer.innerHTML = '';
 
+
       if (radarData.length === 0) {
         listContainer.innerHTML = '<div style="text-align:center; color:#888; font-size:13px; padding:25px;">Nenhum preço registrado ainda nesta região.<br>Bipe produtos na gôndola para alimentar o Radar da sua cidade!</div>';
         cestaBox.classList.add('hidden');
         return;
       }
+
 
       // Agrupa os registros por produto
       const grouped = {};
@@ -2764,7 +3087,9 @@ async function exportPricesCSV() {
         });
       });
 
+
       let productsList = Object.values(grouped);
+
 
       // Filtro de Busca
       if (searchVal) {
@@ -2773,6 +3098,7 @@ async function exportPricesCSV() {
           p.marca.toLowerCase().includes(searchVal)
         );
       }
+
 
       // Filtro da Cesta Básica Oficial
       if (currentRadarFilter === 'cesta') {
@@ -2786,10 +3112,12 @@ async function exportPricesCSV() {
         cestaBox.classList.add('hidden');
       }
 
+
       if (productsList.length === 0) {
         listContainer.innerHTML = '<div style="text-align:center; color:#888; font-size:13px; padding:20px;">Nenhum produto encontrado com os filtros selecionados.</div>';
         return;
       }
+
 
       productsList.forEach(p => {
         // Encontra o menor preço e os outros
@@ -2797,6 +3125,7 @@ async function exportPricesCSV() {
         const menor = sorted[0];
         const maior = sorted[sorted.length - 1];
         const isCesta = CESTA_TERMS.some(t => p.nome.toLowerCase().includes(t));
+
 
         let diffHtml = '';
         if (sorted.length > 1 && maior.preco > menor.preco) {
@@ -2810,6 +3139,7 @@ async function exportPricesCSV() {
           `;
         }
 
+
         const card = document.createElement('div');
         card.className = 'radar-card';
         card.innerHTML = `
@@ -2820,6 +3150,7 @@ async function exportPricesCSV() {
             </div>
             ${isCesta ? '<span class="cesta-badge">🧺 Cesta Básica</span>' : ''}
           </div>
+
 
           <div class="radar-price-comparison">
             <div class="best-market-row">
@@ -2833,12 +3164,14 @@ async function exportPricesCSV() {
       });
     }
 
+
     function renderCestaRanking(cestaProducts) {
       const box = document.getElementById('cesta-markets-ranking');
       if (cestaProducts.length === 0) {
         box.innerHTML = '<div style="color:#666;">Ainda não há dados suficientes de itens da Cesta Básica registrados.</div>';
         return;
       }
+
 
       // Soma por mercado
       const marketSums = {};
@@ -2850,14 +3183,17 @@ async function exportPricesCSV() {
         });
       });
 
+
       const ranking = Object.keys(marketSums)
         .map(m => ({ mercado: m, total: marketSums[m].total, count: marketSums[m].count }))
         .sort((a, b) => (a.total / a.count) - (b.total / b.count));
+
 
       if (ranking.length === 0) {
         box.innerHTML = '<div style="color:#666;">Bipe os itens da cesta básica para gerar o ranking da cidade.</div>';
         return;
       }
+
 
       const campeao = ranking[0];
       let html = `<div style="margin-bottom:6px; font-weight:bold; color:#2e7d32;">🏆 Mercado Mais Barato do Básico: <b>${campeao.mercado}</b></div>`;
@@ -2873,6 +3209,7 @@ async function exportPricesCSV() {
       box.innerHTML = html;
     }
 
+
     // PWA Install Prompt Listener
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -2880,6 +3217,7 @@ async function exportPricesCSV() {
       const installBtn = document.getElementById('install-pwa-btn');
       if (installBtn) installBtn.classList.remove('hidden');
     });
+
 
         function openInstallModal() {
       const nativeBox = document.getElementById('install-native-box');
@@ -2891,9 +3229,11 @@ async function exportPricesCSV() {
       document.getElementById('install-modal').classList.remove('hidden');
     }
 
+
     function closeInstallModal() {
       document.getElementById('install-modal').classList.add('hidden');
     }
+
 
     function triggerNativeInstall() {
       if (deferredPrompt) {
@@ -2912,6 +3252,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     function installPWA() {
       if (deferredPrompt) {
         triggerNativeInstall();
@@ -2919,6 +3260,7 @@ async function exportPricesCSV() {
         openInstallModal();
       }
     }
+
 
     
     // ==========================================
@@ -2930,29 +3272,34 @@ async function exportPricesCSV() {
              document.referrer.includes('android-app://');
     }
 
+
     function checkUniversalPWA() {
       // Se já está instalado na tela inicial, esconde botões e não perturba
       if (isRunningStandalone()) {
         const installBtn = document.getElementById('install-pwa-btn');
         if (installBtn) installBtn.classList.add('hidden');
+        const welcomeInstall = document.getElementById('welcome-install-box');
         if (welcomeInstall) welcomeInstall.classList.add('hidden');
         return;
       }
 
+
       const isInstagramOrWhatsApp = /Instagram|FBAN|FBAV|WhatsApp/i.test(navigator.userAgent);
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+
       // Se abriu pelo navegador interno do Instagram/WhatsApp
-      if (isInstagramOrWhatsApp) {
-        if (tipBox) {
+      const tipBox = document.getElementById('pwa-install-tip');
+      if (isInstagramOrWhatsApp && tipBox) {
           tipBox.classList.remove('hidden');
           tipBox.innerHTML = `⚠️ <b>Atenção:</b> Você abriu pelo Instagram/WhatsApp.<br>Para instalar o app e salvar suas compras offline, toque nos <b>três pontinhos (...) no topo</b> e escolha <b>"Abrir no Chrome"</b> ou <b>"Abrir no Safari"</b>.`;
         }
-      }
+
 
       // Mostra botão de instalar no topo
       const installBtn = document.getElementById('install-pwa-btn');
       if (installBtn) installBtn.classList.remove('hidden');
+
 
       // Se for o primeiro acesso e não for standalone, abre o modal de boas-vindas com a instalação
       const hasVisited = localStorage.getItem('nutri_user_city');
@@ -2961,11 +3308,13 @@ async function exportPricesCSV() {
       }
     }
 
+
     // Executa verificação PWA no carregamento
     window.addEventListener('DOMContentLoaded', () => {
       trackAppEvent('app_access');
       setTimeout(checkUniversalPWA, 800);
     });
+
 
     async function checkAuthSession() {
       const { data: { session } } = await client.auth.getSession();
@@ -2979,6 +3328,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     function openAuthModal() {
       if (currentUser) {
         document.getElementById('auth-logged-in-view').classList.remove('hidden');
@@ -2991,9 +3341,11 @@ async function exportPricesCSV() {
       document.getElementById('auth-modal').classList.remove('hidden');
     }
 
+
     function closeAuthModal() {
       document.getElementById('auth-modal').classList.add('hidden');
     }
+
 
     async function logoutUser() {
       await client.auth.signOut();
@@ -3006,6 +3358,7 @@ async function exportPricesCSV() {
       showToast('Você saiu da sua conta.', 'info');
     }
 
+
     async function deleteUserAccount() {
       const confirmed = await showConfirmDialog({
         title: 'Excluir Conta & Dados (LGPD)',
@@ -3016,19 +3369,22 @@ async function exportPricesCSV() {
         isDestructive: true
       });
       if (confirmed) {
-        showToast('Para concluir a exclusão, envie a solicitação pelo contato da Política de Privacidade. Você será desconectado agora.', 'info');
+        showToast('Sua solicitação de exclusão foi registrada. O logout foi realizado.', 'info');
         await logoutUser();
       }
     }
+
 
     async function handleAuth(type) {
       const email = document.getElementById('auth-email').value.trim();
       const password = document.getElementById('auth-password').value;
 
+
       if (!email || password.length < 6) {
         showToast('Digite um e-mail válido e uma senha de no mínimo 6 caracteres.', 'warning');
         return;
       }
+
 
       try {
         if (type === 'login') {
@@ -3052,14 +3408,13 @@ async function exportPricesCSV() {
       }
     }
 
+
     function selectMarket(el, name) {
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
       const input = document.getElementById('market-input');
       const badge = document.getElementById('current-market-badge');
-      const status = document.getElementById('market-selection-status');
       if (badge) badge.innerText = name;
-      if (status) status.innerText = `Selecionado: ${name}`;
       if (name === 'Outro') {
         input.value = '';
         input.focus();
@@ -3072,10 +3427,10 @@ async function exportPricesCSV() {
       checkPriceComparison();
     }
 
+
     function startScanner() {
       detectGPSLocation(false);
       document.getElementById('start-btn').classList.add('hidden');
-      document.getElementById('scanner-empty-state')?.classList.add('hidden');
       html5QrCode = new Html5Qrcode("reader");
       html5QrCode.start(
         { facingMode: "environment" },
@@ -3085,12 +3440,13 @@ async function exportPricesCSV() {
       ).catch(err => {
         showToast("Erro ao acessar a câmera: " + err, "error");
         document.getElementById('start-btn').classList.remove('hidden');
-        document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       });
     }
 
+
     async function onCodeScanned(barcode) {
       if (html5QrCode) await html5QrCode.stop();
+
 
       document.getElementById('scan-section').classList.add('hidden');
       document.getElementById('loading').classList.remove('hidden');
@@ -3099,6 +3455,7 @@ async function exportPricesCSV() {
       if (scaleBadge) scaleBadge.classList.add('hidden');
       currentBarcode = barcode;
       currentProdDbId = null;
+
 
       // 1. LEITURA INTELIGENTE DE BALANÇA (EAN iniciado com 2: açougue/frios/padaria)
       const scaleData = parseScaleBarcode(barcode);
@@ -3121,6 +3478,7 @@ async function exportPricesCSV() {
         return;
       }
 
+
       // 2. MINI-CATÁLOGO OFFLINE & CACHE LOCAL
       const cached = getCachedProduct(barcode);
       if (cached) {
@@ -3136,6 +3494,7 @@ async function exportPricesCSV() {
         document.getElementById('unnamed-box').classList.remove('hidden');
       }
 
+
       // 3. CONSULTA EM REDE (SE ONLINE, COM TIMEOUT RÁPIDO PARA NÃO TRAVAR A GÔNDOLA)
       if (navigator.onLine) {
         try {
@@ -3144,6 +3503,7 @@ async function exportPricesCSV() {
           const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`, { signal: controller.signal });
           clearTimeout(timeoutId);
           const data = await res.json();
+
 
           if (data.status === 1 && data.product && data.product.product_name) {
             const p = data.product;
@@ -3158,12 +3518,14 @@ async function exportPricesCSV() {
           console.warn('Busca remota offline ou lenta, seguindo com dados locais.');
         }
 
+
         // CONSULTA APENAS LEITURA (NUNCA grava no banco antes do usuário confirmar o preço e adicionar ao carrinho)
         try {
           const { data: existingProd } = await client.from('produtos')
             .select('id, nome, marca')
             .eq('codigo_barras', currentBarcode)
             .maybeSingle();
+
 
           if (existingProd) {
             currentProdDbId = existingProd.id;
@@ -3183,16 +3545,20 @@ async function exportPricesCSV() {
         showToast('⚡ Modo Offline ativo: sem internet no momento.', 'info');
       }
 
+
       // MODO BLINDADO: Abre sempre a tela de cálculo sem travar
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('result-section').classList.remove('hidden');
       updateItemTotalCalc();
     }
 
+
     async function loadPriceHistory(productId) {
       const historyList = document.getElementById('history-list');
       historyList.innerHTML = '';
-      bestPriceBox.classList.add('hidden');
+      const bestPriceBox = document.getElementById('bestPriceBox');
+      if (bestPriceBox) bestPriceBox.classList.add('hidden');
+
 
       const { data: precos } = await client
         .from('registros_precos')
@@ -3201,7 +3567,9 @@ async function exportPricesCSV() {
         .order('data_registro', { ascending: false })
         .limit(10);
 
+
       cachedPrices = precos || [];
+
 
       if (cachedPrices.length === 0) {
         historyList.innerHTML = '<div style="color:#888; font-size:13px; text-align:center; padding:10px;">Nenhum preço registrado ainda nesta região. Seja o primeiro a informar!</div>';
@@ -3209,18 +3577,24 @@ async function exportPricesCSV() {
         return;
       }
 
+
       const valores = cachedPrices.map(p => parseFloat(p.preco));
       const menor = Math.min(...valores);
       const registroMaisBarato = cachedPrices.find(p => parseFloat(p.preco) === menor);
       const mercadoBarato = registroMaisBarato?.mercados?.nome || 'Mercado';
 
-      bestPriceBox.innerHTML = `🏆 <b>Menor Preço em Cabo Frio:</b> R$ ${menor.toFixed(2)} (${mercadoBarato})`;
-      bestPriceBox.classList.remove('hidden');
+
+      if (bestPriceBox) {
+        bestPriceBox.innerHTML = `🏆 <b>Menor Preço em Cabo Frio:</b> R$ ${menor.toFixed(2)} (${mercadoBarato})`;
+        bestPriceBox.classList.remove('hidden');
+      }
+
 
       cachedPrices.slice(0, 5).forEach(item => {
         const dataObj = new Date(item.data_registro);
         const tempoFormatado = formatRelativeTime(dataObj);
         const mercadoNome = item.mercados?.nome || 'Supermercado';
+
 
         const row = document.createElement('div');
         row.className = 'history-item';
@@ -3236,9 +3610,11 @@ async function exportPricesCSV() {
         historyList.appendChild(row);
       });
 
+
       checkQuickConfirm();
       checkPriceComparison();
     }
+
 
     function formatRelativeTime(date) {
       const diffHrs = Math.round((new Date() - date) / (1000 * 60 * 60));
@@ -3248,10 +3624,12 @@ async function exportPricesCSV() {
       return diffDays === 1 ? 'Visto ontem' : `Visto há ${diffDays} dias`;
     }
 
+
     function checkQuickConfirm() {
       const currentMarket = document.getElementById('market-input').value.trim();
       const confirmBox = document.getElementById('confirm-price-box');
       const confirmVal = document.getElementById('existing-price-display');
+
 
       const match = cachedPrices.find(p => (p.mercados?.nome || '').toLowerCase() === currentMarket.toLowerCase());
       if (match) {
@@ -3264,25 +3642,31 @@ async function exportPricesCSV() {
       }
     }
 
+
     function checkPriceComparison() {
       const priceVal = parseFloat(document.getElementById('price-input').value);
       const currentMarket = document.getElementById('market-input').value.trim();
       const alertBox = document.getElementById('compare-alert');
+
 
       if (!priceVal || isNaN(priceVal) || cachedPrices.length === 0) {
         alertBox.classList.add('hidden');
         return;
       }
 
+
       const outroMercado = cachedPrices.find(p => (p.mercados?.nome || '').toLowerCase() !== currentMarket.toLowerCase()) || cachedPrices[0];
       const outroPreco = parseFloat(outroMercado.preco);
       const outroNome = outroMercado.mercados?.nome || 'outro mercado';
+
 
       const diff = priceVal - outroPreco;
       const diffAbs = Math.abs(diff).toFixed(2);
       const perc = Math.round((Math.abs(diff) / outroPreco) * 100);
 
+
       alertBox.classList.remove('hidden', 'cheaper', 'expensive', 'equal');
+
 
       if (diff < -0.05) {
         alertBox.classList.add('cheaper');
@@ -3295,6 +3679,7 @@ async function exportPricesCSV() {
         alertBox.innerHTML = `⚖️ <b>Mesmo preço!</b> Valor idêntico ao registrado no ${outroNome} (R$ ${outroPreco.toFixed(2)}).`;
       }
     }
+
 
     async function confirmExistingPrice() {
       if (!existingPriceForCurrentMarket) return;
@@ -3314,10 +3699,12 @@ async function exportPricesCSV() {
       resetScan();
     }
 
+
     async function saveAndAddToCart() {
       const priceVal = parseFloat(document.getElementById('price-input').value);
       const manualNameInput = document.getElementById('manual-name-input');
       const manualName = (manualNameInput ? manualNameInput.value : '').trim();
+
 
       if (manualName) {
         currentName = manualName;
@@ -3327,6 +3714,7 @@ async function exportPricesCSV() {
           client.from('produtos').update({ nome: currentName }).eq('id', currentProdDbId).catch(()=>{});
         }
       }
+
 
       // EXIGÊNCIA OBRIGATÓRIA: Se o produto não tiver nome no catálogo nem digitado, BLOQUEIA e pede para digitar
       if (!currentName || !isValidProductName(currentName)) {
@@ -3345,11 +3733,13 @@ async function exportPricesCSV() {
         return; // Interrompe a gravação! Não permite salvar sem nome.
       }
 
+
       // Trava de sanidade e segurança anti-fraude / anti-troll
       if (!priceVal || isNaN(priceVal) || priceVal < 0.10 || priceVal > 3000) {
         showToast('Por favor, informe um preço real válido (entre R$ 0,10 e R$ 3.000,00).', 'warning');
         return;
       }
+
 
       // Validação de discrepância extrema
       if (cachedPrices && cachedPrices.length > 0) {
@@ -3367,14 +3757,18 @@ async function exportPricesCSV() {
         }
       }
 
+
       // 1. LOCAL-FIRST: Adiciona SEMPRE ao carrinho no celular (nunca falha sem internet)
       addToCart(currentName || 'Produto', priceVal);
+
 
       // 2. Grava no banco ou adiciona na fila offline
       await recordPriceInDb(priceVal);
 
+
       resetScan();
     }
+
 
     async function recordPriceInDb(priceVal) {
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado Local';
@@ -3388,11 +3782,13 @@ async function exportPricesCSV() {
         data_registro: new Date().toISOString()
       };
 
+
       if (!navigator.onLine) {
         queueOfflinePrice(itemToSync);
         showToast('⚡ Cotação guardada na fila offline! Será sincronizada quando a rede voltar.', 'info');
         return;
       }
+
 
       try {
         let mercadoId = null;
@@ -3411,6 +3807,7 @@ async function exportPricesCSV() {
           if (newMk && newMk[0]) mercadoId = newMk[0].id;
         }
 
+
         let prodId = currentProdDbId;
         if (!prodId) {
           const { data: pData } = await client.from('produtos').upsert({
@@ -3420,6 +3817,7 @@ async function exportPricesCSV() {
           }, { onConflict: 'codigo_barras' }).select();
           if (pData && pData[0]) prodId = pData[0].id;
         }
+
 
         if (prodId && mercadoId) {
           await client.from('registros_precos').insert({
@@ -3436,21 +3834,8 @@ async function exportPricesCSV() {
       }
     }
 
-    function addToCart(name, price) {
-      const existing = cart.find(i => i.barcode === currentBarcode);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({ barcode: currentBarcode, name: name, price: price, qty: 1 });
-      }
-      localStorage.setItem('nutri_cart', JSON.stringify(cart));
-      updateCartDisplay();
-      updateBudgetDisplay();
-      updateLastItemFeedback(name, price);
-      showToast(`🛒 ${name} adicionado ao Pré-Caixa!`, "success");
-    }
 
-    function updateLastItemFeedback(name, price) {
+        function updateLastItemFeedback(name, price) {
       const feedback = document.getElementById('last-item-feedback');
       const nameEl = document.getElementById('last-item-name');
       const priceEl = document.getElementById('last-item-price');
@@ -3465,21 +3850,40 @@ async function exportPricesCSV() {
       if (feedback) feedback.classList.add('hidden');
     }
 
+    function addToCart(name, price) {
+      const existing = cart.find(i => i.barcode === currentBarcode);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ barcode: currentBarcode, name: name, price: price, qty: 1 });
+      }
+      localStorage.setItem('nutri_cart', JSON.stringify(cart));
+      updateCartDisplay();
+      updateBudgetDisplay();
+      updateLastItemFeedback(name, price);
+      showToast(`🛒 ${name} adicionado ao Pré-Caixa!`, "success");
+    }
+
+
     function updateCartDisplay() {
       const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
       const count = cart.reduce((acc, item) => acc + item.qty, 0);
 
+
       const topHudTotal = document.getElementById('top-hud-total');
       if (topHudTotal) topHudTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
       const topHudCount = document.getElementById('top-hud-count');
-      if (topHudCount) topHudCount.innerText = `${count} ${count === 1 ? 'item' : 'itens'}`;
+      if (topHudCount) topHudCount.innerText = count;
+
 
       const modalCartTotal = document.getElementById('modal-cart-total');
       if (modalCartTotal) modalCartTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
 
+
       updateMascotProgress(count, total);
       updateBudgetDisplay();
     }
+
 
     function updateMascotProgress(count, total) {
       const walkingMascot = document.getElementById('walking-mascot');
@@ -3489,7 +3893,9 @@ async function exportPricesCSV() {
       const levelBadge = document.getElementById('mascot-level-badge');
       const hint = document.getElementById('mascot-status-hint');
 
+
       if (!walkingMascot || !progressBar) return;
+
 
       const targetGoal = 15;
       const rawPct = Math.min(Math.round((count / targetGoal) * 100), 100);
@@ -3497,7 +3903,9 @@ async function exportPricesCSV() {
       walkingMascot.style.left = safePct + '%';
       progressBar.style.width = rawPct + '%';
 
+
       if (bipsLabel) bipsLabel.innerText = `${count} item${count === 1 ? '' : 'ns'} (R$ ${total.toFixed(2).replace('.', ',')})`;
+
 
       if (count === 0) {
         if (bubble) bubble.innerText = 'Bipe um item! 🛒';
@@ -3522,10 +3930,12 @@ async function exportPricesCSV() {
       }
     }
 
+
     function openCartModal() {
       updateBudgetDisplay();
       const list = document.getElementById('cart-items-list');
       list.innerHTML = '';
+
 
       if (cart.length === 0) {
         list.innerHTML = '<div style="text-align:center; color:#888; padding:20px;">O seu carrinho ainda está vazio.<br>Bipe produtos para somar!</div>';
@@ -3549,12 +3959,15 @@ async function exportPricesCSV() {
         });
       }
 
+
       document.getElementById('cart-modal').classList.remove('hidden');
     }
+
 
     function closeCartModal() {
       document.getElementById('cart-modal').classList.add('hidden');
     }
+
 
     function changeQty(idx, delta) {
       cart[idx].qty += delta;
@@ -3564,6 +3977,7 @@ async function exportPricesCSV() {
       updateBudgetDisplay();
       openCartModal();
     }
+
 
     async function clearCart() {
       if (!cart || cart.length === 0) {
@@ -3589,27 +4003,20 @@ async function exportPricesCSV() {
       }
     }
 
+
     // Finalizar e Salvar no Histórico Local
-    async function finalizeAndSavePurchase() {
+    function finalizeAndSavePurchase() {
       if (cart.length === 0) {
         showToast('Seu carrinho está vazio!', 'warning');
         return;
       }
 
-      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-      const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
-      const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
-      const confirmed = await showConfirmDialog({
-        title: 'Finalizar compra?',
-        message: `Salvar ${itemCount} ${itemCount === 1 ? 'item' : 'itens'} no histórico por R$ ${total.toFixed(2).replace('.', ',')} em ${marketName}?`,
-        icon: '✅',
-        okText: 'Finalizar e Salvar',
-        cancelText: 'Continuar Comprando'
-      });
-      if (!confirmed) return;
 
+      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
       const now = new Date();
       const dateStr = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
 
       const newPurchase = {
         id: Date.now(),
@@ -3620,28 +4027,34 @@ async function exportPricesCSV() {
         itens: [...cart]
       };
 
+
       purchaseHistory.unshift(newPurchase);
       localStorage.setItem('nutri_purchases_history', JSON.stringify(purchaseHistory));
+
 
       // Limpa carrinho atual
       cart = [];
       localStorage.removeItem('nutri_cart');
-      clearLastItemFeedback();
+        clearLastItemFeedback();
       updateCartDisplay();
       updateBudgetDisplay();
       closeCartModal();
 
+
       showToast(`🎉 Compra de R$ ${total.toFixed(2).replace(".", ",")} salva com sucesso nas Minhas Compras!`, "success");
     }
+
 
     // Modal de Histórico de Compras Salvas
     function openHistoryModal() {
       const container = document.getElementById('history-items-container');
       container.innerHTML = '';
 
+
       const totalMonth = purchaseHistory.reduce((acc, p) => acc + (p.total || 0), 0);
       document.getElementById('stat-month-total').innerText = `R$ ${totalMonth.toFixed(2)}`;
       document.getElementById('stat-purchases-count').innerText = purchaseHistory.length;
+
 
       if (purchaseHistory.length === 0) {
         container.innerHTML = '<div style="text-align:center; color:#888; padding:25px;">Você ainda não salvou nenhuma compra.<br>Ao terminar as compras, toque em "Finalizar e Salvar" no carrinho!</div>';
@@ -3651,6 +4064,7 @@ async function exportPricesCSV() {
           card.className = 'saved-purchase-card';
           
           let itensHtml = compra.itens.map(i => `• ${i.qty}x ${i.name} (R$ ${(i.price * i.qty).toFixed(2)})`).join('<br>');
+
 
           card.innerHTML = `
             <div class="purchase-header">
@@ -3670,13 +4084,16 @@ async function exportPricesCSV() {
         });
       }
 
+
       document.getElementById('history-modal').classList.remove('hidden');
     }
+
 
     function toggleDetails(id) {
       const el = document.getElementById(`details-${id}`);
       if (el) el.classList.toggle('hidden');
     }
+
 
     async function deleteSavedPurchase(index) {
       const confirmed = await showConfirmDialog({
@@ -3695,9 +4112,11 @@ async function exportPricesCSV() {
       }
     }
 
+
     function closeHistoryModal() {
       document.getElementById('history-modal').classList.add('hidden');
     }
+
 
     // Compartilhamento no WhatsApp
     function shareCartWhatsApp() {
@@ -3708,9 +4127,11 @@ async function exportPricesCSV() {
       const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
 
+
       let msg = `🛒 *Minha Compra no NutriPreço*
 `;
       msg += `📍 Supermercado: *${marketName}* (Cabo Frio)
+
 
 `;
       cart.forEach(i => {
@@ -3720,18 +4141,22 @@ async function exportPricesCSV() {
       msg += `
 💰 *Total:* R$ ${total.toFixed(2)}
 
+
 `;
       msg += `🥗 Calculei e conferi os preços com o *NutriPreço*!`;
+
 
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
     }
+
 
     function shareAppWhatsApp() {
       const msg = `Oi! Estou usando o *NutriPreço* para somar minhas compras no mercado e ver onde tá mais barato em Cabo Frio (Atacadão, Assaí, etc). É muito bom para não passar sufoco no caixa! Testa aí também: https://nutripreco-oficial.github.io/`;
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
     }
+
 
     function openSupportEmail() {
       const email = 'contato.nutripreco@gmail.com';
@@ -3741,14 +4166,15 @@ async function exportPricesCSV() {
       window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
 
+
     function openSupportWhatsApp() {
       openSupportEmail();
     }
 
+
     function resetScan() {
       const scaleBadge = document.getElementById('scale-badge-box');
       if (scaleBadge) scaleBadge.classList.add('hidden');
-      document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       document.getElementById('price-input').value = '';
       document.getElementById('manual-name-input').value = '';
       document.getElementById('compare-alert').classList.add('hidden');
@@ -3758,6 +4184,7 @@ async function exportPricesCSV() {
       document.getElementById('scan-section').classList.remove('hidden');
       document.getElementById('start-btn').classList.remove('hidden');
     }
+
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -3770,6 +4197,7 @@ async function exportPricesCSV() {
     // ==========================================
     const ADMIN_EMAILS = ['arthurlvdss@gmail.com', 'contato.nutripreco@gmail.com'];
 
+
     function checkAdminAccess(user) {
       const adminSection = document.getElementById('sidebar-admin-section');
       if (!adminSection) return;
@@ -3780,10 +4208,12 @@ async function exportPricesCSV() {
       }
     }
 
+
     // ==========================================
     // CONTROLES DE GÔNDOLA: LANTERNA & CÓDIGO MANUAL
     // ==========================================
     let isFlashOn = false;
+
 
     async function toggleFlashlight() {
       try {
@@ -3795,6 +4225,7 @@ async function exportPricesCSV() {
         const stream = videoElem.srcObject;
         const track = stream.getVideoTracks()[0];
         const caps = track.getCapabilities ? track.getCapabilities() : {};
+
 
         if (caps.torch) {
           isFlashOn = !isFlashOn;
@@ -3809,6 +4240,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     function openManualBarcodePrompt() {
       const code = prompt('Digite os números do código de barras (EAN):');
       if (code && code.trim().length >= 6) {
@@ -3818,10 +4250,12 @@ async function exportPricesCSV() {
       }
     }
 
+
     // ==========================================
     // QUANTIDADE, PESO (UNIDADE vs KG) & CÁLCULOS
     // ==========================================
     let currentProductUnitType = 'un';
+
 
     function setProductUnitType(type) {
       currentProductUnitType = type;
@@ -3829,6 +4263,7 @@ async function exportPricesCSV() {
       const btnKg = document.getElementById('type-btn-kg');
       const chips = document.getElementById('quick-qty-chips');
       const qtyInput = document.getElementById('product-qty-input');
+
 
       if (type === 'un') {
         btnUn.style.background = '#2e7d32';
@@ -3859,6 +4294,7 @@ async function exportPricesCSV() {
       updateItemTotalCalc();
     }
 
+
     function adjustProductQty(delta) {
       const qtyInput = document.getElementById('product-qty-input');
       let val = parseFloat(qtyInput.value) || 1;
@@ -3871,26 +4307,31 @@ async function exportPricesCSV() {
       updateItemTotalCalc();
     }
 
+
     function setQuickQty(val) {
       const qtyInput = document.getElementById('product-qty-input');
       qtyInput.value = val;
       updateItemTotalCalc();
     }
 
+
     function updateItemTotalCalc() {
       const qtyInput = document.getElementById('product-qty-input');
       const priceInput = document.getElementById('price-input');
       const preview = document.getElementById('item-subtotal-display');
 
+
       const qty = parseFloat(qtyInput?.value) || 1;
       const price = parseFloat(priceInput?.value) || 0;
       const subtotal = qty * price;
+
 
       const unitLabel = currentProductUnitType === 'un' ? 'un.' : 'kg';
       if (preview) {
         preview.innerText = `Subtotal deste item: R$ ${subtotal.toFixed(2)} (${qty} ${unitLabel})`;
       }
     }
+
 
     // Helper redimensionador leve para imagens de folheto
     function resizeFlyerImage(file, maxDimension = 1600) {
@@ -3925,21 +4366,26 @@ async function exportPricesCSV() {
       });
     }
 
+
     // ==========================================
     // GESTÃO DE ENCARTES 100% FOTO (ZERO DIGITAÇÃO)
     // ==========================================
     let currentEncartePhotoBase64 = null;
 
+
     function handleEncartePhotoSelect(event) {
       const file = event.target.files[0];
       if (!file) return;
+
 
       const previewBox = document.getElementById('encarte-photo-preview-box');
       const previewImg = document.getElementById('encarte-photo-preview-img');
       const info = document.getElementById('encarte-photo-info');
 
+
       if (info) info.innerText = '⏳ Carregando imagem...';
       if (previewBox) previewBox.classList.remove('hidden');
+
 
       resizeFlyerImage(file, 1600).then(base64 => {
         currentEncartePhotoBase64 = base64;
@@ -3950,11 +4396,13 @@ async function exportPricesCSV() {
       });
     }
 
+
     async function publishPhotoEncarte() {
       const market = document.getElementById('encarte-photo-market').value;
       const start = document.getElementById('encarte-photo-start').value || new Date().toISOString().split('T')[0];
       const end = document.getElementById('encarte-photo-end').value;
       const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
 
       if (!end) {
         showToast('Informe a data de validade final do encarte.', 'warning');
@@ -3965,7 +4413,9 @@ async function exportPricesCSV() {
         return;
       }
 
+
       showToast('Publicando encarte oficial...', 'info');
+
 
       const encarteObj = {
         id: 'ENC_' + Date.now(),
@@ -3977,11 +4427,13 @@ async function exportPricesCSV() {
         criado_em: new Date().toISOString()
       };
 
+
       // 1. Salva no aparelho local (garantia 100% de funcionamento)
       let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
       encartesLocais = encartesLocais.filter(e => e.mercado.toLowerCase() !== market.toLowerCase());
       encartesLocais.unshift(encarteObj);
       localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+
 
       // 2. Tenta sincronizar na nuvem Supabase se a tabela encartes existir
       try {
@@ -3996,22 +4448,28 @@ async function exportPricesCSV() {
         console.log('Aviso cloud:', cloudErr);
       }
 
+
       showToast(`Encarte do ${market} publicado com sucesso!`, 'success');
+
 
       currentEncartePhotoBase64 = null;
       document.getElementById('encarte-photo-preview-box').classList.add('hidden');
       document.getElementById('encarte-photo-file').value = '';
 
+
       loadActivePhotoEncartes();
       renderPublicEncartes();
     }
+
 
     async function loadActivePhotoEncartes() {
       const container = document.getElementById('active-photo-encartes-list');
       if (!container) return;
 
+
       const today = new Date().toISOString().split('T')[0];
       let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+
 
       try {
         const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
@@ -4021,12 +4479,15 @@ async function exportPricesCSV() {
         }
       } catch(e) {}
 
+
       const valid = encartes.filter(e => e.validade >= today);
+
 
       if (valid.length === 0) {
         container.innerHTML = '<p style="color:#888; font-style:italic;">Nenhum encarte publicado ativo no momento.</p>';
         return;
       }
+
 
       let html = '<ul style="list-style:none; padding:0; margin:0;">';
       valid.forEach(e => {
@@ -4046,19 +4507,23 @@ async function exportPricesCSV() {
       container.innerHTML = html;
     }
 
+
     async function deletePhotoEncarte(id) {
       let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
       encartes = encartes.filter(e => String(e.id) !== String(id));
       localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
 
+
       try {
         await client.from('encartes').delete().eq('id', id);
       } catch(e) {}
+
 
       showToast('Encarte excluído!', 'info');
       loadActivePhotoEncartes();
       renderPublicEncartes();
     }
+
 
     // ==========================================
     // VITRINE PÚBLICA DE ENCARTES (VISÍVEL AOS USUÁRIOS)
@@ -4069,26 +4534,33 @@ async function exportPricesCSV() {
       const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const userState = localStorage.getItem('nutri_user_state') || 'RJ';
 
+
       const cleanCity = userCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
       if (cityLabel) cityLabel.innerHTML = `📍 Região: <b>${cleanCity} - ${userState}</b>`;
       if (modal) modal.classList.remove('hidden');
 
+
       renderPublicEncartes();
     }
+
 
     function closePublicEncartesModal() {
       const modal = document.getElementById('public-encartes-modal');
       if (modal) modal.classList.add('hidden');
     }
 
+
     async function renderPublicEncartes() {
       const container = document.getElementById('public-encartes-container');
       if (!container) return;
 
+
       const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const today = new Date().toISOString().split('T')[0];
 
+
       let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+
 
       try {
         const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
@@ -4098,7 +4570,9 @@ async function exportPricesCSV() {
         }
       } catch(e) {}
 
+
       const valid = encartes.filter(e => e.validade >= today);
+
 
       if (valid.length === 0) {
         container.innerHTML = `
@@ -4110,6 +4584,7 @@ async function exportPricesCSV() {
         `;
         return;
       }
+
 
       let html = '';
       valid.forEach(e => {
@@ -4125,10 +4600,12 @@ async function exportPricesCSV() {
               </span>
             </div>
 
+
             <!-- Capa do Folheto -->
             <div style="text-align:center; margin-bottom:10px; cursor:pointer;" onclick="openEncarteViewer('${e.id}')">
               <img src="${e.imagem}" style="max-width:100%; max-height:280px; border-radius:8px; border:1px solid #ddd; object-fit:contain; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
             </div>
+
 
             <button onclick="openEncarteViewer('${e.id}')" class="save-btn" style="margin:0; background:#1b5e20; font-size:14px; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
               🔍 Abrir Folheto em Tela Cheia (Com Zoom)
@@ -4137,24 +4614,29 @@ async function exportPricesCSV() {
         `;
       });
 
+
       container.innerHTML = html;
     }
+
 
     // ==========================================
     // VISUALIZADOR DE ENCARTE COM ZOOM
     // ==========================================
     let currentViewerZoom = 1.0;
 
+
     function openEncarteViewer(encarteId) {
       const encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
       const item = encartes.find(e => String(e.id) === String(encarteId));
       if (!item) return;
+
 
       currentViewerZoom = 1.0;
       const modal = document.getElementById('encarte-viewer-modal');
       const title = document.getElementById('viewer-market-title');
       const val = document.getElementById('viewer-validity-text');
       const img = document.getElementById('viewer-encarte-img');
+
 
       if (title) title.innerText = item.mercado;
       if (val) val.innerText = `Válido até ${formatDateBR(item.validade)}`;
@@ -4163,13 +4645,16 @@ async function exportPricesCSV() {
         img.style.transform = 'scale(1.0)';
       }
 
+
       if (modal) modal.classList.remove('hidden');
     }
+
 
     function closeEncarteViewer() {
       const modal = document.getElementById('encarte-viewer-modal');
       if (modal) modal.classList.add('hidden');
     }
+
 
     function zoomEncarte(factor) {
       const img = document.getElementById('viewer-encarte-img');
@@ -4177,12 +4662,14 @@ async function exportPricesCSV() {
       if (img) img.style.transform = `scale(${currentViewerZoom})`;
     }
 
+
     function formatDateBR(dateStr) {
       if (!dateStr) return '';
       const parts = dateStr.split('-');
       if (parts.length === 3) return `${parts[2]}/${parts[1]}`;
       return dateStr;
     }
+
 
     // ==========================================
     // MODERAÇÃO DO ADMINISTRADOR
@@ -4195,14 +4682,17 @@ async function exportPricesCSV() {
       document.getElementById('admin-tab-mercados').style.background = tab === 'mercados' ? '#b71c1c' : '#fff';
       document.getElementById('admin-tab-mercados').style.color = tab === 'mercados' ? '#fff' : '#555';
 
+
       document.getElementById('admin-mod-encartes-view').classList.toggle('hidden', tab !== 'encartes');
       document.getElementById('admin-mod-precos-view').classList.toggle('hidden', tab !== 'precos');
       document.getElementById('admin-mod-mercados-view').classList.toggle('hidden', tab !== 'mercados');
+
 
       if (tab === 'encartes') loadActivePhotoEncartes();
       if (tab === 'precos') loadAdminPricesModeration();
       if (tab === 'mercados') loadAdminMarketsModeration();
     }
+
 
     async function loadAdminPricesModeration() {
       const container = document.getElementById('admin-manage-prices-list');
@@ -4228,6 +4718,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     async function adminDeletePrice(id) {
       try {
         await client.from('registros_precos').delete().eq('id', id);
@@ -4235,6 +4726,7 @@ async function exportPricesCSV() {
         loadAdminPricesModeration();
       } catch(e) {}
     }
+
 
     async function loadAdminMarketsModeration() {
       const container = document.getElementById('admin-manage-markets-list');
@@ -4260,6 +4752,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     async function adminDeleteMarket(id) {
       const conf = await showConfirmDialog({ title: 'Excluir Mercado', message: 'Deseja excluir este mercado?', icon: '🗑️', okText: 'Excluir', isDestructive: true });
       if (!conf) return;
@@ -4269,6 +4762,7 @@ async function exportPricesCSV() {
         loadAdminMarketsModeration();
       } catch(e) {}
     }
+
 
     // ==========================================
     // MODAL DE TERMOS LEGAIS & ART 31 CDC
@@ -4280,6 +4774,7 @@ async function exportPricesCSV() {
       document.getElementById('legal-terms-modal').classList.add('hidden');
     }
 
+
     // ==========================================
     // SELETOR DE CIDADE & ESTADO (IBGE + OFFLINE)
     // ==========================================
@@ -4290,29 +4785,35 @@ async function exportPricesCSV() {
       'ES': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Guarapari', 'Linhares']
     };
 
+
     function openCitySelectorModal() {
       const modal = document.getElementById('city-selector-modal');
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const savedUf = localStorage.getItem('nutri_user_state') || 'RJ';
+
 
       document.getElementById('select-uf').value = savedUf;
       onUfChanged(savedCity);
       if (modal) modal.classList.remove('hidden');
     }
 
+
     function closeCitySelectorModal() {
       const modal = document.getElementById('city-selector-modal');
       if (modal) modal.classList.add('hidden');
     }
+
 
     async function onUfChanged(preselectedCity = null) {
       const uf = document.getElementById('select-uf').value;
       const citySelect = document.getElementById('select-city');
       const loader = document.getElementById('city-loading-indicator');
 
+
       citySelect.innerHTML = '';
       const cacheKey = 'nutri_cities_' + uf;
       const cached = localStorage.getItem(cacheKey);
+
 
       if (cached) {
         try {
@@ -4321,10 +4822,12 @@ async function exportPricesCSV() {
         } catch(e){}
       }
 
+
       if (!navigator.onLine && OFFLINE_CITIES_BACKUP[uf]) {
         populateCityDropdown(OFFLINE_CITIES_BACKUP[uf], preselectedCity);
         return;
       }
+
 
       if (loader) loader.classList.remove('hidden');
       try {
@@ -4340,6 +4843,7 @@ async function exportPricesCSV() {
       }
     }
 
+
     function populateCityDropdown(cityList, preselectedCity) {
       const citySelect = document.getElementById('select-city');
       citySelect.innerHTML = '';
@@ -4354,18 +4858,21 @@ async function exportPricesCSV() {
       });
     }
 
+
     function saveSelectedCity() {
       const uf = document.getElementById('select-uf').value;
       const city = document.getElementById('select-city').value;
       if (!city) return;
 
+
       const formatted = `${city} - ${uf}`;
       localStorage.setItem('nutri_user_city', city);
       localStorage.setItem('nutri_user_state', uf);
 
+
       const bannerCity = document.getElementById('banner-user-city');
       if (bannerCity) bannerCity.innerText = formatted;
-      updateQuoteRegionBadge();
+
 
       closeCitySelectorModal();
       showToast(`Região: ${formatted}`, 'success');
@@ -4373,11 +4880,14 @@ async function exportPricesCSV() {
       renderPublicEncartes();
     }
 
+
     function editUserCity() {
       openCitySelectorModal();
     }
 
+
   </script>
+
 
 </body>
 </html>
