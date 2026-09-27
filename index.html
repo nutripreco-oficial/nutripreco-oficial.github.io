@@ -184,6 +184,8 @@
     .budget-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .budget-chip { padding: 6px 10px; background: #fff; border: 1px solid #ccc; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; color: #444; }
     .budget-chip.active { background: #2e7d32; color: #fff; border-color: #2e7d32; }
+    .pos-register-display .budget-chip { background: #334155; color: #f1f5f9; border: 1px solid #475569; }
+    .pos-register-display .budget-chip.active { background: #22c55e; color: #0f172a; border-color: #22c55e; font-weight: 800; }
 
 
 
@@ -1071,9 +1073,18 @@
         </div>
 
         <!-- Banner de Balança (Se detectado) -->
-        <div id="scale-badge-box" class="hidden" style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 6px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-weight: bold; color: #1b5e20; font-size: 12px;">⚖️ Etiqueta de Balança</span>
-          <strong id="scale-badge-price" style="color: #2e7d32; font-size: 13px;">R$ 0,00</strong>
+        <div id="scale-badge-box" class="hidden" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-weight: 800; color: #166534; font-size: 12.5px;">⚖️ Etiqueta de Balança Detectada</span>
+            <strong id="scale-badge-price" style="color: #15803d; font-size: 13.5px;">R$ 0,00</strong>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button type="button" onclick="setScaleProductName('Carne Bovina (Açougue)')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🥩 Açougue</button>
+            <button type="button" onclick="setScaleProductName('Frango / Aves')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🍗 Frango</button>
+            <button type="button" onclick="setScaleProductName('Queijo / Frios Fatiados')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🧀 Frios</button>
+            <button type="button" onclick="setScaleProductName('Pão Francês / Padaria')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🥖 Padaria</button>
+            <button type="button" onclick="setScaleProductName('Frutas / Hortifrúti')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🍎 Hortifrúti</button>
+          </div>
         </div>
 
         <!-- SELETOR COMPACTO DE SUPERMERCADO (1 LINHA - NÃO OCUPA O MEIO DA TELA) -->
@@ -1120,43 +1131,71 @@
           <button class="confirm-price-btn" onclick="confirmExistingPrice()">👍 Preço Confere (+ Colocar no Carrinho)</button>
         </div>
 
-        <!-- BLOCO CENTRAL: PREÇO NA GÔNDOLA (GRANDE & VISÍVEL) -->
-        <div style="margin-bottom: 12px; text-align: center;">
-          <label style="font-size: 13px; font-weight: 700; color: #333; margin-bottom: 4px;">Preço deste Produto na Gôndola (R$):</label>
-          <input type="number" step="0.01" id="price-input" class="price-input" placeholder="0,00" oninput="checkPriceComparison(); updateItemTotalCalc();" style="height: 56px; font-size: 32px; font-weight: 800; border-radius: 12px; width: 100%;">
+        <!-- DESTAQUE DO MENOR PREÇO REGISTRADO NA CIDADE (IMEDIATO AO BIPAR) -->
+        <div id="city-best-price-banner" class="hidden" style="background:#e8f5e9; border:1.5px solid #81c784; border-radius:12px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:11px; font-weight:800; color:#2e7d32; text-transform:uppercase; letter-spacing:0.4px; display:block;">🏆 Menor Preço na Cidade</span>
+            <div style="font-size:18px; font-weight:900; color:#1b5e20;" id="city-best-price-val">R$ 0,00</div>
+            <div style="font-size:11.5px; color:#555;" id="city-best-price-market">no Assaí</div>
+          </div>
+          <div id="city-best-price-badge" style="background:#2e7d32; color:#fff; font-size:11px; font-weight:bold; padding:4px 9px; border-radius:8px;">
+            Cotado
+          </div>
         </div>
 
-        <!-- SELETOR DE QUANTIDADE & TIPO (INTEGRADO LOGO ABAIXO DO VALOR) -->
-        <div style="background: #fafafa; border: 1px solid #eee; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:12px; font-weight:bold; color:#444;">Quantidade:</span>
-            <!-- Alternador Unidade vs Kg -->
-            <div style="display:inline-flex; background:#e8f5e9; border-radius:16px; padding:2px;">
-              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background:#2e7d32; color:#fff; border:none; padding:4px 11px; border-radius:14px; font-size:11px; font-weight:bold; cursor:pointer;">unidade</button>
-              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background:transparent; color:#444; border:none; padding:4px 11px; border-radius:14px; font-size:11px; font-weight:bold; cursor:pointer;">quilo (kg)</button>
+        <!-- VISOR DE CAIXA REGISTRADORA / FRENTE DE CAIXA (PDV UNIVERSAL) -->
+        <div class="pos-register-display" style="background: #1e293b; color: #f8fafc; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(15,23,42,0.18);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px dashed #334155; padding-bottom: 8px; margin-bottom: 10px;">
+            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">📟 Visor do Pré-Caixa</span>
+            <!-- Alternador Unidade vs Kg com alto contraste -->
+            <div style="display:inline-flex; background:#0f172a; border-radius:14px; padding:2px; border:1px solid #334155;">
+              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background:#22c55e; color:#0f172a; border:none; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:800; cursor:pointer;">unidade</button>
+              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background:transparent; color:#94a3b8; border:none; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:800; cursor:pointer;">quilo (kg)</button>
             </div>
           </div>
 
-          <!-- Controle - / Valor / + -->
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-            <button type="button" onclick="adjustProductQty(-1)" style="width:42px; height:42px; background:#eee; border:none; border-radius:10px; font-size:20px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">-</button>
-            <input type="number" id="product-qty-input" value="1" step="1" min="0.1" oninput="updateItemTotalCalc()" style="flex:1; text-align:center; font-size:18px; font-weight:bold; height:42px; padding:0; border:1px solid #ccc; border-radius:10px;">
-            <button type="button" onclick="adjustProductQty(1)" style="width:42px; height:42px; background:#eee; border:none; border-radius:10px; font-size:20px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center;">+</button>
+          <!-- Entradas: Preço e Quantidade/Peso -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <!-- Campo 1: Preço -->
+            <div>
+              <label id="price-label-text" style="font-size: 11px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 4px;">🏷️ Preço Unitário (R$):</label>
+              <input type="number" step="0.01" id="price-input" placeholder="0,00" oninput="onPriceOrQtyInput('price')" style="width: 100%; height: 46px; font-size: 22px; font-weight: 800; text-align: center; border-radius: 10px; border: 1.5px solid #475569; background: #0f172a; color: #f8fafc;">
+            </div>
+
+            <!-- Campo 2: Quantidade / Peso -->
+            <div>
+              <label id="qty-label-text" style="font-size: 11px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 4px;">📦 Quantidade (un):</label>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button type="button" onclick="adjustProductQty(-1)" style="width: 34px; height: 46px; background: #334155; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">-</button>
+                <input type="number" id="product-qty-input" value="1" step="1" min="0.1" oninput="onPriceOrQtyInput('qty')" style="width: 100%; height: 46px; font-size: 20px; font-weight: 800; text-align: center; border-radius: 8px; border: 1.5px solid #475569; background: #0f172a; color: #f8fafc; padding: 0;">
+                <button type="button" onclick="adjustProductQty(1)" style="width: 34px; height: 46px; background: #334155; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">+</button>
+              </div>
+            </div>
           </div>
 
-          <!-- Chips de Quantidade Rápida -->
-          <div id="quick-qty-chips" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:2px;">
+          <!-- Seção de Cálculo Reverso para Bandeja Pesada (visível no modo kg) -->
+          <div id="scale-reverse-calc-box" class="hidden" style="background:#0f172a; border:1px solid #334155; border-radius:8px; padding:6px 10px; margin-bottom:10px; font-size:11.5px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:#94a3b8;">Ou digite o total da bandeja:</span>
+            <input type="number" step="0.01" id="scale-total-input" placeholder="R$ Bandeja" oninput="onScaleTotalInput()" style="width:105px; height:32px; font-size:14px; font-weight:bold; text-align:center; border-radius:6px; border:1px solid #475569; background:#1e293b; color:#22c55e;">
+          </div>
+
+          <!-- Chips de Quantidade / Peso Rápido -->
+          <div id="quick-qty-chips" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px;">
             <button type="button" class="budget-chip active" onclick="setQuickQty(1)">1 un</button>
             <button type="button" class="budget-chip" onclick="setQuickQty(2)">2 un</button>
             <button type="button" class="budget-chip" onclick="setQuickQty(3)">3 un</button>
             <button type="button" class="budget-chip" onclick="setQuickQty(6)">6 un</button>
             <button type="button" class="budget-chip" onclick="setQuickQty(12)">12 un</button>
           </div>
-        </div>
 
-        <!-- Subtotal Calculado em Tempo Real -->
-        <div style="text-align: center; margin-bottom: 12px;">
-          <span style="font-size: 13.5px; font-weight: bold; color: #1b5e20;" id="item-subtotal-display">Subtotal deste item: R$ 0,00 (1 un.)</span>
+          <!-- Total a Pagar Estilo PDV (Super Destacado) -->
+          <div style="background:#0f172a; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border:1.5px solid #22c55e;">
+            <div>
+              <span style="font-size:11px; font-weight:bold; color:#94a3b8; text-transform:uppercase;">Subtotal deste Item</span>
+              <div id="pos-math-formula" style="font-size:12px; color:#cbd5e1;">1 un × R$ 0,00</div>
+            </div>
+            <strong id="item-subtotal-display" style="font-size:24px; font-weight:900; color:#22c55e;">R$ 0,00</strong>
+          </div>
         </div>
 
         <!-- Alerta de Comparação com Outros Mercados -->
@@ -3378,6 +3417,48 @@ async function exportPricesCSV() {
       } catch(e) {}
     }
 
+    async function fetchProductMultiBase(barcode) {
+      const bases = [
+        { name: 'Open Food Facts', url: `https://world.openfoodfacts.org/api/v2/product/${barcode}.json` },
+        { name: 'Open Beauty Facts', url: `https://world.openbeautyfacts.org/api/v2/product/${barcode}.json` },
+        { name: 'Open Products Facts', url: `https://world.openproductsfacts.org/api/v2/product/${barcode}.json` }
+      ];
+
+      for (const base of bases) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2400);
+          const res = await fetch(base.url, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.status === 1 && data.product) {
+              const p = data.product;
+              let rawName = (p.product_name_pt || p.product_name || '').trim();
+              const brand = (p.brands || '').trim() || 'Marca Popular';
+              const quantity = (p.quantity || '').trim();
+
+              if (rawName) {
+                // Tratamento inteligente: Se houver gramatura/volume (ex: 500g, 1kg, 900ml) e ela não estiver no nome, concatena automaticamente
+                if (quantity && !rawName.toLowerCase().includes(quantity.toLowerCase())) {
+                  rawName = `${rawName} ${quantity}`;
+                }
+                return {
+                  nome: rawName,
+                  marca: brand,
+                  quantidade: quantity,
+                  fonte: base.name
+                };
+              }
+            }
+          }
+        } catch (e) {
+          // Timeout ou erro na base específica: prossegue na cascata para a próxima base
+        }
+      }
+      return null;
+    }
+
     async function onCodeScanned(barcode) {
       playScanBeep();
       if (html5QrCode) await html5QrCode.stop();
@@ -3393,17 +3474,62 @@ async function exportPricesCSV() {
       // 1. LEITURA INTELIGENTE DE BALANÇA (EAN iniciado com 2: açougue/frios/padaria)
       const scaleData = parseScaleBarcode(barcode);
       if (scaleData) {
-        currentName = 'Item de Balança (Açougue / Frios)';
-        currentBrand = 'Pesado no Mercado';
-        document.getElementById('prod-name').innerText = currentName;
-        document.getElementById('prod-brand').innerText = `⚖️ Balança | EAN: ${barcode}`;
-        document.getElementById('price-input').value = scaleData.price.toFixed(2);
-        
+        setProductUnitType('kg');
+        const scaleTotalInput = document.getElementById('scale-total-input');
+        const priceInput = document.getElementById('price-input');
+        const qtyInput = document.getElementById('product-qty-input');
+
+        const cached = getCachedProduct(barcode);
+        if (cached) {
+          currentName = cached.nome;
+          currentBrand = cached.marca || 'Item Pesável';
+          document.getElementById('prod-name').innerText = currentName;
+          document.getElementById('prod-brand').innerText = `⚖️ Balança | EAN: ${barcode}`;
+          document.getElementById('unnamed-box').classList.add('hidden');
+        } else {
+          currentName = 'Item de Balança (Pesável)';
+          currentBrand = 'Pesado no Mercado';
+          document.getElementById('prod-name').innerText = currentName;
+          document.getElementById('prod-brand').innerText = `⚖️ Balança | EAN: ${barcode}`;
+          document.getElementById('unnamed-box').classList.remove('hidden');
+          const manualInput = document.getElementById('manual-name-input');
+          if (manualInput) manualInput.placeholder = 'Ex: Alcatra Bovina, Queijo Prato, Pão Francês...';
+        }
+
+        if (scaleTotalInput) scaleTotalInput.value = scaleData.price.toFixed(2);
+        if (qtyInput) qtyInput.value = '1.0';
+        if (priceInput) priceInput.value = scaleData.price.toFixed(2);
+
         if (scaleBadge) {
           scaleBadge.classList.remove('hidden');
-          document.getElementById('scale-badge-price').innerText = `R$ ${scaleData.price.toFixed(2).replace('.', ',')}`;
+          const priceBadgeEl = document.getElementById('scale-badge-price');
+          if (priceBadgeEl) priceBadgeEl.innerText = `Total: R$ ${scaleData.price.toFixed(2).replace('.', ',')}`;
         }
-        setProductUnitType('un');
+
+        // Tenta consultar no Supabase se esse código ou EAN já possui cadastro
+        if (navigator.onLine) {
+          try {
+            const { data: existingProd } = await client.from('produtos')
+              .select('id, nome, marca')
+              .eq('codigo_barras', barcode)
+              .maybeSingle();
+
+            if (existingProd) {
+              currentProdDbId = existingProd.id;
+              if (existingProd.nome && isValidProductName(existingProd.nome)) {
+                currentName = existingProd.nome;
+                currentBrand = existingProd.marca || currentBrand;
+                document.getElementById('prod-name').innerText = currentName;
+                document.getElementById('prod-brand').innerText = `${currentBrand} | EAN: ${barcode}`;
+                document.getElementById('unnamed-box').classList.add('hidden');
+              }
+              await loadPriceHistory(currentProdDbId);
+            }
+          } catch(e) {
+            console.warn('Erro ao consultar histórico de item de balança:', e);
+          }
+        }
+
         document.getElementById('loading').classList.add('hidden');
         document.getElementById('result-section').classList.remove('hidden');
         updateItemTotalCalc();
@@ -3412,6 +3538,7 @@ async function exportPricesCSV() {
       }
 
       // 2. MINI-CATÁLOGO OFFLINE & CACHE LOCAL
+      setProductUnitType('un');
       const cached = getCachedProduct(barcode);
       if (cached) {
         currentName = cached.nome;
@@ -3426,34 +3553,17 @@ async function exportPricesCSV() {
         document.getElementById('unnamed-box').classList.remove('hidden');
       }
 
-      // 3. CONSULTA EM REDE (SE ONLINE, COM TIMEOUT RÁPIDO PARA NÃO TRAVAR A GÔNDOLA)
+      // 3. CONSULTA EM REDE (CASCATA MULTI-BASE ABERTA: OFF -> OBF -> OPF)
       if (navigator.onLine) {
         try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2800);
-          const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`, { signal: controller.signal });
-          clearTimeout(timeoutId);
-          const data = await res.json();
-
-          if (data.status === 1 && data.product) {
-            const p = data.product;
-            let rawName = (p.product_name_pt || p.product_name || '').trim();
-            const brand = (p.brands || '').trim() || 'Marca não informada';
-            const quantity = (p.quantity || '').trim();
-
-            // Tratamento inteligente: Se houver gramatura/volume (ex: 500g, 1kg, 900ml) e ela não estiver no nome, concatena automaticamente
-            if (rawName && quantity && !rawName.toLowerCase().includes(quantity.toLowerCase())) {
-              rawName = `${rawName} ${quantity}`;
-            }
-
-            if (rawName) {
-              currentName = rawName;
-              currentBrand = brand;
-              document.getElementById('prod-name').innerText = currentName;
-              document.getElementById('prod-brand').innerText = `${currentBrand} | EAN: ${barcode}`;
-              document.getElementById('unnamed-box').classList.add('hidden');
-              saveProductToLocalCache(barcode, currentName, currentBrand);
-            }
+          const multiData = await fetchProductMultiBase(barcode);
+          if (multiData && multiData.nome) {
+            currentName = multiData.nome;
+            currentBrand = multiData.marca;
+            document.getElementById('prod-name').innerText = currentName;
+            document.getElementById('prod-brand').innerText = `${currentBrand} | EAN: ${barcode}`;
+            document.getElementById('unnamed-box').classList.add('hidden');
+            saveProductToLocalCache(barcode, currentName, currentBrand);
           }
         } catch(e) {
           console.warn('Busca remota offline ou lenta, seguindo com dados locais.');
@@ -3493,8 +3603,14 @@ async function exportPricesCSV() {
     async function loadPriceHistory(productId) {
       const historyList = document.getElementById('history-list');
       const bestPriceBox = document.getElementById('best-price-box');
+      const cityBanner = document.getElementById('city-best-price-banner');
+      const cityBestVal = document.getElementById('city-best-price-val');
+      const cityBestMarket = document.getElementById('city-best-price-market');
+      const cityBestBadge = document.getElementById('city-best-price-badge');
+
       if (historyList) historyList.innerHTML = '';
       if (bestPriceBox) bestPriceBox.classList.add('hidden');
+      if (cityBanner) cityBanner.classList.add('hidden');
 
       const { data: precos } = await client
         .from('registros_precos')
@@ -3515,10 +3631,23 @@ async function exportPricesCSV() {
       const menor = Math.min(...valores);
       const registroMaisBarato = cachedPrices.find(p => parseFloat(p.preco) === menor);
       const mercadoBarato = registroMaisBarato?.mercados?.nome || 'Mercado';
+      const unitSuffix = currentProductUnitType === 'kg' ? '/kg' : '';
 
+      // 1. BANNER DE DESTAQUE SUPERIOR (IMEDIATO AO BIPAR)
+      if (cityBanner && cityBestVal && cityBestMarket) {
+        cityBestVal.innerText = `R$ ${menor.toFixed(2).replace('.', ',')}${unitSuffix}`;
+        cityBestMarket.innerText = `no ${escapeHTML(mercadoBarato)}`;
+        if (cityBestBadge) {
+          cityBestBadge.innerText = 'Menor na Cidade';
+          cityBestBadge.style.background = '#2e7d32';
+        }
+        cityBanner.classList.remove('hidden');
+      }
+
+      // 2. RESUMO INFERIOR NO HISTÓRICO
       if (bestPriceBox) {
         const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
-        bestPriceBox.innerHTML = `🏆 <b>Menor Preço em ${escapeHTML(userCity)}:</b> R$ ${menor.toFixed(2).replace('.', ',')} (${escapeHTML(mercadoBarato)})`;
+        bestPriceBox.innerHTML = `🏆 <b>Menor Preço em ${escapeHTML(userCity)}:</b> R$ ${menor.toFixed(2).replace('.', ',')}${unitSuffix} (${escapeHTML(mercadoBarato)})`;
         bestPriceBox.classList.remove('hidden');
       }
 
@@ -3535,7 +3664,7 @@ async function exportPricesCSV() {
             <div class="time-badge">🕒 ${tempoFormatado}</div>
           </div>
           <div style="font-size: 16px; font-weight: bold; color: #2e7d32;">
-            R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}
+            R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}${unitSuffix}
           </div>
         `;
         if (historyList) historyList.appendChild(row);
@@ -3570,34 +3699,57 @@ async function exportPricesCSV() {
     }
 
     function checkPriceComparison() {
-      const priceVal = parseFloat(document.getElementById('price-input').value);
-      const currentMarket = document.getElementById('market-input').value.trim();
+      const priceVal = parseFloat(document.getElementById('price-input')?.value);
+      const currentMarket = (document.getElementById('market-input')?.value || '').trim();
       const alertBox = document.getElementById('compare-alert');
+      const cityBestBadge = document.getElementById('city-best-price-badge');
 
-      if (!priceVal || isNaN(priceVal) || cachedPrices.length === 0) {
-        alertBox.classList.add('hidden');
+      if (!priceVal || isNaN(priceVal) || !cachedPrices || cachedPrices.length === 0) {
+        if (alertBox) alertBox.classList.add('hidden');
         return;
       }
+
+      const unitSuffix = currentProductUnitType === 'kg' ? '/kg' : '';
+
+      const valores = cachedPrices.map(p => parseFloat(p.preco));
+      const menorPreco = Math.min(...valores);
+      const registroMenor = cachedPrices.find(p => parseFloat(p.preco) === menorPreco);
+      const mercadoMenor = registroMenor?.mercados?.nome || 'outro mercado';
 
       const outroMercado = cachedPrices.find(p => (p.mercados?.nome || '').toLowerCase() !== currentMarket.toLowerCase()) || cachedPrices[0];
       const outroPreco = parseFloat(outroMercado.preco);
       const outroNome = outroMercado.mercados?.nome || 'outro mercado';
 
       const diff = priceVal - outroPreco;
-      const diffAbs = Math.abs(diff).toFixed(2);
+      const diffAbs = Math.abs(diff).toFixed(2).replace('.', ',');
       const perc = Math.round((Math.abs(diff) / outroPreco) * 100);
 
+      // Atualiza badge de menor preço no topo
+      if (cityBestBadge) {
+        if (priceVal < menorPreco - 0.05) {
+          cityBestBadge.innerText = '⭐ Novo Menor!';
+          cityBestBadge.style.background = '#15803d';
+        } else if (Math.abs(priceVal - menorPreco) <= 0.05) {
+          cityBestBadge.innerText = '🏆 Mais Barato Aqui';
+          cityBestBadge.style.background = '#22c55e';
+        } else {
+          cityBestBadge.innerText = `Menor no ${escapeHTML(mercadoMenor)}`;
+          cityBestBadge.style.background = '#f59e0b';
+        }
+      }
+
+      if (!alertBox) return;
       alertBox.classList.remove('hidden', 'cheaper', 'expensive', 'equal');
 
       if (diff < -0.05) {
         alertBox.classList.add('cheaper');
-        alertBox.innerHTML = `🟢 ⬇️ <b>Mais barato aqui!</b> Você economiza <b>R$ ${diffAbs} (${perc}%)</b> em relação ao ${outroNome} (R$ ${outroPreco.toFixed(2)}).`;
+        alertBox.innerHTML = `🟢 ⬇️ <b>Mais barato aqui!</b> Você economiza <b>R$ ${diffAbs}${unitSuffix} (${perc}%)</b> em relação ao ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
       } else if (diff > 0.05) {
         alertBox.classList.add('expensive');
-        alertBox.innerHTML = `🔴 ⬆️ <b>Mais caro aqui!</b> Está custando <b>R$ ${diffAbs} a mais (+${perc}%)</b> do que no ${outroNome} (R$ ${outroPreco.toFixed(2)}).`;
+        alertBox.innerHTML = `🔴 ⬆️ <b>Mais caro aqui!</b> Está custando <b>R$ ${diffAbs}${unitSuffix} a mais (+${perc}%)</b> do que no ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
       } else {
         alertBox.classList.add('equal');
-        alertBox.innerHTML = `⚖️ <b>Mesmo preço!</b> Valor idêntico ao registrado no ${outroNome} (R$ ${outroPreco.toFixed(2)}).`;
+        alertBox.innerHTML = `⚖️ <b>Mesmo preço!</b> Valor idêntico ao registrado no ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
       }
     }
 
@@ -4419,6 +4571,13 @@ async function exportPricesCSV() {
     function resetScan() {
       const scaleBadge = document.getElementById('scale-badge-box');
       if (scaleBadge) scaleBadge.classList.add('hidden');
+      const cityBanner = document.getElementById('city-best-price-banner');
+      if (cityBanner) cityBanner.classList.add('hidden');
+      const scaleReverseBox = document.getElementById('scale-reverse-calc-box');
+      if (scaleReverseBox) scaleReverseBox.classList.add('hidden');
+      const scaleTotalInput = document.getElementById('scale-total-input');
+      if (scaleTotalInput) scaleTotalInput.value = '';
+
       document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       document.getElementById('price-input').value = '';
       document.getElementById('manual-name-input').value = '';
@@ -4428,6 +4587,8 @@ async function exportPricesCSV() {
       document.getElementById('result-section').classList.add('hidden');
       document.getElementById('scan-section').classList.remove('hidden');
       document.getElementById('start-btn').classList.remove('hidden');
+
+      setProductUnitType('un');
     }
 
     if ('serviceWorker' in navigator) {
@@ -4490,7 +4651,7 @@ async function exportPricesCSV() {
     }
 
     // ==========================================
-    // QUANTIDADE, PESO (UNIDADE vs KG) & CÁLCULOS
+    // VISOR DE CAIXA REGISTRADORA / FRENTE DE CAIXA (PDV)
     // ==========================================
     let currentProductUnitType = 'un';
 
@@ -4500,66 +4661,155 @@ async function exportPricesCSV() {
       const btnKg = document.getElementById('type-btn-kg');
       const chips = document.getElementById('quick-qty-chips');
       const qtyInput = document.getElementById('product-qty-input');
+      const priceLabel = document.getElementById('price-label-text');
+      const qtyLabel = document.getElementById('qty-label-text');
+      const scaleReverseBox = document.getElementById('scale-reverse-calc-box');
+      const priceInput = document.getElementById('price-input');
 
       if (type === 'un') {
-        btnUn.style.background = '#2e7d32';
-        btnUn.style.color = '#fff';
-        btnKg.style.background = '#eee';
-        btnKg.style.color = '#444';
-        qtyInput.value = '1';
-        chips.innerHTML = `
-          <button type="button" class="budget-chip" onclick="setQuickQty(1)">1 un</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(2)">2 un</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(3)">3 un</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(6)">6 un</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(12)">12 un</button>
-        `;
+        if (btnUn) {
+          btnUn.style.background = '#22c55e';
+          btnUn.style.color = '#0f172a';
+        }
+        if (btnKg) {
+          btnKg.style.background = 'transparent';
+          btnKg.style.color = '#94a3b8';
+        }
+        if (priceLabel) priceLabel.innerHTML = '🏷️ Preço Unitário (R$):';
+        if (qtyLabel) qtyLabel.innerHTML = '📦 Quantidade (un):';
+        if (priceInput) priceInput.placeholder = '0,00';
+        if (scaleReverseBox) scaleReverseBox.classList.add('hidden');
+
+        if (qtyInput) qtyInput.value = '1';
+        if (chips) {
+          chips.innerHTML = `
+            <button type="button" class="budget-chip active" onclick="setQuickQty(1, this)">1 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(2, this)">2 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(3, this)">3 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(6, this)">6 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(12, this)">12 un</button>
+          `;
+        }
       } else {
-        btnKg.style.background = '#2e7d32';
-        btnKg.style.color = '#fff';
-        btnUn.style.background = '#eee';
-        btnUn.style.color = '#444';
-        qtyInput.value = '1.0';
-        chips.innerHTML = `
-          <button type="button" class="budget-chip" onclick="setQuickQty(0.5)">0.5 kg</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(1.0)">1.0 kg</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(1.5)">1.5 kg</button>
-          <button type="button" class="budget-chip" onclick="setQuickQty(2.0)">2.0 kg</button>
-        `;
+        if (btnKg) {
+          btnKg.style.background = '#22c55e';
+          btnKg.style.color = '#0f172a';
+        }
+        if (btnUn) {
+          btnUn.style.background = 'transparent';
+          btnUn.style.color = '#94a3b8';
+        }
+        if (priceLabel) priceLabel.innerHTML = '⚖️ Preço do Quilo (R$/kg):';
+        if (qtyLabel) qtyLabel.innerHTML = '⚖️ Peso Líquido (kg):';
+        if (priceInput) priceInput.placeholder = '0,00';
+        if (scaleReverseBox) scaleReverseBox.classList.remove('hidden');
+
+        if (qtyInput) qtyInput.value = '1.0';
+        if (chips) {
+          chips.innerHTML = `
+            <button type="button" class="budget-chip" onclick="setQuickQty(0.25, this)">250g</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(0.5, this)">500g</button>
+            <button type="button" class="budget-chip active" onclick="setQuickQty(1.0, this)">1.0 kg</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(1.5, this)">1.5 kg</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(2.0, this)">2.0 kg</button>
+          `;
+        }
       }
+      onPriceOrQtyInput('unitChange');
+    }
+
+    function onPriceOrQtyInput(source) {
+      const priceInput = document.getElementById('price-input');
+      const qtyInput = document.getElementById('product-qty-input');
+      const scaleTotalInput = document.getElementById('scale-total-input');
+
+      let price = parseFloat(priceInput?.value) || 0;
+      let qty = parseFloat(qtyInput?.value) || 1;
+      const totalBandeja = parseFloat(scaleTotalInput?.value) || 0;
+
+      // Se for pesável (kg) e o usuário alterou o peso enquanto já havia total de bandeja informado
+      if (source === 'qty' && currentProductUnitType === 'kg' && totalBandeja > 0 && qty > 0) {
+        price = totalBandeja / qty;
+        if (priceInput) priceInput.value = price.toFixed(2);
+      } else if (source !== 'scaleTotal' && scaleTotalInput && currentProductUnitType === 'kg') {
+        if (price > 0 && qty > 0) {
+          scaleTotalInput.value = (price * qty).toFixed(2);
+        } else if (source === 'unitChange' && !totalBandeja) {
+          scaleTotalInput.value = '';
+        }
+      }
+
+      checkPriceComparison();
+      updateItemTotalCalc();
+    }
+
+    function onScaleTotalInput() {
+      const scaleTotalInput = document.getElementById('scale-total-input');
+      const qtyInput = document.getElementById('product-qty-input');
+      const priceInput = document.getElementById('price-input');
+
+      const totalBandeja = parseFloat(scaleTotalInput?.value) || 0;
+      const pesoKg = parseFloat(qtyInput?.value) || 1;
+
+      if (totalBandeja > 0 && pesoKg > 0 && priceInput) {
+        // Cálculo reverso automático do caixa: Preço por Quilo = Total da Bandeja / Peso
+        const pricePerKg = totalBandeja / pesoKg;
+        priceInput.value = pricePerKg.toFixed(2);
+      }
+
+      checkPriceComparison();
       updateItemTotalCalc();
     }
 
     function adjustProductQty(delta) {
       const qtyInput = document.getElementById('product-qty-input');
+      if (!qtyInput) return;
       let val = parseFloat(qtyInput.value) || 1;
       if (currentProductUnitType === 'un') {
         val = Math.max(1, Math.round(val + delta));
       } else {
-        val = Math.max(0.1, parseFloat((val + (delta * 0.5)).toFixed(2)));
+        val = Math.max(0.05, parseFloat((val + (delta * 0.25)).toFixed(3)));
       }
       qtyInput.value = val;
-      updateItemTotalCalc();
+      onPriceOrQtyInput('qty');
     }
 
-    function setQuickQty(val) {
+    function setQuickQty(val, btnElement) {
       const qtyInput = document.getElementById('product-qty-input');
-      qtyInput.value = val;
-      updateItemTotalCalc();
+      if (qtyInput) qtyInput.value = val;
+      const chips = document.querySelectorAll('#quick-qty-chips .budget-chip');
+      chips.forEach(c => c.classList.remove('active'));
+      if (btnElement) {
+        btnElement.classList.add('active');
+      }
+      onPriceOrQtyInput('qty');
     }
 
     function updateItemTotalCalc() {
       const qtyInput = document.getElementById('product-qty-input');
       const priceInput = document.getElementById('price-input');
       const preview = document.getElementById('item-subtotal-display');
+      const formulaEl = document.getElementById('pos-math-formula');
 
-      const qty = parseFloat(qtyInput?.value) || 1;
+      const qty = parseFloat(qtyInput?.value) || 0;
       const price = parseFloat(priceInput?.value) || 0;
       const subtotal = qty * price;
 
-      const unitLabel = currentProductUnitType === 'un' ? 'un.' : 'kg';
+      const unitText = currentProductUnitType === 'un' ? 'un' : 'kg';
+      const priceUnitText = currentProductUnitType === 'un' ? 'un' : 'kg';
+
+      let qtyStr = '';
+      if (currentProductUnitType === 'un') {
+        qtyStr = `${Math.round(qty)}`;
+      } else {
+        qtyStr = (qty % 1 === 0 ? qty.toFixed(0) : qty.toFixed(qty % 0.01 === 0 ? 2 : 3)).replace('.', ',');
+      }
+
       if (preview) {
-        preview.innerText = `Subtotal deste item: R$ ${subtotal.toFixed(2)} (${qty} ${unitLabel})`;
+        preview.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+      }
+      if (formulaEl) {
+        formulaEl.innerText = `${qtyStr} ${unitText} × R$ ${price.toFixed(2).replace('.', ',')}/${priceUnitText}`;
       }
     }
 
