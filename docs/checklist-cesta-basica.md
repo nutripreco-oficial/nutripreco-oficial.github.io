@@ -208,22 +208,22 @@ O acesso completo ao aplicativo deverá exigir cadastro com e-mail, senha e conf
 
 As seções **Comunidade & Ajuda** e **Legal & Institucional** deverão ficar recolhidas inicialmente para reduzir a altura visual do menu no celular. Ao tocar no título, o usuário poderá expandir as opções correspondentes.
 
-- [ ] Transformar o título de `Comunidade & Ajuda` em controle expansível.
-- [ ] Transformar o título de `Legal & Institucional` em controle expansível.
-- [ ] Iniciar as duas seções fechadas.
-- [ ] Exibir indicador visual de fechado/aberto (`▸`/`▾`).
-- [ ] Permitir abrir e fechar por toque, teclado e leitor de tela.
-- [ ] Usar `button`, `aria-expanded` e `aria-controls` corretamente.
-- [ ] Manter apenas uma das duas seções aberta por vez para preservar o espaço visual.
-- [ ] Manter intactas as funções: indicar para amigos, suporte, instalar aplicativo, política de privacidade e base legal.
-- [ ] Usar transição curta e respeitar `prefers-reduced-motion`.
+- [x] Transformar o título de `Comunidade & Ajuda` em controle expansível.
+- [x] Transformar o título de `Legal & Institucional` em controle expansível.
+- [x] Iniciar as duas seções fechadas.
+- [x] Exibir indicador visual de fechado/aberto (`▸`/`▾`).
+- [x] Permitir abrir e fechar por toque, teclado e leitor de tela.
+- [x] Usar `button`, `aria-expanded` e `aria-controls` corretamente.
+- [x] Manter apenas uma das duas seções aberta por vez para preservar o espaço visual.
+- [x] Manter intactas as funções: indicar para amigos, suporte, instalar aplicativo, política de privacidade e base legal.
+- [x] Usar transição curta e respeitar `prefers-reduced-motion`.
 - [ ] Testar o menu em telas pequenas e com o painel administrativo visível.
 
 ## Decisões aprovadas — Tela principal e fluxo de leitura
 
 Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e retornar à tela principal. A câmera não será reaberta automaticamente: a área do scanner ficará pronta visualmente, mas a câmera do dispositivo permanecerá desligada até o usuário tocar novamente em `Iniciar Câmera`.
 
-- [ ] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, por exemplo `R$ 0,00 • 0 itens`.
+- [x] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, exibindo o número e a palavra `item/itens`.
 - [ ] Manter o retorno à tela principal depois de confirmar/adicionar um produto.
 - [ ] Não reabrir a câmera automaticamente após o retorno.
 - [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.

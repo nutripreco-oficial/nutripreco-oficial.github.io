@@ -41,6 +41,12 @@
     .close-sidebar-btn { background: none; border: none; font-size: 26px; color: #666; cursor: pointer; padding: 2px 6px; line-height: 1; }
     .sidebar-body { flex: 1; overflow-y: auto; padding: 12px 10px; }
     .sidebar-section-title { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #888; padding: 10px 10px 4px 10px; letter-spacing: 0.5px; }
+    .sidebar-section-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; border: 0; background: none; color: #888; padding: 10px 10px 7px; font: inherit; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; text-align: left; cursor: pointer; }
+    .sidebar-section-toggle:focus-visible { outline: 3px solid #81c784; outline-offset: 2px; border-radius: 6px; }
+    .sidebar-section-chevron { color: #2e7d32; font-size: 16px; line-height: 1; transition: transform 0.18s ease; }
+    .sidebar-section-toggle[aria-expanded="true"] .sidebar-section-chevron { transform: rotate(90deg); }
+    .sidebar-collapsible { overflow: hidden; }
+    @media (prefers-reduced-motion: reduce) { .sidebar-section-chevron { transition: none; } }
     .sidebar-item { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 12px; background: none; border: none; border-radius: 10px; text-align: left; cursor: pointer; margin-bottom: 3px; font-family: inherit; transition: background 0.15s; }
     .sidebar-item:active { background: #e8f5e9; }
     .sidebar-icon { font-size: 20px; width: 28px; text-align: center; }
@@ -874,7 +880,7 @@
       <span style="font-size: 11px; color: #666; display: block; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Meu Pré-Caixa:</span>
       <div style="display: flex; align-items: baseline; gap: 6px;">
         <strong id="top-hud-total" style="font-size: 22px; color: #1b5e20; font-weight: 800;">R$ 0,00</strong>
-        <span id="top-hud-count" style="font-size: 12px; color: #666;">(0 itens)</span>
+        <span id="top-hud-count" style="font-size: 12px; color: #666;">0 itens</span>
       </div>
     </div>
     <button onclick="openCartModal()" style="background: #2e7d32; color: white; border: none; padding: 9px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(46,125,50,0.25);">
@@ -935,8 +941,10 @@
         <span class="badge-highlight">Disponível</span>
       </button>
 
-      <div class="sidebar-section-title">Comunidade & Ajuda</div>
-
+      <button type="button" class="sidebar-section-toggle" onclick="toggleSidebarSection('community-section')" aria-expanded="false" aria-controls="community-section">
+        <span>Comunidade &amp; Ajuda</span><span class="sidebar-section-chevron" aria-hidden="true">▸</span>
+      </button>
+      <div id="community-section" class="sidebar-collapsible hidden">
       <button class="sidebar-item" onclick="toggleSidebar(false); shareAppWhatsApp();">
         <span class="sidebar-icon">📲</span>
         <div class="sidebar-item-text">
@@ -960,6 +968,7 @@
           <small>Adicionar à tela inicial do Android</small>
         </div>
       </button>
+      </div>
 
                   <!-- SEÇÃO EXCLUSIVA DO ADMINISTRADOR (SÓ APARECE PARA O ARTHUR LOGADO) -->
       <div id="sidebar-admin-section" class="hidden">
@@ -972,7 +981,10 @@
           </div>
         </button>
       </div>
-      <div class="sidebar-section-title">Legal & Institucional</div>
+      <button type="button" class="sidebar-section-toggle" onclick="toggleSidebarSection('legal-section')" aria-expanded="false" aria-controls="legal-section">
+        <span>Legal &amp; Institucional</span><span class="sidebar-section-chevron" aria-hidden="true">▸</span>
+      </button>
+      <div id="legal-section" class="sidebar-collapsible hidden">
       <a href="privacidade.html" class="sidebar-item" style="text-decoration:none;">
         <span class="sidebar-icon">📄</span>
         <div class="sidebar-item-text">
@@ -987,6 +999,7 @@
           <small>Art. 31 do CDC & Transparência</small>
         </div>
       </button>
+      </div>
     </div>
 
     <!-- Assinatura Elegante do Autor no Rodapé do Menu -->
@@ -2629,6 +2642,22 @@ async function exportPricesCSV() {
       }
     }
 
+    function toggleSidebarSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      const trigger = document.querySelector(`[aria-controls="${sectionId}"]`);
+      const isOpening = section.classList.contains('hidden');
+      document.querySelectorAll('.sidebar-collapsible').forEach((other) => {
+        if (other.id !== sectionId) {
+          other.classList.add('hidden');
+          const otherTrigger = document.querySelector(`[aria-controls="${other.id}"]`);
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+      section.classList.toggle('hidden', !isOpening);
+      if (trigger) trigger.setAttribute('aria-expanded', String(isOpening));
+    }
+
     // Modal do Radar de Preços & Cesta Básica
     function openRadarModal() {
       document.getElementById('radar-modal').classList.remove('hidden');
@@ -3389,7 +3418,7 @@ async function exportPricesCSV() {
       const topHudTotal = document.getElementById('top-hud-total');
       if (topHudTotal) topHudTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
       const topHudCount = document.getElementById('top-hud-count');
-      if (topHudCount) topHudCount.innerText = count;
+      if (topHudCount) topHudCount.innerText = `${count} ${count === 1 ? 'item' : 'itens'}`;
 
       const modalCartTotal = document.getElementById('modal-cart-total');
       if (modalCartTotal) modalCartTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
