@@ -168,6 +168,11 @@ Não contam como contribuição válida: apenas bipar, consultar um produto, inf
 - [ ] Confirmar a evolução permanente somente depois da sincronização bem-sucedida.
 - [ ] Exibir estado claro para contribuição pendente, sincronizada ou com erro.
 - [ ] Persistir o progresso histórico do mascote para que ele não volte a zero ao esvaziar o carrinho.
+- [ ] Contar cada produto no máximo uma vez por período de compra.
+- [ ] Definir o período de compra como a sessão/lista atual, encerrada quando a compra for finalizada e salva.
+- [ ] Liberar nova contagem do mesmo produto somente em um novo período de compra.
+- [ ] Não contar novamente alterações de quantidade do mesmo produto na mesma compra.
+- [ ] Manter separadas a regra de pontuação do mascote e a gravação histórica de cotações de preço.
 - [ ] Definir níveis, metas e recompensas sem prejudicar o fluxo de leitura, carrinho ou offline.
 - [ ] Manter a animação e a apresentação atuais como evolução visual incremental.
 - [ ] Testar cancelamento, falha de rede, reenvio da fila, logout e troca de dispositivo.
@@ -177,6 +182,8 @@ Não contam como contribuição válida: apenas bipar, consultar um produto, inf
 - Bipar sem salvar não altera o progresso.
 - Cancelar antes de salvar não altera o progresso.
 - Salvar uma cotação válida aumenta o progresso uma única vez.
+- Salvar o mesmo produto novamente na mesma compra não aumenta o progresso pela segunda vez.
+- O mesmo produto pode contar novamente quando uma nova compra for iniciada.
 - Uma cotação offline fica pendente e só se torna contribuição confirmada após sincronização.
 - Esvaziar o carrinho não apaga o progresso histórico do mascote.
 
