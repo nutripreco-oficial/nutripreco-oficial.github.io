@@ -1055,61 +1055,29 @@
 
     <div id="loading" class="loading hidden">🔍 Consultando preços em Cabo Frio e produto...</div>
 
-    <!-- Seção Resultado (Zero Rolagem na Gôndola) -->
+    <!-- Seção Resultado (Priorizada, Intuitiva & Sem Rolagem) -->
     <div id="result-section" class="hidden">
-      <!-- Card Consolidado do Produto e Gôndola -->
-      <div class="card" style="padding: 16px; margin-bottom: 14px; border: 1.5px solid #c8e6c9; border-radius: 16px; box-shadow: 0 4px 14px rgba(46,125,50,0.08);">
+      <div class="card" style="padding: 14px 16px; margin-bottom: 12px; border: 1.5px solid #c8e6c9; border-radius: 16px; box-shadow: 0 4px 14px rgba(46,125,50,0.08);">
         
-        <!-- Identificação do Produto -->
-        <div style="border-bottom: 1px solid #edf2f7; padding-bottom: 10px; margin-bottom: 10px;">
-          <h2 id="prod-name" style="font-size: 19px; font-weight: 800; color: #1b5e20; line-height: 1.3; margin-bottom: 4px;">Nome do Produto</h2>
-          <div id="prod-brand" style="font-size: 12.5px; color: #666; font-weight: 500;">Marca | EAN</div>
-        </div>
-
-        <!-- Alerta se o produto não tem nome no catálogo -->
-        <div id="unnamed-box" class="hidden" style="background:#fff8e1; border:1px solid #ffe082; border-radius:10px; padding:10px 12px; margin-bottom:12px;">
-          <span style="font-size:12px; font-weight:bold; color:#f57f17; display:block; margin-bottom:4px;">⚠️ Produto sem nome no catálogo. Digite nome e gramatura/tamanho:</span>
-          <input type="text" id="manual-name-input" placeholder="Ex: Arroz Camil 5kg, Café Pilão 500g, Óleo Liza 900ml..." style="margin-top:2px; font-size:14px; padding:9px; border-radius:8px; border:1.5px solid #ffd54f;">
-        </div>
-
-        <!-- Banner de Balança (Se detectado) -->
-        <div id="scale-badge-box" class="hidden" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <span style="font-weight: 800; color: #166534; font-size: 12.5px;">⚖️ Etiqueta de Balança Detectada</span>
-            <strong id="scale-badge-price" style="color: #15803d; font-size: 13.5px;">R$ 0,00</strong>
+        <!-- PRIORIDADE 1: Cabeçalho com Produto e Seletor do Mercado na mesma linha -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+          <div style="flex: 1; min-width: 0;">
+            <h2 id="prod-name" style="font-size: 18px; font-weight: 800; color: #111827; line-height: 1.25; margin: 0 0 2px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Nome do Produto</h2>
+            <div id="prod-brand" style="font-size: 11.5px; color: #64748b; font-weight: 500;">Marca • EAN</div>
           </div>
-          <div style="display:flex; gap:6px; flex-wrap:wrap;">
-            <button type="button" onclick="setScaleProductName('Carne Bovina (Açougue)')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🥩 Açougue</button>
-            <button type="button" onclick="setScaleProductName('Frango / Aves')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🍗 Frango</button>
-            <button type="button" onclick="setScaleProductName('Queijo / Frios Fatiados')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🧀 Frios</button>
-            <button type="button" onclick="setScaleProductName('Pão Francês / Padaria')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🥖 Padaria</button>
-            <button type="button" onclick="setScaleProductName('Frutas / Hortifrúti')" style="background:#fff; border:1px solid #bbf7d0; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:bold; color:#166534; cursor:pointer;">🍎 Hortifrúti</button>
-          </div>
-        </div>
-
-        <!-- SELETOR COMPACTO DE SUPERMERCADO (1 LINHA - NÃO OCUPA O MEIO DA TELA) -->
-        <div id="market-context-card" style="background:#f1f8e9; border:1px solid #c8e6c9; border-radius:10px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;" role="status" aria-live="polite">
-          <div style="display:flex; align-items:flex-start; gap:6px; font-size:13px; font-weight:600; color:#1b5e20;">
-            <span aria-hidden="true">📍</span>
-            <div>
-              <span>Mercado da cotação:</span>
-              <strong id="current-market-badge" style="color:#2e7d32;">Atacadão</strong>
-              <span id="market-selection-status" class="market-selection-status">Selecionado para esta cotação</span>
-            </div>
-          </div>
-          <button type="button" id="change-market-btn" onclick="toggleMarketPicker()" aria-label="Trocar o mercado da cotação" style="background:#fff; border:1px solid #a5d6a7; color:#1b5e20; padding:4px 10px; border-radius:14px; font-size:11.5px; font-weight:bold; cursor:pointer; min-height:44px;">
-            Trocar ▾
+          <!-- Botão Pílula Compacto do Mercado -->
+          <button type="button" id="change-market-btn" onclick="toggleMarketPicker()" aria-label="Trocar mercado" style="flex-shrink: 0; background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            📍 <span id="current-market-badge">Atacadão</span> ▾
           </button>
         </div>
-        <div class="quote-region-context" role="status">🌎 Região da cotação: <strong id="quote-region-badge">Cabo Frio - RJ</strong></div>
 
-        <!-- Lista Expansível de Mercados (Apenas se clicar em Trocar) -->
-        <div id="market-picker-dropdown" class="hidden" style="background:#fff; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin-bottom:12px; box-shadow:0 3px 8px rgba(0,0,0,0.06);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span style="font-size:11.5px; font-weight:bold; color:#555;">Selecione o estabelecimento:</span>
-            <button type="button" onclick="detectGPSLocation(true)" style="background:none; border:none; color:#1b5e20; font-size:11px; font-weight:bold; cursor:pointer;">📍 GPS</button>
+        <!-- Seletor Expansível de Mercados (Só abre se tocar no botão acima) -->
+        <div id="market-picker-dropdown" class="hidden" style="background:#fff; border:1px solid #c8e6c9; border-radius:10px; padding:10px; margin-bottom:10px; box-shadow:0 3px 8px rgba(0,0,0,0.08);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:11.5px; font-weight:bold; color:#475569;">Trocar estabelecimento:</span>
+            <button type="button" onclick="detectGPSLocation(true)" style="background:none; border:none; color:#166534; font-size:11px; font-weight:bold; cursor:pointer;">📍 Detectar GPS</button>
           </div>
-          <div class="market-chips" id="market-chips-container" style="margin-bottom:8px;">
+          <div class="market-chips" id="market-chips-container" style="margin-bottom:6px;">
             <div class="chip active" onclick="selectMarket(this, 'Atacadão')">Atacadão</div>
             <div class="chip" onclick="selectMarket(this, 'Assaí')">Assaí</div>
             <div class="chip" onclick="selectMarket(this, 'Avistão')">Avistão</div>
@@ -1119,105 +1087,124 @@
             <div class="chip" onclick="selectMarket(this, 'Extra')">Extra</div>
             <div class="chip" onclick="selectMarket(this, 'Outro')">Outro</div>
           </div>
-          <input type="text" id="market-input" value="Atacadão" oninput="checkPriceComparison()" style="font-size:13px; padding:8px; margin-bottom:8px;">
-          <button type="button" onclick="openNewMarketModal()" style="width:100%; background:#f1f8e9; border:1px dashed #2e7d32; color:#1b5e20; border-radius:8px; padding:7px 10px; font-size:12px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+          <input type="text" id="market-input" value="Atacadão" oninput="checkPriceComparison()" style="font-size:13px; padding:7px; margin-bottom:6px; width:100%; border:1px solid #ccc; border-radius:6px;">
+          <button type="button" onclick="openNewMarketModal()" style="width:100%; background:#f1f8e9; border:1px dashed #2e7d32; color:#1b5e20; border-radius:6px; padding:6px; font-size:11.5px; font-weight:bold; cursor:pointer;">
             🏪 ➕ Cadastrar Novo Mercado Aqui
           </button>
         </div>
 
-        <!-- Atalho Preço Confere (Se já houver cotação) -->
-        <div id="confirm-price-box" class="confirm-price-box hidden">
-          <div style="font-size: 13px; color: #1b5e20;">Preço recente neste mercado: <b id="existing-price-display">R$ 0,00</b></div>
-          <button class="confirm-price-btn" onclick="confirmExistingPrice()">👍 Preço Confere (+ Colocar no Carrinho)</button>
+        <!-- Se o produto não tem nome no catálogo (Só aparece se necessário) -->
+        <div id="unnamed-box" class="hidden" style="background:#fff8e1; border:1px solid #ffe082; border-radius:8px; padding:8px 10px; margin-bottom:10px;">
+          <span style="font-size:11.5px; font-weight:bold; color:#b45309; display:block; margin-bottom:3px;">⚠️ Digite o nome e tamanho do produto:</span>
+          <input type="text" id="manual-name-input" placeholder="Ex: Arroz Camil 5kg, Café Pilão 500g..." style="font-size:13px; padding:7px; border-radius:6px; border:1.5px solid #fcd34d; width:100%;">
         </div>
 
-        <!-- DESTAQUE DO MENOR PREÇO REGISTRADO NA CIDADE (IMEDIATO AO BIPAR) -->
-        <div id="city-best-price-banner" class="hidden" style="background:#e8f5e9; border:1.5px solid #81c784; border-radius:12px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <span style="font-size:11px; font-weight:800; color:#2e7d32; text-transform:uppercase; letter-spacing:0.4px; display:block;">🏆 Menor Preço na Cidade</span>
-            <div style="font-size:18px; font-weight:900; color:#1b5e20;" id="city-best-price-val">R$ 0,00</div>
-            <div style="font-size:11.5px; color:#555;" id="city-best-price-market">no Assaí</div>
+        <!-- Se for etiqueta de balança (Só aparece se necessário) -->
+        <div id="scale-badge-box" class="hidden" style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:8px; padding:8px 10px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span style="font-weight:800; color:#166534; font-size:11.5px;">⚖️ Etiqueta de Balança Detectada</span>
+            <strong id="scale-badge-price" style="color:#15803d; font-size:12px;">Total: R$ 0,00</strong>
           </div>
-          <div id="city-best-price-badge" style="background:#2e7d32; color:#fff; font-size:11px; font-weight:bold; padding:4px 9px; border-radius:8px;">
-            Cotado
+          <div style="display:flex; gap:4px; flex-wrap:wrap;">
+            <button type="button" onclick="setScaleProductName('Carne Bovina (Açougue)')" style="background:#fff; border:1px solid #bbf7d0; border-radius:4px; padding:2px 6px; font-size:10.5px; font-weight:bold; color:#166534; cursor:pointer;">🥩 Açougue</button>
+            <button type="button" onclick="setScaleProductName('Frango / Aves')" style="background:#fff; border:1px solid #bbf7d0; border-radius:4px; padding:2px 6px; font-size:10.5px; font-weight:bold; color:#166534; cursor:pointer;">🍗 Frango</button>
+            <button type="button" onclick="setScaleProductName('Queijo / Frios Fatiados')" style="background:#fff; border:1px solid #bbf7d0; border-radius:4px; padding:2px 6px; font-size:10.5px; font-weight:bold; color:#166534; cursor:pointer;">🧀 Frios</button>
+            <button type="button" onclick="setScaleProductName('Pão Francês / Padaria')" style="background:#fff; border:1px solid #bbf7d0; border-radius:4px; padding:2px 6px; font-size:10.5px; font-weight:bold; color:#166534; cursor:pointer;">🥖 Padaria</button>
+            <button type="button" onclick="setScaleProductName('Frutas / Hortifrúti')" style="background:#fff; border:1px solid #bbf7d0; border-radius:4px; padding:2px 6px; font-size:10.5px; font-weight:bold; color:#166534; cursor:pointer;">🍎 Hortifrúti</button>
           </div>
         </div>
 
-        <!-- VISOR DE CAIXA REGISTRADORA / FRENTE DE CAIXA (PDV UNIVERSAL) -->
-        <div class="pos-register-display" style="background: #1e293b; color: #f8fafc; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(15,23,42,0.18);">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px dashed #334155; padding-bottom: 8px; margin-bottom: 10px;">
-            <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">📟 Visor do Pré-Caixa</span>
-            <!-- Alternador Unidade vs Kg com alto contraste -->
-            <div style="display:inline-flex; background:#0f172a; border-radius:14px; padding:2px; border:1px solid #334155;">
-              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background:#22c55e; color:#0f172a; border:none; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:800; cursor:pointer;">unidade</button>
-              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background:transparent; color:#94a3b8; border:none; padding:3px 10px; border-radius:12px; font-size:11px; font-weight:800; cursor:pointer;">quilo (kg)</button>
+        <!-- PRIORIDADE 2: Radar de Preço da Cidade (1 Linha Limpa e Inteligente) -->
+        <div id="city-best-price-banner" class="hidden" style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #16a34a; border-radius: 8px; padding: 6px 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 13px;">🏆</span>
+            <span style="font-size: 11.5px; color: #475569;" id="city-best-price-label">Menor na cidade:</span>
+            <strong id="city-best-price-val" style="font-size: 13.5px; color: #166534;">R$ 0,00</strong>
+            <span id="city-best-price-market" style="font-size: 11px; color: #64748b;">(Assaí)</span>
+          </div>
+          <span id="city-best-price-badge" style="background: #22c55e; color: #0f172a; font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 10px; white-space: nowrap;">
+            Melhor Preço
+          </span>
+        </div>
+
+        <!-- PRIORIDADE 3: O Visor do Caixa (Compacto, Central e Imersivo) -->
+        <div class="pos-register-display" style="background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(15,23,42,0.18);">
+          <!-- Topo do Visor: LED e Alternador -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 10.5px; font-weight: 700; color: #94a3b8; letter-spacing: 0.4px;">📟 CALCULADORA DO CAIXA</span>
+            <div style="display: inline-flex; background: #1e293b; border-radius: 12px; padding: 2px; border: 1px solid #334155;">
+              <button type="button" id="type-btn-un" onclick="setProductUnitType('un')" style="background: #22c55e; color: #0f172a; border: none; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 800; cursor: pointer;">unidade</button>
+              <button type="button" id="type-btn-kg" onclick="setProductUnitType('kg')" style="background: transparent; color: #94a3b8; border: none; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 800; cursor: pointer;">quilo (kg)</button>
             </div>
           </div>
 
-          <!-- Entradas: Preço e Quantidade/Peso -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-            <!-- Campo 1: Preço -->
+          <!-- Campos Preço e Quantidade lado a lado -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
             <div>
-              <label id="price-label-text" style="font-size: 11px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 4px;">🏷️ Preço Unitário (R$):</label>
-              <input type="number" step="0.01" id="price-input" placeholder="0,00" oninput="onPriceOrQtyInput('price')" style="width: 100%; height: 46px; font-size: 22px; font-weight: 800; text-align: center; border-radius: 10px; border: 1.5px solid #475569; background: #0f172a; color: #f8fafc;">
+              <label id="price-label-text" style="font-size: 10px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 2px;">🏷️ Preço Unitário (R$):</label>
+              <input type="number" step="0.01" id="price-input" placeholder="0,00" oninput="onPriceOrQtyInput('price')" style="width: 100%; height: 40px; font-size: 20px; font-weight: 800; text-align: center; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: #f8fafc;">
             </div>
 
-            <!-- Campo 2: Quantidade / Peso -->
             <div>
-              <label id="qty-label-text" style="font-size: 11px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 4px;">📦 Quantidade (un):</label>
-              <div style="display: flex; align-items: center; gap: 4px;">
-                <button type="button" onclick="adjustProductQty(-1)" style="width: 34px; height: 46px; background: #334155; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">-</button>
-                <input type="number" id="product-qty-input" value="1" step="1" min="0.1" oninput="onPriceOrQtyInput('qty')" style="width: 100%; height: 46px; font-size: 20px; font-weight: 800; text-align: center; border-radius: 8px; border: 1.5px solid #475569; background: #0f172a; color: #f8fafc; padding: 0;">
-                <button type="button" onclick="adjustProductQty(1)" style="width: 34px; height: 46px; background: #334155; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer;">+</button>
+              <label id="qty-label-text" style="font-size: 10px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 2px;">📦 Quantidade (un):</label>
+              <div style="display: flex; align-items: center; gap: 3px;">
+                <button type="button" onclick="adjustProductQty(-1)" style="width: 32px; height: 40px; background: #334155; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">-</button>
+                <input type="number" id="product-qty-input" value="1" step="1" min="0.05" oninput="onPriceOrQtyInput('qty')" style="width: 100%; height: 40px; font-size: 18px; font-weight: 800; text-align: center; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #f8fafc; padding: 0;">
+                <button type="button" onclick="adjustProductQty(1)" style="width: 32px; height: 40px; background: #334155; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;">+</button>
               </div>
             </div>
           </div>
 
-          <!-- Seção de Cálculo Reverso para Bandeja Pesada (visível no modo kg) -->
-          <div id="scale-reverse-calc-box" class="hidden" style="background:#0f172a; border:1px solid #334155; border-radius:8px; padding:6px 10px; margin-bottom:10px; font-size:11.5px; display:flex; justify-content:space-between; align-items:center;">
+          <!-- Total da Bandeja da Balança (só aparece no modo kg) -->
+          <div id="scale-reverse-calc-box" class="hidden" style="background:#1e293b; border:1px solid #334155; border-radius:6px; padding:4px 8px; margin-bottom:8px; font-size:11px; display:flex; justify-content:space-between; align-items:center;">
             <span style="color:#94a3b8;">Ou digite o total da bandeja:</span>
-            <input type="number" step="0.01" id="scale-total-input" placeholder="R$ Bandeja" oninput="onScaleTotalInput()" style="width:105px; height:32px; font-size:14px; font-weight:bold; text-align:center; border-radius:6px; border:1px solid #475569; background:#1e293b; color:#22c55e;">
+            <input type="number" step="0.01" id="scale-total-input" placeholder="R$ Bandeja" oninput="onScaleTotalInput()" style="width:95px; height:28px; font-size:13px; font-weight:bold; text-align:center; border-radius:5px; border:1px solid #475569; background:#0f172a; color:#22c55e;">
           </div>
 
-          <!-- Chips de Quantidade / Peso Rápido -->
-          <div id="quick-qty-chips" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px;">
-            <button type="button" class="budget-chip active" onclick="setQuickQty(1)">1 un</button>
-            <button type="button" class="budget-chip" onclick="setQuickQty(2)">2 un</button>
-            <button type="button" class="budget-chip" onclick="setQuickQty(3)">3 un</button>
-            <button type="button" class="budget-chip" onclick="setQuickQty(6)">6 un</button>
-            <button type="button" class="budget-chip" onclick="setQuickQty(12)">12 un</button>
+          <!-- Chips de Seleção Rápida -->
+          <div id="quick-qty-chips" style="display:flex; gap:5px; overflow-x:auto; padding-bottom:2px; margin-bottom:8px;">
+            <button type="button" class="budget-chip active" onclick="setQuickQty(1, this)">1 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(2, this)">2 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(3, this)">3 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(6, this)">6 un</button>
+            <button type="button" class="budget-chip" onclick="setQuickQty(12, this)">12 un</button>
           </div>
 
-          <!-- Total a Pagar Estilo PDV (Super Destacado) -->
-          <div style="background:#0f172a; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; border:1.5px solid #22c55e;">
+          <!-- Subtotal do Item -->
+          <div style="background: #1e293b; border-radius: 8px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border: 1.5px solid #22c55e;">
             <div>
-              <span style="font-size:11px; font-weight:bold; color:#94a3b8; text-transform:uppercase;">Subtotal deste Item</span>
-              <div id="pos-math-formula" style="font-size:12px; color:#cbd5e1;">1 un × R$ 0,00</div>
+              <span style="font-size: 10px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Subtotal a Pagar:</span>
+              <div id="pos-math-formula" style="font-size: 11.5px; color: #cbd5e1;">1 un × R$ 0,00</div>
             </div>
-            <strong id="item-subtotal-display" style="font-size:24px; font-weight:900; color:#22c55e;">R$ 0,00</strong>
+            <strong id="item-subtotal-display" style="font-size: 22px; font-weight: 900; color: #22c55e;">R$ 0,00</strong>
           </div>
         </div>
 
-        <!-- Alerta de Comparação com Outros Mercados -->
-        <div id="compare-alert" class="compare-alert hidden"></div>
+        <!-- Alerta de Comparação Inline (Aparece suavemente sem empurrar a tela) -->
+        <div id="compare-alert" class="compare-alert hidden" style="margin-bottom: 8px; padding: 7px 10px; font-size: 11.5px; border-radius: 8px;"></div>
 
-        <!-- BOTÃO PRINCIPAL DE GRAVAÇÃO (AO ALCANCE DO POLEGAR - ZERO ROLAGEM) -->
-        <button class="save-btn" onclick="saveAndAddToCart()" style="margin-top: 0; margin-bottom: 8px; font-size: 16px; padding: 15px; border-radius: 12px; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow: 0 4px 12px rgba(46,125,50,0.3);">
-          ➕ Gravar e Colocar no Meu Pré-Caixa
+        <!-- PRIORIDADE 4: Botão Principal de Ação (1 Único Botão Grande e Verde) -->
+        <button id="main-action-btn" class="save-btn" onclick="saveAndAddToCart()" style="margin: 0 0 6px 0; font-size: 15.5px; font-weight: 800; padding: 13px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(34,197,94,0.3); width: 100%;">
+          <span>🛒 Colocar no Carrinho</span>
+          <span id="main-action-btn-badge" style="background: rgba(255,255,255,0.22); padding: 2px 8px; border-radius: 8px; font-size: 13px;">R$ 0,00</span>
         </button>
 
-        <button class="reset-btn" onclick="resetScan()" style="margin-top: 0; background: #eceff1; border-radius: 10px; padding: 11px;">
+        <!-- Botão Secundário Neutro -->
+        <button class="reset-btn" onclick="resetScan()" style="margin: 0; background: #f1f5f9; color: #475569; border-radius: 10px; padding: 8px; font-size: 12px; font-weight: 700; width: 100%; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
           📷 Escanear Outro Produto
         </button>
       </div>
 
-      <!-- Histórico de Outros Mercados (Abaixo, caso haja) -->
-      <div class="card" style="padding: 14px; margin-bottom: 14px;">
-        <div class="card-title" style="font-size: 13.5px; margin-bottom: 8px;">
-          <span>📊 Últimos Preços em Outros Mercados</span>
+      <!-- PRIORIDADE 5: Histórico Detalhado em Outros Mercados (Recolhível / Não ocupa a tela) -->
+      <div id="history-card-box" class="card" style="padding: 10px 14px; margin-bottom: 14px; border-radius: 12px; background: #fff;">
+        <button type="button" onclick="toggleHistoryList()" style="width: 100%; background: none; border: none; padding: 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+          <span style="font-size: 12.5px; font-weight: 700; color: #334155;">📊 Histórico de Preços na Cidade</span>
+          <span id="history-toggle-icon" style="font-size: 11px; font-weight: 600; color: #16a34a; background: #f0fdf4; padding: 3px 8px; border-radius: 6px;">Ver detalhes ▾</span>
+        </button>
+        <div id="history-list-collapsible" class="hidden" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0;">
+          <div id="best-price-box" class="best-price-badge hidden" style="margin-bottom: 6px;"></div>
+          <div id="history-list" style="font-size: 12px;"></div>
         </div>
-        <div id="best-price-box" class="best-price-badge hidden"></div>
-        <div id="history-list" style="font-size: 12px;"></div>
       </div>
     </div>
 </div>
@@ -3600,6 +3587,20 @@ async function exportPricesCSV() {
       updateItemTotalCalc();
     }
 
+    function toggleHistoryList() {
+      const collapsible = document.getElementById('history-list-collapsible');
+      const icon = document.getElementById('history-toggle-icon');
+      if (!collapsible) return;
+      const isHidden = collapsible.classList.contains('hidden');
+      if (isHidden) {
+        collapsible.classList.remove('hidden');
+        if (icon) icon.innerText = 'Ocultar ▴';
+      } else {
+        collapsible.classList.add('hidden');
+        if (icon) icon.innerText = 'Ver detalhes ▾';
+      }
+    }
+
     async function loadPriceHistory(productId) {
       const historyList = document.getElementById('history-list');
       const bestPriceBox = document.getElementById('best-price-box');
@@ -3607,6 +3608,7 @@ async function exportPricesCSV() {
       const cityBestVal = document.getElementById('city-best-price-val');
       const cityBestMarket = document.getElementById('city-best-price-market');
       const cityBestBadge = document.getElementById('city-best-price-badge');
+      const currentMarket = (document.getElementById('market-input')?.value || '').trim();
 
       if (historyList) historyList.innerHTML = '';
       if (bestPriceBox) bestPriceBox.classList.add('hidden');
@@ -3622,7 +3624,19 @@ async function exportPricesCSV() {
       cachedPrices = precos || [];
 
       if (cachedPrices.length === 0) {
-        if (historyList) historyList.innerHTML = '<div style="color:#888; font-size:13px; text-align:center; padding:10px;">Nenhum preço registrado ainda nesta região. Seja o primeiro a informar!</div>';
+        if (historyList) historyList.innerHTML = '<div style="color:#888; font-size:12px; text-align:center; padding:8px;">Nenhum preço registrado ainda nesta região. Seja o primeiro a informar!</div>';
+        if (cityBanner) {
+          const bannerLabel = document.getElementById('city-best-price-label');
+          if (bannerLabel) bannerLabel.innerText = 'Preços na região:';
+          if (cityBestVal) cityBestVal.innerText = 'Primeira cotação!';
+          if (cityBestMarket) cityBestMarket.innerText = '';
+          if (cityBestBadge) {
+            cityBestBadge.innerText = 'Seja o 1º';
+            cityBestBadge.style.background = '#3b82f6';
+            cityBestBadge.style.color = '#fff';
+          }
+          cityBanner.classList.remove('hidden');
+        }
         checkQuickConfirm();
         return;
       }
@@ -3633,13 +3647,30 @@ async function exportPricesCSV() {
       const mercadoBarato = registroMaisBarato?.mercados?.nome || 'Mercado';
       const unitSuffix = currentProductUnitType === 'kg' ? '/kg' : '';
 
-      // 1. BANNER DE DESTAQUE SUPERIOR (IMEDIATO AO BIPAR)
+      // Verifica se o mercado atual possui preço cadastrado
+      const matchMercadoAtual = cachedPrices.find(p => (p.mercados?.nome || '').trim().toLowerCase() === currentMarket.toLowerCase());
+
+      // 1. RADAR INTELIGENTE NO TOPO (1 LINHA COMPACTA)
       if (cityBanner && cityBestVal && cityBestMarket) {
+        const bannerLabel = document.getElementById('city-best-price-label');
+        if (bannerLabel) bannerLabel.innerText = 'Menor na cidade:';
         cityBestVal.innerText = `R$ ${menor.toFixed(2).replace('.', ',')}${unitSuffix}`;
-        cityBestMarket.innerText = `no ${escapeHTML(mercadoBarato)}`;
+        cityBestMarket.innerText = `(${escapeHTML(mercadoBarato)})`;
+
         if (cityBestBadge) {
-          cityBestBadge.innerText = 'Menor na Cidade';
-          cityBestBadge.style.background = '#2e7d32';
+          if (matchMercadoAtual && Math.abs(parseFloat(matchMercadoAtual.preco) - menor) <= 0.05) {
+            cityBestBadge.innerText = '🏆 Melhor Preço Aqui!';
+            cityBestBadge.style.background = '#22c55e';
+            cityBestBadge.style.color = '#0f172a';
+          } else if (matchMercadoAtual) {
+            cityBestBadge.innerText = `Mais barato no ${escapeHTML(mercadoBarato)}`;
+            cityBestBadge.style.background = '#f59e0b';
+            cityBestBadge.style.color = '#0f172a';
+          } else {
+            cityBestBadge.innerText = 'Melhor na Cidade';
+            cityBestBadge.style.background = '#22c55e';
+            cityBestBadge.style.color = '#0f172a';
+          }
         }
         cityBanner.classList.remove('hidden');
       }
@@ -3658,12 +3689,13 @@ async function exportPricesCSV() {
 
         const row = document.createElement('div');
         row.className = 'history-item';
+        row.style.padding = '6px 0';
         row.innerHTML = `
           <div>
-            <strong style="font-size: 14px; color: #111;">${mercadoNome}</strong>
-            <div class="time-badge">🕒 ${tempoFormatado}</div>
+            <strong style="font-size: 13px; color: #111;">${mercadoNome}</strong>
+            <div class="time-badge" style="font-size: 10px;">🕒 ${tempoFormatado}</div>
           </div>
-          <div style="font-size: 16px; font-weight: bold; color: #2e7d32;">
+          <div style="font-size: 14.5px; font-weight: bold; color: #166534;">
             R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}${unitSuffix}
           </div>
         `;
@@ -3683,18 +3715,19 @@ async function exportPricesCSV() {
     }
 
     function checkQuickConfirm() {
-      const currentMarket = document.getElementById('market-input').value.trim();
-      const confirmBox = document.getElementById('confirm-price-box');
-      const confirmVal = document.getElementById('existing-price-display');
+      const currentMarket = (document.getElementById('market-input')?.value || '').trim();
+      const priceInput = document.getElementById('price-input');
 
-      const match = cachedPrices.find(p => (p.mercados?.nome || '').toLowerCase() === currentMarket.toLowerCase());
+      const match = cachedPrices.find(p => (p.mercados?.nome || '').trim().toLowerCase() === currentMarket.toLowerCase());
       if (match) {
         existingPriceForCurrentMarket = parseFloat(match.preco);
-        confirmVal.innerText = `R$ ${existingPriceForCurrentMarket.toFixed(2)}`;
-        confirmBox.classList.remove('hidden');
+        // Preenche automaticamente o visor se estiver vazio ou com zero para economizar esforço
+        if (priceInput && (!priceInput.value || parseFloat(priceInput.value) === 0)) {
+          priceInput.value = existingPriceForCurrentMarket.toFixed(2);
+          updateItemTotalCalc();
+        }
       } else {
         existingPriceForCurrentMarket = null;
-        confirmBox.classList.add('hidden');
       }
     }
 
@@ -3711,71 +3744,86 @@ async function exportPricesCSV() {
 
       const unitSuffix = currentProductUnitType === 'kg' ? '/kg' : '';
 
+      // Filtra outros mercados concorrentes (DIFERENTES do atual)
+      const outrosMercados = cachedPrices.filter(p => (p.mercados?.nome || '').trim().toLowerCase() !== currentMarket.toLowerCase());
+      const mesmoMercado = cachedPrices.find(p => (p.mercados?.nome || '').trim().toLowerCase() === currentMarket.toLowerCase());
+
       const valores = cachedPrices.map(p => parseFloat(p.preco));
-      const menorPreco = Math.min(...valores);
-      const registroMenor = cachedPrices.find(p => parseFloat(p.preco) === menorPreco);
+      const menorPrecoCidade = Math.min(...valores);
+      const registroMenor = cachedPrices.find(p => parseFloat(p.preco) === menorPrecoCidade);
       const mercadoMenor = registroMenor?.mercados?.nome || 'outro mercado';
-
-      const outroMercado = cachedPrices.find(p => (p.mercados?.nome || '').toLowerCase() !== currentMarket.toLowerCase()) || cachedPrices[0];
-      const outroPreco = parseFloat(outroMercado.preco);
-      const outroNome = outroMercado.mercados?.nome || 'outro mercado';
-
-      const diff = priceVal - outroPreco;
-      const diffAbs = Math.abs(diff).toFixed(2).replace('.', ',');
-      const perc = Math.round((Math.abs(diff) / outroPreco) * 100);
 
       // Atualiza badge de menor preço no topo
       if (cityBestBadge) {
-        if (priceVal < menorPreco - 0.05) {
+        if (priceVal < menorPrecoCidade - 0.05) {
           cityBestBadge.innerText = '⭐ Novo Menor!';
           cityBestBadge.style.background = '#15803d';
-        } else if (Math.abs(priceVal - menorPreco) <= 0.05) {
-          cityBestBadge.innerText = '🏆 Mais Barato Aqui';
+          cityBestBadge.style.color = '#fff';
+        } else if (Math.abs(priceVal - menorPrecoCidade) <= 0.05) {
+          cityBestBadge.innerText = '🏆 Menor Preço Aqui';
           cityBestBadge.style.background = '#22c55e';
+          cityBestBadge.style.color = '#0f172a';
         } else {
           cityBestBadge.innerText = `Menor no ${escapeHTML(mercadoMenor)}`;
           cityBestBadge.style.background = '#f59e0b';
+          cityBestBadge.style.color = '#0f172a';
         }
       }
 
       if (!alertBox) return;
       alertBox.classList.remove('hidden', 'cheaper', 'expensive', 'equal');
 
-      if (diff < -0.05) {
-        alertBox.classList.add('cheaper');
-        alertBox.innerHTML = `🟢 ⬇️ <b>Mais barato aqui!</b> Você economiza <b>R$ ${diffAbs}${unitSuffix} (${perc}%)</b> em relação ao ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
-      } else if (diff > 0.05) {
-        alertBox.classList.add('expensive');
-        alertBox.innerHTML = `🔴 ⬆️ <b>Mais caro aqui!</b> Está custando <b>R$ ${diffAbs}${unitSuffix} a mais (+${perc}%)</b> do que no ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+      if (outrosMercados.length > 0) {
+        // Encontra o menor entre os concorrentes
+        const outrosValores = outrosMercados.map(p => parseFloat(p.preco));
+        const menorConcorrente = Math.min(...outrosValores);
+        const regConcorrente = outrosMercados.find(p => parseFloat(p.preco) === menorConcorrente);
+        const nomeConcorrente = regConcorrente?.mercados?.nome || 'outro mercado';
+
+        const diff = priceVal - menorConcorrente;
+        const diffAbs = Math.abs(diff).toFixed(2).replace('.', ',');
+        const perc = Math.round((Math.abs(diff) / menorConcorrente) * 100);
+
+        if (diff < -0.05) {
+          alertBox.classList.add('cheaper');
+          alertBox.innerHTML = `🟢 <b>Mais barato aqui!</b> Economia de <b>R$ ${diffAbs}${unitSuffix} (${perc}%)</b> vs ${escapeHTML(nomeConcorrente)} (R$ ${menorConcorrente.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        } else if (diff > 0.05) {
+          alertBox.classList.add('expensive');
+          alertBox.innerHTML = `🔴 <b>Mais caro aqui!</b> Custa <b>R$ ${diffAbs}${unitSuffix} a mais (+${perc}%)</b> que no ${escapeHTML(nomeConcorrente)} (R$ ${menorConcorrente.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        } else {
+          alertBox.classList.add('equal');
+          alertBox.innerHTML = `⚖️ <b>Mesmo preço</b> registrado no concorrente ${escapeHTML(nomeConcorrente)} (R$ ${menorConcorrente.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        }
+      } else if (mesmoMercado) {
+        // Se só existe histórico neste mercado, compara com a cotação anterior dele
+        const anteriorPreco = parseFloat(mesmoMercado.preco);
+        const diff = priceVal - anteriorPreco;
+        const diffAbs = Math.abs(diff).toFixed(2).replace('.', ',');
+
+        if (diff < -0.05) {
+          alertBox.classList.add('cheaper');
+          alertBox.innerHTML = `📉 <b>Preço caiu!</b> Baixou <b>R$ ${diffAbs}${unitSuffix}</b> no ${escapeHTML(currentMarket)} (era R$ ${anteriorPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        } else if (diff > 0.05) {
+          alertBox.classList.add('expensive');
+          alertBox.innerHTML = `📈 <b>Preço subiu!</b> Aumentou <b>R$ ${diffAbs}${unitSuffix}</b> no ${escapeHTML(currentMarket)} (era R$ ${anteriorPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        } else {
+          alertBox.classList.add('equal');
+          alertBox.innerHTML = `✅ <b>Preço confere</b> com a última cotação registrada no ${escapeHTML(currentMarket)}.`;
+        }
       } else {
-        alertBox.classList.add('equal');
-        alertBox.innerHTML = `⚖️ <b>Mesmo preço!</b> Valor idêntico ao registrado no ${escapeHTML(outroNome)} (R$ ${outroPreco.toFixed(2).replace('.', ',')}${unitSuffix}).`;
+        alertBox.classList.add('hidden');
       }
     }
 
     async function confirmExistingPrice() {
-      if (!existingPriceForCurrentMarket) return;
-      if (!currentName || !isValidProductName(currentName)) {
-        const unnamedBox = document.getElementById('unnamed-box');
-        if (unnamedBox) unnamedBox.classList.remove('hidden');
-        const manualNameInput = document.getElementById('manual-name-input');
-        if (manualNameInput) {
-          manualNameInput.focus();
-          manualNameInput.style.borderColor = '#c62828';
-        }
-        showToast('⚠️ Digite o nome do produto para poder confirmar.', 'warning');
-        return;
-      }
-      await recordPriceInDb(existingPriceForCurrentMarket);
-      addToCart(currentName, existingPriceForCurrentMarket);
-      addMascotXP(10, 'Preço Confere');
-      resetScan();
+      saveAndAddToCart();
     }
 
     async function saveAndAddToCart() {
-      const priceVal = parseFloat(document.getElementById('price-input').value);
+      const priceVal = parseFloat(document.getElementById('price-input')?.value);
       const manualNameInput = document.getElementById('manual-name-input');
       const manualName = (manualNameInput ? manualNameInput.value : '').trim();
+      const marketName = (document.getElementById('market-input')?.value || 'Supermercado Local').trim();
 
       if (manualName) {
         currentName = manualName;
@@ -3825,13 +3873,22 @@ async function exportPricesCSV() {
         }
       }
 
+      // Identifica se o preço confere ou é uma alteração/nova cotação
+      const isConfirm = existingPriceForCurrentMarket && Math.abs(priceVal - existingPriceForCurrentMarket) < 0.01;
+
       // 1. LOCAL-FIRST: Adiciona SEMPRE ao carrinho no celular (nunca falha sem internet)
       addToCart(currentName || 'Produto', priceVal);
 
       // 2. Grava no banco ou adiciona na fila offline
       await recordPriceInDb(priceVal);
 
-      addMascotXP(15, 'Gravar no Pré-Caixa');
+      if (isConfirm) {
+        addMascotXP(10, 'Preço Confere');
+        showToast(`👍 Preço confere no ${marketName}! (+10 XP)`, 'success');
+      } else {
+        addMascotXP(15, 'Gravar no Pré-Caixa');
+        showToast(`🛒 ${currentName} colocado no carrinho! (+15 XP)`, 'success');
+      }
 
       resetScan();
     }
@@ -4578,16 +4635,21 @@ async function exportPricesCSV() {
       const scaleTotalInput = document.getElementById('scale-total-input');
       if (scaleTotalInput) scaleTotalInput.value = '';
 
+      const historyCollapsible = document.getElementById('history-list-collapsible');
+      if (historyCollapsible) historyCollapsible.classList.add('hidden');
+      const historyToggleIcon = document.getElementById('history-toggle-icon');
+      if (historyToggleIcon) historyToggleIcon.innerText = 'Ver detalhes ▾';
+
       document.getElementById('scanner-empty-state')?.classList.remove('hidden');
       document.getElementById('price-input').value = '';
       document.getElementById('manual-name-input').value = '';
       document.getElementById('compare-alert').classList.add('hidden');
-      document.getElementById('confirm-price-box').classList.add('hidden');
       document.getElementById('unnamed-box').classList.add('hidden');
       document.getElementById('result-section').classList.add('hidden');
       document.getElementById('scan-section').classList.remove('hidden');
       document.getElementById('start-btn').classList.remove('hidden');
 
+      existingPriceForCurrentMarket = null;
       setProductUnitType('un');
     }
 
@@ -4810,6 +4872,10 @@ async function exportPricesCSV() {
       }
       if (formulaEl) {
         formulaEl.innerText = `${qtyStr} ${unitText} × R$ ${price.toFixed(2).replace('.', ',')}/${priceUnitText}`;
+      }
+      const mainBtnBadge = document.getElementById('main-action-btn-badge');
+      if (mainBtnBadge) {
+        mainBtnBadge.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
       }
     }
 
