@@ -240,6 +240,26 @@ Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e re
 - [ ] Retornar à tela principal sem perder nome, preço, mercado, produto ou status de sincronização.
 - [ ] Testar confirmação de preço existente, novo preço, cancelamento, erro de rede, fila offline e nova leitura manual.
 
+## Diretriz aprovada — Design inclusivo para todas as idades
+
+A nova tela inicial deverá funcionar como uma estação de caixa simples e profissional, mas também precisa atender pessoas idosas e usuários com diferentes níveis de familiaridade digital. A clareza e a acessibilidade terão prioridade sobre excesso de elementos decorativos.
+
+- [ ] Usar hierarquia visual simples: compra atual, leitura, ação principal, ferramentas auxiliares e mascote.
+- [ ] Usar textos claros em português, evitando depender apenas de ícones, emojis ou abreviações.
+- [ ] Usar tamanho de texto confortável e permitir ampliação sem quebrar o layout.
+- [ ] Garantir contraste suficiente entre texto, fundo, botões e estados de erro/sucesso.
+- [ ] Usar áreas de toque grandes e bem espaçadas, especialmente em `Iniciar Câmera`, `Ver Carrinho` e confirmação de preço.
+- [ ] Não depender somente de cor para comunicar estado; combinar cor com texto, ícone ou mensagem.
+- [ ] Manter botões e posições previsíveis entre as telas.
+- [ ] Evitar mudanças automáticas inesperadas, incluindo reabertura automática da câmera.
+- [ ] Exibir feedback visível após salvar, entrar na fila offline, falhar ou concluir uma compra.
+- [ ] Usar confirmação para ações destrutivas ou que finalizem uma etapa importante.
+- [ ] Garantir navegação por teclado, leitor de tela, foco visível e rótulos acessíveis.
+- [ ] Respeitar `prefers-reduced-motion` e evitar animações essenciais para compreender o fluxo.
+- [ ] Testar em celulares pequenos, telas grandes, zoom do navegador e diferentes níveis de brilho.
+- [ ] Fazer teste prático com pessoas de idades diferentes, incluindo pelo menos um grupo de usuários idosos.
+- [ ] Validar a tela contra critérios aplicáveis da WCAG e boas práticas de acessibilidade móvel.
+
 ## Especificação aprovada — Métricas do painel administrativo
 
 O painel administrativo deverá separar claramente métricas de cadastro, uso e contribuição, sem expor dados pessoais individuais. O resumo desejado é:
