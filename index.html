@@ -1215,6 +1215,7 @@
         <div class="card-title" style="font-size: 13.5px; margin-bottom: 8px;">
           <span>📊 Últimos Preços em Outros Mercados</span>
         </div>
+        <div id="best-price-box" class="best-price-badge hidden"></div>
         <div id="history-list" style="font-size: 12px;"></div>
       </div>
     </div>
@@ -1435,6 +1436,36 @@
     const SUPABASE_URL = 'https://fzoyldcfyiigwyxxhosd.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_asGr3f2xfay96fUJAkIHBg_L5vfLYvv';
     
+    // Utilitário anti-XSS para sanitização de strings inseridas no DOM
+    function escapeHTML(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Leitura resiliente de JSON no localStorage contra dados corrompidos
+    function safeGetJSON(key, defaultVal) {
+      try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : defaultVal;
+      } catch (e) {
+        console.warn(`Aviso de parsing para chave ${key}:`, e);
+        return defaultVal;
+      }
+    }
+
+    // Catálogo offline de municípios para redundância imediata
+    const OFFLINE_CITIES_BACKUP = {
+      'RJ': ['Cabo Frio', 'Arraial do Cabo', 'Armação dos Búzios', 'São Pedro da Aldeia', 'Araruama', 'Saquarema', 'Macaé', 'Rio das Ostras', 'Niterói', 'Rio de Janeiro', 'Campos dos Goytacazes', 'Petrópolis', 'Volta Redonda', 'Nova Friburgo'],
+      'SP': ['São Paulo', 'Campinas', 'Santos', 'São José dos Campos', 'Ribeirão Preto', 'Sorocaba', 'Santo André', 'São Bernardo do Campo'],
+      'MG': ['Belo Horizonte', 'Juiz de Fora', 'Uberlândia', 'Contagem', 'Betim', 'Montes Claros'],
+      'ES': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Guarapari', 'Linhares']
+    };
+
     // ==========================================
     // CONTROLES DO NOVO SELETOR COMPACTO DE GÔNDOLA
     // ==========================================
@@ -2565,8 +2596,8 @@ async function exportPricesCSV() {
     let existingPriceForCurrentMarket = null;
     let deferredPrompt = null;
 
-    let cart = JSON.parse(localStorage.getItem('nutri_cart') || '[]');
-    let purchaseHistory = JSON.parse(localStorage.getItem('nutri_purchases_history') || '[]');
+    let cart = safeGetJSON('nutri_cart', []);
+    let purchaseHistory = safeGetJSON('nutri_purchases_history', []);
     let currentUser = null;
         checkAdminAccess(null);
 
@@ -2626,23 +2657,27 @@ async function exportPricesCSV() {
 
     function saveWelcomeOnboarding() {
       const nameInput = document.getElementById('welcome-user-name');
+      const citySelect = document.getElementById('welcome-select-city');
+      const ufSelect = document.getElementById('welcome-select-uf');
 
       const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Amigo(a)';
-      const city = (cityInput && cityInput.value.trim()) ? cityInput.value.trim() : 'Cabo Frio - RJ';
+      const city = (citySelect && citySelect.value.trim()) ? citySelect.value.trim() : 'Cabo Frio';
+      const uf = (ufSelect && ufSelect.value.trim()) ? ufSelect.value.trim() : 'RJ';
+      const formattedCity = `${city} - ${uf}`;
 
       localStorage.setItem('nutri_user_name', name);
-      localStorage.setItem('nutri_user_city', city);
+      localStorage.setItem('nutri_user_city', formattedCity);
 
       // Atualiza banner
       const bannerName = document.getElementById('banner-user-name');
       const bannerCity = document.getElementById('banner-user-city');
       if (bannerName) bannerName.innerText = name;
-      if (bannerCity) bannerCity.innerText = city;
+      if (bannerCity) bannerCity.innerText = formattedCity;
 
       const modal = document.getElementById('welcome-modal');
       if (modal) modal.classList.add('hidden');
 
-      showToast(`Tudo pronto, ${name}! Boas compras em ${city}.`, 'success');
+      showToast(`Tudo pronto, ${name}! Boas compras em ${formattedCity}.`, 'success');
     }
 
 
@@ -2826,11 +2861,11 @@ async function exportPricesCSV() {
 
         let diffHtml = '';
         if (sorted.length > 1 && maior.preco > menor.preco) {
-          const diffAbs = (maior.preco - menor.preco).toFixed(2);
+          const diffAbs = (maior.preco - menor.preco).toFixed(2).replace('.', ',');
           const perc = Math.round(((maior.preco - menor.preco) / menor.preco) * 100);
           diffHtml = `
             <div class="other-market-row">
-              <span>Mais caro no ${maior.mercado}: R$ ${maior.preco.toFixed(2)}</span>
+              <span>Mais caro no ${escapeHTML(maior.mercado)}: R$ ${maior.preco.toFixed(2).replace('.', ',')}</span>
               <span class="diff-bad">+${perc}% (+R$ ${diffAbs})</span>
             </div>
           `;
@@ -2841,16 +2876,16 @@ async function exportPricesCSV() {
         card.innerHTML = `
           <div class="radar-card-header">
             <div>
-              <div class="radar-prod-title">${p.nome}</div>
-              <div class="radar-prod-meta">${p.marca ? p.marca + ' • ' : ''}EAN: ${p.codigo_barras}</div>
+              <div class="radar-prod-title">${escapeHTML(p.nome)}</div>
+              <div class="radar-prod-meta">${p.marca ? escapeHTML(p.marca) + ' • ' : ''}EAN: ${escapeHTML(p.codigo_barras)}</div>
             </div>
             ${isCesta ? '<span class="cesta-badge">🧺 Cesta Básica</span>' : ''}
           </div>
 
           <div class="radar-price-comparison">
             <div class="best-market-row">
-              <span>🟢 Menor Preço: ${menor.mercado}</span>
-              <span style="font-size:15px; color:#2e7d32;">R$ ${menor.preco.toFixed(2)}</span>
+              <span>🟢 Menor Preço: ${escapeHTML(menor.mercado)}</span>
+              <span style="font-size:15px; color:#2e7d32;">R$ ${menor.preco.toFixed(2).replace('.', ',')}</span>
             </div>
             ${diffHtml}
           </div>
@@ -2961,6 +2996,7 @@ async function exportPricesCSV() {
       if (isRunningStandalone()) {
         const installBtn = document.getElementById('install-pwa-btn');
         if (installBtn) installBtn.classList.add('hidden');
+        const welcomeInstall = document.getElementById('welcome-install-box');
         if (welcomeInstall) welcomeInstall.classList.add('hidden');
         return;
       }
@@ -2970,10 +3006,7 @@ async function exportPricesCSV() {
 
       // Se abriu pelo navegador interno do Instagram/WhatsApp
       if (isInstagramOrWhatsApp) {
-        if (tipBox) {
-          tipBox.classList.remove('hidden');
-          tipBox.innerHTML = `⚠️ <b>Atenção:</b> Você abriu pelo Instagram/WhatsApp.<br>Para instalar o app e salvar suas compras offline, toque nos <b>três pontinhos (...) no topo</b> e escolha <b>"Abrir no Chrome"</b> ou <b>"Abrir no Safari"</b>.`;
-        }
+        showToast('⚠️ Para instalar e salvar compras offline, toque nos três pontinhos (...) e abra no Chrome ou Safari.', 'info', 6000);
       }
 
       // Mostra botão de instalar no topo
@@ -3245,8 +3278,9 @@ async function exportPricesCSV() {
 
     async function loadPriceHistory(productId) {
       const historyList = document.getElementById('history-list');
-      historyList.innerHTML = '';
-      bestPriceBox.classList.add('hidden');
+      const bestPriceBox = document.getElementById('best-price-box');
+      if (historyList) historyList.innerHTML = '';
+      if (bestPriceBox) bestPriceBox.classList.add('hidden');
 
       const { data: precos } = await client
         .from('registros_precos')
@@ -3258,7 +3292,7 @@ async function exportPricesCSV() {
       cachedPrices = precos || [];
 
       if (cachedPrices.length === 0) {
-        historyList.innerHTML = '<div style="color:#888; font-size:13px; text-align:center; padding:10px;">Nenhum preço registrado ainda nesta região. Seja o primeiro a informar!</div>';
+        if (historyList) historyList.innerHTML = '<div style="color:#888; font-size:13px; text-align:center; padding:10px;">Nenhum preço registrado ainda nesta região. Seja o primeiro a informar!</div>';
         checkQuickConfirm();
         return;
       }
@@ -3268,13 +3302,16 @@ async function exportPricesCSV() {
       const registroMaisBarato = cachedPrices.find(p => parseFloat(p.preco) === menor);
       const mercadoBarato = registroMaisBarato?.mercados?.nome || 'Mercado';
 
-      bestPriceBox.innerHTML = `🏆 <b>Menor Preço em Cabo Frio:</b> R$ ${menor.toFixed(2)} (${mercadoBarato})`;
-      bestPriceBox.classList.remove('hidden');
+      if (bestPriceBox) {
+        const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        bestPriceBox.innerHTML = `🏆 <b>Menor Preço em ${escapeHTML(userCity)}:</b> R$ ${menor.toFixed(2).replace('.', ',')} (${escapeHTML(mercadoBarato)})`;
+        bestPriceBox.classList.remove('hidden');
+      }
 
       cachedPrices.slice(0, 5).forEach(item => {
         const dataObj = new Date(item.data_registro);
         const tempoFormatado = formatRelativeTime(dataObj);
-        const mercadoNome = item.mercados?.nome || 'Supermercado';
+        const mercadoNome = escapeHTML(item.mercados?.nome || 'Supermercado');
 
         const row = document.createElement('div');
         row.className = 'history-item';
@@ -3284,10 +3321,10 @@ async function exportPricesCSV() {
             <div class="time-badge">🕒 ${tempoFormatado}</div>
           </div>
           <div style="font-size: 16px; font-weight: bold; color: #2e7d32;">
-            R$ ${parseFloat(item.preco).toFixed(2)}
+            R$ ${parseFloat(item.preco).toFixed(2).replace('.', ',')}
           </div>
         `;
-        historyList.appendChild(row);
+        if (historyList) historyList.appendChild(row);
       });
 
       checkQuickConfirm();
@@ -3589,14 +3626,14 @@ async function exportPricesCSV() {
           itemDiv.className = 'cart-item';
           itemDiv.innerHTML = `
             <div>
-              <strong>${item.name}</strong>
-              <div style="font-size:12px; color:#666;">R$ ${item.price.toFixed(2)} un.</div>
+              <strong>${escapeHTML(item.name)}</strong>
+              <div style="font-size:12px; color:#666;">R$ ${item.price.toFixed(2).replace('.', ',')} un.</div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
               <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
               <span style="font-weight:bold;">${item.qty}</span>
               <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
-              <strong style="margin-left:8px; color:#2e7d32;">R$ ${(item.price * item.qty).toFixed(2)}</strong>
+              <strong style="margin-left:8px; color:#2e7d32;">R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</strong>
             </div>
           `;
           list.appendChild(itemDiv);
@@ -3704,14 +3741,14 @@ async function exportPricesCSV() {
           const card = document.createElement('div');
           card.className = 'saved-purchase-card';
           
-          let itensHtml = compra.itens.map(i => `• ${i.qty}x ${i.name} (R$ ${(i.price * i.qty).toFixed(2)})`).join('<br>');
+          let itensHtml = compra.itens.map(i => `• ${i.qty}x ${escapeHTML(i.name)} (R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')})`).join('<br>');
 
           card.innerHTML = `
             <div class="purchase-header">
-              <span class="purchase-market">🛒 ${compra.mercado}</span>
-              <strong style="color:#2e7d32; font-size:15px;">R$ ${compra.total.toFixed(2)}</strong>
+              <span class="purchase-market">🛒 ${escapeHTML(compra.mercado)}</span>
+              <strong style="color:#2e7d32; font-size:15px;">R$ ${compra.total.toFixed(2).replace('.', ',')}</strong>
             </div>
-            <div class="purchase-date">📅 ${compra.data} • ${compra.itensQtd} itens</div>
+            <div class="purchase-date">📅 ${escapeHTML(compra.data)} • ${compra.itensQtd} itens</div>
             <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center;">
               <button style="background:none; border:none; color:#2e7d32; font-size:12px; font-weight:bold; cursor:pointer; text-decoration:underline;" onclick="toggleDetails(${compra.id})">Ver produtos</button>
               <button style="background:none; border:none; color:#c62828; font-size:12px; cursor:pointer;" onclick="deleteSavedPurchase(${index})">🗑️ Apagar</button>
@@ -4363,12 +4400,6 @@ async function exportPricesCSV() {
     // ==========================================
     // SELETOR DE CIDADE & ESTADO (IBGE + OFFLINE)
     // ==========================================
-    const OFFLINE_CITIES_BACKUP = {
-      'RJ': ['Cabo Frio', 'Arraial do Cabo', 'Armação dos Búzios', 'São Pedro da Aldeia', 'Araruama', 'Saquarema', 'Macaé', 'Rio das Ostras', 'Niterói', 'Rio de Janeiro', 'Campos dos Goytacazes', 'Petrópolis', 'Volta Redonda', 'Nova Friburgo'],
-      'SP': ['São Paulo', 'Campinas', 'Santos', 'São José dos Campos', 'Ribeirão Preto', 'Sorocaba', 'Santo André', 'São Bernardo do Campo'],
-      'MG': ['Belo Horizonte', 'Juiz de Fora', 'Uberlândia', 'Contagem', 'Betim', 'Montes Claros'],
-      'ES': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Guarapari', 'Linhares']
-    };
 
     function openCitySelectorModal() {
       const modal = document.getElementById('city-selector-modal');
