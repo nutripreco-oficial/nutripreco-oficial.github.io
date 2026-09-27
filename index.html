@@ -2777,21 +2777,29 @@ async function exportPricesCSV() {
         id: 'arroz', 
         nome: 'Arroz', 
         icon: '🌾', 
-        terms: ['arroz'], 
+        terms: ['arroz', 'agulhinha', 'parboilizado'], 
         exclude: ['biscoito', 'vinagre', 'doce de arroz'] 
       },
       { 
         id: 'feijao', 
         nome: 'Feijão', 
         icon: '🫘', 
-        terms: ['feijao', 'feijão'], 
+        terms: ['feijao', 'feijão', 'carioca', 'preto', 'fradinho', 'corda'], 
         exclude: ['biscoito', 'snack'] 
       },
       { 
         id: 'carne', 
         nome: 'Carne / Frango', 
         icon: '🥩', 
-        terms: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito de frango', 'bovino', 'bovina', 'costela', 'picanha', 'contra file', 'contra-filé', 'contrafilé', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 'linguiça', 'suino', 'suíno', 'porco', 'pernil'], 
+        terms: [
+          'carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 
+          'frango', 'coxa', 'peito', 'peito de frango', 'file de peito', 'filé de peito', 
+          'sassami', 'bovino', 'bovina', 'costela', 'picanha', 'contra file', 'contra-filé', 
+          'contrafilé', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 
+          'linguiça', 'calabresa', 'suino', 'suíno', 'porco', 'pernil', 'bisteca', 
+          'lombo', 'coxao mole', 'coxão mole', 'coxao duro', 'coxão duro', 'cha de dentro', 
+          'chã de dentro', 'paleta', 'fraldinha', 'cupim', 'lagarto', 'asa', 'tulipa', 'salsicha'
+        ], 
         exclude: ['hamburguer', 'hambúrguer', 'nugget', 'empanado', 'ração', 'racao', 'petisco'] 
       },
       { 
@@ -2812,7 +2820,7 @@ async function exportPricesCSV() {
         id: 'pao', 
         nome: 'Pão Francês', 
         icon: '🍞', 
-        terms: ['pao', 'pão', 'bisnaga', 'torrada', 'forma'], 
+        terms: ['pao', 'pão', 'bisnaga', 'torrada', 'forma', 'frances', 'francês'], 
         exclude: ['pao de queijo', 'pão de queijo', 'mel'] 
       },
       { 
@@ -2826,21 +2834,21 @@ async function exportPricesCSV() {
         id: 'manteiga', 
         nome: 'Manteiga / Margarina', 
         icon: '🧈', 
-        terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia', 'delícia', 'doriana', 'primor'], 
+        terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia', 'delícia', 'doriana', 'primor', 'deline', 'becel', 'vigor', 'coamo', 'soya'], 
         exclude: ['cacau', 'garrafa', 'biscoito'] 
       },
       { 
         id: 'acucar', 
         nome: 'Açúcar', 
         icon: '🍬', 
-        terms: ['acucar', 'açúcar', 'açucar', 'refinado', 'cristal'], 
+        terms: ['acucar', 'açúcar', 'açucar', 'refinado', 'cristal', 'demerara'], 
         exclude: ['adocante', 'adoçante', 'confeiteiro', 'vanilla'] 
       },
       { 
         id: 'farinha', 
         nome: 'Farinha (Trigo/Mandioca)', 
         icon: '🌾', 
-        terms: ['farinha', 'trigo', 'fuba', 'fubá', 'mandioca'], 
+        terms: ['farinha', 'trigo', 'fuba', 'fubá', 'mandioca', 'tapioca'], 
         exclude: ['lactea', 'láctea'] 
       },
       { 
@@ -2848,7 +2856,7 @@ async function exportPricesCSV() {
         nome: 'Batata', 
         icon: '🥔', 
         terms: ['batata'], 
-        exclude: ['palha', 'chips', 'doce', 'congelada'] 
+        exclude: ['palha', 'chips', 'doce'] 
       },
       { 
         id: 'tomate', 
@@ -2866,14 +2874,27 @@ async function exportPricesCSV() {
       }
     ];
 
+    function normalizeCestaStr(str) {
+      if (!str || typeof str !== 'string') return '';
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    }
+
     function identifyCestaCategory(productName) {
       if (!productName || typeof productName !== 'string') return null;
       const clean = productName.toLowerCase();
+      const cleanNorm = normalizeCestaStr(productName);
+
       for (const item of CESTA_OFICIAL_ITENS) {
-        if (item.exclude && item.exclude.some(ex => clean.includes(ex))) {
+        if (item.exclude && item.exclude.some(ex => {
+          const exNorm = normalizeCestaStr(ex);
+          return clean.includes(ex) || cleanNorm.includes(exNorm);
+        })) {
           continue;
         }
-        if (item.terms.some(t => clean.includes(t))) {
+        if (item.terms.some(t => {
+          const tNorm = normalizeCestaStr(t);
+          return clean.includes(t) || cleanNorm.includes(tNorm);
+        })) {
           return item;
         }
       }
@@ -3177,10 +3198,12 @@ async function exportPricesCSV() {
         if (error) throw error;
         
         const cleanCityName = (city || 'Cabo Frio').toLowerCase().replace(/\s*-\s*[a-z]{2}$/i, '').trim();
+        const normCity = cleanCityName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         cestaRawData = (data || []).filter(r => {
           if (!r.produtos || !r.preco) return false;
           const mkCity = (r.mercados?.cidade || '').toLowerCase();
-          return !mkCity || mkCity.includes(cleanCityName);
+          const normMkCity = mkCity.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return !mkCity || normMkCity.includes(normCity) || normCity.includes(normMkCity);
         });
 
         if (loadingEl) loadingEl.classList.add('hidden');
