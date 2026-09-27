@@ -225,6 +225,7 @@ Após confirmar um produto, o aplicativo deve concluir a etapa de cotação e re
 
 - [x] Reformular o indicador `Meu Pré-Caixa` para deixar explícito o significado da quantidade, exibindo o número e a palavra `item/itens`.
 - [x] Adicionar orientação visual quando a câmera estiver desligada: `Pronto para registrar sua compra`.
+- [x] Adicionar cartão `Último item registrado` com nome, preço informado e confirmação de inclusão no Pré-Caixa.
 - [ ] Manter o retorno à tela principal depois de confirmar/adicionar um produto.
 - [ ] Não reabrir a câmera automaticamente após o retorno.
 - [ ] Garantir que a câmera real fique desligada em standby, preservando bateria e privacidade.

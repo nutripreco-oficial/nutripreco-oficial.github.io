@@ -1043,6 +1043,15 @@
         </button>
       </div>
 
+      <div id="last-item-feedback" class="card hidden" style="padding: 12px 14px; margin-top: 12px; margin-bottom: 0; border: 1px solid #c8e6c9; background: #f8fff8;" aria-live="polite">
+        <div style="font-size: 11px; color: #2e7d32; font-weight: 800; text-transform: uppercase; letter-spacing: .35px;">Último item registrado</div>
+        <div id="last-item-name" style="font-size: 15px; color: #1b5e20; font-weight: 700; margin-top: 3px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:3px;">
+          <span id="last-item-price" style="font-size: 13px; color: #444;"></span>
+          <span style="font-size: 12px; color: #2e7d32; font-weight: 700;">Adicionado ao Pré-Caixa</span>
+        </div>
+      </div>
+
       <!-- Mascote Andante & Barra de Progresso de Economia (Gamificação) -->
       <div id="mascot-progress-section" style="margin-top: 14px; background: #fff; border-radius: 14px; padding: 14px 16px; border: 1px solid #c8e6c9; box-shadow: 0 2px 8px rgba(46,125,50,0.08); position: relative; overflow: hidden;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
@@ -3417,7 +3426,18 @@ async function exportPricesCSV() {
       localStorage.setItem('nutri_cart', JSON.stringify(cart));
       updateCartDisplay();
       updateBudgetDisplay();
+      updateLastItemFeedback(name, price);
       showToast(`🛒 ${name} adicionado ao Pré-Caixa!`, "success");
+    }
+
+    function updateLastItemFeedback(name, price) {
+      const feedback = document.getElementById('last-item-feedback');
+      const nameEl = document.getElementById('last-item-name');
+      const priceEl = document.getElementById('last-item-price');
+      if (!feedback || !nameEl || !priceEl) return;
+      nameEl.textContent = name || 'Produto';
+      priceEl.textContent = `Preço informado: R$ ${Number(price || 0).toFixed(2).replace('.', ',')}`;
+      feedback.classList.remove('hidden');
     }
 
     function updateCartDisplay() {
