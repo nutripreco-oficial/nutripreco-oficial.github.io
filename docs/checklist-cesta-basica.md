@@ -204,6 +204,21 @@ O acesso completo ao aplicativo deverá exigir cadastro com e-mail, senha e conf
 - [ ] Testar logout, login posterior e atualização da sessão após confirmação.
 - [ ] Atualizar a Política de Privacidade com o fluxo de autenticação adotado.
 
+## Melhoria aprovada — Menu lateral expansível
+
+As seções **Comunidade & Ajuda** e **Legal & Institucional** deverão ficar recolhidas inicialmente para reduzir a altura visual do menu no celular. Ao tocar no título, o usuário poderá expandir as opções correspondentes.
+
+- [ ] Transformar o título de `Comunidade & Ajuda` em controle expansível.
+- [ ] Transformar o título de `Legal & Institucional` em controle expansível.
+- [ ] Iniciar as duas seções fechadas.
+- [ ] Exibir indicador visual de fechado/aberto (`▸`/`▾`).
+- [ ] Permitir abrir e fechar por toque, teclado e leitor de tela.
+- [ ] Usar `button`, `aria-expanded` e `aria-controls` corretamente.
+- [ ] Manter apenas uma das duas seções aberta por vez para preservar o espaço visual.
+- [ ] Manter intactas as funções: indicar para amigos, suporte, instalar aplicativo, política de privacidade e base legal.
+- [ ] Usar transição curta e respeitar `prefers-reduced-motion`.
+- [ ] Testar o menu em telas pequenas e com o painel administrativo visível.
+
 ## Especificação aprovada — Métricas do painel administrativo
 
 O painel administrativo deverá separar claramente métricas de cadastro, uso e contribuição, sem expor dados pessoais individuais. O resumo desejado é:
