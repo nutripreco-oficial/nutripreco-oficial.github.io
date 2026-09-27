@@ -260,6 +260,20 @@ A nova tela inicial deverá funcionar como uma estação de caixa simples e prof
 - [ ] Fazer teste prático com pessoas de idades diferentes, incluindo pelo menos um grupo de usuários idosos.
 - [ ] Validar a tela contra critérios aplicáveis da WCAG e boas práticas de acessibilidade móvel.
 
+## Diretriz aprovada — Mascote como estímulo de contribuição
+
+O Mascote da Economia permanecerá na tela inicial porque oferece feedback visual e sensação de reconhecimento para quem registra preços. Ele deve estimular a colaboração de forma positiva, simples e transparente, sem competir com a leitura do código, o valor da compra ou as ações principais.
+
+- [ ] Manter o mascote visível na tela inicial, em posição secundária e facilmente compreensível.
+- [ ] Mostrar progresso baseado em contribuições salvas ou pendentes conforme as regras definidas, e não apenas em itens no carrinho.
+- [ ] Usar mensagens positivas de reconhecimento após uma contribuição válida.
+- [ ] Evitar punições, pressão excessiva, linguagem de culpa ou competição obrigatória.
+- [ ] Explicar de forma simples por que o mascote evoluiu ou permanece aguardando sincronização.
+- [ ] Diferenciar visualmente progresso da compra pessoal e contribuição para o aplicativo.
+- [ ] Garantir que animações do mascote não sejam necessárias para entender o fluxo e respeitem redução de movimento.
+- [ ] Manter textos, níveis e recompensas legíveis para pessoas idosas e usuários com baixa familiaridade digital.
+- [ ] Testar se o mascote motiva sem atrapalhar a câmera, o carrinho, o preço ou a privacidade.
+
 ## Especificação aprovada — Métricas do painel administrativo
 
 O painel administrativo deverá separar claramente métricas de cadastro, uso e contribuição, sem expor dados pessoais individuais. O resumo desejado é:
