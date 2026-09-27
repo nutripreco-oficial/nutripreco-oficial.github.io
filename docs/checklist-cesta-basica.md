@@ -187,6 +187,23 @@ Não contam como contribuição válida: apenas bipar, consultar um produto, inf
 - Uma cotação offline fica pendente e só se torna contribuição confirmada após sincronização.
 - Esvaziar o carrinho não apaga o progresso histórico do mascote.
 
+## Especificação aprovada — Autenticação e confirmação de e-mail
+
+O acesso completo ao aplicativo deverá exigir cadastro com e-mail, senha e confirmação do endereço. Depois do cadastro, o app deve informar claramente que o link de confirmação foi enviado e que a confirmação é necessária para liberar o acesso completo e a publicação de cotações colaborativas.
+
+- [ ] Ativar e validar confirmação de e-mail no Supabase Auth.
+- [ ] Após o cadastro, exibir mensagem clara com o endereço usado, orientação para verificar spam e botão para reenviar a confirmação.
+- [ ] Oferecer ação `Já confirmei meu e-mail` para atualizar a sessão e verificar o status real no Supabase.
+- [ ] Permitir corrigir o endereço ou reiniciar o cadastro sem perder o contexto local permitido.
+- [ ] Remover o texto atual que promete “acesso liberado no mesmo instante”.
+- [ ] Impedir publicação de cotação colaborativa enquanto `email_confirmed_at` estiver ausente.
+- [ ] Definir se usuário não confirmado poderá apenas consultar e usar recursos locais.
+- [ ] Garantir que RLS/backend valide a confirmação; não confiar apenas no JavaScript do navegador.
+- [ ] Configurar URLs de redirecionamento e recuperação de senha do ambiente publicado.
+- [ ] Testar e-mail válido, e-mail não confirmado, confirmação concluída, link expirado, reenvio e spam.
+- [ ] Testar logout, login posterior e atualização da sessão após confirmação.
+- [ ] Atualizar a Política de Privacidade com o fluxo de autenticação adotado.
+
 ## Critérios de aceite
 
 - O carrinho continua funcionando como antes.
