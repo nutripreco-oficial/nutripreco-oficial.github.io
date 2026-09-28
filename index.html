@@ -252,6 +252,12 @@
       100% { transform: translateY(-3px) rotate(3deg); }
     }
 
+    /* Central de Ofertas & Busca Global */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .hub-cat-pill { transition: all 0.15s ease; outline: none; }
+    .hub-cat-pill:active { transform: scale(0.96); }
+
   </style>
 </head>
 <body>
@@ -742,6 +748,12 @@
         </button>
       </div>
 
+      <!-- Atalho Direto para a Central de Ofertas & Busca Global -->
+      <button type="button" onclick="closePublicEncartesModal(); openOffersHubModal();" style="width: 100%; margin-bottom: 12px; background: linear-gradient(135deg, #059669, #10b981); color: #fff; border: none; border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; box-shadow: 0 2px 6px rgba(16,185,129,0.25);">
+        <span>🔥 Abrir Central de Ofertas &amp; Busca Global</span>
+        <span style="background: rgba(255,255,255,0.25); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 8px;">IA Gemini</span>
+      </button>
+
       <p style="font-size:12.5px; color:#666; margin-bottom:12px;">
         Folhetos oficiais vigentes na sua cidade. Toque para ver em tela cheia com zoom:
       </p>
@@ -908,6 +920,130 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: CENTRAL DE OFERTAS & BUSCA GLOBAL (IA GEMINI) -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="offers-hub-modal" style="z-index: 240;">
+    <div class="modal-content" style="max-height: 94vh; padding: 16px 14px; background: #fff; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;">
+      
+      <!-- Topo: Título e Fechar -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" onclick="closeOffersHubModal()" style="border: none; background: #f1f5f9; color: #334155; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+            ✕
+          </button>
+          <div>
+            <h3 style="font-size: 17px; font-weight: 800; color: #166534; margin: 0; display: flex; align-items: center; gap: 6px;">
+              🔥 Central de Ofertas
+            </h3>
+            <span style="font-size: 11px; color: #0284c7; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+              ✨ IA Google Gemini Flash
+            </span>
+          </div>
+        </div>
+        <span id="offers-hub-badge-count" style="background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e20; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">
+          0 encartes
+        </span>
+      </div>
+
+      <!-- Barra de Filtros Geográficos: Estado e Cidade -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; margin-bottom: 10px;">
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 8px; margin-bottom: 8px;">
+          <div>
+            <label style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 2px;">
+              Estado (UF)
+            </label>
+            <select id="offers-hub-state-select" onchange="handleOffersHubStateChange()" style="width: 100%; padding: 7px 8px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-size: 12px; font-weight: 700; background: #fff; color: #1e293b;">
+              <!-- Preenchido dinamicamente com BRAZIL_UFS -->
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 2px;">
+              Cidade
+            </label>
+            <select id="offers-hub-city-select" onchange="handleOffersHubCityChange()" style="width: 100%; padding: 7px 8px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 12px; font-weight: 700; background: #fff; color: #166534;">
+              <!-- Preenchido dinamicamente com cidades da UF -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Barra de Busca Global -->
+        <div style="position: relative;">
+          <input 
+            type="text" 
+            id="offers-hub-search-input" 
+            placeholder="🔍 Buscar produto... (ex: picanha, cerveja, omo, café)" 
+            oninput="handleOffersHubSearch(this.value)"
+            style="width: 100%; padding: 9px 34px 9px 12px; border-radius: 10px; border: 1.5px solid #a5d6a7; font-size: 13px; outline: none; background: #fff; box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);"
+          >
+          <button 
+            type="button" 
+            id="offers-hub-clear-btn" 
+            onclick="clearOffersHubSearch()" 
+            class="hidden" 
+            style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 16px; color: #94a3b8; cursor: pointer; padding: 4px;"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Carrossel de Categorias Rápidas -->
+        <div style="display: flex; gap: 6px; overflow-x: auto; padding-top: 8px; padding-bottom: 2px; -webkit-overflow-scrolling: touch;" class="hide-scrollbar">
+          <button type="button" class="hub-cat-pill active" onclick="selectOffersHubCategory('todos', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 700; border: 1px solid #166534; background: #166534; color: #fff; cursor: pointer;">
+            🔥 Todas
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('carnes', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🥩 Carnes &amp; Aves
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('bebidas', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🍺 Bebidas
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('limpeza', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🧹 Limpeza
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('hortifruti', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🥦 Feira / Horti
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('laticinios', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🧀 Laticínios
+          </button>
+          <button type="button" class="hub-cat-pill" onclick="selectOffersHubCategory('mercearia', this)" style="white-space: nowrap; padding: 5px 11px; border-radius: 20px; font-size: 11.5px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #334155; cursor: pointer;">
+            🍪 Mercearia
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumo de Contagem & Ordenação -->
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #64748b; margin-bottom: 8px; padding: 0 4px;">
+        <span id="offers-hub-summary-count" style="font-weight: 700; color: #334155;">Carregando promoções...</span>
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <span>Ordenar:</span>
+          <select id="offers-hub-sort-select" onchange="renderOffersHubList()" style="background: none; border: none; font-size: 11.5px; font-weight: 700; color: #166534; cursor: pointer; outline: none;">
+            <option value="preco_asc">Menor Preço</option>
+            <option value="recente">Mais Recentes</option>
+            <option value="nome_asc">Nome (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Container da Lista de Ofertas com Scroll -->
+      <div id="offers-hub-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; min-height: 240px; max-height: 52vh;">
+        <!-- Preenchido dinamicamente via renderOffersHubList() -->
+      </div>
+
+      <!-- Rodapé da Central -->
+      <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+        <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex: 1; background: #f0fdf4; border: 1.5px dashed #86efac; color: #166534; border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          📸 Enviar Novo Folheto com IA
+        </button>
+        <button type="button" onclick="closeOffersHubModal()" class="reset-btn" style="width: auto; margin: 0; padding: 9px 16px; font-size: 12px;">
+          Fechar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- MODAL: BASE LEGAL & DIREITOS (ART. 31 DO CDC) -->
   <div class="modal hidden" id="legal-terms-modal" style="z-index: 220;">
     <div class="modal-content" style="max-height: 85vh;">
@@ -1056,6 +1192,16 @@
     <div class="sidebar-body">
       <div class="sidebar-section-title">Menu Principal</div>
       
+      <!-- Central de Ofertas & Busca Global -->
+      <button class="sidebar-item" onclick="toggleSidebar(false); openOffersHubModal();">
+        <span class="sidebar-icon">🔥</span>
+        <div class="sidebar-item-text">
+          <strong>Central de Ofertas</strong>
+          <small>Busca global de preços por IA</small>
+        </div>
+        <span class="badge-highlight" style="background:#059669;">IA Gemini</span>
+      </button>
+
       <!-- Acesso ao Radar de Preços e Cesta Básica -->
       <button class="sidebar-item" onclick="toggleSidebar(false); openRadarModal();">
         <span class="sidebar-icon">📊</span>
@@ -1216,8 +1362,14 @@
         </button>
       </div>
 
+      <!-- Botão Central de Ofertas & Busca Global (IA Gemini) -->
+      <button type="button" onclick="openOffersHubModal()" style="width: 100%; margin-top: 10px; background: linear-gradient(135deg, #059669, #10b981); color: #ffffff; border: none; border-radius: 12px; padding: 12px 14px; font-size: 13.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 3px 10px rgba(16,185,129,0.3); transition: transform 0.15s ease;">
+        <span>🔥 Central de Ofertas &amp; Busca Global</span>
+        <span style="background: rgba(255,255,255,0.25); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: bold;">IA Gemini</span>
+      </button>
+
       <!-- Atalhos Visuais Diretos para Cesta Básica e Encartes -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
         <button type="button" onclick="openRadarModal()" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1.5px solid #86efac; color: #166534; border-radius: 12px; padding: 11px 8px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 5px rgba(22,101,52,0.08);">
           🧺 Cesta Básica
         </button>
@@ -6667,6 +6819,402 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 
     function editUserCity() {
       openCitySelectorModal();
+    }
+
+    // ==========================================
+    // CENTRAL DE OFERTAS & BUSCA GLOBAL (IA GEMINI)
+    // ==========================================
+    let offersHubAllItems = [];
+    let offersHubFilteredItems = [];
+    let offersHubCurrentCategory = 'todos';
+    let offersHubSearchQuery = '';
+
+    const OFFERS_HUB_CATEGORY_KEYWORDS = {
+      carnes: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito', 'file', 'filé', 'sassami', 'bovino', 'bovina', 'costela', 'picanha', 'contra', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 'linguiça', 'calabresa', 'suino', 'suíno', 'porco', 'pernil', 'bisteca', 'lombo', 'churrasco', 'asa', 'tulipa', 'costelinha', 'bacon'],
+      bebidas: ['cerveja', 'heineken', 'amstel', 'brahma', 'antarctica', 'skol', 'budweiser', 'corona', 'refrigerante', 'coca', 'coca-cola', 'guarana', 'guaraná', 'pepsi', 'fanta', 'suco', 'vinho', 'whisky', 'vodka', 'gin', 'energetico', 'energético', 'red bull', 'monster', 'agua', 'água'],
+      limpeza: ['sabao', 'sabão', 'omo', 'ariel', 'ype', 'ypê', 'amaciante', 'comfort', 'downy', 'detergente', 'desinfetante', 'veja', 'cloro', 'agua sanitaria', 'água sanitária', 'papel higienico', 'papel higiênico', 'esponja', 'multiuso', 'lava-loucas', 'lava-roupas'],
+      hortifruti: ['banana', 'maca', 'maçã', 'laranja', 'tomate', 'batata', 'cebola', 'alho', 'cenoura', 'alface', 'melancia', 'manga', 'abacaxi', 'limao', 'limão', 'uva', 'mamao', 'mamão', 'pera', 'pêra', 'legume', 'verdura'],
+      laticinios: ['leite', 'manteiga', 'queijo', 'mussarela', 'prato', 'requeijao', 'requeijão', 'iogurte', 'danone', 'creme de leite', 'leite condensado', 'parmesao', 'parmesão'],
+      mercearia: ['arroz', 'feijao', 'feijão', 'oleo', 'óleo', 'soja', 'azeite', 'acucar', 'açúcar', 'cafe', 'café', 'farinha', 'trigo', 'macarrao', 'macarrão', 'biscoito', 'bolacha', 'molho', 'extrato', 'sal', 'milho', 'ervilha', 'atum', 'sardinha', 'chocolate', 'nescau', 'toddy']
+    };
+
+    async function openOffersHubModal() {
+      const modal = document.getElementById('offers-hub-modal');
+      if (!modal) return;
+
+      initOffersHubLocation();
+      await loadOffersHubData();
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeOffersHubModal() {
+      const modal = document.getElementById('offers-hub-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function initOffersHubLocation() {
+      const stateSelect = document.getElementById('offers-hub-state-select');
+      const userState = localStorage.getItem('nutri_user_state') || 'RJ';
+      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+      if (stateSelect && stateSelect.children.length === 0) {
+        stateSelect.innerHTML = '';
+        if (typeof BRAZIL_UFS !== 'undefined' && Array.isArray(BRAZIL_UFS)) {
+          BRAZIL_UFS.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.uf;
+            opt.innerText = item.nome;
+            if (item.uf === userState) opt.selected = true;
+            stateSelect.appendChild(opt);
+          });
+        } else {
+          stateSelect.innerHTML = '<option value="RJ" selected>Rio de Janeiro (RJ)</option><option value="SP">São Paulo (SP)</option><option value="MG">Minas Gerais (MG)</option>';
+        }
+      } else if (stateSelect) {
+        stateSelect.value = userState;
+      }
+
+      loadOffersHubCities(userState, userCity);
+    }
+
+    async function loadOffersHubCities(uf, preselectedCity = null) {
+      const citySelect = document.getElementById('offers-hub-city-select');
+      if (!citySelect) return;
+
+      citySelect.innerHTML = '<option value="">Carregando municípios...</option>';
+
+      const cacheKey = 'nutri_cities_' + uf;
+      let cities = [];
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try { cities = JSON.parse(cached); } catch(e) {}
+      }
+
+      if (!cities || cities.length === 0) {
+        try {
+          const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
+          const data = await res.json();
+          cities = data.map(c => c.nome);
+          localStorage.setItem(cacheKey, JSON.stringify(cities));
+        } catch(e) {
+          cities = (typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) || ['Cabo Frio', 'São Pedro da Aldeia', 'Araruama', 'Armação dos Búzios', 'Arraial do Cabo', 'Rio de Janeiro', 'Niterói'];
+        }
+      }
+
+      citySelect.innerHTML = '';
+      const allOpt = document.createElement('option');
+      allOpt.value = '__TODAS__';
+      allOpt.innerText = `🌐 Todas as Cidades (${uf})`;
+      citySelect.appendChild(allOpt);
+
+      const targetCity = preselectedCity || localStorage.getItem('nutri_user_city') || (uf === 'RJ' ? 'Cabo Frio' : cities[0]);
+      let matched = false;
+
+      cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (targetCity && (c.toLowerCase() === targetCity.toLowerCase() || targetCity.toLowerCase().includes(c.toLowerCase()))) {
+          opt.selected = true;
+          matched = true;
+        }
+        citySelect.appendChild(opt);
+      });
+
+      if (!matched && citySelect.children.length > 1) {
+        citySelect.children[1].selected = true;
+      }
+
+      renderOffersHubList();
+    }
+
+    function handleOffersHubStateChange() {
+      const stateSelect = document.getElementById('offers-hub-state-select');
+      const uf = stateSelect ? stateSelect.value : 'RJ';
+      loadOffersHubCities(uf, null);
+    }
+
+    function handleOffersHubCityChange() {
+      renderOffersHubList();
+    }
+
+    async function loadOffersHubData() {
+      const today = new Date().toISOString().split('T')[0];
+      let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+
+      try {
+        const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
+        if (data && data.length > 0) {
+          const localMap = new Map(encartes.map(e => [String(e.id), e]));
+          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
+          encartes = data.map(remote => {
+            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
+            return {
+              ...remote,
+              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+            };
+          });
+          localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
+        }
+      } catch(e) {}
+
+      const validEncartes = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
+      const badgeCount = document.getElementById('offers-hub-badge-count');
+      if (badgeCount) badgeCount.innerText = `${validEncartes.length} ${validEncartes.length === 1 ? 'encarte ativo' : 'encartes ativos'}`;
+
+      let flatOffers = [];
+
+      validEncartes.forEach(enc => {
+        const marketName = enc.mercado || 'Supermercado';
+        const validade = enc.validade;
+        const cidade = enc.cidade || 'Cabo Frio';
+        const uf = enc.estado || 'RJ';
+
+        if (Array.isArray(enc.ofertas) && enc.ofertas.length > 0) {
+          enc.ofertas.forEach(item => {
+            flatOffers.push({
+              id: item.id || ('ofr_' + Math.random().toString(36).substr(2, 7)),
+              nome: item.nome || item.produto || item.item || 'Produto',
+              preco: typeof item.preco === 'number' ? item.preco : (parseFloat(String(item.preco).replace('R$', '').replace(/\./g, '').replace(',', '.')) || 0),
+              precoAntigo: item.preco_antigo || item.precoAntigo || null,
+              unidade: item.unidade || item.tipo_unidade || 'un',
+              mercado: marketName,
+              cidade: cidade,
+              uf: uf,
+              validade: validade,
+              encarteId: enc.id
+            });
+          });
+        }
+      });
+
+      if (flatOffers.length === 0) {
+        flatOffers = getStarterOffersList();
+      }
+
+      offersHubAllItems = flatOffers;
+      renderOffersHubList();
+    }
+
+    function getStarterOffersList() {
+      return [
+        { id: 'st_1', nome: 'Picanha Bovina Peça / Fatiada', preco: 49.90, precoAntigo: 69.90, unidade: 'kg', mercado: 'Atacadão', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-05' },
+        { id: 'st_2', nome: 'Cerveja Heineken Puro Malte 350ml', preco: 4.89, precoAntigo: 5.79, unidade: 'un', mercado: 'Assaí Atacadista', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-04' },
+        { id: 'st_3', nome: 'Lava-Roupas em Pó OMO Lavagem Perfeita 1,6kg', preco: 17.90, precoAntigo: 24.90, unidade: 'un', mercado: 'Supermarket', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-06' },
+        { id: 'st_4', nome: 'Leite Moça Nestlé Semidesnatado 395g', preco: 5.79, precoAntigo: 7.99, unidade: 'un', mercado: 'Princesa Supermercados', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-03' },
+        { id: 'st_5', nome: 'Filé de Peito Sadia Congelado 1kg', preco: 14.99, precoAntigo: 21.90, unidade: 'un', mercado: 'Atacadão', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-05' },
+        { id: 'st_6', nome: 'Arroz Camil Tipo 1 5kg', preco: 27.90, precoAntigo: 33.90, unidade: 'un', mercado: 'Multimarket', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-06' },
+        { id: 'st_7', nome: 'Café Pilão Tradicional 500g', preco: 18.89, precoAntigo: 23.50, unidade: 'un', mercado: 'Supermercado Avistão', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-04' },
+        { id: 'st_8', nome: 'Óleo de Soja Soya 900ml', preco: 5.49, precoAntigo: 6.99, unidade: 'un', mercado: 'Assaí Atacadista', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-04' },
+        { id: 'st_9', nome: 'Banana Prata Selecionada', preco: 4.99, precoAntigo: 7.49, unidade: 'kg', mercado: 'Supermarket', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-02' },
+        { id: 'st_10', nome: 'Sabão Líquido Ariel 2L', preco: 29.90, precoAntigo: 39.90, unidade: 'un', mercado: 'Atacadão', cidade: 'Cabo Frio', uf: 'RJ', validade: '2026-10-05' }
+      ];
+    }
+
+    function selectOffersHubCategory(cat, btn) {
+      offersHubCurrentCategory = cat;
+      document.querySelectorAll('.hub-cat-pill').forEach(el => {
+        el.style.background = '#fff';
+        el.style.color = '#334155';
+        el.style.borderColor = '#e2e8f0';
+        el.style.fontWeight = '600';
+      });
+      if (btn) {
+        btn.style.background = '#166534';
+        btn.style.color = '#fff';
+        btn.style.borderColor = '#166534';
+        btn.style.fontWeight = '700';
+      }
+      renderOffersHubList();
+    }
+
+    function handleOffersHubSearch(val) {
+      offersHubSearchQuery = (val || '').toLowerCase().trim();
+      const clearBtn = document.getElementById('offers-hub-clear-btn');
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', offersHubSearchQuery.length === 0);
+      }
+      renderOffersHubList();
+    }
+
+    function clearOffersHubSearch() {
+      const input = document.getElementById('offers-hub-search-input');
+      if (input) input.value = '';
+      offersHubSearchQuery = '';
+      const clearBtn = document.getElementById('offers-hub-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderOffersHubList();
+    }
+
+    function renderOffersHubList() {
+      const container = document.getElementById('offers-hub-list-container');
+      const summaryCount = document.getElementById('offers-hub-summary-count');
+      const sortSelect = document.getElementById('offers-hub-sort-select');
+      const citySelect = document.getElementById('offers-hub-city-select');
+      const stateSelect = document.getElementById('offers-hub-state-select');
+
+      if (!container) return;
+
+      const selectedUf = stateSelect ? stateSelect.value : 'RJ';
+      const selectedCity = citySelect ? citySelect.value : '';
+      const sortBy = sortSelect ? sortSelect.value : 'preco_asc';
+
+      const normQ = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(offersHubSearchQuery) : offersHubSearchQuery;
+
+      let filtered = offersHubAllItems.filter(item => {
+        if (selectedCity && selectedCity !== '__TODAS__') {
+          const itemCityNorm = (item.cidade || '').toLowerCase();
+          const targetCityNorm = selectedCity.toLowerCase();
+          if (itemCityNorm && !itemCityNorm.includes(targetCityNorm) && !targetCityNorm.includes(itemCityNorm)) {
+            return false;
+          }
+        } else if (selectedUf) {
+          if (item.uf && item.uf !== selectedUf) return false;
+        }
+
+        if (offersHubCurrentCategory !== 'todos') {
+          const keywords = OFFERS_HUB_CATEGORY_KEYWORDS[offersHubCurrentCategory] || [];
+          const nameNorm = (item.nome || '').toLowerCase();
+          const matchesCat = keywords.some(k => nameNorm.includes(k));
+          if (!matchesCat) return false;
+        }
+
+        if (normQ) {
+          const nameNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.nome || '') : (item.nome || '').toLowerCase();
+          const marketNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.mercado || '') : (item.mercado || '').toLowerCase();
+          if (!nameNorm.includes(normQ) && !marketNorm.includes(normQ)) return false;
+        }
+
+        return true;
+      });
+
+      if (sortBy === 'preco_asc') {
+        filtered.sort((a, b) => (a.preco || 0) - (b.preco || 0));
+      } else if (sortBy === 'nome_asc') {
+        filtered.sort((a, b) => (a.nome || '').localeCompare(b.nome || ''));
+      } else if (sortBy === 'recente') {
+        filtered.sort((a, b) => (b.validade || '').localeCompare(a.validade || ''));
+      }
+
+      offersHubFilteredItems = filtered;
+
+      if (summaryCount) {
+        summaryCount.innerText = `${filtered.length} ${filtered.length === 1 ? 'oferta encontrada' : 'ofertas encontradas'}`;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 36px 16px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 14px; margin-top: 6px;">
+            <div style="font-size: 36px; margin-bottom: 8px;">🔍</div>
+            <strong style="color: #334155; font-size: 14px; display: block;">Nenhuma oferta encontrada para este filtro</strong>
+            <p style="font-size: 12px; color: #64748b; margin-top: 4px; max-width: 280px; margin-left: auto; margin-right: auto;">
+              Tente buscar por termos mais genéricos (ex: <i>carne, café, cerveja</i>) ou selecione "Todas as Cidades".
+            </p>
+            <button type="button" onclick="clearOffersHubSearch(); selectOffersHubCategory('todos', document.querySelector('.hub-cat-pill'));" style="margin-top: 12px; background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e20; font-size: 11.5px; font-weight: 700; padding: 7px 14px; border-radius: 8px; cursor: pointer;">
+              Limpar Filtros de Busca
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach((item, idx) => {
+        const priceFmt = Number(item.preco || 0).toFixed(2).replace('.', ',');
+        const oldPriceFmt = item.precoAntigo ? Number(item.precoAntigo).toFixed(2).replace('.', ',') : null;
+        const discountPct = (item.precoAntigo && item.precoAntigo > item.preco) 
+          ? Math.round(((item.precoAntigo - item.preco) / item.precoAntigo) * 100) 
+          : null;
+        const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
+
+        html += `
+          <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+              <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+                  ${discountPct ? `<span style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; font-size: 9.5px; font-weight: 900; padding: 2px 6px; border-radius: 4px;">-${discountPct}% OFF</span>` : ''}
+                  <span style="font-size: 11px; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 3px;">
+                    🏪 ${escapeHTML(item.mercado)}
+                  </span>
+                  <span style="font-size: 10px; color: #64748b; background: #f1f5f9; padding: 1px 6px; border-radius: 4px;">
+                    ${escapeHTML(item.cidade || 'Região')}
+                  </span>
+                </div>
+                <h4 style="font-size: 13.5px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0; line-height: 1.3;">
+                  ${escapeHTML(item.nome)}
+                </h4>
+                <div style="font-size: 10.5px; color: #64748b; display: flex; align-items: center; gap: 4px;">
+                  ${valStr ? `<span>⏰ Válido até: <b>${valStr}</b></span>` : '<span>⚡ Oferta vigente</span>'}
+                  <span>•</span>
+                  <span>Encarte Digital</span>
+                </div>
+              </div>
+
+              <div style="text-align: right; flex-shrink: 0;">
+                ${oldPriceFmt ? `<span style="font-size: 10.5px; color: #94a3b8; text-decoration: line-through; display: block;">R$ ${oldPriceFmt}</span>` : ''}
+                <div style="font-size: 17px; font-weight: 900; color: #16a34a; line-height: 1.1;">
+                  R$ ${priceFmt}
+                </div>
+                <span style="font-size: 10px; color: #64748b;">${item.unidade === 'kg' ? 'o quilo' : (item.unidade || 'unidade')}</span>
+              </div>
+            </div>
+
+            <!-- Rodapé do Card com Ação de Carrinho -->
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 10.5px; color: #64748b;">
+                ${discountPct ? `Economia estimada: <b style="color: #166534;">R$ ${(item.precoAntigo - item.preco).toFixed(2).replace('.', ',')}</b>` : 'Preço verificado'}
+              </span>
+              <button 
+                type="button" 
+                onclick="addOffersHubItemByIndex(${idx})"
+                style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s;"
+              >
+                + Adicionar à Lista
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function addOffersHubItemByIndex(idx) {
+      const item = offersHubFilteredItems[idx];
+      if (!item) return;
+
+      const price = Number(item.preco) || 0;
+      if (price <= 0) {
+        showToast('Preço inválido.', 'warning');
+        return;
+      }
+
+      const inputUnit = item.unidade || 'un';
+      const name = item.nome || 'Produto';
+      const market = item.mercado || 'Supermercado';
+
+      const existingIdx = cart.findIndex(i => i.name && i.name.toLowerCase() === name.toLowerCase());
+      if (existingIdx >= 0) {
+        cart[existingIdx].qty = (cart[existingIdx].qty || 1) + 1;
+      } else {
+        cart.push({
+          barcode: 'OFR_' + Date.now(),
+          name: name,
+          price: price,
+          qty: 1,
+          unit: inputUnit,
+          mercado: market
+        });
+      }
+
+      localStorage.setItem('nutri_cart', JSON.stringify(cart));
+      updateCartDisplay();
+      updateBudgetDisplay();
+      updateLastItemFeedback(name, price, 1, inputUnit);
+      addMascotXP(10, 'Item da Central de Ofertas');
+      showToast(`🛒 "${name}" adicionado ao seu Pré-Caixa!`, 'success');
     }
 
   </script>
