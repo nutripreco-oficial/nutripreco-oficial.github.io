@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS public.app_telemetria (
 CREATE TABLE IF NOT EXISTS public.encartes (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     mercado TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'RJ',
     cidade TEXT NOT NULL DEFAULT 'Cabo Frio',
     data_inicio DATE DEFAULT CURRENT_DATE NOT NULL,
     validade DATE NOT NULL,
@@ -88,8 +89,9 @@ CREATE TABLE IF NOT EXISTS public.encartes (
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
 
--- Garante existência da coluna ofertas caso a tabela já tenha sido criada anteriormente
+-- Garante existência da coluna ofertas e estado caso a tabela já tenha sido criada anteriormente
 ALTER TABLE public.encartes ADD COLUMN IF NOT EXISTS ofertas JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.encartes ADD COLUMN IF NOT EXISTS estado TEXT NOT NULL DEFAULT 'RJ';
 
 
 -- ==============================================================================
@@ -103,6 +105,7 @@ CREATE INDEX IF NOT EXISTS idx_registros_precos_produto ON public.registros_prec
 CREATE INDEX IF NOT EXISTS idx_registros_precos_mercado ON public.registros_precos(mercado_id);
 CREATE INDEX IF NOT EXISTS idx_registros_precos_data ON public.registros_precos(data_registro DESC);
 CREATE INDEX IF NOT EXISTS idx_encartes_vigencia ON public.encartes(cidade, validade DESC);
+CREATE INDEX IF NOT EXISTS idx_encartes_estado_cidade ON public.encartes(estado, cidade, validade DESC);
 CREATE INDEX IF NOT EXISTS idx_telemetria_evento ON public.app_telemetria(evento, created_at DESC);
 
 -- ==============================================================================

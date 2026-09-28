@@ -405,6 +405,30 @@
             Selecione a foto ou print do folheto do mercado (<b>Avistão, Princesa, Multimarket, etc.</b>). Ele fica imediatamente disponível na aba pública de encartes com zoom interativo para os clientes!
           </p>
 
+          <!-- Seleção Geográfica do Encarte (Estado & Cidade) -->
+          <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; margin-bottom:12px;">
+            <span style="font-size:11.5px; font-weight:800; color:#166534; display:block; margin-bottom:6px;">
+              📍 Região de Destino do Encarte:
+            </span>
+            <div style="display:grid; grid-template-columns: 1fr 2fr; gap:8px;">
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#555; display:block; margin-bottom:2px;">Estado (UF):</label>
+                <select id="encarte-admin-state" onchange="onAdminEncarteStateChanged()" style="width:100%; padding:8px; border-radius:8px; border:1px solid #cbd5e1; font-size:12.5px; font-weight:bold; background:#fff; color:#1e293b;">
+                  <!-- Preenchido dinamicamente com BRAZIL_UFS -->
+                </select>
+              </div>
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#555; display:block; margin-bottom:2px;">Cidade / Município:</label>
+                <select id="encarte-admin-city" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #86efac; font-size:12.5px; font-weight:bold; background:#fff; color:#166534;">
+                  <!-- Preenchido dinamicamente com cidades da UF -->
+                </select>
+              </div>
+            </div>
+            <small style="font-size:10.5px; color:#4b7a5a; display:block; margin-top:4px;">
+              Define para qual cidade e estado este folheto e suas ofertas serão direcionados.
+            </small>
+          </div>
+
           <label style="font-size:12px; font-weight:bold; color:#333;">1. Supermercado do Encarte:</label>
           <select id="encarte-photo-market" onchange="handleAdminEncarteMarketChange(this)" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:13.5px; margin-bottom:10px; background:#fff;">
             <option value="Supermercado Avistão">Supermercado Avistão</option>
@@ -724,17 +748,17 @@
       <div class="modal-header">
         <div>
           <h3 style="color: #1b5e20; display:flex; align-items:center; gap:8px;">
-            📰 Encartes & Ofertas da Semana
+            📰 Encartes &amp; Ofertas da Semana
           </h3>
-          <span style="font-size:12px; color:#555;" id="public-encartes-city-label">
-            📍 Região: <b>Cabo Frio - RJ</b>
+          <span style="font-size:11.5px; color:#555;" id="public-encartes-city-label">
+            Folhetos oficiais vigentes por município
           </span>
         </div>
         <button style="border:none; background:none; font-size:24px; cursor:pointer; color:#777;" onclick="closePublicEncartesModal()">&times;</button>
       </div>
 
       <!-- Banner de Colaboração da Comunidade com Gemini IA -->
-      <div style="background: linear-gradient(135deg, #e8f0fe, #f0fdf4); border: 1.5px solid #4285f4; border-radius: 12px; padding: 12px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+      <div style="background: linear-gradient(135deg, #e8f0fe, #f0fdf4); border: 1.5px solid #4285f4; border-radius: 12px; padding: 12px; margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
         <div style="flex:1;">
           <strong style="color: #1a73e8; font-size: 13px; display: flex; align-items: center; gap: 6px;">
             ✨ Enviar Folheto com IA (+50 XP)
@@ -753,6 +777,32 @@
         <span>🔥 Abrir Central de Ofertas &amp; Busca Global</span>
         <span style="background: rgba(255,255,255,0.25); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 8px;">IA Gemini</span>
       </button>
+
+      <!-- Filtros Geográficos da Vitrine de Encartes: ESTADO & CIDADE -->
+      <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 10px 12px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #475569; display: flex; align-items: center; gap: 4px;">
+            📍 Filtrar Encartes por Região:
+          </span>
+          <span id="public-encartes-count-badge" style="font-size: 11px; font-weight: 700; color: #166534; background: #e8f5e9; padding: 2px 7px; border-radius: 10px; border: 1px solid #a5d6a7;">
+            0 encartes
+          </span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 8px;">
+          <div>
+            <label style="font-size: 10px; font-weight: bold; color: #64748b; display: block; margin-bottom: 2px;">Estado (UF):</label>
+            <select id="public-encartes-state-select" onchange="handlePublicEncartesStateChange()" style="width: 100%; padding: 7px 8px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 700; background: #fff; color: #1e293b;">
+              <!-- Preenchido dinamicamente com BRAZIL_UFS -->
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 10px; font-weight: bold; color: #64748b; display: block; margin-bottom: 2px;">Cidade:</label>
+            <select id="public-encartes-city-select" onchange="handlePublicEncartesCityChange()" style="width: 100%; padding: 7px 8px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 12px; font-weight: 700; background: #fff; color: #166534;">
+              <!-- Preenchido dinamicamente com cidades da UF -->
+            </select>
+          </div>
+        </div>
+      </div>
 
       <p style="font-size:12.5px; color:#666; margin-bottom:12px;">
         Folhetos oficiais vigentes na sua cidade. Toque para ver em tela cheia com zoom:
@@ -2745,6 +2795,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           tabEncartesBtn.style.borderColor = '#1b5e20';
         }
         viewEncartes.classList.remove('hidden');
+        if (typeof initAdminEncarteLocation === 'function') initAdminEncarteLocation();
         if (typeof loadActivePhotoEncartes === 'function') loadActivePhotoEncartes();
       } else if (tab === 'mod') {
         if (tabModBtn) {
@@ -5468,12 +5519,83 @@ async function exportPricesCSV() {
       return select.value;
     }
 
+    // ==========================================
+    // LOCALIZAÇÃO DO ENCARTE NO PAINEL ADMIN
+    // ==========================================
+    function initAdminEncarteLocation() {
+      const stateSelect = document.getElementById('encarte-admin-state');
+      if (!stateSelect) return;
+      const userState = localStorage.getItem('nutri_user_state') || 'RJ';
+      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+      if (stateSelect.children.length === 0) {
+        stateSelect.innerHTML = '';
+        if (typeof BRAZIL_UFS !== 'undefined' && Array.isArray(BRAZIL_UFS)) {
+          BRAZIL_UFS.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.uf;
+            opt.innerText = item.nome;
+            if (item.uf === userState) opt.selected = true;
+            stateSelect.appendChild(opt);
+          });
+        }
+      }
+
+      loadAdminEncarteCities(stateSelect.value || userState, userCity);
+    }
+
+    async function loadAdminEncarteCities(uf, preselectedCity = null) {
+      const citySelect = document.getElementById('encarte-admin-city');
+      if (!citySelect) return;
+
+      citySelect.innerHTML = '<option value="">Carregando...</option>';
+
+      const cacheKey = 'nutri_cities_' + uf;
+      let cities = [];
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try { cities = JSON.parse(cached); } catch(e) {}
+      }
+
+      if (!cities || cities.length === 0) {
+        try {
+          const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
+          const data = await res.json();
+          cities = data.map(c => c.nome);
+          localStorage.setItem(cacheKey, JSON.stringify(cities));
+        } catch(e) {
+          cities = (typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) || ['Cabo Frio', 'São Pedro da Aldeia', 'Araruama', 'Armação dos Búzios', 'Arraial do Cabo', 'Rio de Janeiro', 'Niterói'];
+        }
+      }
+
+      citySelect.innerHTML = '';
+      const targetCity = preselectedCity || localStorage.getItem('nutri_user_city') || (uf === 'RJ' ? 'Cabo Frio' : cities[0]);
+
+      cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (targetCity && (c.toLowerCase() === targetCity.toLowerCase() || targetCity.toLowerCase().includes(c.toLowerCase()))) {
+          opt.selected = true;
+        }
+        citySelect.appendChild(opt);
+      });
+    }
+
+    function onAdminEncarteStateChanged() {
+      const stateSelect = document.getElementById('encarte-admin-state');
+      const uf = stateSelect ? stateSelect.value : 'RJ';
+      loadAdminEncarteCities(uf, null);
+    }
+
     async function publishPhotoEncarte() {
       const market = getAdminEncarteMarket();
       if (!market) return;
       const start = document.getElementById('encarte-photo-start').value || new Date().toISOString().split('T')[0];
       const end = document.getElementById('encarte-photo-end').value;
-      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      const targetState = document.getElementById('encarte-admin-state')?.value || localStorage.getItem('nutri_user_state') || 'RJ';
+      const targetCity = (document.getElementById('encarte-admin-city')?.value || localStorage.getItem('nutri_user_city') || 'Cabo Frio').trim();
 
       if (!end) {
         showToast('Informe a data de validade final do encarte.', 'warning');
@@ -5484,22 +5606,23 @@ async function exportPricesCSV() {
         return;
       }
 
-      showToast('Publicando encarte oficial...', 'info');
+      showToast(`Publicando encarte para ${targetCity} - ${targetState}...`, 'info');
 
       // Se for mercado inserido manualmente, cadastra no banco e na lista de conhecidos
       try {
         const known = getAllKnownMarkets();
         if (!known.some(m => m.nome.toLowerCase() === market.toLowerCase())) {
-          known.push({ nome: market, lat: null, lon: null, bairro: '' });
+          known.push({ nome: market, lat: null, lon: null, bairro: '', cidade: targetCity, estado: targetState });
           localStorage.setItem('nutri_known_markets', JSON.stringify(known));
-          client.from('mercados').insert({ nome: market, cidade: userCity }).catch(()=>{});
+          client.from('mercados').insert({ nome: market, cidade: targetCity }).catch(()=>{});
         }
       } catch(e) {}
 
       const encarteObj = {
         id: 'ENC_' + Date.now(),
         mercado: market,
-        cidade: userCity,
+        cidade: targetCity,
+        estado: targetState,
         data_inicio: start,
         validade: end,
         imagem: currentEncartePhotoBase64,
@@ -5508,12 +5631,12 @@ async function exportPricesCSV() {
 
       // 1. Salva no aparelho local (garantia 100% de funcionamento)
       let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-      encartesLocais = encartesLocais.filter(e => e.mercado.toLowerCase() !== market.toLowerCase());
+      encartesLocais = encartesLocais.filter(e => !(e.mercado.toLowerCase() === market.toLowerCase() && (e.cidade || '').toLowerCase() === targetCity.toLowerCase()));
       
       // Se houver ofertas extraídas pelo Gemini nesta sessão, vincula ao encarte e salva no catálogo
       if (detectedGeminiAdminItems && detectedGeminiAdminItems.length > 0) {
         encarteObj.ofertas = detectedGeminiAdminItems;
-        showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo e Cesta Básica...`, 'info');
+        showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo de ${targetCity}...`, 'info');
         await saveGeminiItemsBatch(market, detectedGeminiAdminItems);
         detectedGeminiAdminItems = [];
       }
@@ -5525,7 +5648,8 @@ async function exportPricesCSV() {
       try {
         const payload = {
           mercado: market,
-          cidade: userCity,
+          cidade: targetCity,
+          estado: targetState,
           data_inicio: start,
           validade: end,
           imagem: currentEncartePhotoBase64
@@ -5538,7 +5662,7 @@ async function exportPricesCSV() {
         console.log('Aviso cloud:', cloudErr);
       }
 
-      showToast(`Encarte do ${market} publicado com sucesso!`, 'success');
+      showToast(`Encarte do ${market} (${targetCity} - ${targetState}) publicado com sucesso!`, 'success');
 
       currentEncartePhotoBase64 = null;
       document.getElementById('encarte-photo-preview-box').classList.add('hidden');
@@ -5566,6 +5690,8 @@ async function exportPricesCSV() {
             const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
             return {
               ...remote,
+              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
+              estado: remote.estado || (local && local.estado) || 'RJ',
               ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
             };
           });
@@ -5585,7 +5711,7 @@ async function exportPricesCSV() {
         html += `
           <li style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed #eee;">
             <div>
-              <strong>${e.mercado}</strong> (${e.cidade || 'Cabo Frio'})<br>
+              <strong>${escapeHTML(e.mercado)}</strong> <span style="font-size:11px; color:#166534; font-weight:bold;">(📍 ${escapeHTML(e.cidade || 'Cabo Frio')} - ${escapeHTML(e.estado || 'RJ')})</span><br>
               <small style="color:#2e7d32; font-weight:bold;">Válido até ${formatDateBR(e.validade)}</small>
             </div>
             <button onclick="deletePhotoEncarte('${e.id}')" style="background:#ffebee; color:#c62828; border:1px solid #ef9a9a; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:bold; cursor:pointer;">
@@ -6213,12 +6339,14 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 
       if (currentUserFlyerBase64) {
         const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        const userState = localStorage.getItem('nutri_user_state') || 'RJ';
         const today = new Date().toISOString().split('T')[0];
         const endValid = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
         const flyerObj = {
           id: 'USER_ENC_' + Date.now(),
           mercado: market,
           cidade: userCity,
+          estado: userState,
           data_inicio: today,
           validade: endValid,
           imagem: currentUserFlyerBase64,
@@ -6226,7 +6354,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           criado_em: new Date().toISOString()
         };
         let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-        encartesLocais = encartesLocais.filter(e => e.mercado.toLowerCase() !== market.toLowerCase());
+        encartesLocais = encartesLocais.filter(e => !(e.mercado.toLowerCase() === market.toLowerCase() && (e.cidade || '').toLowerCase() === userCity.toLowerCase()));
         encartesLocais.unshift(flyerObj);
         localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
 
@@ -6234,6 +6362,7 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           const payload = {
             mercado: market,
             cidade: userCity,
+            estado: userState,
             data_inicio: today,
             validade: endValid,
             imagem: currentUserFlyerBase64,
@@ -6504,15 +6633,10 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     // ==========================================
     async function openPublicEncartesModal() {
       const modal = document.getElementById('public-encartes-modal');
-      const cityLabel = document.getElementById('public-encartes-city-label');
-      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
-      const userState = localStorage.getItem('nutri_user_state') || 'RJ';
-
-      const cleanCity = userCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
-      if (cityLabel) cityLabel.innerHTML = `📍 Região: <b>${cleanCity} - ${userState}</b>`;
       if (modal) modal.classList.remove('hidden');
 
-      renderPublicEncartes();
+      initPublicEncartesLocation();
+      await renderPublicEncartes();
     }
 
     function closePublicEncartesModal() {
@@ -6520,11 +6644,98 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       if (modal) modal.classList.add('hidden');
     }
 
+    function initPublicEncartesLocation() {
+      const stateSelect = document.getElementById('public-encartes-state-select');
+      const userState = localStorage.getItem('nutri_user_state') || 'RJ';
+      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+
+      if (stateSelect && stateSelect.children.length === 0) {
+        stateSelect.innerHTML = '';
+        if (typeof BRAZIL_UFS !== 'undefined' && Array.isArray(BRAZIL_UFS)) {
+          BRAZIL_UFS.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.uf;
+            opt.innerText = item.nome;
+            if (item.uf === userState) opt.selected = true;
+            stateSelect.appendChild(opt);
+          });
+        }
+      }
+
+      loadPublicEncartesCities(stateSelect?.value || userState, userCity);
+    }
+
+    async function loadPublicEncartesCities(uf, preselectedCity = null) {
+      const citySelect = document.getElementById('public-encartes-city-select');
+      if (!citySelect) return;
+
+      citySelect.innerHTML = '<option value="">Carregando...</option>';
+
+      const cacheKey = 'nutri_cities_' + uf;
+      let cities = [];
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try { cities = JSON.parse(cached); } catch(e) {}
+      }
+
+      if (!cities || cities.length === 0) {
+        try {
+          const res = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?orderBy=nome`);
+          const data = await res.json();
+          cities = data.map(c => c.nome);
+          localStorage.setItem(cacheKey, JSON.stringify(cities));
+        } catch(e) {
+          cities = (typeof OFFLINE_CITIES_BACKUP !== 'undefined' && OFFLINE_CITIES_BACKUP[uf]) || ['Cabo Frio', 'São Pedro da Aldeia', 'Araruama', 'Armação dos Búzios', 'Arraial do Cabo', 'Rio de Janeiro', 'Niterói'];
+        }
+      }
+
+      citySelect.innerHTML = '';
+      const allOpt = document.createElement('option');
+      allOpt.value = '__TODAS__';
+      allOpt.innerText = `🌐 Todas as Cidades (${uf})`;
+      citySelect.appendChild(allOpt);
+
+      const targetCity = preselectedCity || localStorage.getItem('nutri_user_city') || (uf === 'RJ' ? 'Cabo Frio' : cities[0]);
+      let matched = false;
+
+      cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.innerText = c;
+        if (targetCity && (c.toLowerCase() === targetCity.toLowerCase() || targetCity.toLowerCase().includes(c.toLowerCase()))) {
+          opt.selected = true;
+          matched = true;
+        }
+        citySelect.appendChild(opt);
+      });
+
+      if (!matched && citySelect.children.length > 1) {
+        citySelect.children[1].selected = true;
+      }
+
+      renderPublicEncartes();
+    }
+
+    function handlePublicEncartesStateChange() {
+      const stateSelect = document.getElementById('public-encartes-state-select');
+      const uf = stateSelect ? stateSelect.value : 'RJ';
+      loadPublicEncartesCities(uf, null);
+    }
+
+    function handlePublicEncartesCityChange() {
+      renderPublicEncartes();
+    }
+
     async function renderPublicEncartes() {
       const container = document.getElementById('public-encartes-container');
+      const badge = document.getElementById('public-encartes-count-badge');
+      const stateSelect = document.getElementById('public-encartes-state-select');
+      const citySelect = document.getElementById('public-encartes-city-select');
       if (!container) return;
 
-      const userCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      const userState = stateSelect ? stateSelect.value : (localStorage.getItem('nutri_user_state') || 'RJ');
+      const userCity = citySelect ? citySelect.value : (localStorage.getItem('nutri_user_city') || 'Cabo Frio');
       const today = new Date().toISOString().split('T')[0];
 
       let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
@@ -6538,6 +6749,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
             const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
             return {
               ...remote,
+              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
+              estado: remote.estado || (local && local.estado) || 'RJ',
               ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
             };
           });
@@ -6545,14 +6758,38 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         }
       } catch(e) {}
 
-      const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
+      // Filtra encartes válidos
+      const valid = encartes.filter(e => {
+        if (e.validade < today || e.mercado.startsWith('__')) return false;
+
+        const encState = (e.estado || 'RJ').toUpperCase();
+        const encCity = (e.cidade || 'Cabo Frio').trim();
+
+        if (userCity && userCity !== '__TODAS__') {
+          return encCity.toLowerCase() === userCity.toLowerCase();
+        } else if (userState) {
+          return encState === userState.toUpperCase();
+        }
+        return true;
+      });
+
+      if (badge) {
+        badge.innerText = `${valid.length} ${valid.length === 1 ? 'encarte ativo' : 'encartes ativos'}`;
+      }
+
+      const displayCityName = (userCity && userCity !== '__TODAS__') ? userCity : `Todas as Cidades (${userState})`;
 
       if (valid.length === 0) {
         container.innerHTML = `
-          <div style="text-align:center; padding:32px 16px; background:#fafafa; border:1px dashed #ccc; border-radius:12px;">
+          <div style="text-align:center; padding:36px 16px; background:#fafafa; border:1.5px dashed #cbd5e1; border-radius:14px;">
             <span style="font-size:38px; display:block; margin-bottom:8px;">📰</span>
-            <strong style="color:#333; font-size:14.5px;">Nenhum encarte publicado para ${userCity} no momento.</strong>
-            <p style="font-size:12px; color:#777; margin-top:6px;">Os encartes são atualizados semanalmente.</p>
+            <strong style="color:#333; font-size:14.5px;">Nenhum encarte publicado para ${escapeHTML(displayCityName)} no momento.</strong>
+            <p style="font-size:12px; color:#777; margin-top:6px; max-width:280px; margin-left:auto; margin-right:auto;">
+              Os folhetos são atualizados conforme os mercados publicam ou usuários enviam.
+            </p>
+            <button type="button" onclick="selectPublicEncartesAllCities()" style="margin-top:12px; background:#e8f5e9; border:1px solid #a5d6a7; color:#1b5e20; font-size:12px; font-weight:700; padding:8px 14px; border-radius:8px; cursor:pointer;">
+              🌐 Ver Todos os Encartes de ${escapeHTML(userState)}
+            </button>
           </div>
         `;
         return;
@@ -6560,12 +6797,14 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 
       let html = '';
       valid.forEach(e => {
+        const encCity = e.cidade || 'Cabo Frio';
+        const encState = e.estado || 'RJ';
         html += `
           <div style="background:#fff; border:1.5px solid #c8e6c9; border-radius:14px; padding:14px; box-shadow:0 3px 8px rgba(0,0,0,0.06);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
               <div>
-                <h4 style="font-size:16px; color:#1b5e20; font-weight:bold; margin:0;">🏪 ${e.mercado}</h4>
-                <span style="font-size:11.5px; color:#666;">Cabo Frio e região</span>
+                <h4 style="font-size:16px; color:#1b5e20; font-weight:bold; margin:0;">🏪 ${escapeHTML(e.mercado)}</h4>
+                <span style="font-size:11.5px; color:#666;">📍 ${escapeHTML(encCity)} - ${escapeHTML(encState)}</span>
               </div>
               <span style="background:#e8f5e9; color:#2e7d32; font-size:11.5px; font-weight:bold; padding:4px 9px; border-radius:12px; border:1px solid #c8e6c9;">
                 Válido até ${formatDateBR(e.validade)}
@@ -6588,6 +6827,14 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       });
 
       container.innerHTML = html;
+    }
+
+    function selectPublicEncartesAllCities() {
+      const citySelect = document.getElementById('public-encartes-city-select');
+      if (citySelect) {
+        citySelect.value = '__TODAS__';
+        renderPublicEncartes();
+      }
     }
 
     // ==========================================
