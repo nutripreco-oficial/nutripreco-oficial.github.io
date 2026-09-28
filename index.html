@@ -337,14 +337,17 @@
       </div>
 
       <!-- Abas Principais do Painel Admin -->
-      <div style="display:flex; gap:6px; margin-bottom:14px; position:sticky; top:0; z-index:10; background:#fff; padding-bottom:6px;">
-        <button type="button" id="admin-main-tab-metrics" onclick="switchAdminMainTab('metrics')" style="flex:1; padding:9px 6px; border:1px solid #1b5e20; background:#1b5e20; color:#fff; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer;">
-          📊 Métricas & Dados
+      <div style="display:flex; gap:5px; margin-bottom:14px; position:sticky; top:0; z-index:10; background:#fff; padding-bottom:6px;">
+        <button type="button" id="admin-main-tab-metrics" onclick="switchAdminMainTab('metrics')" style="flex:1; padding:9px 4px; border:1px solid #1b5e20; background:#1b5e20; color:#fff; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">
+          📊 Métricas
         </button>
-        <button type="button" id="admin-main-tab-encartes" onclick="switchAdminMainTab('encartes')" style="flex:1; padding:9px 6px; border:1px solid #ccc; background:#fff; color:#555; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer;">
+        <button type="button" id="admin-main-tab-encartes" onclick="switchAdminMainTab('encartes')" style="flex:1; padding:9px 4px; border:1px solid #ccc; background:#fff; color:#555; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">
           📸 Encartes
         </button>
-        <button type="button" id="admin-main-tab-mod" onclick="switchAdminMainTab('mod')" style="flex:1; padding:9px 6px; border:1px solid #ccc; background:#fff; color:#555; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer;">
+        <button type="button" id="admin-main-tab-batch" onclick="switchAdminMainTab('batch')" style="flex:1.2; padding:9px 4px; border:1px solid #ccc; background:#fff; color:#555; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">
+          📥 Lote JSON (PC)
+        </button>
+        <button type="button" id="admin-main-tab-mod" onclick="switchAdminMainTab('mod')" style="flex:1; padding:9px 4px; border:1px solid #ccc; background:#fff; color:#555; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer;">
           🛡️ Moderação
         </button>
       </div>
@@ -405,11 +408,28 @@
             Selecione a foto ou print do folheto do mercado (<b>Avistão, Princesa, Multimarket, etc.</b>). Ele fica imediatamente disponível na aba pública de encartes com zoom interativo para os clientes!
           </p>
 
-          <!-- Seleção Geográfica do Encarte (Estado & Cidade) -->
+          <!-- Seleção Geográfica e Abrangência do Encarte -->
           <div style="background:#f0fdf4; border:1.5px solid #86efac; border-radius:10px; padding:10px; margin-bottom:12px;">
-            <span style="font-size:11.5px; font-weight:800; color:#166534; display:block; margin-bottom:6px;">
-              📍 Região de Destino do Encarte:
-            </span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-size:11.5px; font-weight:800; color:#166534;">
+                📍 Região &amp; Abrangência da Oferta:
+              </span>
+              <span id="encarte-admin-abrangencia-badge" style="font-size:10.5px; background:#dcfce7; color:#166534; padding:2px 8px; border-radius:10px; font-weight:bold;">
+                Municipal
+              </span>
+            </div>
+
+            <!-- Seletor de Abrangência: Municipal vs Estadual -->
+            <div style="margin-bottom:8px;">
+              <label style="font-size:10.5px; font-weight:bold; color:#374151; display:block; margin-bottom:3px;">
+                Alcance do Encarte:
+              </label>
+              <select id="encarte-admin-abrangencia" onchange="onAdminEncarteAbrangenciaChanged()" style="width:100%; padding:8px 10px; border-radius:8px; border:1.5px solid #3b82f6; font-size:12.5px; font-weight:bold; background:#eff6ff; color:#1e40af;">
+                <option value="MUNICIPAL" selected>📍 Oferta Local / Cidade Específica (apenas neste município)</option>
+                <option value="ESTADUAL">🌐 Rede Estadual (Válido em todas as filiais do Estado - Ex: Guanabara, Assaí, Atacadão)</option>
+              </select>
+            </div>
+
             <div style="display:grid; grid-template-columns: 1fr 2fr; gap:8px;">
               <div>
                 <label style="font-size:10.5px; font-weight:bold; color:#555; display:block; margin-bottom:2px;">Estado (UF):</label>
@@ -417,14 +437,14 @@
                   <!-- Preenchido dinamicamente com BRAZIL_UFS -->
                 </select>
               </div>
-              <div>
-                <label style="font-size:10.5px; font-weight:bold; color:#555; display:block; margin-bottom:2px;">Cidade / Município:</label>
+              <div id="encarte-admin-city-wrapper">
+                <label id="encarte-admin-city-label" style="font-size:10.5px; font-weight:bold; color:#555; display:block; margin-bottom:2px;">Cidade / Município:</label>
                 <select id="encarte-admin-city" style="width:100%; padding:8px; border-radius:8px; border:1.5px solid #86efac; font-size:12.5px; font-weight:bold; background:#fff; color:#166534;">
                   <!-- Preenchido dinamicamente com cidades da UF -->
                 </select>
               </div>
             </div>
-            <small style="font-size:10.5px; color:#4b7a5a; display:block; margin-top:4px;">
+            <small id="encarte-admin-abrangencia-help" style="font-size:10.5px; color:#4b7a5a; display:block; margin-top:5px; line-height:1.3;">
               Define para qual cidade e estado este folheto e suas ofertas serão direcionados.
             </small>
           </div>
@@ -540,6 +560,134 @@
             </div>
             <button type="button" onclick="syncAllActiveEncartesToCesta()" style="margin-top:10px; width:100%; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border:none; padding:10px 12px; border-radius:8px; font-size:12.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 6px rgba(46,125,50,0.25);">
               ⚡ Sincronizar Encartes Ativos com a Cesta Básica
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA: IMPORTAÇÃO EM LOTE VIA JSON (MODO PC / GEMINI) -->
+      <div id="admin-main-view-batch" class="hidden">
+        <div style="background:#f0f9ff; border:2px solid #93c5fd; border-radius:12px; padding:16px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h4 style="font-size:15px; color:#1e40af; font-weight:800; display:flex; align-items:center; gap:6px; margin:0;">
+              📥 Importador em Lote via Google Gemini (Modo PC)
+            </h4>
+            <span style="font-size:11px; background:#dbeafe; color:#1e40af; padding:3px 9px; border-radius:12px; font-weight:bold;">
+              Alta Velocidade
+            </span>
+          </div>
+          <p style="font-size:12px; color:#475569; line-height:1.4; margin-bottom:12px;">
+            Cole aqui o código <b>JSON</b> gerado pelo Gemini após analisar 1 a 10 páginas de encartes (ex: <i>Guanabara, Assaí, Atacadão</i>). O sistema valida marcas, preços, mercado e abrangência automaticamente antes de salvar.
+          </p>
+
+          <!-- Botão para copiar o Prompt Oficial do Gemini para a área de transferência -->
+          <div style="background:#eff6ff; border:1px dashed #60a5fa; border-radius:8px; padding:10px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="font-size:12px; color:#1e40af; display:block;">📋 Prompt Oficial do Gemini</strong>
+              <small style="font-size:11px; color:#64748b;">Copie o comando pronto para colar no Google AI Studio com as fotos do encarte</small>
+            </div>
+            <button type="button" onclick="copyGeminiBatchPrompt()" style="background:#2563eb; color:#fff; border:none; padding:7px 12px; border-radius:6px; font-size:11.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; gap:5px;">
+              📋 Copiar Prompt
+            </button>
+          </div>
+
+          <!-- Área para colar o JSON -->
+          <label style="font-size:12px; font-weight:bold; color:#1e293b; display:block; margin-bottom:4px;">
+            1. Cole o código JSON gerado pelo Gemini:
+          </label>
+          <textarea id="batch-json-input" rows="8" placeholder='Cole o JSON aqui, por exemplo:
+{
+  "mercado": "Supermercados Guanabara",
+  "estado": "RJ",
+  "cidade": "São Gonçalo",
+  "abrangencia": "ESTADUAL",
+  "validade": "2026-10-05",
+  "ofertas": [
+    { "produto": "Arroz Agulhinha 5kg", "marca": "Combrasil", "preco": 23.99, "categoria": "Mercearia" }
+  ]
+}' style="width:100%; font-family:monospace; font-size:12px; padding:10px; border-radius:8px; border:1.5px solid #cbd5e1; background:#fff; color:#0f172a; resize:vertical; margin-bottom:10px;" oninput="onBatchJsonInputChanged()"></textarea>
+
+          <!-- Foto da Capa do Encarte (Opcional, com compressão automática) -->
+          <div style="background:#fff; border:1.5px dashed #93c5fd; border-radius:10px; padding:12px; margin-bottom:12px; text-align:center;">
+            <label style="font-size:12px; font-weight:bold; color:#1e40af; display:block; margin-bottom:6px;">
+              📸 Foto da Capa do Encarte (Opcional para a Vitrine Visual):
+            </label>
+            <input type="file" id="batch-cover-file" accept="image/*" onchange="handleBatchCoverSelect(event)" style="display:none;">
+            <button type="button" onclick="document.getElementById('batch-cover-file').click()" style="background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; padding:8px 16px; border-radius:8px; font-size:12px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+              🖼️ Selecionar Capa do Folheto (Leve &lt;100KB)
+            </button>
+            <div id="batch-cover-preview-box" class="hidden" style="margin-top:8px;">
+              <img id="batch-cover-preview-img" style="max-height:120px; border-radius:6px; border:1px solid #cbd5e1; object-fit:contain;">
+              <small id="batch-cover-info" style="display:block; font-size:11px; color:#166534; font-weight:bold; margin-top:3px;">Capa pronta</small>
+            </div>
+          </div>
+
+          <!-- Painel de Validação e Pré-visualização dos Dados -->
+          <div id="batch-preview-card" class="hidden" style="background:#ffffff; border:1.5px solid #86efac; border-radius:10px; padding:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="font-size:13px; color:#166534;" id="batch-preview-title">
+                ✅ Dados Validados com Sucesso
+              </strong>
+              <span id="batch-preview-count-badge" style="background:#dcfce7; color:#166534; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">
+                0 ofertas
+              </span>
+            </div>
+
+            <!-- Dados Extraídos com Campos Editáveis se precisar de ajuste rápido -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px; font-size:12px;">
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#475569;">Mercado:</label>
+                <input type="text" id="batch-confirm-market" style="width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-weight:bold; font-size:12px;">
+              </div>
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#475569;">Validade Final:</label>
+                <input type="date" id="batch-confirm-validade" style="width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px;">
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px; font-size:12px;">
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#475569;">Estado (UF):</label>
+                <input type="text" id="batch-confirm-estado" style="width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-weight:bold; font-size:12px;" maxlength="2">
+              </div>
+              <div>
+                <label style="font-size:10.5px; font-weight:bold; color:#475569;">Cidade:</label>
+                <input type="text" id="batch-confirm-cidade" style="width:100%; padding:6px 8px; border-radius:6px; border:1px solid #cbd5e1; font-size:12px;">
+              </div>
+            </div>
+
+            <div style="margin-bottom:10px;">
+              <label style="font-size:10.5px; font-weight:bold; color:#475569; display:block; margin-bottom:2px;">Abrangência:</label>
+              <select id="batch-confirm-abrangencia" style="width:100%; padding:7px 8px; border-radius:6px; border:1.5px solid #3b82f6; font-size:12px; font-weight:bold; background:#eff6ff; color:#1e40af;">
+                <option value="ESTADUAL">🌐 Rede Estadual (Válido em todas as filiais do Estado)</option>
+                <option value="MUNICIPAL">📍 Municipal (Restrito a esta Cidade)</option>
+              </select>
+            </div>
+
+            <!-- Tabela rápida de itens validados -->
+            <div style="max-height:220px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:10px;">
+              <table style="width:100%; border-collapse:collapse; font-size:11.5px; text-align:left;">
+                <thead style="background:#f8fafc; position:sticky; top:0; border-bottom:1px solid #cbd5e1;">
+                  <tr>
+                    <th style="padding:6px 8px;">Produto</th>
+                    <th style="padding:6px 8px;">Preço</th>
+                    <th style="padding:6px 8px;">Categoria</th>
+                  </tr>
+                </thead>
+                <tbody id="batch-preview-table-body"></tbody>
+              </table>
+            </div>
+
+            <!-- Botão de Gravação Definitiva -->
+            <button type="button" id="batch-save-btn" onclick="executeBatchJsonImport()" style="width:100%; background:linear-gradient(135deg, #16a34a, #15803d); color:#fff; border:none; padding:12px; border-radius:8px; font-size:13.5px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(22,163,74,0.3);">
+              🚀 Importar Todas as Ofertas no Banco de Dados
+            </button>
+          </div>
+
+          <!-- Botão de Ação Manual de Validação se não disparou no oninput -->
+          <div id="batch-validate-action-box">
+            <button type="button" onclick="validateBatchJsonManually()" style="width:100%; background:#2563eb; color:#fff; border:none; padding:11px; border-radius:8px; font-size:13px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+              🔍 Validar Código JSON
             </button>
           </div>
         </div>
@@ -802,6 +950,26 @@
             </select>
           </div>
         </div>
+      </div>
+
+      <!-- Barra de Busca Rápida por Mercado / Encarte -->
+      <div style="position: relative; margin-bottom: 12px;">
+        <input 
+          type="text" 
+          id="public-encartes-search-input" 
+          placeholder="🔍 Buscar por mercado... (ex: Assaí, Atacadão, São Pedro)" 
+          oninput="renderPublicEncartes()"
+          style="width: 100%; padding: 9px 34px 9px 12px; border-radius: 10px; border: 1.5px solid #a5d6a7; font-size: 13px; outline: none; background: #fff; box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);"
+        >
+        <button 
+          type="button" 
+          id="public-encartes-clear-btn" 
+          onclick="clearPublicEncartesSearch()" 
+          class="hidden" 
+          style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 16px; color: #94a3b8; cursor: pointer; padding: 4px;"
+        >
+          ✕
+        </button>
       </div>
 
       <p style="font-size:12.5px; color:#666; margin-bottom:12px;">
@@ -2506,15 +2674,142 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       try {
         const cached = JSON.parse(localStorage.getItem('nutri_known_markets') || '[]');
         if (cached && Array.isArray(cached) && cached.length > 0) {
-          const names = new Set(cached.map(m => m.nome.toLowerCase()));
+          const names = new Set(cached.map(m => (m.nome || '').toLowerCase().trim()));
           const combined = [...cached];
           CABO_FRIO_MARKETS_GPS.forEach(m => {
-            if (!names.has(m.nome.toLowerCase())) combined.push(m);
+            if (!names.has(m.nome.toLowerCase().trim())) combined.push(m);
           });
           return combined;
         }
       } catch(e) {}
-      return CABO_FRIO_MARKETS_GPS;
+      return [...CABO_FRIO_MARKETS_GPS];
+    }
+
+    function renderAllMarketChipsAndSelects() {
+      const known = getAllKnownMarkets();
+      const marketNames = [];
+      const seen = new Set();
+
+      known.forEach(m => {
+        const nome = (m.nome || '').trim();
+        if (nome && !seen.has(nome.toLowerCase())) {
+          seen.add(nome.toLowerCase());
+          marketNames.push(nome);
+        }
+      });
+
+      const selectedMarket = localStorage.getItem('nutri_selected_market') || 'Atacadão';
+
+      // 1. Renderiza no main-market-chips (tela inicial)
+      const mainChipsContainer = document.getElementById('main-market-chips');
+      if (mainChipsContainer) {
+        mainChipsContainer.innerHTML = '';
+        marketNames.forEach(name => {
+          const chip = document.createElement('div');
+          chip.className = 'chip' + (name.toLowerCase() === selectedMarket.toLowerCase() ? ' active' : '');
+          chip.innerText = name;
+          chip.onclick = function() { selectMarketMain(this, name); };
+          mainChipsContainer.appendChild(chip);
+        });
+        const outroChip = document.createElement('div');
+        outroChip.className = 'chip' + (selectedMarket === 'Outro' ? ' active' : '');
+        outroChip.innerText = 'Outro';
+        outroChip.onclick = function() { selectMarketMain(this, 'Outro'); };
+        mainChipsContainer.appendChild(outroChip);
+      }
+
+      // 2. Renderiza no market-chips-container (dropdown do scanner)
+      const chipsContainer = document.getElementById('market-chips-container');
+      if (chipsContainer) {
+        chipsContainer.innerHTML = '';
+        marketNames.forEach(name => {
+          const chip = document.createElement('div');
+          chip.className = 'chip' + (name.toLowerCase() === selectedMarket.toLowerCase() ? ' active' : '');
+          chip.innerText = name;
+          chip.onclick = function() { selectMarket(this, name); };
+          chipsContainer.appendChild(chip);
+        });
+        const outroChip = document.createElement('div');
+        outroChip.className = 'chip' + (selectedMarket === 'Outro' ? ' active' : '');
+        outroChip.innerText = 'Outro';
+        outroChip.onclick = function() { selectMarket(this, 'Outro'); };
+        chipsContainer.appendChild(outroChip);
+      }
+
+      // 3. Renderiza no encarte-photo-market (Admin Encartes)
+      const adminMarketSelect = document.getElementById('encarte-photo-market');
+      if (adminMarketSelect) {
+        const currentVal = adminMarketSelect.value;
+        adminMarketSelect.innerHTML = '';
+        marketNames.forEach(name => {
+          const opt = document.createElement('option');
+          opt.value = name;
+          opt.innerText = name;
+          if (currentVal && name.toLowerCase() === currentVal.toLowerCase()) opt.selected = true;
+          adminMarketSelect.appendChild(opt);
+        });
+        const manualOpt = document.createElement('option');
+        manualOpt.value = '__manual__';
+        manualOpt.innerText = '➕ Inserir Outro Mercado Manualmente...';
+        if (currentVal === '__manual__') manualOpt.selected = true;
+        adminMarketSelect.appendChild(manualOpt);
+      }
+
+      // 4. Renderiza no user-flyer-market (Envio público de folheto)
+      const userFlyerSelect = document.getElementById('user-flyer-market');
+      if (userFlyerSelect) {
+        const currentVal = userFlyerSelect.value;
+        userFlyerSelect.innerHTML = '';
+        marketNames.forEach(name => {
+          const opt = document.createElement('option');
+          opt.value = name;
+          opt.innerText = name;
+          if (currentVal && name.toLowerCase() === currentVal.toLowerCase()) opt.selected = true;
+          userFlyerSelect.appendChild(opt);
+        });
+        const manualOpt = document.createElement('option');
+        manualOpt.value = '__manual_gps__';
+        manualOpt.innerText = '📍 Cadastrar Comércio Local / Mercadinho (com GPS)...';
+        if (currentVal === '__manual_gps__') manualOpt.selected = true;
+        userFlyerSelect.appendChild(manualOpt);
+      }
+    }
+
+    async function syncMarketsFromSupabase() {
+      try {
+        const { data: dbMarkets } = await client.from('mercados').select('id, nome, cidade, bairro, latitude, longitude').order('nome');
+        if (dbMarkets && dbMarkets.length > 0) {
+          let known = [];
+          try {
+            known = JSON.parse(localStorage.getItem('nutri_known_markets') || '[]');
+          } catch(e) {}
+          if (!Array.isArray(known)) known = [];
+          const knownNames = new Set(known.map(m => (m.nome || '').toLowerCase().trim()));
+
+          let added = false;
+          dbMarkets.forEach(m => {
+            const norm = (m.nome || '').toLowerCase().trim();
+            if (norm && !knownNames.has(norm)) {
+              known.push({
+                id: m.id,
+                nome: m.nome,
+                cidade: m.cidade || 'Cabo Frio',
+                bairro: m.bairro || '',
+                lat: m.latitude,
+                lon: m.longitude
+              });
+              knownNames.add(norm);
+              added = true;
+            }
+          });
+          if (added) {
+            localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+          }
+          renderAllMarketChipsAndSelects();
+        }
+      } catch(e) {
+        console.warn('Erro ao sincronizar mercados do Supabase:', e);
+      }
     }
 
     function detectGPSLocation(forceNotify = false) {
@@ -2643,7 +2938,9 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       showToast('Cadastrando mercado...', 'info');
 
       try {
-        const currentCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        const rawCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+        const currentCity = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+        const currentUf = localStorage.getItem('nutri_user_state') || 'RJ';
         const marketObj = {
           nome: name,
           cidade: currentCity,
@@ -2654,23 +2951,13 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // Cache local imediato
         const known = getAllKnownMarkets();
-        known.push({ nome: name, lat: marketObj.latitude, lon: marketObj.longitude, bairro: neighborhood });
-        localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+        if (!known.some(m => m.nome.toLowerCase() === name.toLowerCase())) {
+          known.push({ nome: name, lat: marketObj.latitude, lon: marketObj.longitude, bairro: neighborhood, cidade: currentCity, estado: currentUf });
+          localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+        }
 
-        // Insere chips nas interfaces
-        ['market-chips-container', 'main-market-chips'].forEach(containerId => {
-          const container = document.getElementById(containerId);
-          if (container) {
-            const newChip = document.createElement('div');
-            newChip.className = 'chip active';
-            newChip.innerText = name;
-            newChip.onclick = function() {
-              if (containerId === 'main-market-chips') selectMarketMain(this, name);
-              else selectMarket(this, name);
-            };
-            container.appendChild(newChip);
-          }
-        });
+        // Atualiza seletores e chips em todas as telas
+        renderAllMarketChipsAndSelects();
 
         // Grava no Supabase
         if (navigator.onLine) {
@@ -2682,6 +2969,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         showToast(`Mercado "${name}" cadastrado com sucesso!`, 'success');
       } catch (err) {
         console.warn('Erro ao salvar mercado no banco, selecionando localmente:', err);
+        renderAllMarketChipsAndSelects();
         autoSelectMarket(name);
         closeNewMarketModal();
         showToast(`Mercado "${name}" selecionado localmente!`, 'success');
@@ -2765,21 +3053,25 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     function switchAdminMainTab(tab) {
       const tabMetricsBtn = document.getElementById('admin-main-tab-metrics');
       const tabEncartesBtn = document.getElementById('admin-main-tab-encartes');
+      const tabBatchBtn = document.getElementById('admin-main-tab-batch');
       const tabModBtn = document.getElementById('admin-main-tab-mod');
       const viewMetrics = document.getElementById('admin-main-view-metrics');
       const viewEncartes = document.getElementById('admin-main-view-encartes');
+      const viewBatch = document.getElementById('admin-main-view-batch');
       const viewMod = document.getElementById('admin-main-view-mod');
 
       if (!viewMetrics || !viewEncartes || !viewMod) return;
 
-      [tabMetricsBtn, tabEncartesBtn, tabModBtn].forEach(b => {
+      [tabMetricsBtn, tabEncartesBtn, tabBatchBtn, tabModBtn].forEach(b => {
         if (b) {
           b.style.background = '#fff';
           b.style.color = '#555';
           b.style.borderColor = '#ccc';
         }
       });
-      [viewMetrics, viewEncartes, viewMod].forEach(v => v.classList.add('hidden'));
+      [viewMetrics, viewEncartes, viewBatch, viewMod].forEach(v => {
+        if (v) v.classList.add('hidden');
+      });
 
       if (tab === 'metrics') {
         if (tabMetricsBtn) {
@@ -2797,6 +3089,13 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         viewEncartes.classList.remove('hidden');
         if (typeof initAdminEncarteLocation === 'function') initAdminEncarteLocation();
         if (typeof loadActivePhotoEncartes === 'function') loadActivePhotoEncartes();
+      } else if (tab === 'batch') {
+        if (tabBatchBtn) {
+          tabBatchBtn.style.background = '#1e40af';
+          tabBatchBtn.style.color = '#fff';
+          tabBatchBtn.style.borderColor = '#1e40af';
+        }
+        if (viewBatch) viewBatch.classList.remove('hidden');
       } else if (tab === 'mod') {
         if (tabModBtn) {
           tabModBtn.style.background = '#b71c1c';
@@ -3204,6 +3503,8 @@ async function exportPricesCSV() {
     window.addEventListener('DOMContentLoaded', () => {
       trackAppEvent('app_access');
       checkFirstAccessOnboarding();
+      renderAllMarketChipsAndSelects();
+      syncMarketsFromSupabase();
       updateCartDisplay();
       updateBudgetDisplay();
       updateQuoteRegionBadge();
@@ -5435,7 +5736,7 @@ async function exportPricesCSV() {
     }
 
     // Helper redimensionador leve para imagens de folheto
-    function resizeFlyerImage(file, maxDimension = 1600) {
+    function resizeFlyerImage(file, maxDimension = 1200) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -5457,7 +5758,7 @@ async function exportPricesCSV() {
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
+            resolve(canvas.toDataURL('image/jpeg', 0.78));
           };
           img.onerror = reject;
           img.src = e.target.result;
@@ -5483,7 +5784,7 @@ async function exportPricesCSV() {
       if (info) info.innerText = '⏳ Carregando imagem...';
       if (previewBox) previewBox.classList.remove('hidden');
 
-      resizeFlyerImage(file, 1600).then(base64 => {
+      resizeFlyerImage(file, 1200).then(base64 => {
         currentEncartePhotoBase64 = base64;
         if (previewImg) previewImg.src = base64;
         if (info) info.innerText = '✅ Foto pronta para publicação!';
@@ -5522,6 +5823,41 @@ async function exportPricesCSV() {
     // ==========================================
     // LOCALIZAÇÃO DO ENCARTE NO PAINEL ADMIN
     // ==========================================
+    function onAdminEncarteAbrangenciaChanged() {
+      const abrangenciaSelect = document.getElementById('encarte-admin-abrangencia');
+      const badge = document.getElementById('encarte-admin-abrangencia-badge');
+      const help = document.getElementById('encarte-admin-abrangencia-help');
+      const cityLabel = document.getElementById('encarte-admin-city-label');
+      const stateSelect = document.getElementById('encarte-admin-state');
+      const uf = stateSelect ? stateSelect.value : 'RJ';
+
+      const isEstadual = (abrangenciaSelect && abrangenciaSelect.value === 'ESTADUAL');
+
+      if (isEstadual) {
+        if (badge) {
+          badge.innerText = `🌐 Toda Rede (${uf})`;
+          badge.style.background = '#e0f2fe';
+          badge.style.color = '#0369a1';
+        }
+        if (cityLabel) cityLabel.innerText = 'Cidade Sede / Referência:';
+        if (help) {
+          help.innerText = `🌐 REDE ESTADUAL: As ofertas deste folheto serão exibidas para moradores de TODAS as cidades do Estado de ${uf}! (Ex: Guanabara, Assaí, Atacadão)`;
+          help.style.color = '#0284c7';
+        }
+      } else {
+        if (badge) {
+          badge.innerText = '📍 Municipal';
+          badge.style.background = '#dcfce7';
+          badge.style.color = '#166534';
+        }
+        if (cityLabel) cityLabel.innerText = 'Cidade / Município:';
+        if (help) {
+          help.innerText = '📍 MUNICIPAL: Este encarte e suas ofertas serão direcionados especificamente a esta cidade.';
+          help.style.color = '#4b7a5a';
+        }
+      }
+    }
+
     function initAdminEncarteLocation() {
       const stateSelect = document.getElementById('encarte-admin-state');
       if (!stateSelect) return;
@@ -5541,7 +5877,22 @@ async function exportPricesCSV() {
         }
       }
 
+      // Preenchimento de datas padrão inteligentes (Hoje até Hoje + 7 dias)
+      const startDateInput = document.getElementById('encarte-photo-start');
+      const endDateInput = document.getElementById('encarte-photo-end');
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      if (startDateInput && !startDateInput.value) {
+        startDateInput.value = todayStr;
+      }
+      if (endDateInput && !endDateInput.value) {
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        endDateInput.value = nextWeek.toISOString().split('T')[0];
+      }
+
       loadAdminEncarteCities(stateSelect.value || userState, userCity);
+      onAdminEncarteAbrangenciaChanged();
     }
 
     async function loadAdminEncarteCities(uf, preselectedCity = null) {
@@ -5587,6 +5938,56 @@ async function exportPricesCSV() {
       const stateSelect = document.getElementById('encarte-admin-state');
       const uf = stateSelect ? stateSelect.value : 'RJ';
       loadAdminEncarteCities(uf, null);
+      onAdminEncarteAbrangenciaChanged();
+    }
+
+    // Helper unificado de sincronização e fusão de encartes (NUNCA descarta itens locais)
+    async function getMergedEncartes() {
+      const today = new Date().toISOString().split('T')[0];
+      let encartes = [];
+      try {
+        encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+      } catch(e) {}
+      if (!Array.isArray(encartes)) encartes = [];
+
+      try {
+        const { data, error } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
+        if (!error && data && data.length > 0) {
+          const remoteIds = new Set(data.map(d => String(d.id)));
+          const remoteKeys = new Set(data.map(d => `${(d.mercado||'').toLowerCase()}_${(d.cidade||'').toLowerCase()}`));
+
+          const localMap = new Map(encartes.map(e => [String(e.id), e]));
+          const localMktMap = new Map(encartes.map(e => [`${(e.mercado||'').toLowerCase()}_${(e.cidade||'').toLowerCase()}`, e]));
+
+          const remoteMapped = data.map(remote => {
+            const local = localMap.get(String(remote.id)) || localMktMap.get(`${(remote.mercado||'').toLowerCase()}_${(remote.cidade||'').toLowerCase()}`);
+            return {
+              ...remote,
+              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
+              estado: remote.estado || (local && local.estado) || 'RJ',
+              abrangencia: remote.abrangencia || (local && local.abrangencia) || 'MUNICIPAL',
+              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+            };
+          });
+
+          // Preserva encartes locais que ainda não estão no Supabase
+          const localPending = encartes.filter(loc => {
+            if (loc.id && remoteIds.has(String(loc.id))) return false;
+            const key = `${(loc.mercado||'').toLowerCase()}_${(loc.cidade||'').toLowerCase()}`;
+            if (remoteKeys.has(key)) return false;
+            return true;
+          });
+
+          encartes = [...remoteMapped, ...localPending];
+          try {
+            localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
+          } catch(e) {}
+        }
+      } catch(e) {
+        console.warn('Erro ao sincronizar encartes remotos:', e);
+      }
+
+      return encartes;
     }
 
     async function publishPhotoEncarte() {
@@ -5596,6 +5997,7 @@ async function exportPricesCSV() {
       const end = document.getElementById('encarte-photo-end').value;
       const targetState = document.getElementById('encarte-admin-state')?.value || localStorage.getItem('nutri_user_state') || 'RJ';
       const targetCity = (document.getElementById('encarte-admin-city')?.value || localStorage.getItem('nutri_user_city') || 'Cabo Frio').trim();
+      const abrangencia = document.getElementById('encarte-admin-abrangencia')?.value || 'MUNICIPAL';
 
       if (!end) {
         showToast('Informe a data de validade final do encarte.', 'warning');
@@ -5606,50 +6008,79 @@ async function exportPricesCSV() {
         return;
       }
 
-      showToast(`Publicando encarte para ${targetCity} - ${targetState}...`, 'info');
+      const scopeDesc = (abrangencia === 'ESTADUAL') ? `Rede Estadual (${targetState})` : `${targetCity} - ${targetState}`;
+      showToast(`Publicando encarte para ${scopeDesc}...`, 'info');
 
-      // Se for mercado inserido manualmente, cadastra no banco e na lista de conhecidos
+      // 1. Cadastra mercado imediatamente nos conhecidos e no Supabase
       try {
-        const known = getAllKnownMarkets();
-        if (!known.some(m => m.nome.toLowerCase() === market.toLowerCase())) {
-          known.push({ nome: market, lat: null, lon: null, bairro: '', cidade: targetCity, estado: targetState });
+        let known = getAllKnownMarkets();
+        const exists = known.some(m => m.nome.toLowerCase() === market.toLowerCase());
+        if (!exists) {
+          known.push({ 
+            nome: market, 
+            lat: null, 
+            lon: null, 
+            bairro: '', 
+            cidade: targetCity, 
+            estado: targetState,
+            abrangencia: abrangencia
+          });
           localStorage.setItem('nutri_known_markets', JSON.stringify(known));
-          client.from('mercados').insert({ nome: market, cidade: targetCity }).catch(()=>{});
         }
-      } catch(e) {}
+        renderAllMarketChipsAndSelects();
+
+        // Salva mercado no Supabase
+        await client.from('mercados').insert({ nome: market, cidade: targetCity }).select();
+      } catch(e) {
+        console.warn('Aviso cadastro de mercado:', e);
+      }
 
       const encarteObj = {
         id: 'ENC_' + Date.now(),
         mercado: market,
         cidade: targetCity,
         estado: targetState,
+        abrangencia: abrangencia,
         data_inicio: start,
         validade: end,
         imagem: currentEncartePhotoBase64,
         criado_em: new Date().toISOString()
       };
 
-      // 1. Salva no aparelho local (garantia 100% de funcionamento)
-      let encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-      encartesLocais = encartesLocais.filter(e => !(e.mercado.toLowerCase() === market.toLowerCase() && (e.cidade || '').toLowerCase() === targetCity.toLowerCase()));
-      
       // Se houver ofertas extraídas pelo Gemini nesta sessão, vincula ao encarte e salva no catálogo
       if (detectedGeminiAdminItems && detectedGeminiAdminItems.length > 0) {
         encarteObj.ofertas = detectedGeminiAdminItems;
-        showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo de ${targetCity}...`, 'info');
-        await saveGeminiItemsBatch(market, detectedGeminiAdminItems);
+        showToast(`Sincronizando ${detectedGeminiAdminItems.length} ofertas com o catálogo (${scopeDesc})...`, 'info');
+        await saveGeminiItemsBatch(market, detectedGeminiAdminItems, targetCity, targetState);
         detectedGeminiAdminItems = [];
       }
 
-      encartesLocais.unshift(encarteObj);
-      localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+      // 2. Salva localmente garantindo preservação
+      let encartesLocais = [];
+      try {
+        encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+      } catch(e) {}
+      if (!Array.isArray(encartesLocais)) encartesLocais = [];
 
-      // 2. Tenta sincronizar na nuvem Supabase se a tabela encartes existir
+      // Remove versão anterior deste mesmo mercado nesta mesma cidade
+      encartesLocais = encartesLocais.filter(e => !(e.mercado.toLowerCase() === market.toLowerCase() && (e.cidade || '').toLowerCase() === targetCity.toLowerCase()));
+      encartesLocais.unshift(encarteObj);
+
+      try {
+        localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+      } catch(storageErr) {
+        console.warn('LocalStorage Quota excedida, mantendo últimos 5 encartes:', storageErr);
+        const trimmed = encartesLocais.slice(0, 5);
+        try { localStorage.setItem('nutri_photo_encartes', JSON.stringify(trimmed)); } catch(e) {}
+      }
+
+      // 3. Grava no Supabase com resiliência total
       try {
         const payload = {
           mercado: market,
           cidade: targetCity,
           estado: targetState,
+          abrangencia: abrangencia,
           data_inicio: start,
           validade: end,
           imagem: currentEncartePhotoBase64
@@ -5657,21 +6088,57 @@ async function exportPricesCSV() {
         if (encarteObj.ofertas && encarteObj.ofertas.length > 0) {
           payload.ofertas = encarteObj.ofertas;
         }
-        await client.from('encartes').insert(payload);
+
+        let insertRes = await client.from('encartes').insert(payload).select('id');
+        if (insertRes.error) {
+          console.warn('Tentativa 1 Supabase encartes falhou:', insertRes.error);
+          // Se a coluna abrangencia ainda não existe no Supabase, tenta sem ela
+          if (insertRes.error.message && insertRes.error.message.includes('abrangencia')) {
+            delete payload.abrangencia;
+            insertRes = await client.from('encartes').insert(payload).select('id');
+          }
+          // Se a coluna estado ainda não existe no Supabase, tenta sem ela
+          if (insertRes.error && insertRes.error.message && insertRes.error.message.includes('estado')) {
+            delete payload.estado;
+            insertRes = await client.from('encartes').insert(payload).select('id');
+          }
+        }
+        if (insertRes.data && insertRes.data[0]) {
+          encarteObj.id = insertRes.data[0].id;
+          try {
+            localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+          } catch(e) {}
+        }
       } catch(cloudErr) {
-        console.log('Aviso cloud:', cloudErr);
+        console.warn('Aviso cloud:', cloudErr);
       }
 
-      showToast(`Encarte do ${market} (${targetCity} - ${targetState}) publicado com sucesso!`, 'success');
+      showToast(`Encarte do ${market} (${scopeDesc}) publicado com sucesso!`, 'success');
 
       currentEncartePhotoBase64 = null;
-      document.getElementById('encarte-photo-preview-box').classList.add('hidden');
-      document.getElementById('encarte-photo-file').value = '';
+      const previewBox = document.getElementById('encarte-photo-preview-box');
+      if (previewBox) previewBox.classList.add('hidden');
+      const fileInput = document.getElementById('encarte-photo-file');
+      if (fileInput) fileInput.value = '';
       const resultsBox = document.getElementById('gemini-admin-results');
       if (resultsBox) resultsBox.classList.add('hidden');
 
       loadActivePhotoEncartes();
       renderPublicEncartes();
+
+      // Sincroniza os seletores da Vitrine Pública para a cidade recém-cadastrada
+      setTimeout(() => {
+        const pubState = document.getElementById('public-encartes-state-select');
+        if (pubState) pubState.value = targetState;
+        if (typeof loadPublicEncartesCities === 'function') {
+          loadPublicEncartesCities(targetState, targetCity);
+        }
+        const hubState = document.getElementById('offers-hub-state-select');
+        if (hubState) hubState.value = targetState;
+        if (typeof loadOffersHubCities === 'function') {
+          loadOffersHubCities(targetState, targetCity);
+        }
+      }, 300);
     }
 
     async function loadActivePhotoEncartes() {
@@ -5679,27 +6146,8 @@ async function exportPricesCSV() {
       if (!container) return;
 
       const today = new Date().toISOString().split('T')[0];
-      let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-
-      try {
-        const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
-        if (data && data.length > 0) {
-          const localMap = new Map(encartes.map(e => [String(e.id), e]));
-          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
-          encartes = data.map(remote => {
-            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
-            return {
-              ...remote,
-              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
-              estado: remote.estado || (local && local.estado) || 'RJ',
-              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
-            };
-          });
-          localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
-        }
-      } catch(e) {}
-
-      const valid = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
+      const encartes = await getMergedEncartes();
+      const valid = encartes.filter(e => e.validade >= today && e.mercado && !e.mercado.startsWith('__'));
 
       if (valid.length === 0) {
         container.innerHTML = '<p style="color:#888; font-style:italic;">Nenhum encarte publicado ativo no momento.</p>';
@@ -5708,10 +6156,15 @@ async function exportPricesCSV() {
 
       let html = '<ul style="list-style:none; padding:0; margin:0;">';
       valid.forEach(e => {
+        const isEstadual = (e.abrangencia === 'ESTADUAL');
+        const badgeHtml = isEstadual
+          ? `<span style="font-size:11px; background:#e0f2fe; color:#0369a1; padding:2px 7px; border-radius:6px; font-weight:bold;">🌐 Rede Estadual (${escapeHTML(e.estado || 'RJ')})</span>`
+          : `<span style="font-size:11px; color:#166534; font-weight:bold;">(📍 ${escapeHTML(e.cidade || 'Cabo Frio')} - ${escapeHTML(e.estado || 'RJ')})</span>`;
+
         html += `
           <li style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed #eee;">
             <div>
-              <strong>${escapeHTML(e.mercado)}</strong> <span style="font-size:11px; color:#166534; font-weight:bold;">(📍 ${escapeHTML(e.cidade || 'Cabo Frio')} - ${escapeHTML(e.estado || 'RJ')})</span><br>
+              <strong>${escapeHTML(e.mercado)}</strong> ${badgeHtml}<br>
               <small style="color:#2e7d32; font-weight:bold;">Válido até ${formatDateBR(e.validade)}</small>
             </div>
             <button onclick="deletePhotoEncarte('${e.id}')" style="background:#ffebee; color:#c62828; border:1px solid #ef9a9a; border-radius:6px; padding:4px 8px; font-size:11px; font-weight:bold; cursor:pointer;">
@@ -6037,6 +6490,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
     async function confirmAndSaveAdminGeminiItems() {
       const market = getAdminEncarteMarket();
       if (!market) return;
+      const targetState = document.getElementById('encarte-admin-state')?.value || localStorage.getItem('nutri_user_state') || 'RJ';
+      const targetCity = (document.getElementById('encarte-admin-city')?.value || localStorage.getItem('nutri_user_city') || 'Cabo Frio').trim();
       const container = document.getElementById('gemini-admin-items-list');
       if (!container) return;
 
@@ -6061,7 +6516,9 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         }
       });
 
-      await saveGeminiItemsBatch(market, itemsToSave);
+      detectedGeminiAdminItems = itemsToSave;
+
+      await saveGeminiItemsBatch(market, itemsToSave, targetCity, targetState);
       const resultsBox = document.getElementById('gemini-admin-results');
       if (resultsBox) resultsBox.classList.add('hidden');
       openEncarteOffersModal(market, itemsToSave);
@@ -6542,20 +6999,326 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       openRadarModal();
     }
 
+    // ==========================================
+    // IMPORTADOR RÁPIDO EM LOTE VIA JSON (MODO PC / GEMINI)
+    // ==========================================
+    let batchParsedData = null;
+    let batchCoverPhotoBase64 = null;
+
+    function copyGeminiBatchPrompt() {
+      const promptText = `Você é um assistente especialista em supermercados do Brasil no aplicativo NutriPreço.
+Analise as imagens deste encarte de supermercado e extraia todas as ofertas promocionais visíveis.
+Retorne EXCLUSIVAMENTE um objeto JSON puro e válido, sem formatação markdown e sem comentários adicionais:
+
+{
+  "mercado": "Nome do Supermercado",
+  "estado": "RJ",
+  "cidade": "Nome da Cidade",
+  "abrangencia": "ESTADUAL",
+  "validade": "AAAA-MM-DD",
+  "ofertas": [
+    {
+      "produto": "Nome completo, marca e peso/volume (ex: Arroz Agulhinha Tipo 1 5kg)",
+      "marca": "Nome da marca se visível",
+      "preco": 24.90,
+      "preco_clube": null,
+      "unidade": "un",
+      "categoria": "Mercearia"
+    }
+  ]
+}
+
+Regras obrigatórias:
+- "abrangencia": Use "ESTADUAL" se for grande rede (Guanabara, Assaí, Atacadão, Supermarket, Prezunic, Carrefour, etc.) ou "MUNICIPAL" se for loja local de bairro.
+- "unidade": Use "kg" para carnes, queijos fatiados e hortifrúti vendidos a granel/peso, ou "un" para pacotes, garrafas e unidades.
+- "preco": Valor numérico com ponto decimal (ex: 19.90).
+- Categorias sugeridas: Hortifruti, Carnes e Peixaria, Mercearia, Laticínios e Frios, Bebidas, Limpeza, Higiene Pessoal, Padaria.`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promptText).then(() => {
+          showToast('📋 Prompt oficial copiado! Cole no Google AI Studio junto com as fotos.', 'success');
+        }).catch(() => {
+          prompt('Copie o prompt do Gemini abaixo:', promptText);
+        });
+      } else {
+        prompt('Copie o prompt do Gemini abaixo:', promptText);
+      }
+    }
+
+    async function handleBatchCoverSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      try {
+        const compressedBase64 = await resizeFlyerImage(file, 1200);
+        batchCoverPhotoBase64 = compressedBase64;
+        const previewBox = document.getElementById('batch-cover-preview-box');
+        const previewImg = document.getElementById('batch-cover-preview-img');
+        const info = document.getElementById('batch-cover-info');
+        if (previewBox && previewImg) {
+          previewImg.src = compressedBase64;
+          previewBox.classList.remove('hidden');
+          const sizeKb = Math.round((compressedBase64.length * 3 / 4) / 1024);
+          if (info) info.innerText = `Capa otimizada com sucesso (${sizeKb} KB)`;
+        }
+        showToast('Foto da capa anexada com sucesso!', 'info');
+      } catch (err) {
+        console.error('Erro na compressão da capa:', err);
+        showToast('Não foi possível processar a imagem da capa.', 'warning');
+      }
+    }
+
+    function onBatchJsonInputChanged() {
+      const text = (document.getElementById('batch-json-input')?.value || '').trim();
+      if (!text) {
+        const previewCard = document.getElementById('batch-preview-card');
+        if (previewCard) previewCard.classList.add('hidden');
+        batchParsedData = null;
+        return;
+      }
+      if ((text.startsWith('{') && text.endsWith('}')) || (text.startsWith('```') && text.endsWith('```'))) {
+        validateBatchJsonManually(false);
+      }
+    }
+
+    function validateBatchJsonManually(showErrorToast = true) {
+      let raw = (document.getElementById('batch-json-input')?.value || '').trim();
+      if (!raw) {
+        if (showErrorToast) showToast('Por favor, cole o código JSON gerado pelo Gemini.', 'warning');
+        return;
+      }
+
+      raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+
+      let parsed = null;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (e) {
+        const startIdx = raw.indexOf('{');
+        const endIdx = raw.lastIndexOf('}');
+        if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+          try {
+            parsed = JSON.parse(raw.substring(startIdx, endIdx + 1));
+          } catch (e2) {}
+        }
+      }
+
+      if (!parsed || typeof parsed !== 'object') {
+        if (showErrorToast) showToast('O texto colado não é um JSON válido. Verifique se copiou o código completo.', 'error');
+        return;
+      }
+
+      let ofertas = [];
+      if (Array.isArray(parsed)) {
+        ofertas = parsed;
+        parsed = { ofertas: ofertas };
+      } else if (Array.isArray(parsed.ofertas)) {
+        ofertas = parsed.ofertas;
+      } else if (Array.isArray(parsed.produtos)) {
+        ofertas = parsed.produtos;
+      } else if (Array.isArray(parsed.itens) || Array.isArray(parsed.items)) {
+        ofertas = parsed.itens || parsed.items;
+      }
+
+      if (ofertas.length === 0) {
+        if (showErrorToast) showToast('Nenhuma oferta foi encontrada dentro do JSON. Verifique a chave "ofertas".', 'warning');
+        return;
+      }
+
+      batchParsedData = {
+        mercado: parsed.mercado || parsed.supermercado || 'Supermercados Guanabara',
+        estado: (parsed.estado || parsed.uf || localStorage.getItem('nutri_user_state') || 'RJ').toUpperCase(),
+        cidade: parsed.cidade || parsed.municipio || localStorage.getItem('nutri_user_city') || 'São Gonçalo',
+        abrangencia: (parsed.abrangencia || 'ESTADUAL').toUpperCase() === 'MUNICIPAL' ? 'MUNICIPAL' : 'ESTADUAL',
+        validade: parsed.validade || parsed.data_fim || (() => {
+          const d = new Date(); d.setDate(d.getDate() + 7); return d.toISOString().split('T')[0];
+        })(),
+        ofertas: ofertas
+      };
+
+      const inputMkt = document.getElementById('batch-confirm-market');
+      const inputVal = document.getElementById('batch-confirm-validade');
+      const inputUf = document.getElementById('batch-confirm-estado');
+      const inputCid = document.getElementById('batch-confirm-cidade');
+      const selAbrang = document.getElementById('batch-confirm-abrangencia');
+
+      if (inputMkt) inputMkt.value = batchParsedData.mercado;
+      if (inputVal) inputVal.value = batchParsedData.validade;
+      if (inputUf) inputUf.value = batchParsedData.estado;
+      if (inputCid) inputCid.value = batchParsedData.cidade;
+      if (selAbrang) selAbrang.value = batchParsedData.abrangencia;
+
+      const tbody = document.getElementById('batch-preview-table-body');
+      if (tbody) {
+        let rows = '';
+        ofertas.forEach(it => {
+          const nome = it.produto || it.nome || 'Produto';
+          const preco = typeof it.preco === 'number' ? it.preco.toFixed(2) : (parseFloat(String(it.preco).replace(',', '.')) || 0).toFixed(2);
+          const cat = it.categoria || it.setor || 'Geral';
+          rows += `
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+              <td style="padding: 6px 8px; font-weight: 600; color: #1e293b;">${escapeHTML(nome)}</td>
+              <td style="padding: 6px 8px; font-weight: 700; color: #166534;">R$ ${preco.replace('.', ',')}</td>
+              <td style="padding: 6px 8px; color: #64748b;">${escapeHTML(cat)}</td>
+            </tr>
+          `;
+        });
+        tbody.innerHTML = rows;
+      }
+
+      const badgeCount = document.getElementById('batch-preview-count-badge');
+      if (badgeCount) badgeCount.innerText = `${ofertas.length} ofertas validadas`;
+
+      const previewCard = document.getElementById('batch-preview-card');
+      if (previewCard) previewCard.classList.remove('hidden');
+
+      if (showErrorToast) showToast(`✅ JSON validado! ${ofertas.length} ofertas prontas para importar.`, 'success');
+    }
+
+    async function executeBatchJsonImport() {
+      if (!batchParsedData || !Array.isArray(batchParsedData.ofertas) || batchParsedData.ofertas.length === 0) {
+        showToast('Nenhum dado validado para importar.', 'warning');
+        return;
+      }
+
+      const saveBtn = document.getElementById('batch-save-btn');
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.innerText = '⏳ Gravando dados no banco...';
+      }
+
+      const market = (document.getElementById('batch-confirm-market')?.value || batchParsedData.mercado || 'Supermercado').trim();
+      const validade = document.getElementById('batch-confirm-validade')?.value || batchParsedData.validade;
+      const estado = (document.getElementById('batch-confirm-estado')?.value || batchParsedData.estado || 'RJ').trim().toUpperCase();
+      const cidade = (document.getElementById('batch-confirm-cidade')?.value || batchParsedData.cidade || 'Cabo Frio').trim();
+      const abrangencia = document.getElementById('batch-confirm-abrangencia')?.value || batchParsedData.abrangencia || 'ESTADUAL';
+
+      const scopeLabel = abrangencia === 'ESTADUAL' ? `Rede Estadual (${estado})` : `${cidade} - ${estado}`;
+      showToast(`Iniciando importação de ${batchParsedData.ofertas.length} ofertas para ${market} (${scopeLabel})...`, 'info');
+
+      // 1. Cadastra mercado na lista local e no Supabase se não existir
+      try {
+        let known = getAllKnownMarkets();
+        const exists = known.some(m => m.nome.toLowerCase() === market.toLowerCase());
+        if (!exists) {
+          known.push({
+            nome: market,
+            lat: null,
+            lon: null,
+            bairro: '',
+            cidade: cidade,
+            estado: estado,
+            abrangencia: abrangencia
+          });
+          localStorage.setItem('nutri_known_markets', JSON.stringify(known));
+        }
+        renderAllMarketChipsAndSelects();
+        await client.from('mercados').insert({ nome: market, cidade: cidade }).select();
+      } catch (e) {
+        console.warn('Cadastro de mercado em lote:', e);
+      }
+
+      // 2. Normaliza os itens de oferta para o padrão do NutriPreço
+      const normalizedItems = batchParsedData.ofertas.map(it => ({
+        nome: (it.produto || it.nome || 'Produto').trim(),
+        marca: (it.marca || '').trim(),
+        preco: typeof it.preco === 'number' ? it.preco : (parseFloat(String(it.preco).replace(',', '.')) || 0),
+        unidade: it.unidade || 'un',
+        categoria: it.categoria || 'Mercado'
+      })).filter(it => it.preco > 0);
+
+      // 3. Salva os produtos no catálogo geral de busca
+      try {
+        await saveGeminiItemsBatch(market, normalizedItems, cidade, estado);
+      } catch (e) {
+        console.warn('Gravação do catálogo em lote:', e);
+      }
+
+      // 4. Cria o registro de Encarte Oficial (com a imagem da capa se houver)
+      const encarteObj = {
+        id: 'ENC_' + Date.now(),
+        mercado: market,
+        cidade: cidade,
+        estado: estado,
+        abrangencia: abrangencia,
+        data_inicio: new Date().toISOString().split('T')[0],
+        validade: validade,
+        imagem: batchCoverPhotoBase64 || '',
+        ofertas: normalizedItems,
+        criado_em: new Date().toISOString()
+      };
+
+      // Salva localmente
+      let encartesLocais = [];
+      try {
+        encartesLocais = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+      } catch(e) {}
+      if (!Array.isArray(encartesLocais)) encartesLocais = [];
+      encartesLocais.unshift(encarteObj);
+      try {
+        localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais.slice(0, 8)));
+      } catch(e) {}
+
+      // Salva no Supabase
+      try {
+        const payload = {
+          mercado: market,
+          cidade: cidade,
+          estado: estado,
+          abrangencia: abrangencia,
+          data_inicio: encarteObj.data_inicio,
+          validade: validade,
+          imagem: batchCoverPhotoBase64 || '',
+          ofertas: normalizedItems
+        };
+        let insertRes = await client.from('encartes').insert(payload).select('id');
+        if (insertRes.error) {
+          if (insertRes.error.message && insertRes.error.message.includes('abrangencia')) {
+            delete payload.abrangencia;
+            insertRes = await client.from('encartes').insert(payload).select('id');
+          }
+          if (insertRes.error && insertRes.error.message && insertRes.error.message.includes('estado')) {
+            delete payload.estado;
+            insertRes = await client.from('encartes').insert(payload).select('id');
+          }
+        }
+      } catch (cloudErr) {
+        console.warn('Erro ao salvar encarte no Supabase:', cloudErr);
+      }
+
+      showToast(`🎉 Sucesso! ${normalizedItems.length} ofertas do ${market} importadas com sucesso!`, 'success');
+
+      // Limpa os campos
+      document.getElementById('batch-json-input').value = '';
+      batchParsedData = null;
+      batchCoverPhotoBase64 = null;
+      const previewCard = document.getElementById('batch-preview-card');
+      if (previewCard) previewCard.classList.add('hidden');
+      const coverPreview = document.getElementById('batch-cover-preview-box');
+      if (coverPreview) coverPreview.classList.add('hidden');
+
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.innerText = '🚀 Importar Todas as Ofertas no Banco de Dados';
+      }
+
+      // Atualiza interface do app
+      loadActivePhotoEncartes();
+      renderPublicEncartes();
+      loadOffersHubData();
+    }
+
     // Função Compartilhada de Gravação em Lote no Supabase (Compatível com Schema RLS)
-    async function saveGeminiItemsBatch(marketName, itemsToSave) {
+    async function saveGeminiItemsBatch(marketName, itemsToSave, targetCity = null, targetState = null) {
       if (!itemsToSave || itemsToSave.length === 0) return 0;
-      const rawCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
+      const rawCity = targetCity || localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const cleanCity = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
 
       let mercadoId = null;
       try {
-        const { data: mkData } = await client.from('mercados').select('id, cidade').ilike('nome', marketName.trim()).limit(1);
+        const { data: mkData } = await client.from('mercados').select('id, cidade').ilike('nome', marketName.trim()).eq('cidade', cleanCity).limit(1);
         if (mkData && mkData.length > 0) {
           mercadoId = mkData[0].id;
-          if (!mkData[0].cidade) {
-            await client.from('mercados').update({ cidade: cleanCity }).eq('id', mercadoId);
-          }
         } else {
           const { data: newMk } = await client.from('mercados').insert({ nome: marketName.trim(), cidade: cleanCity }).select();
           if (newMk && newMk[0]) mercadoId = newMk[0].id;
@@ -6727,50 +7490,72 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       renderPublicEncartes();
     }
 
+    function clearPublicEncartesSearch() {
+      const input = document.getElementById('public-encartes-search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('public-encartes-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderPublicEncartes();
+    }
+
     async function renderPublicEncartes() {
       const container = document.getElementById('public-encartes-container');
       const badge = document.getElementById('public-encartes-count-badge');
       const stateSelect = document.getElementById('public-encartes-state-select');
       const citySelect = document.getElementById('public-encartes-city-select');
+      const searchInput = document.getElementById('public-encartes-search-input');
+      const clearBtn = document.getElementById('public-encartes-clear-btn');
+      const searchTerm = (searchInput ? searchInput.value : '').trim().toLowerCase();
+
+      if (clearBtn) clearBtn.classList.toggle('hidden', searchTerm.length === 0);
       if (!container) return;
 
       const userState = stateSelect ? stateSelect.value : (localStorage.getItem('nutri_user_state') || 'RJ');
       const userCity = citySelect ? citySelect.value : (localStorage.getItem('nutri_user_city') || 'Cabo Frio');
       const today = new Date().toISOString().split('T')[0];
 
-      let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-
-      try {
-        const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
-        if (data && data.length > 0) {
-          const localMap = new Map(encartes.map(e => [String(e.id), e]));
-          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
-          encartes = data.map(remote => {
-            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
-            return {
-              ...remote,
-              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
-              estado: remote.estado || (local && local.estado) || 'RJ',
-              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
-            };
-          });
-          localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
-        }
-      } catch(e) {}
+      const encartes = await getMergedEncartes();
 
       // Filtra encartes válidos
       const valid = encartes.filter(e => {
-        if (e.validade < today || e.mercado.startsWith('__')) return false;
+        if (e.validade < today || (e.mercado && e.mercado.startsWith('__'))) return false;
 
         const encState = (e.estado || 'RJ').toUpperCase();
         const encCity = (e.cidade || 'Cabo Frio').trim();
+        const isEstadual = (e.abrangencia === 'ESTADUAL');
 
+        // Se o usuário digitou uma busca por texto, permite encontrar no estado todo se não houver na cidade
+        if (searchTerm) {
+          const mktNorm = (e.mercado || '').toLowerCase();
+          const cityNorm = (encCity || '').toLowerCase();
+          const matchesTerm = mktNorm.includes(searchTerm) || cityNorm.includes(searchTerm) || (Array.isArray(e.ofertas) && e.ofertas.some(o => (o.nome || '').toLowerCase().includes(searchTerm)));
+          if (!matchesTerm) return false;
+
+          // Se bateu na busca, valida se é do mesmo estado
+          if (userState && encState !== userState.toUpperCase()) return false;
+          return true;
+        }
+
+        // Filtro normal por cidade ou estado
         if (userCity && userCity !== '__TODAS__') {
+          // Se for rede estadual do mesmo estado, exibe para todas as cidades!
+          if (isEstadual && userState && encState === userState.toUpperCase()) {
+            return true;
+          }
           return encCity.toLowerCase() === userCity.toLowerCase();
         } else if (userState) {
           return encState === userState.toUpperCase();
         }
         return true;
+      });
+
+      // Ordenação: primeiro os da cidade local, depois redes estaduais, e mais próximos da validade
+      valid.sort((a, b) => {
+        const aIsLocal = (a.cidade || '').toLowerCase() === userCity.toLowerCase() && a.abrangencia !== 'ESTADUAL';
+        const bIsLocal = (b.cidade || '').toLowerCase() === userCity.toLowerCase() && b.abrangencia !== 'ESTADUAL';
+        if (aIsLocal && !bIsLocal) return -1;
+        if (!aIsLocal && bIsLocal) return 1;
+        return (a.validade || '').localeCompare(b.validade || '');
       });
 
       if (badge) {
@@ -6783,11 +7568,11 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         container.innerHTML = `
           <div style="text-align:center; padding:36px 16px; background:#fafafa; border:1.5px dashed #cbd5e1; border-radius:14px;">
             <span style="font-size:38px; display:block; margin-bottom:8px;">📰</span>
-            <strong style="color:#333; font-size:14.5px;">Nenhum encarte publicado para ${escapeHTML(displayCityName)} no momento.</strong>
+            <strong style="color:#333; font-size:14.5px;">Nenhum encarte encontrado para ${escapeHTML(searchTerm ? `"${searchTerm}"` : displayCityName)} no momento.</strong>
             <p style="font-size:12px; color:#777; margin-top:6px; max-width:280px; margin-left:auto; margin-right:auto;">
-              Os folhetos são atualizados conforme os mercados publicam ou usuários enviam.
+              ${searchTerm ? 'Tente buscar por outro mercado ou limpe o campo de busca.' : 'Os folhetos são atualizados conforme os mercados publicam ou administradores cadastram.'}
             </p>
-            <button type="button" onclick="selectPublicEncartesAllCities()" style="margin-top:12px; background:#e8f5e9; border:1px solid #a5d6a7; color:#1b5e20; font-size:12px; font-weight:700; padding:8px 14px; border-radius:8px; cursor:pointer;">
+            <button type="button" onclick="clearPublicEncartesSearch(); selectPublicEncartesAllCities();" style="margin-top:12px; background:#e8f5e9; border:1px solid #a5d6a7; color:#1b5e20; font-size:12px; font-weight:700; padding:8px 14px; border-radius:8px; cursor:pointer;">
               🌐 Ver Todos os Encartes de ${escapeHTML(userState)}
             </button>
           </div>
@@ -6799,12 +7584,16 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       valid.forEach(e => {
         const encCity = e.cidade || 'Cabo Frio';
         const encState = e.estado || 'RJ';
+        const isEstadual = (e.abrangencia === 'ESTADUAL');
         html += `
           <div style="background:#fff; border:1.5px solid #c8e6c9; border-radius:14px; padding:14px; box-shadow:0 3px 8px rgba(0,0,0,0.06);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
               <div>
                 <h4 style="font-size:16px; color:#1b5e20; font-weight:bold; margin:0;">🏪 ${escapeHTML(e.mercado)}</h4>
-                <span style="font-size:11.5px; color:#666;">📍 ${escapeHTML(encCity)} - ${escapeHTML(encState)}</span>
+                ${isEstadual 
+                  ? `<span style="font-size:11px; background:#e0f2fe; color:#0369a1; padding:2px 7px; border-radius:6px; font-weight:bold; display:inline-block; margin-top:3px;">🌐 Rede Estadual (${escapeHTML(encState)}) • Válido em todas as filiais</span>`
+                  : `<span style="font-size:11.5px; color:#666;">📍 ${escapeHTML(encCity)} - ${escapeHTML(encState)}</span>`
+                }
               </div>
               <span style="background:#e8f5e9; color:#2e7d32; font-size:11.5px; font-weight:bold; padding:4px 9px; border-radius:12px; border:1px solid #c8e6c9;">
                 Válido até ${formatDateBR(e.validade)}
@@ -7189,25 +7978,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 
     async function loadOffersHubData() {
       const today = new Date().toISOString().split('T')[0];
-      let encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-
-      try {
-        const { data } = await client.from('encartes').select('*').gte('validade', today).order('validade', { ascending: true });
-        if (data && data.length > 0) {
-          const localMap = new Map(encartes.map(e => [String(e.id), e]));
-          const localMktMap = new Map(encartes.map(e => [e.mercado?.toLowerCase(), e]));
-          encartes = data.map(remote => {
-            const local = localMap.get(String(remote.id)) || localMktMap.get(remote.mercado?.toLowerCase());
-            return {
-              ...remote,
-              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
-            };
-          });
-          localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartes));
-        }
-      } catch(e) {}
-
-      const validEncartes = encartes.filter(e => e.validade >= today && !e.mercado.startsWith('__'));
+      const encartes = await getMergedEncartes();
+      const validEncartes = encartes.filter(e => e.validade >= today && e.mercado && !e.mercado.startsWith('__'));
       const badgeCount = document.getElementById('offers-hub-badge-count');
       if (badgeCount) badgeCount.innerText = `${validEncartes.length} ${validEncartes.length === 1 ? 'encarte ativo' : 'encartes ativos'}`;
 
@@ -7218,7 +7990,9 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         const validade = enc.validade;
         const cidade = enc.cidade || 'Cabo Frio';
         const uf = enc.estado || 'RJ';
+        const abrangencia = enc.abrangencia || 'MUNICIPAL';
 
+        // 1. Se tiver ofertas individuais extraídas, adiciona
         if (Array.isArray(enc.ofertas) && enc.ofertas.length > 0) {
           enc.ofertas.forEach(item => {
             flatOffers.push({
@@ -7230,14 +8004,30 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
               mercado: marketName,
               cidade: cidade,
               uf: uf,
+              abrangencia: abrangencia,
               validade: validade,
               encarteId: enc.id
             });
           });
         }
+
+        // 2. SEMPRE adiciona o folheto como item pesquisável pelo nome do mercado e região
+        flatOffers.push({
+          id: 'flyer_' + (enc.id || Date.now()),
+          nome: `Folheto de Ofertas da Semana (${marketName})`,
+          preco: 0,
+          isFlyerCard: true,
+          mercado: marketName,
+          cidade: cidade,
+          uf: uf,
+          abrangencia: abrangencia,
+          validade: validade,
+          encarteId: enc.id,
+          imagem: enc.imagem
+        });
       });
 
-      if (flatOffers.length === 0) {
+      if (flatOffers.length === 0 && validEncartes.length === 0) {
         flatOffers = getStarterOffersList();
       }
 
@@ -7311,17 +8101,27 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
       const normQ = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(offersHubSearchQuery) : offersHubSearchQuery;
 
       let filtered = offersHubAllItems.filter(item => {
+        const itemUf = (item.uf || 'RJ').toUpperCase();
+        const selectedUfNorm = (selectedUf || 'RJ').toUpperCase();
+        const isEstadual = (item.abrangencia === 'ESTADUAL');
+
+        // Se for de outro estado, filtra fora
+        if (selectedUf && itemUf !== selectedUfNorm) {
+          return false;
+        }
+
         if (selectedCity && selectedCity !== '__TODAS__') {
           const itemCityNorm = (item.cidade || '').toLowerCase();
           const targetCityNorm = selectedCity.toLowerCase();
-          if (itemCityNorm && !itemCityNorm.includes(targetCityNorm) && !targetCityNorm.includes(itemCityNorm)) {
-            return false;
+          const matchesCity = itemCityNorm && (itemCityNorm.includes(targetCityNorm) || targetCityNorm.includes(itemCityNorm));
+          
+          // Se for rede estadual do mesmo estado, ou se bater a cidade, exibe!
+          if (!matchesCity && !isEstadual) {
+            if (!normQ) return false;
           }
-        } else if (selectedUf) {
-          if (item.uf && item.uf !== selectedUf) return false;
         }
 
-        if (offersHubCurrentCategory !== 'todos') {
+        if (offersHubCurrentCategory !== 'todos' && !item.isFlyerCard) {
           const keywords = OFFERS_HUB_CATEGORY_KEYWORDS[offersHubCurrentCategory] || [];
           const nameNorm = (item.nome || '').toLowerCase();
           const matchesCat = keywords.some(k => nameNorm.includes(k));
@@ -7331,18 +8131,34 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
         if (normQ) {
           const nameNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.nome || '') : (item.nome || '').toLowerCase();
           const marketNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.mercado || '') : (item.mercado || '').toLowerCase();
-          if (!nameNorm.includes(normQ) && !marketNorm.includes(normQ)) return false;
+          const cityNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.cidade || '') : (item.cidade || '').toLowerCase();
+          if (!nameNorm.includes(normQ) && !marketNorm.includes(normQ) && !cityNorm.includes(normQ)) return false;
         }
 
         return true;
       });
 
       if (sortBy === 'preco_asc') {
-        filtered.sort((a, b) => (a.preco || 0) - (b.preco || 0));
+        filtered.sort((a, b) => {
+          if (a.isFlyerCard && !b.isFlyerCard) return -1;
+          if (!a.isFlyerCard && b.isFlyerCard) return 1;
+          return (a.preco || 0) - (b.preco || 0);
+        });
       } else if (sortBy === 'nome_asc') {
         filtered.sort((a, b) => (a.nome || '').localeCompare(b.nome || ''));
       } else if (sortBy === 'recente') {
         filtered.sort((a, b) => (b.validade || '').localeCompare(a.validade || ''));
+      }
+
+      // Priorização suave: Se filtrou por cidade, produtos daquela cidade aparecem antes dos estaduais
+      if (selectedCity && selectedCity !== '__TODAS__') {
+        filtered.sort((a, b) => {
+          const aLocal = (a.cidade || '').toLowerCase().includes(selectedCity.toLowerCase()) && a.abrangencia !== 'ESTADUAL';
+          const bLocal = (b.cidade || '').toLowerCase().includes(selectedCity.toLowerCase()) && b.abrangencia !== 'ESTADUAL';
+          if (aLocal && !bLocal) return -1;
+          if (!aLocal && bLocal) return 1;
+          return 0;
+        });
       }
 
       offersHubFilteredItems = filtered;
@@ -7369,12 +8185,50 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
 
       let html = '';
       filtered.forEach((item, idx) => {
+        const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
+        const isEstadual = (item.abrangencia === 'ESTADUAL');
+
+        if (item.isFlyerCard) {
+          html += `
+            <div style="background: linear-gradient(135deg, #f0fdf4, #ffffff); border: 1.8px solid #86efac; border-radius: 14px; padding: 13px 14px; box-shadow: 0 3px 8px rgba(22,101,52,0.06); position: relative;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                <div style="flex: 1; min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
+                    <span style="background: #166534; color: #fff; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">📰 FOLHETO OFICIAL</span>
+                    <span style="font-size: 11px; font-weight: 800; color: #166534;">🏪 ${escapeHTML(item.mercado)}</span>
+                    <span style="font-size: 10px; ${isEstadual ? 'color: #0369a1; background: #e0f2fe; font-weight: 700;' : 'color: #64748b; background: #e2e8f0;'} padding: 1px 6px; border-radius: 4px;">
+                      ${isEstadual ? `🌐 Toda Rede (${escapeHTML(item.uf || 'RJ')})` : `📍 ${escapeHTML(item.cidade || 'Região')} - ${escapeHTML(item.uf || 'RJ')}`}
+                    </span>
+                  </div>
+                  <h4 style="font-size: 14px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; line-height: 1.3;">
+                    ${escapeHTML(item.nome)}
+                  </h4>
+                  <div style="font-size: 11px; color: #166534; font-weight: 600;">
+                    ${valStr ? `<span>⏰ Válido até: <b>${valStr}</b></span>` : '<span>⚡ Ofertas vigentes</span>'}
+                  </div>
+                </div>
+                ${item.imagem ? `
+                  <div style="width: 50px; height: 50px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; flex-shrink: 0; cursor: pointer;" onclick="openEncarteViewer('${item.encarteId}')">
+                    <img src="${item.imagem}" style="width: 100%; height: 100%; object-fit: cover;">
+                  </div>
+                ` : ''}
+              </div>
+              <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #bbf7d0; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 11px; color: #166534; font-weight: 600;">Folheto com fotos e promoções</span>
+                <button type="button" onclick="openEncarteViewer('${item.encarteId}')" style="background: #16a34a; color: #fff; border: none; font-size: 11.5px; font-weight: 800; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(22,163,74,0.2);">
+                  🔍 Abrir Folheto com Zoom
+                </button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
         const priceFmt = Number(item.preco || 0).toFixed(2).replace('.', ',');
         const oldPriceFmt = item.precoAntigo ? Number(item.precoAntigo).toFixed(2).replace('.', ',') : null;
         const discountPct = (item.precoAntigo && item.precoAntigo > item.preco) 
           ? Math.round(((item.precoAntigo - item.preco) / item.precoAntigo) * 100) 
           : null;
-        const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
 
         html += `
           <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); position: relative;">
@@ -7385,8 +8239,8 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
                   <span style="font-size: 11px; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 3px;">
                     🏪 ${escapeHTML(item.mercado)}
                   </span>
-                  <span style="font-size: 10px; color: #64748b; background: #f1f5f9; padding: 1px 6px; border-radius: 4px;">
-                    ${escapeHTML(item.cidade || 'Região')}
+                  <span style="font-size: 10px; ${isEstadual ? 'color: #0369a1; background: #e0f2fe; font-weight: 700;' : 'color: #64748b; background: #f1f5f9;'} padding: 1px 6px; border-radius: 4px;">
+                    ${isEstadual ? `🌐 Toda Rede (${escapeHTML(item.uf || 'RJ')})` : escapeHTML(item.cidade || 'Região')}
                   </span>
                 </div>
                 <h4 style="font-size: 13.5px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0; line-height: 1.3;">
