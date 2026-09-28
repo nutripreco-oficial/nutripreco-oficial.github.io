@@ -5961,12 +5961,31 @@ async function exportPricesCSV() {
 
           const remoteMapped = data.map(remote => {
             const local = localMap.get(String(remote.id)) || localMktMap.get(`${(remote.mercado||'').toLowerCase()}_${(remote.cidade||'').toLowerCase()}`);
+
+            let meta = null;
+            let displayImg = remote.imagem || '';
+            if (displayImg && (displayImg.trim().startsWith('{') || displayImg.includes('"ofertas"'))) {
+              try {
+                meta = JSON.parse(displayImg);
+                displayImg = meta.foto || '';
+              } catch(e) {}
+            }
+
+            const rawCity = (meta && meta.cidade) || remote.cidade || (local && local.cidade) || 'Cabo Frio';
+            const cleanCity = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+            const cleanState = (meta && meta.estado) || remote.estado || (local && local.estado) || (rawCity.includes(' - ') ? rawCity.split(' - ')[1].trim() : 'RJ');
+            const abrangenciaVal = (meta && meta.abrangencia) || remote.abrangencia || (local && local.abrangencia) || 'MUNICIPAL';
+            const ofertasList = (meta && Array.isArray(meta.ofertas) && meta.ofertas.length > 0)
+              ? meta.ofertas
+              : ((remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null));
+
             return {
               ...remote,
-              cidade: remote.cidade || (local && local.cidade) || 'Cabo Frio',
-              estado: remote.estado || (local && local.estado) || 'RJ',
-              abrangencia: remote.abrangencia || (local && local.abrangencia) || 'MUNICIPAL',
-              ofertas: (remote.ofertas && remote.ofertas.length > 0) ? remote.ofertas : ((local && local.ofertas) ? local.ofertas : null)
+              cidade: cleanCity,
+              estado: cleanState,
+              abrangencia: abrangenciaVal,
+              imagem: displayImg,
+              ofertas: ofertasList
             };
           });
 
@@ -6076,33 +6095,23 @@ async function exportPricesCSV() {
 
       // 3. Grava no Supabase com resiliência total
       try {
+        const metaPayload = JSON.stringify({
+          foto: currentEncartePhotoBase64 || '',
+          ofertas: encarteObj.ofertas || [],
+          abrangencia: abrangencia,
+          estado: targetState,
+          cidade: targetCity
+        });
+
         const payload = {
           mercado: market,
-          cidade: targetCity,
-          estado: targetState,
-          abrangencia: abrangencia,
+          cidade: `${targetCity} - ${targetState}`,
           data_inicio: start,
           validade: end,
-          imagem: currentEncartePhotoBase64
+          imagem: metaPayload
         };
-        if (encarteObj.ofertas && encarteObj.ofertas.length > 0) {
-          payload.ofertas = encarteObj.ofertas;
-        }
 
         let insertRes = await client.from('encartes').insert(payload).select('id');
-        if (insertRes.error) {
-          console.warn('Tentativa 1 Supabase encartes falhou:', insertRes.error);
-          // Se a coluna abrangencia ainda não existe no Supabase, tenta sem ela
-          if (insertRes.error.message && insertRes.error.message.includes('abrangencia')) {
-            delete payload.abrangencia;
-            insertRes = await client.from('encartes').insert(payload).select('id');
-          }
-          // Se a coluna estado ainda não existe no Supabase, tenta sem ela
-          if (insertRes.error && insertRes.error.message && insertRes.error.message.includes('estado')) {
-            delete payload.estado;
-            insertRes = await client.from('encartes').insert(payload).select('id');
-          }
-        }
         if (insertRes.data && insertRes.data[0]) {
           encarteObj.id = insertRes.data[0].id;
           try {
@@ -7259,28 +7268,30 @@ Regras obrigatórias:
         localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais.slice(0, 8)));
       } catch(e) {}
 
-      // Salva no Supabase
+      // Salva no Supabase de forma universalmente aceita
       try {
+        const metaPayload = JSON.stringify({
+          foto: batchCoverPhotoBase64 || '',
+          ofertas: normalizedItems,
+          abrangencia: abrangencia,
+          estado: estado,
+          cidade: cidade
+        });
+
         const payload = {
           mercado: market,
-          cidade: cidade,
-          estado: estado,
-          abrangencia: abrangencia,
+          cidade: `${cidade} - ${estado}`,
           data_inicio: encarteObj.data_inicio,
           validade: validade,
-          imagem: batchCoverPhotoBase64 || '',
-          ofertas: normalizedItems
+          imagem: metaPayload
         };
+
         let insertRes = await client.from('encartes').insert(payload).select('id');
-        if (insertRes.error) {
-          if (insertRes.error.message && insertRes.error.message.includes('abrangencia')) {
-            delete payload.abrangencia;
-            insertRes = await client.from('encartes').insert(payload).select('id');
-          }
-          if (insertRes.error && insertRes.error.message && insertRes.error.message.includes('estado')) {
-            delete payload.estado;
-            insertRes = await client.from('encartes').insert(payload).select('id');
-          }
+        if (insertRes.data && insertRes.data[0]) {
+          encarteObj.id = insertRes.data[0].id;
+          try {
+            localStorage.setItem('nutri_photo_encartes', JSON.stringify(encartesLocais));
+          } catch(e) {}
         }
       } catch (cloudErr) {
         console.warn('Erro ao salvar encarte no Supabase:', cloudErr);
@@ -7342,7 +7353,8 @@ Regras obrigatórias:
 
           let slug = (it.nome || 'produto').toLowerCase().replace(/[^a-z0-9]/g, '');
           if (slug.length < 4) slug = (slug + '0000').substring(0, 4);
-          const cleanCode = ('ENC_' + slug).substring(0, 30);
+          // Supabase produtos.codigo_barras é varchar(20)
+          const cleanCode = ('ENC_' + slug).substring(0, 20);
           const catItem = identifyCestaCategory(it.nome);
           const categoria = catItem ? catItem.id : 'encarte';
 
@@ -7351,8 +7363,7 @@ Regras obrigatórias:
             const { data: pData, error: pErr } = await client.from('produtos').upsert({
               codigo_barras: cleanCode,
               nome: (it.nome || 'Produto').trim(),
-              marca: (it.marca || '').trim(),
-              categoria: categoria
+              marca: (it.marca || '').trim()
             }, { onConflict: 'codigo_barras' }).select('id');
 
             if (pData && pData[0]) {
@@ -8111,13 +8122,13 @@ Regras obrigatórias:
         }
 
         if (selectedCity && selectedCity !== '__TODAS__') {
-          const itemCityNorm = (item.cidade || '').toLowerCase();
-          const targetCityNorm = selectedCity.toLowerCase();
+          const itemCityNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(item.cidade || '') : (item.cidade || '').toLowerCase();
+          const targetCityNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(selectedCity) : selectedCity.toLowerCase();
           const matchesCity = itemCityNorm && (itemCityNorm.includes(targetCityNorm) || targetCityNorm.includes(itemCityNorm));
           
-          // Se for rede estadual do mesmo estado, ou se bater a cidade, exibe!
+          // Se for rede estadual do mesmo estado (ex: Guanabara/Assaí), ou se bater a cidade, exibe!
           if (!matchesCity && !isEstadual) {
-            if (!normQ) return false;
+            return false;
           }
         }
 
@@ -8152,9 +8163,12 @@ Regras obrigatórias:
 
       // Priorização suave: Se filtrou por cidade, produtos daquela cidade aparecem antes dos estaduais
       if (selectedCity && selectedCity !== '__TODAS__') {
+        const selNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(selectedCity) : selectedCity.toLowerCase();
         filtered.sort((a, b) => {
-          const aLocal = (a.cidade || '').toLowerCase().includes(selectedCity.toLowerCase()) && a.abrangencia !== 'ESTADUAL';
-          const bLocal = (b.cidade || '').toLowerCase().includes(selectedCity.toLowerCase()) && b.abrangencia !== 'ESTADUAL';
+          const aCityNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(a.cidade || '') : (a.cidade || '').toLowerCase();
+          const bCityNorm = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(b.cidade || '') : (b.cidade || '').toLowerCase();
+          const aLocal = aCityNorm.includes(selNorm) && a.abrangencia !== 'ESTADUAL';
+          const bLocal = bCityNorm.includes(selNorm) && b.abrangencia !== 'ESTADUAL';
           if (aLocal && !bLocal) return -1;
           if (!aLocal && bLocal) return 1;
           return 0;
