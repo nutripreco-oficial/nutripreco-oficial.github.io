@@ -7345,60 +7345,102 @@ Regras obrigatórias:
         } catch(e) {}
       }
 
-      let salvos = 0;
+      // 1. Prepara a lista única de produtos e códigos
+      const productsToUpsert = [];
+      const codeToItemMap = new Map();
+
       for (const it of itemsToSave) {
-        try {
-          const priceNum = parseFloat(it.preco);
-          if (!priceNum || isNaN(priceNum) || priceNum <= 0) continue;
+        const priceNum = parseFloat(it.preco);
+        if (!priceNum || isNaN(priceNum) || priceNum <= 0) continue;
 
-          let slug = (it.nome || 'produto').toLowerCase().replace(/[^a-z0-9]/g, '');
-          if (slug.length < 4) slug = (slug + '0000').substring(0, 4);
-          // Supabase produtos.codigo_barras é varchar(20)
-          const cleanCode = ('ENC_' + slug).substring(0, 20);
-          const catItem = identifyCestaCategory(it.nome);
-          const categoria = catItem ? catItem.id : 'encarte';
+        let slug = (it.nome || 'produto').toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (slug.length < 4) slug = (slug + '0000').substring(0, 4);
+        // Supabase produtos.codigo_barras é varchar(20)
+        const cleanCode = ('ENC_' + slug).substring(0, 20);
 
-          let prodId = null;
-          try {
-            const { data: pData, error: pErr } = await client.from('produtos').upsert({
-              codigo_barras: cleanCode,
-              nome: (it.nome || 'Produto').trim(),
-              marca: (it.marca || '').trim()
-            }, { onConflict: 'codigo_barras' }).select('id');
-
-            if (pData && pData[0]) {
-              prodId = pData[0].id;
-            } else if (pErr) {
-              console.warn('Erro no upsert de produtos:', pErr);
-              const { data: exP } = await client.from('produtos').select('id').eq('codigo_barras', cleanCode).maybeSingle();
-              if (exP) prodId = exP.id;
-            }
-          } catch(e) {
-            console.warn('Exceção upsert produto:', e);
-          }
-
-          if (prodId && mercadoId) {
-            const { error: rErr } = await client.from('registros_precos').insert({
-              produto_id: prodId,
-              mercado_id: mercadoId,
-              preco: priceNum,
-              usuario_id: currentUser?.id || null,
-              data_registro: new Date().toISOString()
-            });
-
-            if (!rErr) {
-              saveProductToLocalCache(cleanCode, it.nome, it.marca || '');
-              salvos++;
-            } else {
-              console.warn('Erro ao inserir registros_precos:', rErr);
-            }
-          }
-        } catch(err) {
-          console.warn('Erro ao processar item do encarte:', err);
+        if (!codeToItemMap.has(cleanCode)) {
+          productsToUpsert.push({
+            codigo_barras: cleanCode,
+            nome: (it.nome || 'Produto').trim(),
+            marca: (it.marca || '').trim()
+          });
+          codeToItemMap.set(cleanCode, { ...it, preco: priceNum });
         }
       }
 
-      showToast(`✅ ${salvos} ofertas integradas ao catálogo de ${marketName}!`, 'success');
+      if (productsToUpsert.length === 0) return 0;
+
+      // 2. Gravação em Lote Único de Produtos (1 requisição HTTP rápida)
+      let insertedProducts = [];
+      try {
+        const { data: pData, error: pErr } = await client
+          .from('produtos')
+          .upsert(productsToUpsert, { onConflict: 'codigo_barras' })
+          .select('id, codigo_barras');
+
+        if (pData && pData.length > 0) {
+          insertedProducts = pData;
+        } else if (pErr) {
+          console.warn('Upsert batch produtos falhou, tentando fallback em busca:', pErr);
+        }
+      } catch(e) {
+        console.warn('Exceção batch produto:', e);
+      }
+
+      // Se alguns produtos já existiam e não retornaram no upsert, busca os IDs
+      if (insertedProducts.length < productsToUpsert.length) {
+        try {
+          const codes = productsToUpsert.map(p => p.codigo_barras);
+          const { data: exProds } = await client
+            .from('produtos')
+            .select('id, codigo_barras')
+            .in('codigo_barras', codes);
+          if (exProds && exProds.length > 0) {
+            insertedProducts = exProds;
+          }
+        } catch(e) {}
+      }
+
+      // 3. Gravação em Lote Único de Preços (1 requisição HTTP rápida)
+      let salvos = 0;
+      if (mercadoId && insertedProducts.length > 0) {
+        const nowIso = new Date().toISOString();
+        const prodMap = new Map(insertedProducts.map(p => [p.codigo_barras, p.id]));
+        const pricesToInsert = [];
+
+        for (const [code, it] of codeToItemMap.entries()) {
+          const pId = prodMap.get(code);
+          if (pId) {
+            pricesToInsert.push({
+              produto_id: pId,
+              mercado_id: mercadoId,
+              preco: it.preco,
+              usuario_id: currentUser?.id || null,
+              data_registro: nowIso
+            });
+            saveProductToLocalCache(code, it.nome, it.marca || '');
+          }
+        }
+
+        if (pricesToInsert.length > 0) {
+          try {
+            const { error: rErr } = await client
+              .from('registros_precos')
+              .insert(pricesToInsert);
+            if (!rErr) {
+              salvos = pricesToInsert.length;
+            } else {
+              console.warn('Erro ao inserir batch registros_precos:', rErr);
+            }
+          } catch(e) {
+            console.warn('Exceção batch precos:', e);
+          }
+        }
+      }
+
+      if (salvos > 0) {
+        showToast(`✅ ${salvos} ofertas integradas ao catálogo de ${marketName}!`, 'success');
+      }
       return salvos;
     }
 
