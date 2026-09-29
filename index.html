@@ -111,11 +111,67 @@
     .reset-btn { width: 100%; background: #eceff1; color: #444; border: none; padding: 11px; font-size: 14px; font-weight: 600; border-radius: 10px; margin-top: 8px; cursor: pointer; }
     .whatsapp-btn { background: #25d366; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; }
 
-    /* Barra Fixa Pré-Caixa */
-    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 2px solid #2e7d32; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 99; }
+    /* Barra Fixa Pré-Caixa (posicionada acima do Bottom Nav) */
+    .cart-bar { position: fixed; bottom: 60px; left: 0; right: 0; background: #fff; border-top: 2px solid #2e7d32; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 240; }
     .cart-info strong { font-size: 19px; color: #2e7d32; display: block; }
     .cart-info span { font-size: 12px; color: #666; }
     .cart-btn { background: #2e7d32; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+    /* Barra de Navegação Inferior Nativa (PWA Mobile First) */
+    .app-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 250;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.05);
+    }
+    .nav-tab-btn {
+      flex: 1;
+      height: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      color: #64748b;
+      transition: color 0.18s ease, transform 0.12s ease;
+      -webkit-tap-highlight-color: transparent;
+      padding: 4px 0;
+    }
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+    .nav-tab-btn.active {
+      color: #166534;
+      font-weight: 800;
+    }
+    .nav-tab-icon {
+      font-size: 20px;
+      line-height: 1;
+      filter: grayscale(60%);
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .nav-tab-btn.active .nav-tab-icon {
+      filter: none;
+      transform: scale(1.12);
+    }
+    .nav-tab-label {
+      font-size: 11.5px;
+      letter-spacing: 0.2px;
+    }
 
     
     /* Sistema de Feedback Profissional (Toasts & Confirm Dialog) */
@@ -3273,7 +3329,7 @@ async function exportPricesCSV() {
       { uf: 'TO', nome: 'Tocantins (TO)' }
     ];
 
-    // Os 13 Itens Oficiais da Cesta Básica Nacional (DIEESE / Decreto-Lei 399)
+    // Os 13 Itens Oficiais da Cesta Básica Nacional (DIEESE / Decreto-Lei 399) + Frango/Aves Clínico
     const CESTA_OFICIAL_ITENS = [
       { 
         id: 'arroz', 
@@ -3291,16 +3347,23 @@ async function exportPricesCSV() {
       },
       { 
         id: 'carne', 
-        nome: 'Carne / Frango', 
+        nome: 'Carne Bovina', 
         icon: '🥩', 
         terms: [
-          'carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 
-          'frango', 'coxa', 'peito', 'peito de frango', 'file de peito', 'filé de peito', 
-          'sassami', 'bovino', 'bovina', 'costela', 'picanha', 'contra file', 'contra-filé', 
-          'contrafilé', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 
-          'linguiça', 'calabresa', 'suino', 'suíno', 'porco', 'pernil', 'bisteca', 
-          'lombo', 'coxao mole', 'coxão mole', 'coxao duro', 'coxão duro', 'cha de dentro', 
-          'chã de dentro', 'paleta', 'fraldinha', 'cupim', 'lagarto', 'asa', 'tulipa', 'salsicha'
+          'carne bovina', 'bovino', 'bovina', 'acem', 'acém', 'alcatra', 'patinho', 
+          'musculo', 'músculo', 'costela bovina', 'contra file', 'contra-filé', 
+          'contrafilé', 'maminha', 'coxao mole', 'coxão mole', 'coxao duro', 'coxão duro', 
+          'cha de dentro', 'chã de dentro', 'paleta bovina', 'fraldinha', 'carne moida', 'carne moída'
+        ], 
+        exclude: ['hamburguer', 'hambúrguer', 'nugget', 'empanado', 'ração', 'racao', 'petisco', 'frango', 'suino', 'suíno', 'porco', 'picanha'] 
+      },
+      { 
+        id: 'frango', 
+        nome: 'Frango / Aves', 
+        icon: '🍗', 
+        terms: [
+          'frango', 'peito de frango', 'sobrecoxa', 'coxa de frango', 'file de peito', 
+          'filé de peito', 'coxinha da asa', 'asa de frango', 'aves'
         ], 
         exclude: ['hamburguer', 'hambúrguer', 'nugget', 'empanado', 'ração', 'racao', 'petisco'] 
       },
@@ -3337,7 +3400,7 @@ async function exportPricesCSV() {
         nome: 'Manteiga / Margarina', 
         icon: '🧈', 
         terms: ['manteiga', 'margarina', 'qualy', 'claybom', 'delicia', 'delícia', 'doriana', 'primor', 'deline', 'becel', 'vigor', 'coamo', 'soya'], 
-        exclude: ['cacau', 'garrafa', 'biscoito'] 
+        exclude: ['cacau', 'garrafa', 'biscoito', '3kg', '3 kg', 'balde', '5kg'] 
       },
       { 
         id: 'acucar', 
@@ -3358,7 +3421,7 @@ async function exportPricesCSV() {
         nome: 'Batata', 
         icon: '🥔', 
         terms: ['batata'], 
-        exclude: ['palha', 'chips', 'doce'] 
+        exclude: ['palha', 'chips', 'doce', 'pringles', 'ruffles', 'lays', 'sensacoes', 'congelada', 'palito', 'pre-frita', 'scrusch'] 
       },
       { 
         id: 'tomate', 
@@ -3559,11 +3622,13 @@ async function exportPricesCSV() {
       const modal = document.getElementById('radar-modal');
       if (modal) modal.classList.remove('hidden');
       initCestaUfDropdown();
+      if (typeof syncBottomNavActive === 'function') syncBottomNavActive('cesta');
     }
 
     function closeRadarModal() {
       const modal = document.getElementById('radar-modal');
       if (modal) modal.classList.add('hidden');
+      if (typeof syncBottomNavActive === 'function') syncBottomNavActive('caixa');
     }
 
     function initCestaUfDropdown() {
@@ -3658,9 +3723,15 @@ async function exportPricesCSV() {
           if (mkts && mkts.length > 0) {
             const addedNames = new Set();
             const cleanCityName = (city || 'Cabo Frio').toLowerCase().replace(/\s*-\s*[a-z]{2}$/i, '').trim();
+            const targetUf = (uf || 'RJ').toUpperCase();
             mkts.forEach(m => {
-              const mkCity = (m.cidade || '').toLowerCase();
-              if ((!mkCity || mkCity.includes(cleanCityName)) && m.nome && !addedNames.has(m.nome)) {
+              const mkCity = (m.cidade || '').trim();
+              if (!mkCity) return; // NUNCA aceita mercado sem cidade
+              const normMkCity = mkCity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+              const matchesCity = normMkCity.includes(cleanCityName) || cleanCityName.includes(normMkCity);
+              const ufMatch = mkCity.match(/-\s*([A-Za-z]{2})$/);
+              if (ufMatch && ufMatch[1].toUpperCase() !== targetUf) return;
+              if (matchesCity && m.nome && !addedNames.has(m.nome)) {
                 addedNames.add(m.nome);
                 const opt = document.createElement('option');
                 opt.value = m.nome;
@@ -3686,7 +3757,9 @@ async function exportPricesCSV() {
       const listContainer = document.getElementById('radar-products-list');
       const summaryCard = document.getElementById('cesta-summary-card');
       const citySelect = document.getElementById('cesta-select-city');
+      const ufSelect = document.getElementById('cesta-select-uf');
       const city = citySelect ? citySelect.value : 'Cabo Frio';
+      const selectedUf = (ufSelect ? ufSelect.value : (localStorage.getItem('nutri_user_state') || 'RJ')).toUpperCase();
 
       if (loadingEl) loadingEl.classList.remove('hidden');
       if (listContainer) listContainer.innerHTML = '';
@@ -3697,17 +3770,26 @@ async function exportPricesCSV() {
           .from('registros_precos')
           .select('preco, data_registro, mercados(id, nome, cidade), produtos(id, nome, marca, codigo_barras)')
           .order('data_registro', { ascending: false })
-          .limit(500);
+          .limit(800);
 
         if (error) throw error;
         
         const cleanCityName = (city || 'Cabo Frio').toLowerCase().replace(/\s*-\s*[a-z]{2}$/i, '').trim();
         const normCity = cleanCityName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
         cestaRawData = (data || []).filter(r => {
-          if (!r.produtos || !r.preco) return false;
-          const mkCity = (r.mercados?.cidade || '').toLowerCase();
-          const normMkCity = mkCity.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          return !mkCity || normMkCity.includes(normCity) || normCity.includes(normMkCity);
+          if (!r.produtos || !r.preco || !r.mercados) return false;
+          const mkCityRaw = (r.mercados.cidade || '').trim();
+          if (!mkCityRaw) return false; // NUNCA aceita mercado sem cidade
+          
+          const normMkCity = mkCityRaw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          const matchesCity = normMkCity.includes(normCity) || normCity.includes(normMkCity);
+          
+          const ufMatch = mkCityRaw.match(/-\s*([A-Za-z]{2})$/);
+          if (ufMatch && ufMatch[1].toUpperCase() !== selectedUf) {
+            return false;
+          }
+          return matchesCity;
         });
 
         if (loadingEl) loadingEl.classList.add('hidden');
@@ -3740,7 +3822,7 @@ async function exportPricesCSV() {
             <div style="font-size:26px; margin-bottom:4px;">🧺📍</div>
             <strong style="font-size:14px; color:#1b5e20; display:block;">Sem cotações ativas em ${escapeHTML(city)}</strong>
             <p style="font-size:12px; color:#555; margin-top:4px; line-height:1.4;">
-              Ainda não há preços registrados para alimentar o cálculo.<br>Você pode bipe produtos na gôndola ou carregar os encartes publicados!
+              Ainda não há preços registrados para alimentar o cálculo.<br>Você pode bipar produtos na gôndola ou carregar os encartes publicados!
             </p>
             <button type="button" onclick="syncAllActiveEncartesToCesta()" style="margin-top:10px; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border:none; padding:10px 16px; border-radius:10px; font-size:12.5px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 8px rgba(27,94,32,0.25);">
               ⚡ Sincronizar Ofertas dos Encartes com a Cesta Básica
@@ -3767,7 +3849,7 @@ async function exportPricesCSV() {
         return;
       }
 
-      // Mapeia todas as cotações válidas para as 13 categorias
+      // Mapeia todas as cotações válidas para as categorias da cesta
       const mappedQuotes = [];
       cestaRawData.forEach(row => {
         const prod = row.produtos;
@@ -3814,24 +3896,53 @@ async function exportPricesCSV() {
           }
         });
 
-        const marketRankings = Object.keys(marketQuotes).map(mktName => {
-          const itemsMap = marketQuotes[mktName];
-          let total = 0;
-          let count = 0;
-          Object.values(itemsMap).forEach(q => {
-            total += q.preco;
-            count++;
+        // Determina as categorias comuns presentes nos mercados para comparação 1:1 justa
+        const marketNames = Object.keys(marketQuotes);
+        const catFreq = {};
+        marketNames.forEach(m => {
+          Object.keys(marketQuotes[m]).forEach(cId => {
+            catFreq[cId] = (catFreq[cId] || 0) + 1;
           });
-          return { mercado: mktName, total, count };
         });
 
+        const minPresence = marketNames.length > 1 ? 2 : 1;
+        const commonCategoryIds = Object.keys(catFreq).filter(cId => catFreq[cId] >= minPresence);
+
+        const marketRankings = marketNames.map(mktName => {
+          const itemsMap = marketQuotes[mktName];
+          let totalEquiv = 0;
+          let countEquiv = 0;
+          commonCategoryIds.forEach(cId => {
+            if (itemsMap[cId]) {
+              totalEquiv += itemsMap[cId].preco;
+              countEquiv++;
+            }
+          });
+
+          let totalGeral = 0;
+          const countTotal = Object.keys(itemsMap).length;
+          Object.values(itemsMap).forEach(q => { totalGeral += q.preco; });
+
+          return {
+            mercado: mktName,
+            totalEquiv,
+            countEquiv,
+            totalGeral,
+            countTotal,
+            itemsMap
+          };
+        });
+
+        // ORDENAÇÃO CLÍNICA & JUSTA:
+        // 1º Quem cobre mais itens comuns
+        // 2º MENOR PREÇO na Cesta Comum Equivalente (1º lugar é sempre o mais econômico!)
         marketRankings.sort((a, b) => {
-          if (b.count !== a.count) return b.count - a.count;
-          return a.total - b.total;
+          if (b.countEquiv !== a.countEquiv) return b.countEquiv - a.countEquiv;
+          return a.totalEquiv - b.totalEquiv;
         });
 
         if (coveredLabel) {
-          coveredLabel.innerText = `${countGarimpo} de 13 itens na cidade`;
+          coveredLabel.innerText = `${countGarimpo} de ${CESTA_OFICIAL_ITENS.length} itens na cidade`;
         }
 
         let rankingHtml = '';
@@ -3840,22 +3951,28 @@ async function exportPricesCSV() {
             <div style="font-size:12.5px; font-weight:bold; color:#1b5e20; margin-bottom:6px;">🏪 Cesta Fechada por Supermercado:</div>`;
           marketRankings.forEach((r, idx) => {
             const medal = idx === 0 ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
-            const coverageBadge = r.count === 13 
-              ? `<span style="font-size:10.5px; background:#c8e6c9; color:#1b5e20; padding:2px 6px; border-radius:10px; font-weight:bold;">13/13 Completa</span>`
-              : `<span style="font-size:10.5px; background:#fff3e0; color:#e65100; padding:2px 6px; border-radius:10px; font-weight:bold;">${r.count}/13 itens</span>`;
+            const hasExtra = r.countTotal > r.countEquiv;
             rankingHtml += `
-              <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px dashed #c8e6c9; font-size:12.5px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px dashed #c8e6c9; font-size:12.5px;">
                 <div>
-                  <strong>${medal} ${escapeHTML(r.mercado)}</strong><br>
-                  ${coverageBadge}
+                  <strong style="color:#1e293b;">${medal} ${escapeHTML(r.mercado)}</strong><br>
+                  <span style="font-size:10.5px; background:#e8f5e9; color:#1b5e20; padding:2px 7px; border-radius:10px; font-weight:700;">
+                    ${r.countEquiv}/${commonCategoryIds.length} itens equivalentes
+                  </span>
+                  ${hasExtra ? `<span style="font-size:10px; color:#64748b; margin-left:4px;">(+${r.countTotal - r.countEquiv} adicionais)</span>` : ''}
                 </div>
                 <div style="text-align:right;">
-                  <strong style="font-size:14px; color:#1b5e20;">R$ ${r.total.toFixed(2).replace('.', ',')}</strong>
+                  <span style="font-size:10px; text-transform:uppercase; color:#64748b; font-weight:bold; display:block;">Cesta Equivalente</span>
+                  <strong style="font-size:14.5px; color:#1b5e20;">R$ ${r.totalEquiv.toFixed(2).replace('.', ',')}</strong>
                 </div>
               </div>
             `;
           });
-          rankingHtml += '</div>';
+          rankingHtml += `
+            <div style="margin-top:8px; font-size:10.5px; color:#64748b; line-height:1.35; background:#f8fafc; padding:6px 8px; border-radius:8px; border:1px solid #e2e8f0;">
+              ⚖️ <b>Comparativo Clínico 1:1:</b> O ranking compara rigorosamente a soma dos mesmos itens encontrados em comum entre os mercados, eliminando distorções de categorias ausentes.
+            </div>
+          </div>`;
         }
 
         summaryCard.innerHTML = `
@@ -6998,7 +7115,10 @@ Retorne EXCLUSIVAMENTE um array JSON puro válido sem formatação markdown:
           }
         }
         if (offers && offers.length > 0) {
-          const s = await saveGeminiItemsBatch(e.mercado, offers);
+          const encCity = e.cidade ? e.cidade.replace(/\s*-\s*[A-Za-z]{2}$/i, '').trim() : 'Cabo Frio';
+          const encUfMatch = (e.cidade || '').match(/-\s*([A-Za-z]{2})$/);
+          const encUf = encUfMatch ? encUfMatch[1].toUpperCase() : (e.estado || 'RJ');
+          const s = await saveGeminiItemsBatch(e.mercado, offers, encCity, encUf);
           totalSalvos += s;
         }
       }
@@ -7323,15 +7443,22 @@ Regras obrigatórias:
     async function saveGeminiItemsBatch(marketName, itemsToSave, targetCity = null, targetState = null) {
       if (!itemsToSave || itemsToSave.length === 0) return 0;
       const rawCity = targetCity || localStorage.getItem('nutri_user_city') || 'Cabo Frio';
-      const cleanCity = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+      const cleanCity = rawCity.replace(/\s*-\s*[A-Za-z]{2}$/i, '').trim();
+      const rawUf = targetState || localStorage.getItem('nutri_user_state') || 'RJ';
+      const cleanUf = rawUf.toUpperCase().trim();
+      const cityWithUf = `${cleanCity} - ${cleanUf}`;
 
       let mercadoId = null;
       try {
-        const { data: mkData } = await client.from('mercados').select('id, cidade').ilike('nome', marketName.trim()).eq('cidade', cleanCity).limit(1);
+        const { data: mkData } = await client.from('mercados')
+          .select('id, cidade')
+          .ilike('nome', marketName.trim())
+          .or(`cidade.eq.${cleanCity},cidade.eq.${cityWithUf}`)
+          .limit(1);
         if (mkData && mkData.length > 0) {
           mercadoId = mkData[0].id;
         } else {
-          const { data: newMk } = await client.from('mercados').insert({ nome: marketName.trim(), cidade: cleanCity }).select();
+          const { data: newMk } = await client.from('mercados').insert({ nome: marketName.trim(), cidade: cityWithUf }).select();
           if (newMk && newMk[0]) mercadoId = newMk[0].id;
         }
       } catch(e) {
@@ -7339,10 +7466,8 @@ Regras obrigatórias:
       }
 
       if (!mercadoId) {
-        try {
-          const { data: fallbackMk } = await client.from('mercados').select('id').limit(1);
-          if (fallbackMk && fallbackMk[0]) mercadoId = fallbackMk[0].id;
-        } catch(e) {}
+        console.warn(`Não foi possível vincular mercado para ${marketName} em ${cleanCity}`);
+        return 0;
       }
 
       // 1. Prepara a lista única de produtos e códigos
@@ -7935,11 +8060,13 @@ Regras obrigatórias:
       await loadOffersHubData();
 
       modal.classList.remove('hidden');
+      if (typeof syncBottomNavActive === 'function') syncBottomNavActive('ofertas');
     }
 
     function closeOffersHubModal() {
       const modal = document.getElementById('offers-hub-modal');
       if (modal) modal.classList.add('hidden');
+      if (typeof syncBottomNavActive === 'function') syncBottomNavActive('caixa');
     }
 
     function initOffersHubLocation() {
@@ -8374,7 +8501,51 @@ Regras obrigatórias:
       showToast(`🛒 "${name}" adicionado ao seu Pré-Caixa!`, 'success');
     }
 
+    /* Navegação Inferior (Tabs do App) */
+    function switchAppTab(tab) {
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      const targetBtn = document.getElementById('nav-btn-' + tab);
+      if (targetBtn) targetBtn.classList.add('active');
+
+      if (tab === 'ofertas') {
+        const radar = document.getElementById('radar-modal');
+        if (radar && !radar.classList.contains('hidden')) radar.classList.add('hidden');
+        openOffersHubModal();
+      } else if (tab === 'cesta') {
+        const hub = document.getElementById('offers-hub-modal');
+        if (hub && !hub.classList.contains('hidden')) hub.classList.add('hidden');
+        openRadarModal();
+      } else if (tab === 'caixa') {
+        const hub = document.getElementById('offers-hub-modal');
+        if (hub) hub.classList.add('hidden');
+        const radar = document.getElementById('radar-modal');
+        if (radar) radar.classList.add('hidden');
+      }
+    }
+
+    function syncBottomNavActive(tab) {
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+      const b = document.getElementById('nav-btn-' + tab);
+      if (b) b.classList.add('active');
+    }
+
   </script>
+
+  <!-- BARRA DE NAVEGAÇÃO INFERIOR FIXA (PWA) -->
+  <nav id="app-bottom-nav" class="app-bottom-nav" aria-label="Navegação Principal">
+    <button type="button" class="nav-tab-btn" id="nav-btn-ofertas" onclick="switchAppTab('ofertas')">
+      <span class="nav-tab-icon">🔍</span>
+      <span class="nav-tab-label">Ofertas</span>
+    </button>
+    <button type="button" class="nav-tab-btn active" id="nav-btn-caixa" onclick="switchAppTab('caixa')">
+      <span class="nav-tab-icon">📷</span>
+      <span class="nav-tab-label">No Caixa</span>
+    </button>
+    <button type="button" class="nav-tab-btn" id="nav-btn-cesta" onclick="switchAppTab('cesta')">
+      <span class="nav-tab-icon">🧺</span>
+      <span class="nav-tab-label">Cesta</span>
+    </button>
+  </nav>
 
 </body>
 </html>
