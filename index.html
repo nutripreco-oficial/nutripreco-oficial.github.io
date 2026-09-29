@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#2e7d32">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,11 +20,11 @@
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #f4f6f8; color: #222; padding-bottom: 25px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #f4f6f8; color: #222; padding-bottom: calc(85px + env(safe-area-inset-bottom, 0px)); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
     /* Cabeçalho */
-    header { background-color: #2e7d32; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    header { background-color: #2e7d32; color: white; padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 12px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 10px; }
     .menu-btn { background: none; border: none; color: white; font-size: 26px; cursor: pointer; padding: 2px 6px; line-height: 1; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
     header h1 { font-size: 19px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
@@ -112,7 +112,7 @@
     .whatsapp-btn { background: #25d366; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; }
 
     /* Barra Fixa Pré-Caixa (posicionada acima do Bottom Nav) */
-    .cart-bar { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 2px solid #2e7d32; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 240; }
+    .cart-bar { position: fixed; bottom: calc(60px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 2px solid #2e7d32; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 230; }
     .cart-info strong { font-size: 19px; color: #2e7d32; display: block; }
     .cart-info span { font-size: 12px; color: #666; }
     .cart-btn { background: #2e7d32; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
@@ -125,7 +125,7 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      height: 60px;
+      height: calc(60px + env(safe-area-inset-bottom, 0px));
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
@@ -265,30 +265,81 @@
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: flex-end; z-index: 200; }
     .modal-content { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; border-radius: 20px 20px 0 0; padding: 20px; overflow-y: auto; }
 
-    /* Modais Vinculados às Abas Inferiores (Padrão de Layout e Bordas) */
-    #offers-hub-modal.modal, #radar-modal.modal {
-      padding-bottom: 60px;
-      align-items: flex-end;
-    }
-    #offers-hub-modal .modal-content, #radar-modal .modal-content {
-      max-height: calc(100vh - 72px);
-      border-radius: 20px 20px 0 0;
-      border-left: 1px solid #cbd5e1;
-      border-right: 1px solid #cbd5e1;
-      border-top: 1px solid #cbd5e1;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
-    }
-    @media (min-width: 481px) {
-      #offers-hub-modal.modal, #radar-modal.modal {
-        background: rgba(15, 23, 42, 0.45);
-        align-items: center;
-        padding-bottom: 0;
+    /* Modais Vinculados às Abas Inferiores (Padrão Nativo Mobile First) */
+    @media (max-width: 480px) {
+      #offers-hub-modal.modal,
+      #radar-modal.modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+        width: 100%;
+        height: auto;
+        max-height: none;
+        background: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        z-index: 240;
+        box-shadow: none;
       }
-      #offers-hub-modal .modal-content, #radar-modal .modal-content {
+
+      #offers-hub-modal .modal-content,
+      #radar-modal .modal-content {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 6px 12px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #f8fafc;
+      }
+
+      .app-bottom-nav,
+      .cart-bar {
+        border-left: none;
+        border-right: none;
+      }
+    }
+
+    @media (min-width: 481px) {
+      #offers-hub-modal.modal,
+      #radar-modal.modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        padding-bottom: 70px;
+        z-index: 240;
+      }
+
+      #offers-hub-modal .modal-content,
+      #radar-modal .modal-content {
+        width: 100%;
+        max-width: 480px;
         max-height: 86vh;
         border-radius: 20px;
-        box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
         border: 1px solid #cbd5e1;
+        padding: 16px 16px 12px 16px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: #fff;
       }
     }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -1375,28 +1426,21 @@
         <!-- Preenchido dinamicamente via renderOffersHubList() -->
       </div>
 
-      <!-- Rodapé da Central com Canal de Parceria Comercial -->
-      <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 6px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-          <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex: 1; background: #f0fdf4; border: 1.5px dashed #86efac; color: #166534; border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-            📸 Enviar Novo Folheto com IA
-          </button>
-          <button type="button" onclick="closeOffersHubModal()" class="reset-btn" style="width: auto; margin: 0; padding: 9px 16px; font-size: 12px;">
-            Fechar
-          </button>
-        </div>
-        <div style="text-align: center;">
-          <button type="button" onclick="openVipPartnerModal()" style="background: none; border: none; font-size: 10.5px; color: #64748b; text-decoration: underline; cursor: pointer; padding: 2px;">
-            💼 É Gerente ou Dono de Supermercado? Seja um Parceiro VIP NutriPreço
-          </button>
-        </div>
+      <!-- Rodapé da Central com Ações Rápidas -->
+      <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+        <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex: 1.3; background: #f0fdf4; border: 1.5px dashed #86efac; color: #166534; border-radius: 8px; padding: 8px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;">
+          📸 Enviar Folheto com IA
+        </button>
+        <button type="button" onclick="openVipPartnerModal()" style="flex: 1; background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; border-radius: 8px; padding: 8px 10px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;">
+          ⭐ Seja Parceiro VIP
+        </button>
       </div>
 
     </div>
   </div>
 
   <!-- MODAL: PARCERIA COMERCIAL & ESPAÇO VIP PARA SUPERMERCADOS -->
-  <div class="modal hidden" id="vip-partner-modal" style="z-index: 260;">
+  <div class="modal hidden" id="vip-partner-modal" style="z-index: 280;">
     <div class="modal-content" style="max-height: 90vh; padding: 18px 16px; border-radius: 20px;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -2128,7 +2172,7 @@
   </div>
 
   <!-- Modal do Carrinho Atual -->
-  <div class="modal hidden" id="cart-modal">
+  <div class="modal hidden" id="cart-modal" style="z-index: 280;">
     <div class="modal-content">
       <div class="modal-header">
         <h3 style="color: #2e7d32;">🛒 Meu Pré-Caixa (Carrinho)</h3>
