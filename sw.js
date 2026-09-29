@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nutripreco-v32';
+const CACHE_NAME = 'nutripreco-v33';
 const APP_SHELL = [
   './',
   './index.html',

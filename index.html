@@ -112,7 +112,7 @@
     .whatsapp-btn { background: #25d366; color: white; border: none; padding: 12px 14px; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; }
 
     /* Barra Fixa Pré-Caixa (posicionada acima do Bottom Nav) */
-    .cart-bar { position: fixed; bottom: 60px; left: 0; right: 0; background: #fff; border-top: 2px solid #2e7d32; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 240; }
+    .cart-bar { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #fff; border-top: 2px solid #2e7d32; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -3px 10px rgba(0,0,0,0.08); z-index: 240; }
     .cart-info strong { font-size: 19px; color: #2e7d32; display: block; }
     .cart-info span { font-size: 12px; color: #666; }
     .cart-btn { background: #2e7d32; color: #fff; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
@@ -121,13 +121,17 @@
     .app-bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 0;
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
       height: 60px;
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-top: 1px solid #e2e8f0;
+      border-left: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -260,6 +264,33 @@
     /* Modais */
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: flex-end; z-index: 200; }
     .modal-content { background: #fff; width: 100%; max-width: 480px; max-height: 88vh; border-radius: 20px 20px 0 0; padding: 20px; overflow-y: auto; }
+
+    /* Modais Vinculados às Abas Inferiores (Padrão de Layout e Bordas) */
+    #offers-hub-modal.modal, #radar-modal.modal {
+      padding-bottom: 60px;
+      align-items: flex-end;
+    }
+    #offers-hub-modal .modal-content, #radar-modal .modal-content {
+      max-height: calc(100vh - 72px);
+      border-radius: 20px 20px 0 0;
+      border-left: 1px solid #cbd5e1;
+      border-right: 1px solid #cbd5e1;
+      border-top: 1px solid #cbd5e1;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    }
+    @media (min-width: 481px) {
+      #offers-hub-modal.modal, #radar-modal.modal {
+        background: rgba(15, 23, 42, 0.45);
+        align-items: center;
+        padding-bottom: 0;
+      }
+      #offers-hub-modal .modal-content, #radar-modal .modal-content {
+        max-height: 86vh;
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+        border: 1px solid #cbd5e1;
+      }
+    }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
     .qty-btn { background: #eee; border: none; width: 26px; height: 26px; border-radius: 50%; font-weight: bold; cursor: pointer; }
@@ -1201,7 +1232,7 @@
   <!-- MODAL: CENTRAL DE OFERTAS & BUSCA GLOBAL (IA GEMINI) -->
   <!-- ========================================== -->
   <div class="modal hidden" id="offers-hub-modal" style="z-index: 240;">
-    <div class="modal-content" style="max-height: 94vh; padding: 16px 14px; background: #fff; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;">
+    <div class="modal-content" style="padding: 16px 14px 10px 14px; background: #fff; display: flex; flex-direction: column; overflow: hidden;">
       
       <!-- Topo: Título e Fechar -->
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 10px;">
@@ -1340,7 +1371,7 @@
       </div>
 
       <!-- Container da Lista de Ofertas com Scroll -->
-      <div id="offers-hub-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 2px; min-height: 240px; max-height: 52vh;">
+      <div id="offers-hub-list-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 4px 6px 14px 4px; min-height: 220px;">
         <!-- Preenchido dinamicamente via renderOffersHubList() -->
       </div>
 
@@ -2042,7 +2073,7 @@
 
   <!-- Modal da Cesta Básica Oficial Nacional -->
   <div class="modal hidden" id="radar-modal">
-    <div class="modal-content" style="max-height: 90vh;">
+    <div class="modal-content">
       <div class="modal-header">
         <div>
           <h3 style="color: #1b5e20; display:flex; align-items:center; gap:8px;">🧺 Cesta Básica Oficial</h3>
@@ -8390,16 +8421,9 @@ Regras obrigatórias:
     // ==========================================
     // SUPERMERCADOS PARCEIROS VIP & SELO OFICIAL
     // ==========================================
-    const VERIFIED_VIP_MARKETS = {
-      'assaí atacadista': { isVip: true, label: 'Assaí Atacadista', badge: '⭐ PARCEIRO VIP', color: '#166534' },
-      'atacadão': { isVip: true, label: 'Atacadão', badge: '⭐ PARCEIRO VIP', color: '#ea580c' },
-      'novo atacarejo': { isVip: true, label: 'Novo Atacarejo', badge: '⭐ PARCEIRO VIP', color: '#0284c7' },
-      'supermercados guanabara': { isVip: true, label: 'Guanabara', badge: '⭐ PARCEIRO VIP', color: '#dc2626' },
-      'supermarket': { isVip: false, verified: true, label: 'Supermarket', badge: '✓ Verificado', color: '#15803d' },
-      'princesa supermercados': { isVip: false, verified: true, label: 'Princesa', badge: '✓ Verificado', color: '#7c3aed' },
-      'multimarket': { isVip: false, verified: true, label: 'Multimarket', badge: '✓ Verificado', color: '#0284c7' },
-      'supermercado avistão': { isVip: false, verified: true, label: 'Avistão', badge: '✓ Verificado', color: '#0284c7' }
-    };
+    // Observação Comercial: Nenhum supermercado recebe patrocínio ou selo VIP gratuitamente.
+    // Os parceiros serão cadastrados conforme fechamento de contratos comerciais oficiais.
+    const VERIFIED_VIP_MARKETS = {};
 
     function getMarketVipInfo(marketName) {
       if (!marketName) return null;
@@ -8424,8 +8448,7 @@ Regras obrigatórias:
 
     function renderOffersHubVipSection(filteredItems) {
       const container = document.getElementById('offers-hub-vip-container');
-      const list = document.getElementById('offers-hub-vip-list');
-      if (!container || !list) return;
+      if (!container) return;
 
       const nonFlyers = (filteredItems || []).filter(i => !i.isFlyerCard && (i.preco || 0) > 0);
       const marketCounts = {};
@@ -8448,27 +8471,58 @@ Regras obrigatórias:
         }
       });
 
+      const citySelect = document.getElementById('offers-hub-city-select');
+      const activeCity = citySelect && citySelect.value ? citySelect.value : 'sua cidade';
+
       if (vipMarketsInCity.length === 0) {
-        container.classList.add('hidden');
+        // Sem parceiro VIP contratado: exibe convite de anúncio comercial profissional sem exibir nenhum mercado como falso patrocinador
+        container.classList.remove('hidden');
+        container.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <span style="font-size: 16px;">⭐</span>
+              <div>
+                <strong style="font-size: 11.5px; color: #92400e; display: block; line-height: 1.2;">Espaço Patrocinado VIP</strong>
+                <span style="font-size: 10px; color: #78350f;">Destaque suas ofertas no topo em ${escapeHTML(activeCity)}</span>
+              </div>
+            </div>
+            <button type="button" onclick="openVipPartnerModal()" style="background: #166534; color: #fff; border: none; font-size: 10.5px; font-weight: 800; padding: 6px 11px; border-radius: 8px; cursor: pointer; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12);">
+              Anunciar Aqui →
+            </button>
+          </div>
+        `;
         return;
       }
 
       container.classList.remove('hidden');
-      list.innerHTML = vipMarketsInCity.map(vm => `
-        <div 
-          onclick="filterOffersHubSearch('${escapeHTML(vm.label)}');"
-          style="background: #ffffff; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 7px 11px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; gap: 7px; box-shadow: 0 1px 4px rgba(245,158,11,0.12); transition: transform 0.12s;"
-        >
-          <span style="font-size: 13px;">⭐</span>
-          <div>
-            <div style="font-size: 11.5px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 4px;">
-              <span>${escapeHTML(vm.name)}</span>
-              <span style="background: #fef3c7; color: #b45309; font-size: 8.5px; font-weight: 900; padding: 1px 4px; border-radius: 4px;">VIP</span>
-            </div>
-            <span style="font-size: 10px; color: #166534; font-weight: 700;">${vm.count} ofertas ativas</span>
+      container.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <span style="font-size: 14px;">⭐</span>
+            <span style="font-size: 11px; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.3px;">Supermercados Parceiros VIP</span>
           </div>
+          <button type="button" onclick="openVipPartnerModal()" style="border: none; background: none; font-size: 10.5px; font-weight: 700; color: #b45309; text-decoration: underline; cursor: pointer; padding: 0;">
+            Anuncie Aqui
+          </button>
         </div>
-      `).join('');
+        <div id="offers-hub-vip-list" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch;" class="hide-scrollbar">
+          ${vipMarketsInCity.map(vm => `
+            <div 
+              onclick="filterOffersHubSearch('${escapeHTML(vm.label)}');"
+              style="background: #ffffff; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 7px 11px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; gap: 7px; box-shadow: 0 1px 4px rgba(245,158,11,0.12); transition: transform 0.12s;"
+            >
+              <span style="font-size: 13px;">⭐</span>
+              <div>
+                <div style="font-size: 11.5px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 4px;">
+                  <span>${escapeHTML(vm.name)}</span>
+                  <span style="background: #fef3c7; color: #b45309; font-size: 8.5px; font-weight: 900; padding: 1px 4px; border-radius: 4px;">VIP</span>
+                </div>
+                <span style="font-size: 10px; color: #166534; font-weight: 700;">${vm.count} ofertas ativas</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
     }
 
     async function openOffersHubModal() {
