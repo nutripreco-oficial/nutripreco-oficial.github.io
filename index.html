@@ -290,8 +290,7 @@
         box-shadow: none;
       }
 
-      #offers-hub-modal .modal-content,
-      #radar-modal .modal-content {
+      #offers-hub-modal .modal-content {
         width: 100%;
         height: 100%;
         max-width: 100%;
@@ -303,6 +302,22 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        background: #f8fafc;
+      }
+
+      #radar-modal .modal-content {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 20px 12px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         background: #f8fafc;
       }
 
@@ -327,8 +342,7 @@
         z-index: 240;
       }
 
-      #offers-hub-modal .modal-content,
-      #radar-modal .modal-content {
+      #offers-hub-modal .modal-content {
         width: 100%;
         max-width: 480px;
         max-height: 86vh;
@@ -339,6 +353,21 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        background: #fff;
+      }
+
+      #radar-modal .modal-content {
+        width: 100%;
+        max-width: 480px;
+        max-height: 86vh;
+        border-radius: 20px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        border: 1px solid #cbd5e1;
+        padding: 16px 16px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         background: #fff;
       }
     }
@@ -2127,25 +2156,38 @@
       </div>
 
       <!-- SELETORES EM CASCATA: ESTADO -> CIDADE -> MERCADO -->
-      <div style="background:#f4f9f4; border:1.5px solid #c8e6c9; border-radius:12px; padding:12px; margin-bottom:12px;">
-        <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:8px; margin-bottom:8px;">
+      <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+        <div style="display: grid; grid-template-columns: 1fr 1.8fr; gap: 6px; margin-bottom: 6px;">
           <div>
-            <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">🌎 Estado (UF):</label>
-            <select id="cesta-select-uf" onchange="onCestaUfChanged()" style="width:100%; padding:8px 6px; border-radius:8px; border:1px solid #ccc; font-size:13px; background:#fff; font-weight:600; color:#222;">
+            <label style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 2px;">Estado (UF)</label>
+            <select id="cesta-select-uf" onchange="onCestaUfChanged()" style="width: 100%; padding: 6px 7px; border-radius: 8px; border: 1.5px solid #cbd5e1; font-size: 12px; font-weight: 700; background: #fff; color: #1e293b;">
             </select>
           </div>
           <div>
-            <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">📍 Cidade:</label>
-            <select id="cesta-select-city" onchange="onCestaCityChanged()" style="width:100%; padding:8px 6px; border-radius:8px; border:1.5px solid #2e7d32; font-size:13px; background:#fff; font-weight:bold; color:#1b5e20;">
+            <label style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 2px;">Cidade</label>
+            <select id="cesta-select-city" onchange="onCestaCityChanged()" style="width: 100%; padding: 6px 7px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 12px; font-weight: 700; background: #fff; color: #166534;">
             </select>
           </div>
         </div>
         <div>
-          <label style="font-size:11px; font-weight:bold; color:#1b5e20; display:block; margin-bottom:3px;">🏪 Supermercado:</label>
-          <select id="cesta-select-market" onchange="onCestaMarketChanged()" style="width:100%; padding:9px 10px; border-radius:8px; border:1.5px solid #2e7d32; font-size:13px; background:#fff; font-weight:bold; color:#1b5e20;">
+          <label style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 2px;">Supermercado em Comparação</label>
+          <select id="cesta-select-market" onchange="onCestaMarketChanged()" style="width: 100%; padding: 7px 9px; border-radius: 8px; border: 1.5px solid #86efac; font-size: 12px; font-weight: 700; background: #fff; color: #166534;">
             <option value="__ALL__">Todos os Mercados (Comparativo Geral)</option>
           </select>
         </div>
+      </div>
+
+      <!-- Alternador de Abas Internas da Cesta: Pódio de Mercados vs Composição dos 13 Itens -->
+      <div id="cesta-tabs-container" style="display: flex; background: #e2e8f0; border-radius: 10px; padding: 2.5px; margin-bottom: 10px;">
+        <button type="button" id="cesta-tab-ranking" onclick="setCestaTabMode('ranking')" style="flex: 1; border: none; background: #fff; color: #166534; font-size: 11.5px; font-weight: 800; padding: 7px 8px; border-radius: 8px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.18s;">
+          🥇 Pódio de Mercados
+        </button>
+        <button type="button" id="cesta-tab-items" onclick="setCestaTabMode('items')" style="flex: 1; border: none; background: transparent; color: #64748b; font-size: 11.5px; font-weight: 700; padding: 7px 8px; border-radius: 8px; cursor: pointer; transition: all 0.18s;">
+          🧺 13 Itens da Cesta
+        </button>
+        <button type="button" id="cesta-tab-all" onclick="setCestaTabMode('all')" style="flex: 0.8; border: none; background: transparent; color: #64748b; font-size: 11.5px; font-weight: 700; padding: 7px 6px; border-radius: 8px; cursor: pointer; transition: all 0.18s;">
+          👁️ Ver Tudo
+        </button>
       </div>
 
       <!-- Card do Total Fechado & Indicador de Cobertura -->
@@ -2158,16 +2200,18 @@
         ⏳ Carregando cotações da Cesta Básica...
       </div>
 
-      <!-- Título da Lista dos 13 Itens Oficiais -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:0 2px;">
-        <span style="font-size:13px; font-weight:bold; color:#333;">Composição dos 13 Itens (DIEESE):</span>
-        <span style="font-size:11.5px; font-weight:bold; color:#2e7d32;" id="cesta-items-covered-label">0 de 13 itens</span>
+      <!-- Container da Composição dos 13 Itens Oficiais -->
+      <div id="cesta-items-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:0 2px;">
+          <span style="font-size:13px; font-weight:bold; color:#333;">Composição dos 13 Itens (DIEESE):</span>
+          <span style="font-size:11.5px; font-weight:bold; color:#2e7d32;" id="cesta-items-covered-label">0 de 13 itens</span>
+        </div>
+
+        <!-- Lista detalhada dos 13 Itens -->
+        <div id="radar-products-list" style="margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px;"></div>
       </div>
 
-      <!-- Lista detalhada dos 13 Itens -->
-      <div id="radar-products-list" style="margin-bottom: 16px; max-height: 48vh; overflow-y:auto;"></div>
-
-      <button class="reset-btn" onclick="closeRadarModal()">Fechar Cesta Básica</button>
+      <button class="reset-btn" onclick="closeRadarModal()" style="margin-bottom: 24px;">Fechar Cesta Básica</button>
     </div>
   </div>
 
@@ -3805,7 +3849,12 @@ async function exportPricesCSV() {
 
     function openRadarModal() {
       const modal = document.getElementById('radar-modal');
-      if (modal) modal.classList.remove('hidden');
+      if (modal) {
+        modal.classList.remove('hidden');
+        const content = modal.querySelector('.modal-content');
+        if (content) content.scrollTop = 0;
+      }
+      cestaActiveTabMode = 'ranking';
       initCestaUfDropdown();
       if (typeof syncBottomNavActive === 'function') syncBottomNavActive('cesta');
     }
@@ -3987,6 +4036,47 @@ async function exportPricesCSV() {
       }
     }
 
+    let cestaActiveTabMode = 'ranking';
+
+    function setCestaTabMode(mode) {
+      cestaActiveTabMode = mode || 'ranking';
+      const btnRanking = document.getElementById('cesta-tab-ranking');
+      const btnItems = document.getElementById('cesta-tab-items');
+      const btnAll = document.getElementById('cesta-tab-all');
+      const summaryCard = document.getElementById('cesta-summary-card');
+      const itemsSection = document.getElementById('cesta-items-section');
+
+      [btnRanking, btnItems, btnAll].forEach(b => {
+        if (b) {
+          b.style.background = 'transparent';
+          b.style.color = '#64748b';
+          b.style.fontWeight = '700';
+          b.style.boxShadow = 'none';
+        }
+      });
+
+      const activeBtn = cestaActiveTabMode === 'ranking' ? btnRanking : (cestaActiveTabMode === 'items' ? btnItems : btnAll);
+      if (activeBtn) {
+        activeBtn.style.background = '#fff';
+        activeBtn.style.color = '#166534';
+        activeBtn.style.fontWeight = '800';
+        activeBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+      }
+
+      if (summaryCard && itemsSection) {
+        if (cestaActiveTabMode === 'ranking') {
+          summaryCard.classList.remove('hidden');
+          itemsSection.classList.add('hidden');
+        } else if (cestaActiveTabMode === 'items') {
+          summaryCard.classList.add('hidden');
+          itemsSection.classList.remove('hidden');
+        } else {
+          summaryCard.classList.remove('hidden');
+          itemsSection.classList.remove('hidden');
+        }
+      }
+    }
+
     function renderCestaScreen() {
       const citySelect = document.getElementById('cesta-select-city');
       const marketSelect = document.getElementById('cesta-select-market');
@@ -4031,6 +4121,9 @@ async function exportPricesCSV() {
           `;
           listContainer.appendChild(card);
         });
+        const tabsContainer = document.getElementById('cesta-tabs-container');
+        if (tabsContainer) tabsContainer.classList.add('hidden');
+        setCestaTabMode('all');
         return;
       }
 
@@ -4316,6 +4409,17 @@ async function exportPricesCSV() {
           }
           listContainer.appendChild(card);
         });
+      }
+
+      const tabsContainer = document.getElementById('cesta-tabs-container');
+      if (tabsContainer) {
+        if (selectedMarket !== '__ALL__') {
+          tabsContainer.classList.add('hidden');
+          setCestaTabMode('all');
+        } else {
+          tabsContainer.classList.remove('hidden');
+          setCestaTabMode(cestaActiveTabMode || 'ranking');
+        }
       }
     }
 
