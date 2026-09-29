@@ -8042,6 +8042,8 @@ Regras obrigatórias:
     let offersHubFilteredItems = [];
     let offersHubCurrentCategory = 'todos';
     let offersHubSearchQuery = '';
+    let offersHubPageLimit = 24;
+    let offersHubObserver = null;
 
     const OFFERS_HUB_CATEGORY_KEYWORDS = {
       carnes: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito', 'file', 'filé', 'sassami', 'bovino', 'bovina', 'costela', 'picanha', 'contra', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 'linguiça', 'calabresa', 'suino', 'suíno', 'porco', 'pernil', 'bisteca', 'lombo', 'churrasco', 'asa', 'tulipa', 'costelinha', 'bacon'],
@@ -8064,6 +8066,10 @@ Regras obrigatórias:
     }
 
     function closeOffersHubModal() {
+      if (offersHubObserver) {
+        offersHubObserver.disconnect();
+        offersHubObserver = null;
+      }
       const modal = document.getElementById('offers-hub-modal');
       if (modal) modal.classList.add('hidden');
       if (typeof syncBottomNavActive === 'function') syncBottomNavActive('caixa');
@@ -8265,7 +8271,7 @@ Regras obrigatórias:
       renderOffersHubList();
     }
 
-    function renderOffersHubList() {
+    function renderOffersHubList(resetLimit = true) {
       const container = document.getElementById('offers-hub-list-container');
       const summaryCount = document.getElementById('offers-hub-summary-count');
       const sortSelect = document.getElementById('offers-hub-sort-select');
@@ -8274,13 +8280,23 @@ Regras obrigatórias:
 
       if (!container) return;
 
+      if (resetLimit) {
+        offersHubPageLimit = 24;
+      }
+
       const selectedUf = stateSelect ? stateSelect.value : 'RJ';
       const selectedCity = citySelect ? citySelect.value : '';
       const sortBy = sortSelect ? sortSelect.value : 'preco_asc';
 
       const normQ = typeof normalizeCestaStr === 'function' ? normalizeCestaStr(offersHubSearchQuery) : offersHubSearchQuery;
+      const today = new Date().toISOString().split('T')[0];
 
       let filtered = offersHubAllItems.filter(item => {
+        // Filtro de validade estrito: folhetos ou promoções vencidas são ocultadas automaticamente
+        if (item.validade && item.validade < today) {
+          return false;
+        }
+
         const itemUf = (item.uf || 'RJ').toUpperCase();
         const selectedUfNorm = (selectedUf || 'RJ').toUpperCase();
         const isEstadual = (item.abrangencia === 'ESTADUAL');
@@ -8346,8 +8362,14 @@ Regras obrigatórias:
 
       offersHubFilteredItems = filtered;
 
+      const visibleItems = filtered.slice(0, offersHubPageLimit);
+
       if (summaryCount) {
-        summaryCount.innerText = `${filtered.length} ${filtered.length === 1 ? 'oferta encontrada' : 'ofertas encontradas'}`;
+        if (filtered.length <= offersHubPageLimit) {
+          summaryCount.innerText = `${filtered.length} ${filtered.length === 1 ? 'oferta encontrada' : 'ofertas encontradas'}`;
+        } else {
+          summaryCount.innerText = `Exibindo 1–${visibleItems.length} de ${filtered.length} ofertas`;
+        }
       }
 
       if (filtered.length === 0) {
@@ -8367,7 +8389,7 @@ Regras obrigatórias:
       }
 
       let html = '';
-      filtered.forEach((item, idx) => {
+      visibleItems.forEach((item, idx) => {
         const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
         const isEstadual = (item.abrangencia === 'ESTADUAL');
 
@@ -8462,7 +8484,63 @@ Regras obrigatórias:
         `;
       });
 
+      if (filtered.length > offersHubPageLimit) {
+        const remaining = filtered.length - offersHubPageLimit;
+        html += `
+          <div id="offers-hub-sentinel" style="text-align: center; padding: 14px 4px 10px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;">
+            <button 
+              type="button" 
+              onclick="loadMoreOffersHubItems()" 
+              style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 12px; font-weight: 800; padding: 10px 20px; border-radius: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(22,101,52,0.08); transition: transform 0.1s, background 0.2s;"
+            >
+              <span>Exibindo ${visibleItems.length} de ${filtered.length} ofertas</span>
+              <span style="color: #16a34a; font-size: 13px;">• Carregar mais (+${Math.min(24, remaining)}) ⬇</span>
+            </button>
+            <span style="font-size: 10.5px; color: #94a3b8;">Role para baixo para carregar automaticamente</span>
+          </div>
+        `;
+      }
+
+      const prevScroll = container.scrollTop;
       container.innerHTML = html;
+      if (!resetLimit && prevScroll > 0) {
+        container.scrollTop = prevScroll;
+      } else if (resetLimit) {
+        container.scrollTop = 0;
+      }
+
+      setupOffersHubInfiniteScroll();
+    }
+
+    function setupOffersHubInfiniteScroll() {
+      if (offersHubObserver) {
+        offersHubObserver.disconnect();
+        offersHubObserver = null;
+      }
+      const sentinel = document.getElementById('offers-hub-sentinel');
+      const container = document.getElementById('offers-hub-list-container');
+      if (!sentinel || !container) return;
+
+      if ('IntersectionObserver' in window) {
+        offersHubObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadMoreOffersHubItems();
+            }
+          });
+        }, {
+          root: container,
+          rootMargin: '160px',
+          threshold: 0.05
+        });
+        offersHubObserver.observe(sentinel);
+      }
+    }
+
+    function loadMoreOffersHubItems() {
+      if (offersHubPageLimit >= offersHubFilteredItems.length) return;
+      offersHubPageLimit += 24;
+      renderOffersHubList(false);
     }
 
     function addOffersHubItemByIndex(idx) {
