@@ -1285,6 +1285,26 @@
             🍪 Mercearia
           </button>
         </div>
+
+        <!-- Alternador de Visão: Todas as Ofertas vs Comparador de Preços (Pódio de Mercados) -->
+        <div style="display: flex; background: #e2e8f0; border-radius: 10px; padding: 2.5px; margin-top: 8px;">
+          <button 
+            type="button" 
+            id="offers-hub-view-mode-offers" 
+            onclick="setOffersHubViewMode('offers')" 
+            style="flex: 1; border: none; background: #fff; color: #166534; font-size: 11.5px; font-weight: 800; padding: 6px 10px; border-radius: 8px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s;"
+          >
+            📋 Todas as Ofertas
+          </button>
+          <button 
+            type="button" 
+            id="offers-hub-view-mode-compare" 
+            onclick="setOffersHubViewMode('compare')" 
+            style="flex: 1; border: none; background: transparent; color: #64748b; font-size: 11.5px; font-weight: 700; padding: 6px 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s;"
+          >
+            🥇 Comparador de Preços
+          </button>
+        </div>
       </div>
 
       <!-- Resumo de Contagem & Ordenação -->
@@ -8044,6 +8064,7 @@ Regras obrigatórias:
     let offersHubSearchQuery = '';
     let offersHubPageLimit = 24;
     let offersHubObserver = null;
+    let offersHubViewMode = 'offers'; // 'offers' | 'compare'
 
     const OFFERS_HUB_CATEGORY_KEYWORDS = {
       carnes: ['carne', 'acem', 'acém', 'alcatra', 'patinho', 'musculo', 'músculo', 'frango', 'coxa', 'peito', 'file', 'filé', 'sassami', 'bovino', 'bovina', 'costela', 'picanha', 'contra', 'maminha', 'bife', 'moida', 'moída', 'sobrecoxa', 'linguica', 'linguiça', 'calabresa', 'suino', 'suíno', 'porco', 'pernil', 'bisteca', 'lombo', 'churrasco', 'asa', 'tulipa', 'costelinha', 'bacon'],
@@ -8053,6 +8074,170 @@ Regras obrigatórias:
       laticinios: ['leite', 'manteiga', 'queijo', 'mussarela', 'prato', 'requeijao', 'requeijão', 'iogurte', 'danone', 'creme de leite', 'leite condensado', 'parmesao', 'parmesão'],
       mercearia: ['arroz', 'feijao', 'feijão', 'oleo', 'óleo', 'soja', 'azeite', 'acucar', 'açúcar', 'cafe', 'café', 'farinha', 'trigo', 'macarrao', 'macarrão', 'biscoito', 'bolacha', 'molho', 'extrato', 'sal', 'milho', 'ervilha', 'atum', 'sardinha', 'chocolate', 'nescau', 'toddy']
     };
+
+    const CANONICAL_PRODUCT_PATTERNS = [
+      {
+        id: 'arroz_5kg',
+        title: 'Arroz Tipo 1 (5kg)',
+        category: 'mercearia',
+        icon: '🍚',
+        matches: (name) => /arroz/i.test(name) && (/5\s*kg/i.test(name) || !/\d+\s*kg/i.test(name))
+      },
+      {
+        id: 'feijao_1kg',
+        title: 'Feijão Carioca / Preto (1kg)',
+        category: 'mercearia',
+        icon: '🫘',
+        matches: (name) => /feij[aã]o/i.test(name) && (/1\s*kg/i.test(name) || !/\d+\s*kg/i.test(name))
+      },
+      {
+        id: 'oleo_soja_900ml',
+        title: 'Óleo de Soja Refinado (900ml)',
+        category: 'mercearia',
+        icon: '🌻',
+        matches: (name) => /[oó]leo/i.test(name) && (/soja/i.test(name) || /900\s*m?l/i.test(name))
+      },
+      {
+        id: 'cafe_500g',
+        title: 'Café Torrado e Moído (500g)',
+        category: 'mercearia',
+        icon: '☕',
+        matches: (name) => /caf[eé]/i.test(name) && (/500\s*g/i.test(name) || /250\s*g/i.test(name) || !/\d+\s*g/i.test(name)) && !/sol[uú]vel|c[aá]psula/i.test(name)
+      },
+      {
+        id: 'acucar_1kg',
+        title: 'Açúcar Cristal / Refinado (1kg)',
+        category: 'mercearia',
+        icon: '🧂',
+        matches: (name) => /a[cç][uú]car/i.test(name) && !/confeiteiro/i.test(name)
+      },
+      {
+        id: 'leite_uht_1l',
+        title: 'Leite Longa Vida UHT (1L)',
+        category: 'laticinios',
+        icon: '🥛',
+        matches: (name) => /leite/i.test(name) && /1\s*l|integral|desnatado|semidesnatado/i.test(name) && !/condensado|p[oó]|creme/i.test(name)
+      },
+      {
+        id: 'leite_condensado_395g',
+        title: 'Leite Condensado (395g)',
+        category: 'laticinios',
+        icon: '🥫',
+        matches: (name) => /leite\s+condensado/i.test(name) || /mo[cç]a/i.test(name)
+      },
+      {
+        id: 'creme_leite_200g',
+        title: 'Creme de Leite (200g)',
+        category: 'laticinios',
+        icon: '🥣',
+        matches: (name) => /creme\s+de\s+leite/i.test(name)
+      },
+      {
+        id: 'manteiga_pote',
+        title: 'Manteiga / Margarina',
+        category: 'laticinios',
+        icon: '🧈',
+        matches: (name) => (/manteiga/i.test(name) || /margarina/i.test(name)) && !/3\s*kg|5\s*kg/i.test(name)
+      },
+      {
+        id: 'cerveja_pilsen_lata',
+        title: 'Cervejas em Lata (350ml / 269ml)',
+        category: 'bebidas',
+        icon: '🍺',
+        matches: (name) => /cerveja|heineken|amstel|brahma|skol|budweiser|antarctica|corona|spaten|eisenbahn/i.test(name) && !/barril|zero|sem\s+[aá]lcool/i.test(name)
+      },
+      {
+        id: 'refrigerante_2l',
+        title: 'Refrigerantes (2 Litros)',
+        category: 'bebidas',
+        icon: '🥤',
+        matches: (name) => /coca|fanta|pepsi|guaran[aá]|refrigerante/i.test(name) && (/2\s*l/i.test(name) || /litro/i.test(name) || !/\d+\s*ml/i.test(name))
+      },
+      {
+        id: 'picanha_kg',
+        title: 'Picanha Bovina (kg)',
+        category: 'carnes',
+        icon: '🥩',
+        matches: (name) => /picanha/i.test(name)
+      },
+      {
+        id: 'alcatra_kg',
+        title: 'Cortes Bovinos de 1ª (kg)',
+        category: 'carnes',
+        icon: '🥩',
+        matches: (name) => /alcatra|contra|maminha|patinho|ac[eé]m/i.test(name)
+      },
+      {
+        id: 'frango_peito_kg',
+        title: 'Frango / Filé de Peito / Coxa (kg)',
+        category: 'carnes',
+        icon: '🍗',
+        matches: (name) => /frango|peito|coxa|sobrecoxa|sassami/i.test(name) && !/empanado|nuggets/i.test(name)
+      },
+      {
+        id: 'linguica_calabresa',
+        title: 'Linguiça Calabresa / Defumada (kg)',
+        category: 'carnes',
+        icon: '🌭',
+        matches: (name) => /lingui[cç]a|calabresa/i.test(name)
+      },
+      {
+        id: 'sabao_roupas',
+        title: 'Sabão / Lava-Roupas em Pó ou Líquido',
+        category: 'limpeza',
+        icon: '🧺',
+        matches: (name) => (/sab[aã]o/i.test(name) || /lava[\s-]roupas/i.test(name) || /omo|ariel|tixan/i.test(name)) && !/sabonete/i.test(name)
+      },
+      {
+        id: 'amaciante_2l',
+        title: 'Amaciante de Roupas',
+        category: 'limpeza',
+        icon: '🌸',
+        matches: (name) => /amaciante|comfort|downy|yp[eê]/i.test(name)
+      },
+      {
+        id: 'detergente_500ml',
+        title: 'Detergente Lava-Louças (500ml)',
+        category: 'limpeza',
+        icon: '🫧',
+        matches: (name) => /detergente|lava[\s-]lou[cç]as/i.test(name)
+      },
+      {
+        id: 'papel_higienico',
+        title: 'Papel Higiênico (Folha Dupla/Simples)',
+        category: 'limpeza',
+        icon: '🧻',
+        matches: (name) => /papel\s+higi[eê]nico|neve|personal|sublime/i.test(name)
+      },
+      {
+        id: 'banana_kg',
+        title: 'Banana Prata / Nanica (kg)',
+        category: 'hortifruti',
+        icon: '🍌',
+        matches: (name) => /banana/i.test(name)
+      },
+      {
+        id: 'tomate_kg',
+        title: 'Tomate Selecionado (kg)',
+        category: 'hortifruti',
+        icon: '🍅',
+        matches: (name) => /tomate/i.test(name)
+      },
+      {
+        id: 'batata_kg',
+        title: 'Batata Lavada / Especial (kg)',
+        category: 'hortifruti',
+        icon: '🥔',
+        matches: (name) => /batata/i.test(name) && !/palha|chips|congelada|pringles/i.test(name)
+      },
+      {
+        id: 'cebola_kg',
+        title: 'Cebola Nacional (kg)',
+        category: 'hortifruti',
+        icon: '🧅',
+        matches: (name) => /cebola/i.test(name)
+      }
+    ];
 
     async function openOffersHubModal() {
       const modal = document.getElementById('offers-hub-modal');
@@ -8362,6 +8547,11 @@ Regras obrigatórias:
 
       offersHubFilteredItems = filtered;
 
+      if (offersHubViewMode === 'compare') {
+        renderOffersHubCompareView(filtered);
+        return;
+      }
+
       const visibleItems = filtered.slice(0, offersHubPageLimit);
 
       if (summaryCount) {
@@ -8389,6 +8579,28 @@ Regras obrigatórias:
       }
 
       let html = '';
+
+      // Banner Chamativo de Comparação Inteligente (quando busca ativa encontra 2+ supermercados concorrentes na cidade)
+      if (normQ) {
+        const matchMkts = new Set(filtered.filter(i => !i.isFlyerCard && (i.preco || 0) > 0).map(i => i.mercado));
+        if (matchMkts.size >= 2) {
+          html += `
+            <div style="background: linear-gradient(135deg, #f0fdf4, #e0f2fe); border: 1.5px solid #86efac; border-radius: 12px; padding: 10px 13px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(22,101,52,0.06);">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 20px;">🥇</span>
+                <div>
+                  <strong style="font-size: 12.5px; color: #166534; display: block;">Comparativo de Preços na Cidade</strong>
+                  <span style="font-size: 11px; color: #0369a1;">Encontramos ofertas em <b>${matchMkts.size} supermercados</b> concorrentes</span>
+                </div>
+              </div>
+              <button type="button" onclick="setOffersHubViewMode('compare')" style="background: #166534; color: #fff; border: none; font-size: 11.5px; font-weight: 800; padding: 6px 12px; border-radius: 8px; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 4px rgba(22,101,52,0.2);">
+                Ver Pódio 🥇
+              </button>
+            </div>
+          `;
+        }
+      }
+
       visibleItems.forEach((item, idx) => {
         const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
         const isEstadual = (item.abrangencia === 'ESTADUAL');
@@ -8467,18 +8679,28 @@ Regras obrigatórias:
               </div>
             </div>
 
-            <!-- Rodapé do Card com Ação de Carrinho -->
+            <!-- Rodapé do Card com Ação de Carrinho e Comparativo -->
             <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 10.5px; color: #64748b;">
-                ${discountPct ? `Economia estimada: <b style="color: #166534;">R$ ${(item.precoAntigo - item.preco).toFixed(2).replace('.', ',')}</b>` : 'Preço verificado'}
+                ${discountPct ? `Economia: <b style="color: #166534;">R$ ${(item.precoAntigo - item.preco).toFixed(2).replace('.', ',')}</b>` : 'Preço verificado'}
               </span>
-              <button 
-                type="button" 
-                onclick="addOffersHubItemByIndex(${idx})"
-                style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s;"
-              >
-                + Adicionar à Lista
-              </button>
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <button 
+                  type="button" 
+                  onclick="filterOffersHubSearch('${escapeHTML((item.nome || '').trim().split(' ')[0])}'); setOffersHubViewMode('compare');"
+                  style="background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; font-size: 10.5px; font-weight: 700; padding: 5px 8px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 3px;"
+                  title="Comparar preços entre supermercados da cidade"
+                >
+                  ⚖️ Comparar
+                </button>
+                <button 
+                  type="button" 
+                  onclick="addOffersHubItemByIndex(${idx})"
+                  style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 11px; font-weight: 700; padding: 5px 11px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: background 0.15s;"
+                >
+                  + Adicionar à Lista
+                </button>
+              </div>
             </div>
           </div>
         `;
@@ -8577,6 +8799,294 @@ Regras obrigatórias:
       updateLastItemFeedback(name, price, 1, inputUnit);
       addMascotXP(10, 'Item da Central de Ofertas');
       showToast(`🛒 "${name}" adicionado ao seu Pré-Caixa!`, 'success');
+    }
+
+    function setOffersHubViewMode(mode) {
+      offersHubViewMode = mode;
+      const btnOffers = document.getElementById('offers-hub-view-mode-offers');
+      const btnCompare = document.getElementById('offers-hub-view-mode-compare');
+
+      if (btnOffers && btnCompare) {
+        if (mode === 'compare') {
+          btnCompare.style.background = '#fff';
+          btnCompare.style.color = '#166534';
+          btnCompare.style.fontWeight = '800';
+          btnCompare.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+
+          btnOffers.style.background = 'transparent';
+          btnOffers.style.color = '#64748b';
+          btnOffers.style.fontWeight = '700';
+          btnOffers.style.boxShadow = 'none';
+        } else {
+          btnOffers.style.background = '#fff';
+          btnOffers.style.color = '#166534';
+          btnOffers.style.fontWeight = '800';
+          btnOffers.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+
+          btnCompare.style.background = 'transparent';
+          btnCompare.style.color = '#64748b';
+          btnCompare.style.fontWeight = '700';
+          btnCompare.style.boxShadow = 'none';
+        }
+      }
+
+      renderOffersHubList(true);
+    }
+
+    function filterOffersHubSearch(term) {
+      const input = document.getElementById('offers-hub-search-input');
+      if (input) input.value = term;
+      offersHubSearchQuery = (term || '').toLowerCase().trim();
+      const clearBtn = document.getElementById('offers-hub-clear-btn');
+      if (clearBtn) clearBtn.classList.remove('hidden');
+    }
+
+    function renderOffersHubCompareView(filtered) {
+      const container = document.getElementById('offers-hub-list-container');
+      const summaryCount = document.getElementById('offers-hub-summary-count');
+      const sortSelect = document.getElementById('offers-hub-sort-select');
+      const sortBy = sortSelect ? sortSelect.value : 'preco_asc';
+
+      if (!container) return;
+
+      // Desconecta observer de infinite scroll pois no modo comparador exibimos os cards consolidados
+      if (offersHubObserver) {
+        offersHubObserver.disconnect();
+        offersHubObserver = null;
+      }
+
+      const nonFlyers = filtered.filter(i => !i.isFlyerCard && (i.preco || 0) > 0);
+
+      const clusters = [];
+      const usedItemIds = new Set();
+
+      // 1. Agrupamento por Padrões Canônicos Oficiais
+      if (typeof CANONICAL_PRODUCT_PATTERNS !== 'undefined' && Array.isArray(CANONICAL_PRODUCT_PATTERNS)) {
+        CANONICAL_PRODUCT_PATTERNS.forEach(pat => {
+          if (offersHubCurrentCategory !== 'todos' && pat.category !== offersHubCurrentCategory) {
+            return;
+          }
+
+          const matched = nonFlyers.filter(i => pat.matches(i.nome || ''));
+          if (matched.length === 0) return;
+
+          const mktMap = {};
+          matched.forEach(i => {
+            usedItemIds.add(i.id);
+            const m = i.mercado || 'Supermercado';
+            if (!mktMap[m] || i.preco < mktMap[m].preco) {
+              mktMap[m] = i;
+            }
+          });
+
+          const quotes = Object.values(mktMap);
+          quotes.sort((a, b) => a.preco - b.preco);
+
+          const minPrice = quotes[0].preco;
+          const maxPrice = quotes[quotes.length - 1].preco;
+          const savings = maxPrice - minPrice;
+          const savingsPct = maxPrice > 0 ? Math.round((savings / maxPrice) * 100) : 0;
+
+          clusters.push({
+            id: pat.id,
+            title: pat.title,
+            category: pat.category,
+            icon: pat.icon,
+            quotes: quotes,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            savings: savings,
+            savingsPct: savingsPct
+          });
+        });
+      }
+
+      // 2. Agrupamento Dinâmico para itens restantes que não casaram com padrões estáticos
+      const remaining = nonFlyers.filter(i => !usedItemIds.has(i.id));
+      if (remaining.length > 0) {
+        const dynGroups = {};
+        remaining.forEach(item => {
+          const rawName = (item.nome || '').trim();
+          const words = rawName.split(/\s+/).slice(0, 2).join(' ');
+          const key = words.toLowerCase();
+          if (!dynGroups[key]) dynGroups[key] = { label: words, items: [] };
+          dynGroups[key].items.push(item);
+        });
+
+        Object.values(dynGroups).forEach(grp => {
+          if (grp.items.length === 0) return;
+          const mktMap = {};
+          grp.items.forEach(i => {
+            const m = i.mercado || 'Supermercado';
+            if (!mktMap[m] || i.preco < mktMap[m].preco) {
+              mktMap[m] = i;
+            }
+          });
+          const quotes = Object.values(mktMap);
+          quotes.sort((a, b) => a.preco - b.preco);
+          const minPrice = quotes[0].preco;
+          const maxPrice = quotes[quotes.length - 1].preco;
+          const savings = maxPrice - minPrice;
+          const savingsPct = maxPrice > 0 ? Math.round((savings / maxPrice) * 100) : 0;
+
+          clusters.push({
+            id: 'dyn_' + Math.random().toString(36).substr(2, 6),
+            title: grp.label,
+            category: 'geral',
+            icon: '🏷️',
+            quotes: quotes,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            savings: savings,
+            savingsPct: savingsPct
+          });
+        });
+      }
+
+      // 3. Ordenação dos Clusters
+      if (sortBy === 'preco_asc') {
+        clusters.sort((a, b) => a.minPrice - b.minPrice);
+      } else if (sortBy === 'nome_asc') {
+        clusters.sort((a, b) => a.title.localeCompare(b.title));
+      } else {
+        // Ordenação inteligente: clusters com mais supermercados em disputa vêm no topo!
+        clusters.sort((a, b) => (b.quotes.length - a.quotes.length) || (b.savings - a.savings));
+      }
+
+      if (summaryCount) {
+        summaryCount.innerText = `${clusters.length} ${clusters.length === 1 ? 'produto comparado' : 'produtos comparados'}`;
+      }
+
+      if (clusters.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 36px 16px; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 14px; margin-top: 6px;">
+            <div style="font-size: 36px; margin-bottom: 8px;">🥇</div>
+            <strong style="color: #334155; font-size: 14px; display: block;">Nenhum produto comparativo encontrado</strong>
+            <p style="font-size: 12px; color: #64748b; margin-top: 4px; max-width: 280px; margin-left: auto; margin-right: auto;">
+              Tente selecionar a categoria "🔥 Todas" ou experimente buscar por gêneros essenciais (ex: <i>arroz, café, leite, carne, cerveja</i>).
+            </p>
+            <button type="button" onclick="clearOffersHubSearch(); selectOffersHubCategory('todos', document.querySelector('.hub-cat-pill'));" style="margin-top: 12px; background: #e8f5e9; border: 1px solid #a5d6a7; color: #1b5e20; font-size: 11.5px; font-weight: 700; padding: 7px 14px; border-radius: 8px; cursor: pointer;">
+              Limpar Filtros
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      clusters.forEach(cluster => {
+        const isMultiMarket = cluster.quotes.length >= 2;
+        html += `
+          <div class="compare-podium-card" style="background: #ffffff; border: 1.5px solid ${isMultiMarket ? '#86efac' : '#e2e8f0'}; border-radius: 14px; padding: 13px 14px; box-shadow: 0 2px 7px rgba(0,0,0,0.04); position: relative; margin-bottom: 6px;">
+            <!-- Header do Card Unificado -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; gap: 8px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 17px;">${cluster.icon}</span>
+                  <h4 style="font-size: 14.5px; font-weight: 800; color: #0f172a; margin: 0;">${escapeHTML(cluster.title)}</h4>
+                </div>
+                <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-top: 3px; display: flex; align-items: center; gap: 4px;">
+                  <span>📍 Cotação em <b>${cluster.quotes.length} ${cluster.quotes.length === 1 ? 'supermercado' : 'supermercados'}</b></span>
+                  ${isMultiMarket ? '<span>•</span><span style="color: #166534; font-weight: 800;">Disputa de Preço</span>' : ''}
+                </div>
+              </div>
+
+              ${cluster.savings > 0 ? `
+                <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 8px; padding: 4px 8px; text-align: right; flex-shrink: 0;">
+                  <span style="font-size: 9px; font-weight: 800; color: #166534; text-transform: uppercase; display: block;">Economia até</span>
+                  <span style="font-size: 12.5px; font-weight: 900; color: #15803d;">R$ ${cluster.savings.toFixed(2).replace('.', ',')} (${cluster.savingsPct}%)</span>
+                </div>
+              ` : `
+                <span style="background: #f1f5f9; color: #475569; font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 6px; flex-shrink: 0;">Exclusivo</span>
+              `}
+            </div>
+
+            <!-- Pódio de Supermercados Concorrentes -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              ${cluster.quotes.map((q, idx) => {
+                const isWinner = (idx === 0);
+                const medal = isWinner ? '🥇 1º' : idx === 1 ? '🥈 2º' : idx === 2 ? '🥉 3º' : `${idx + 1}º`;
+                const diffFromBest = q.preco - cluster.minPrice;
+                const diffPct = cluster.minPrice > 0 ? Math.round((diffFromBest / cluster.minPrice) * 100) : 0;
+                const priceFormatted = q.preco.toFixed(2).replace('.', ',');
+
+                return `
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 10px; ${isWinner ? 'background: #f0fdf4; border: 1.5px solid #86efac;' : 'background: #f8fafc; border: 1px solid #e2e8f0;'}">
+                    <div style="flex: 1; min-width: 0; padding-right: 8px;">
+                      <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+                        <span style="font-size: 11px; font-weight: 900; ${isWinner ? 'color: #166534;' : 'color: #64748b;'}">${medal}</span>
+                        <strong style="font-size: 12.5px; ${isWinner ? 'color: #166534;' : 'color: #1e293b;'}">${escapeHTML(q.mercado)}</strong>
+                        ${isWinner ? '<span style="background: #16a34a; color: #fff; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 4px;">👑 MENOR PREÇO</span>' : ''}
+                      </div>
+                      <div style="font-size: 11px; color: #64748b; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${escapeHTML(q.nome)}
+                      </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                      <div style="text-align: right;">
+                        <div style="font-size: 14.5px; font-weight: 900; ${isWinner ? 'color: #16a34a;' : 'color: #0f172a;'}">
+                          R$ ${priceFormatted}
+                        </div>
+                        ${!isWinner && diffFromBest > 0 ? `
+                          <span style="font-size: 9.5px; color: #dc2626; font-weight: 700; display: block;">
+                            +R$ ${diffFromBest.toFixed(2).replace('.', ',')} (+${diffPct}%)
+                          </span>
+                        ` : `
+                          <span style="font-size: 9.5px; color: #166534; font-weight: 700; display: block;">Mais barato</span>
+                        `}
+                      </div>
+
+                      <button 
+                        type="button" 
+                        onclick="addComparisonItemToCart('${escapeHTML(q.nome).replace(/'/g, "\\'")}', ${q.preco}, '${escapeHTML(q.unidade || 'un')}', '${escapeHTML(q.mercado).replace(/'/g, "\\'")}')"
+                        style="background: ${isWinner ? '#16a34a' : '#ffffff'}; color: ${isWinner ? '#ffffff' : '#166534'}; border: ${isWinner ? 'none' : '1.5px solid #86efac'}; font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);"
+                      >
+                        + Lista
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      container.scrollTop = 0;
+    }
+
+    function addComparisonItemToCart(name, price, unit, market) {
+      const p = Number(price) || 0;
+      if (p <= 0) {
+        showToast('Preço inválido.', 'warning');
+        return;
+      }
+      const u = unit || 'un';
+      const m = market || 'Supermercado';
+      const n = name || 'Produto';
+
+      const existingIdx = cart.findIndex(i => i.name && i.name.toLowerCase() === n.toLowerCase());
+      if (existingIdx >= 0) {
+        cart[existingIdx].qty = (cart[existingIdx].qty || 1) + 1;
+      } else {
+        cart.push({
+          barcode: 'CMP_' + Date.now(),
+          name: n,
+          price: p,
+          qty: 1,
+          unit: u,
+          mercado: m
+        });
+      }
+
+      localStorage.setItem('nutri_cart', JSON.stringify(cart));
+      updateCartDisplay();
+      updateBudgetDisplay();
+      updateLastItemFeedback(n, p, 1, u);
+      addMascotXP(10, 'Item do Comparador de Preços');
+      showToast(`🛒 "${n}" (${m}) adicionado ao seu Pré-Caixa!`, 'success');
     }
 
     /* Navegação Inferior (Tabs do App) */
