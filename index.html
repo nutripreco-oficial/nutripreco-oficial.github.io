@@ -1155,6 +1155,9 @@
 
       <div style="flex: 1; overflow: auto; display: flex; justify-content: center; align-items: center; padding: 10px; -webkit-overflow-scrolling: touch;">
         <img id="viewer-encarte-img" src="" style="max-width: 100%; height: auto; transition: transform 0.2s ease; transform-origin: center center; border-radius: 6px;">
+        <div id="viewer-encarte-pure-data" class="hidden" style="max-width: 500px; width: 100%; background: #fff; border-radius: 14px; padding: 16px; max-height: 80vh; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+          <!-- Preenchido dinamicamente quando o encarte for puramente em dados sem imagem pesada -->
+        </div>
       </div>
 
       <div style="padding: 10px 14px; background: rgba(0,0,0,0.85); display: flex; justify-content: space-between; align-items: center; gap: 8px;">
@@ -1307,6 +1310,22 @@
         </div>
       </div>
 
+      <!-- Carrossel de Supermercados Parceiros VIP (Espaço Patrocinado) -->
+      <div id="offers-hub-vip-container" class="hidden" style="margin-bottom: 8px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1.5px solid #fcd34d; border-radius: 12px; padding: 9px 11px; box-shadow: 0 2px 6px rgba(245,158,11,0.08);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <span style="font-size: 14px;">⭐</span>
+            <span style="font-size: 11px; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 0.3px;">Supermercados Parceiros VIP</span>
+          </div>
+          <button type="button" onclick="openVipPartnerModal()" style="border: none; background: none; font-size: 10.5px; font-weight: 700; color: #b45309; text-decoration: underline; cursor: pointer; padding: 0;">
+            Anuncie Aqui
+          </button>
+        </div>
+        <div id="offers-hub-vip-list" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch;" class="hide-scrollbar">
+          <!-- Preenchido dinamicamente com os mercados parceiros da cidade -->
+        </div>
+      </div>
+
       <!-- Resumo de Contagem & Ordenação -->
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #64748b; margin-bottom: 8px; padding: 0 4px;">
         <span id="offers-hub-summary-count" style="font-weight: 700; color: #334155;">Carregando promoções...</span>
@@ -1325,16 +1344,87 @@
         <!-- Preenchido dinamicamente via renderOffersHubList() -->
       </div>
 
-      <!-- Rodapé da Central -->
-      <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-        <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex: 1; background: #f0fdf4; border: 1.5px dashed #86efac; color: #166534; border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
-          📸 Enviar Novo Folheto com IA
-        </button>
-        <button type="button" onclick="closeOffersHubModal()" class="reset-btn" style="width: auto; margin: 0; padding: 9px 16px; font-size: 12px;">
-          Fechar
-        </button>
+      <!-- Rodapé da Central com Canal de Parceria Comercial -->
+      <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #f1f5f9; display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+          <button type="button" onclick="openPublicFlyerSubmitModal()" style="flex: 1; background: #f0fdf4; border: 1.5px dashed #86efac; color: #166534; border-radius: 10px; padding: 9px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            📸 Enviar Novo Folheto com IA
+          </button>
+          <button type="button" onclick="closeOffersHubModal()" class="reset-btn" style="width: auto; margin: 0; padding: 9px 16px; font-size: 12px;">
+            Fechar
+          </button>
+        </div>
+        <div style="text-align: center;">
+          <button type="button" onclick="openVipPartnerModal()" style="background: none; border: none; font-size: 10.5px; color: #64748b; text-decoration: underline; cursor: pointer; padding: 2px;">
+            💼 É Gerente ou Dono de Supermercado? Seja um Parceiro VIP NutriPreço
+          </button>
+        </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- MODAL: PARCERIA COMERCIAL & ESPAÇO VIP PARA SUPERMERCADOS -->
+  <div class="modal hidden" id="vip-partner-modal" style="z-index: 260;">
+    <div class="modal-content" style="max-height: 90vh; padding: 18px 16px; border-radius: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 22px;">⭐</span>
+          <div>
+            <h3 style="font-size: 16px; font-weight: 800; color: #1e293b; margin: 0;">Espaço VIP para Supermercados</h3>
+            <span style="font-size: 11px; color: #b45309; font-weight: 700;">Destaque Oficial &amp; Parceria Comercial</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeVipPartnerModal()" style="border: none; background: #f1f5f9; color: #334155; width: 32px; height: 32px; border-radius: 50%; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;">✕</button>
+      </div>
+
+      <div style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1.5px solid #fcd34d; border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+        <strong style="color: #92400e; font-size: 13px; display: block; margin-bottom: 4px;">🎯 Conecte sua loja a milhares de famílias no momento exato da compra</strong>
+        <p style="font-size: 11.5px; color: #78350f; margin: 0; line-height: 1.4;">
+          O <b>NutriPreço</b> é a ferramenta utilizada pelos consumidores para pesquisar e planejar as compras do mês na sua cidade. Como <b>Parceiro VIP</b>, sua rede ganha prioridade e visibilidade máxima.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <div style="background: #e8f5e9; color: #166534; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; flex-shrink: 0;">1</div>
+          <div>
+            <strong style="font-size: 12.5px; color: #1e293b; display: block;">Slot Patrocinado VIP no Topo</strong>
+            <span style="font-size: 11px; color: #64748b;">Seus encartes e ofertas diárias fixados no topo do feed da sua cidade.</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <div style="background: #e8f5e9; color: #166534; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; flex-shrink: 0;">2</div>
+          <div>
+            <strong style="font-size: 12.5px; color: #1e293b; display: block;">Selo de Supermercado Verificado (⭐ VIP)</strong>
+            <span style="font-size: 11px; color: #64748b;">Destaque com selo dourado nos comparadores de preço e no Radar da Cesta Básica.</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <div style="background: #e8f5e9; color: #166534; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; flex-shrink: 0;">3</div>
+          <div>
+            <strong style="font-size: 12.5px; color: #1e293b; display: block;">Canal Direto para sua Loja (WhatsApp / Televendas)</strong>
+            <span style="font-size: 11px; color: #64748b;">Botão direto no encarte para o cliente falar com a loja ou ver o folheto em alta resolução.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+        <span style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 6px;">Contato Comercial Direto</span>
+        <div style="font-size: 12px; color: #334155; margin-bottom: 8px;">
+          ✉️ E-mail oficial: <b>contato.nutripreco@gmail.com</b>
+        </div>
+        <a 
+          href="mailto:contato.nutripreco@gmail.com?subject=Parceria%20Comercial%20NutriPre%C3%A7o%20VIP&body=Ol%C3%A1%20Arthur%2C%20gostaria%20de%20anunciar%20meu%20supermercado%20no%20NutriPre%C3%A7o."
+          style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #166534; color: #fff; font-size: 12px; font-weight: 800; padding: 10px; border-radius: 10px; text-decoration: none; box-shadow: 0 2px 5px rgba(22,101,52,0.2);"
+        >
+          ✉️ Solicitar Ativação Comercial
+        </a>
+      </div>
+
+      <button type="button" onclick="closeVipPartnerModal()" style="width: 100%; background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 12px; font-weight: 700; padding: 8px; border-radius: 8px; cursor: pointer;">
+        Fechar
+      </button>
     </div>
   </div>
 
@@ -6143,6 +6233,7 @@ async function exportPricesCSV() {
         console.warn('Erro ao sincronizar encartes remotos:', e);
       }
 
+      window._cachedMergedEncartes = encartes;
       return encartes;
     }
 
@@ -7830,8 +7921,11 @@ Regras obrigatórias:
     let currentViewerZoom = 1.0;
 
     function openEncarteViewer(encarteId) {
-      const encartes = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
-      const item = encartes.find(e => String(e.id) === String(encarteId));
+      let item = (window._cachedMergedEncartes || []).find(e => String(e.id) === String(encarteId));
+      if (!item) {
+        const local = JSON.parse(localStorage.getItem('nutri_photo_encartes') || '[]');
+        item = local.find(e => String(e.id) === String(encarteId));
+      }
       if (!item) return;
 
       currentViewerZoom = 1.0;
@@ -7839,12 +7933,66 @@ Regras obrigatórias:
       const title = document.getElementById('viewer-market-title');
       const val = document.getElementById('viewer-validity-text');
       const img = document.getElementById('viewer-encarte-img');
+      const pureData = document.getElementById('viewer-encarte-pure-data');
+      const geminiBtn = document.getElementById('viewer-gemini-btn');
 
       if (title) title.innerText = item.mercado;
       if (val) val.innerText = `Válido até ${formatDateBR(item.validade)}`;
-      if (img) {
-        img.src = item.imagem;
-        img.style.transform = 'scale(1.0)';
+
+      if (item.imagem && item.imagem.trim().length > 10) {
+        if (img) {
+          img.style.display = 'block';
+          img.src = item.imagem;
+          img.style.transform = 'scale(1.0)';
+        }
+        if (pureData) pureData.classList.add('hidden');
+        if (geminiBtn) geminiBtn.style.display = 'flex';
+      } else {
+        // Encarte orgânico em dados puros (sem imagem pesada no banco)
+        if (img) img.style.display = 'none';
+        if (geminiBtn) geminiBtn.style.display = 'none';
+        if (pureData) {
+          pureData.classList.remove('hidden');
+          let offersListHtml = '';
+          if (Array.isArray(item.ofertas) && item.ofertas.length > 0) {
+            offersListHtml = item.ofertas.map(o => {
+              const priceFmt = (typeof o.preco === 'number' ? o.preco : parseFloat(String(o.preco).replace('R$', '').replace(/\./g, '').replace(',', '.')) || 0).toFixed(2).replace('.', ',');
+              const pVal = typeof o.preco === 'number' ? o.preco : (parseFloat(String(o.preco).replace('R$', '').replace(/\./g, '').replace(',', '.')) || 0);
+              return `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #e2e8f0; font-size: 12.5px;">
+                  <div style="flex: 1; min-width: 0; padding-right: 8px;">
+                    <strong style="color: #1e293b; display: block;">${escapeHTML(o.nome || o.produto || 'Item')}</strong>
+                    <span style="font-size: 10.5px; color: #64748b;">${escapeHTML(o.unidade || 'un')}</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                    <span style="font-weight: 800; color: #16a34a; font-size: 13.5px;">R$ ${priceFmt}</span>
+                    <button type="button" onclick="addComparisonItemToCart('${escapeHTML(o.nome || o.produto || 'Item').replace(/'/g, "\\'")}', ${pVal}, '${escapeHTML(o.unidade || 'un')}', '${escapeHTML(item.mercado).replace(/'/g, "\\'")}')" style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; font-size: 11px; font-weight: 800; padding: 5px 9px; border-radius: 6px; cursor: pointer;">
+                      + Lista
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('');
+          } else {
+            offersListHtml = '<p style="font-size: 12px; color: #64748b; text-align: center; margin: 16px 0;">Nenhuma oferta listada individualmente para este folheto.</p>';
+          }
+
+          pureData.innerHTML = `
+            <div style="text-align: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+              <span style="background: #e8f5e9; color: #1b5e20; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">🍃 CATÁLOGO DE DADOS PUROS (SEM IMAGEM PESADA)</span>
+              <h4 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 6px 0 2px 0;">${escapeHTML(item.mercado)}</h4>
+              <span style="font-size: 11.5px; color: #64748b;">${escapeHTML(item.cidade || '')} • Válido até ${formatDateBR(item.validade)}</span>
+            </div>
+            <div style="max-height: 52vh; overflow-y: auto; padding-right: 4px;">
+              ${offersListHtml}
+            </div>
+            <div style="margin-top: 12px; text-align: center;">
+              <button type="button" onclick="closeEncarteViewer()" style="width: 100%; background: #166534; color: #fff; font-size: 12px; font-weight: 800; border: none; padding: 9px; border-radius: 8px; cursor: pointer;">
+                Fechar
+              </button>
+            </div>
+          `;
+        }
       }
 
       if (modal) modal.classList.remove('hidden');
@@ -8239,6 +8387,90 @@ Regras obrigatórias:
       }
     ];
 
+    // ==========================================
+    // SUPERMERCADOS PARCEIROS VIP & SELO OFICIAL
+    // ==========================================
+    const VERIFIED_VIP_MARKETS = {
+      'assaí atacadista': { isVip: true, label: 'Assaí Atacadista', badge: '⭐ PARCEIRO VIP', color: '#166534' },
+      'atacadão': { isVip: true, label: 'Atacadão', badge: '⭐ PARCEIRO VIP', color: '#ea580c' },
+      'novo atacarejo': { isVip: true, label: 'Novo Atacarejo', badge: '⭐ PARCEIRO VIP', color: '#0284c7' },
+      'supermercados guanabara': { isVip: true, label: 'Guanabara', badge: '⭐ PARCEIRO VIP', color: '#dc2626' },
+      'supermarket': { isVip: false, verified: true, label: 'Supermarket', badge: '✓ Verificado', color: '#15803d' },
+      'princesa supermercados': { isVip: false, verified: true, label: 'Princesa', badge: '✓ Verificado', color: '#7c3aed' },
+      'multimarket': { isVip: false, verified: true, label: 'Multimarket', badge: '✓ Verificado', color: '#0284c7' },
+      'supermercado avistão': { isVip: false, verified: true, label: 'Avistão', badge: '✓ Verificado', color: '#0284c7' }
+    };
+
+    function getMarketVipInfo(marketName) {
+      if (!marketName) return null;
+      const norm = String(marketName).toLowerCase().trim();
+      for (const key in VERIFIED_VIP_MARKETS) {
+        if (norm.includes(key) || key.includes(norm)) {
+          return VERIFIED_VIP_MARKETS[key];
+        }
+      }
+      return null;
+    }
+
+    function openVipPartnerModal() {
+      const modal = document.getElementById('vip-partner-modal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeVipPartnerModal() {
+      const modal = document.getElementById('vip-partner-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderOffersHubVipSection(filteredItems) {
+      const container = document.getElementById('offers-hub-vip-container');
+      const list = document.getElementById('offers-hub-vip-list');
+      if (!container || !list) return;
+
+      const nonFlyers = (filteredItems || []).filter(i => !i.isFlyerCard && (i.preco || 0) > 0);
+      const marketCounts = {};
+      nonFlyers.forEach(i => {
+        const m = i.mercado || 'Supermercado';
+        marketCounts[m] = (marketCounts[m] || 0) + 1;
+      });
+
+      const vipMarketsInCity = [];
+      Object.keys(marketCounts).forEach(mName => {
+        const vip = getMarketVipInfo(mName);
+        if (vip && vip.isVip) {
+          vipMarketsInCity.push({
+            name: mName,
+            label: vip.label,
+            badge: vip.badge,
+            color: vip.color,
+            count: marketCounts[mName]
+          });
+        }
+      });
+
+      if (vipMarketsInCity.length === 0) {
+        container.classList.add('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      list.innerHTML = vipMarketsInCity.map(vm => `
+        <div 
+          onclick="filterOffersHubSearch('${escapeHTML(vm.label)}');"
+          style="background: #ffffff; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 7px 11px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; gap: 7px; box-shadow: 0 1px 4px rgba(245,158,11,0.12); transition: transform 0.12s;"
+        >
+          <span style="font-size: 13px;">⭐</span>
+          <div>
+            <div style="font-size: 11.5px; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 4px;">
+              <span>${escapeHTML(vm.name)}</span>
+              <span style="background: #fef3c7; color: #b45309; font-size: 8.5px; font-weight: 900; padding: 1px 4px; border-radius: 4px;">VIP</span>
+            </div>
+            <span style="font-size: 10px; color: #166534; font-weight: 700;">${vm.count} ofertas ativas</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
     async function openOffersHubModal() {
       const modal = document.getElementById('offers-hub-modal');
       if (!modal) return;
@@ -8546,6 +8778,7 @@ Regras obrigatórias:
       }
 
       offersHubFilteredItems = filtered;
+      renderOffersHubVipSection(filtered);
 
       if (offersHubViewMode === 'compare') {
         renderOffersHubCompareView(filtered);
@@ -8604,18 +8837,21 @@ Regras obrigatórias:
       visibleItems.forEach((item, idx) => {
         const valStr = typeof formatDateBR === 'function' ? formatDateBR(item.validade) : item.validade;
         const isEstadual = (item.abrangencia === 'ESTADUAL');
+        const vip = getMarketVipInfo(item.mercado);
+        const isVipMarket = vip && vip.isVip;
 
         if (item.isFlyerCard) {
           html += `
-            <div style="background: linear-gradient(135deg, #f0fdf4, #ffffff); border: 1.8px solid #86efac; border-radius: 14px; padding: 13px 14px; box-shadow: 0 3px 8px rgba(22,101,52,0.06); position: relative;">
+            <div style="background: ${isVipMarket ? 'linear-gradient(135deg, #fffbeb, #ffffff)' : 'linear-gradient(135deg, #f0fdf4, #ffffff)'}; border: 1.8px solid ${isVipMarket ? '#fcd34d' : '#86efac'}; border-radius: 14px; padding: 13px 14px; box-shadow: 0 3px 8px rgba(0,0,0,0.04); position: relative;">
               <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
                 <div style="flex: 1; min-width: 0;">
                   <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px; flex-wrap: wrap;">
-                    <span style="background: #166534; color: #fff; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">📰 FOLHETO OFICIAL</span>
+                    ${isVipMarket ? '<span style="background: #b45309; color: #fff; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">⭐ PARCEIRO VIP</span>' : '<span style="background: #166534; color: #fff; font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">📰 FOLHETO OFICIAL</span>'}
                     <span style="font-size: 11px; font-weight: 800; color: #166534;">🏪 ${escapeHTML(item.mercado)}</span>
                     <span style="font-size: 10px; ${isEstadual ? 'color: #0369a1; background: #e0f2fe; font-weight: 700;' : 'color: #64748b; background: #e2e8f0;'} padding: 1px 6px; border-radius: 4px;">
                       ${isEstadual ? `🌐 Toda Rede (${escapeHTML(item.uf || 'RJ')})` : `📍 ${escapeHTML(item.cidade || 'Região')} - ${escapeHTML(item.uf || 'RJ')}`}
                     </span>
+                    ${!item.imagem ? '<span style="background: #e8f5e9; color: #166534; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 4px;">🍃 DADOS PUROS</span>' : ''}
                   </div>
                   <h4 style="font-size: 14px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0; line-height: 1.3;">
                     ${escapeHTML(item.nome)}
@@ -8628,12 +8864,16 @@ Regras obrigatórias:
                   <div style="width: 50px; height: 50px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; flex-shrink: 0; cursor: pointer;" onclick="openEncarteViewer('${item.encarteId}')">
                     <img src="${item.imagem}" style="width: 100%; height: 100%; object-fit: cover;">
                   </div>
-                ` : ''}
+                ` : `
+                  <div style="width: 44px; height: 44px; border-radius: 8px; background: #f0fdf4; border: 1.5px dashed #86efac; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                    🍃
+                  </div>
+                `}
               </div>
-              <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #bbf7d0; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 11px; color: #166534; font-weight: 600;">Folheto com fotos e promoções</span>
+              <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed ${isVipMarket ? '#fde68a' : '#bbf7d0'}; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 11px; color: #166534; font-weight: 600;">${item.imagem ? 'Folheto com fotos e promoções' : 'Catálogo digital em dados (Sem foto)'}</span>
                 <button type="button" onclick="openEncarteViewer('${item.encarteId}')" style="background: #16a34a; color: #fff; border: none; font-size: 11.5px; font-weight: 800; padding: 6px 12px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(22,163,74,0.2);">
-                  🔍 Abrir Folheto com Zoom
+                  ${item.imagem ? '🔍 Abrir Folheto com Zoom' : '🍃 Ver Lista de Ofertas'}
                 </button>
               </div>
             </div>
@@ -8655,6 +8895,7 @@ Regras obrigatórias:
                   ${discountPct ? `<span style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; font-size: 9.5px; font-weight: 900; padding: 2px 6px; border-radius: 4px;">-${discountPct}% OFF</span>` : ''}
                   <span style="font-size: 11px; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 3px;">
                     🏪 ${escapeHTML(item.mercado)}
+                    ${isVipMarket ? '<span style="background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; font-size: 8.5px; font-weight: 800; padding: 1px 4px; border-radius: 4px;">⭐ VIP</span>' : (vip && vip.verified ? '<span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 8.5px; font-weight: 800; padding: 1px 4px; border-radius: 4px;">✓ Verificado</span>' : '')}
                   </span>
                   <span style="font-size: 10px; ${isEstadual ? 'color: #0369a1; background: #e0f2fe; font-weight: 700;' : 'color: #64748b; background: #f1f5f9;'} padding: 1px 6px; border-radius: 4px;">
                     ${isEstadual ? `🌐 Toda Rede (${escapeHTML(item.uf || 'RJ')})` : escapeHTML(item.cidade || 'Região')}
@@ -9009,6 +9250,8 @@ Regras obrigatórias:
                 const diffFromBest = q.preco - cluster.minPrice;
                 const diffPct = cluster.minPrice > 0 ? Math.round((diffFromBest / cluster.minPrice) * 100) : 0;
                 const priceFormatted = q.preco.toFixed(2).replace('.', ',');
+                const vip = getMarketVipInfo(q.mercado);
+                const isVipMarket = vip && vip.isVip;
 
                 return `
                   <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 10px; ${isWinner ? 'background: #f0fdf4; border: 1.5px solid #86efac;' : 'background: #f8fafc; border: 1px solid #e2e8f0;'}">
@@ -9016,6 +9259,7 @@ Regras obrigatórias:
                       <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
                         <span style="font-size: 11px; font-weight: 900; ${isWinner ? 'color: #166534;' : 'color: #64748b;'}">${medal}</span>
                         <strong style="font-size: 12.5px; ${isWinner ? 'color: #166534;' : 'color: #1e293b;'}">${escapeHTML(q.mercado)}</strong>
+                        ${isVipMarket ? '<span style="background: #fef3c7; color: #b45309; border: 1px solid #fcd34d; font-size: 8.5px; font-weight: 800; padding: 1px 4px; border-radius: 4px;">⭐ VIP</span>' : (vip && vip.verified ? '<span style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 8.5px; font-weight: 800; padding: 1px 4px; border-radius: 4px;">✓ Verificado</span>' : '')}
                         ${isWinner ? '<span style="background: #16a34a; color: #fff; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 4px;">👑 MENOR PREÇO</span>' : ''}
                       </div>
                       <div style="font-size: 11px; color: #64748b; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
