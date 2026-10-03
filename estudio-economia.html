@@ -437,6 +437,8 @@
     const totalDuration = 46;
     let timerInterval = null;
     let synthUtterance = null;
+    let audioPlayer = new Audio('00_locucao_completa_helena.mp3');
+    audioPlayer.preload = 'auto';
 
     // Elementos da UI
     const sceneIntro = document.getElementById('scene-intro');
@@ -450,6 +452,34 @@
     const masterText = document.getElementById('master-text');
     const waveBars = document.querySelectorAll('#audio-wave span');
 
+    // Sincronização Precisa com o Áudio Neural Real MP3
+    audioPlayer.ontimeupdate = () => {
+      const cur = audioPlayer.currentTime;
+      const dur = audioPlayer.duration || totalDuration;
+      
+      const mins = String(Math.floor(cur / 60)).padStart(2, '0');
+      const secs = String(Math.floor(cur % 60)).padStart(2, '0');
+      displayTimer.innerText = `${mins}:${secs} / 00:46`;
+      
+      const pct = Math.min((cur / dur) * 100, 100);
+      timelineProgress.style.width = `${pct}%`;
+
+      if (cur < 8) {
+        showScene(1);
+      } else if (cur < 24) {
+        showScene(2);
+      } else if (cur < 34) {
+        showScene(3);
+      } else {
+        showScene(4);
+      }
+    };
+
+    audioPlayer.onended = () => {
+      pauseBroadcast();
+      jumpToScene(4);
+    };
+
     function toggleBroadcast() {
       if (isBroadcasting) {
         pauseBroadcast();
@@ -459,65 +489,66 @@
     }
 
     function startBroadcast() {
-      if (!('speechSynthesis' in window)) {
-        alert("Seu navegador não suporta voz em áudio. O boletim funcionará com as legendas e telas virtuais!");
-      }
-
-      window.speechSynthesis.cancel();
       isBroadcasting = true;
       masterIcon.innerText = "⏸️";
       masterText.innerText = "PAUSAR TRANSMISSÃO";
 
-      // Configurar Voz da Helena
-      synthUtterance = new SpeechSynthesisUtterance(NARRATIVE_FULL);
-      synthUtterance.lang = 'pt-BR';
-      synthUtterance.rate = 1.05;
-      synthUtterance.pitch = 1.08;
+      // Tentativa 1: Reproduzir o Áudio Neural MP3 Oficial da Helena
+      audioPlayer.play().then(() => {
+        animateWave(true);
+      }).catch(e => {
+        console.warn("Reprodução de MP3 bloqueada, usando fallback SpeechSynthesis:", e);
+        // Fallback: Web Speech API
+        window.speechSynthesis.cancel();
+        synthUtterance = new SpeechSynthesisUtterance(NARRATIVE_FULL);
+        synthUtterance.lang = 'pt-BR';
+        synthUtterance.rate = 1.05;
+        const voices = window.speechSynthesis.getVoices();
+        const ptVoice = voices.find(v => v.lang.includes('pt'));
+        if (ptVoice) synthUtterance.voice = ptVoice;
+        synthUtterance.onend = () => { pauseBroadcast(); jumpToScene(4); };
+        window.speechSynthesis.speak(synthUtterance);
+        animateWave(true);
 
-      const voices = window.speechSynthesis.getVoices();
-      const ptVoice = voices.find(v => v.lang.includes('pt') && (v.name.includes('Luciana') || v.name.includes('Google') || v.name.includes('Francisca') || v.name.includes('Maria')));
-      if (ptVoice) synthUtterance.voice = ptVoice;
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (!isBroadcasting) return;
+          timerSeconds++;
+          const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+          const secs = String(timerSeconds % 60).padStart(2, '0');
+          displayTimer.innerText = `${mins}:${secs} / 00:46`;
+          const pct = Math.min((timerSeconds / totalDuration) * 100, 100);
+          timelineProgress.style.width = `${pct}%`;
 
-      synthUtterance.onend = () => {
-        pauseBroadcast();
-        jumpToScene(4);
-      };
+          if (timerSeconds < 8) showScene(1);
+          else if (timerSeconds < 24) showScene(2);
+          else if (timerSeconds < 34) showScene(3);
+          else showScene(4);
 
-      synthUtterance.onerror = () => {
-        pauseBroadcast();
-      };
+          if (timerSeconds >= totalDuration) clearInterval(timerInterval);
+        }, 1000);
+      });
+    }
 
-      window.speechSynthesis.speak(synthUtterance);
-      animateWave(true);
-
+    function pauseBroadcast() {
+      isBroadcasting = false;
+      try { audioPlayer.pause(); } catch(e){}
+      window.speechSynthesis.cancel();
       clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        if (!isBroadcasting) return;
-        timerSeconds++;
+      masterIcon.innerText = "▶️";
+      masterText.innerText = "CONTINUAR TRANSMISSÃO";
+      animateWave(false);
+    }
 
-        // Atualizar Timer
-        const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-        const secs = String(timerSeconds % 60).padStart(2, '0');
-        displayTimer.innerText = `${mins}:${secs} / 00:46`;
-
-        // Barra de Progresso
-        const pct = Math.min((timerSeconds / totalDuration) * 100, 100);
-        timelineProgress.style.width = `${pct}%`;
-
-        // Sincronização Automática das Cenas Holográficas
-        if (timerSeconds < 8) {
-          showScene(1);
-        } else if (timerSeconds < 24) {
-          showScene(2);
-        } else if (timerSeconds < 34) {
-          showScene(3);
-        } else {
-          showScene(4);
-        }
-
-        if (timerSeconds >= totalDuration) {
-          clearInterval(timerInterval);
-        }
+    function resetBroadcast() {
+      pauseBroadcast();
+      try { audioPlayer.currentTime = 0; } catch(e){}
+      timerSeconds = 0;
+      displayTimer.innerText = "00:00 / 00:46";
+      timelineProgress.style.width = "0%";
+      jumpToScene(1);
+      masterText.innerText = "INICIAR TRANSMISSÃO AO VIVO (COM VOZ)";
+    }
       }, 1000);
     }
 
