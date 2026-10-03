@@ -17,6 +17,7 @@
   <!-- Bibliotecas externas -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="nfce_sefaz_rj_scanner.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
@@ -548,6 +549,30 @@
           <div class="admin-stat-card">
             <div class="admin-stat-num" id="admin-count-markets">--</div>
             <div class="admin-stat-label">Mercados</div>
+          </div>
+        </div>
+
+                <!-- CARD VISUAL: RANKING GEOGRÁFICO DE USUÁRIOS (DEMANDA 1 - ESTRITO ADMIN) -->
+        <div class="admin-stat-card" style="background:#ffffff; border:1px solid #c8e6c9; border-radius:12px; padding:14px; margin-bottom:16px; text-align:left;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #e8f5e9; padding-bottom:8px;">
+            <div>
+              <h4 style="font-size:13.5px; color:#1b5e20; font-weight:bold; margin:0; display:flex; align-items:center; gap:6px;">
+                📍 Ranking de Usuários por Município
+              </h4>
+              <span style="font-size:11px; color:#666;">Praça Piloto: Cabo Frio • Expansão Territorial Brasil</span>
+            </div>
+            <span style="background:#e8f5e9; color:#2e7d32; font-size:10px; font-weight:bold; padding:3px 8px; border-radius:12px; border:1px solid #c8e6c9;">
+              🔒 Restrito Admin
+            </span>
+          </div>
+          
+          <div id="admin-city-ranking-list" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="text-align:center; color:#777; font-size:12px; padding:10px;">Carregando telemetria geográfica...</div>
+          </div>
+          
+          <div style="margin-top:12px; padding-top:8px; border-top:1px dashed #e0e0e0; display:flex; justify-content:space-between; font-size:11px; color:#555;">
+            <span>Municípios Ativos: <strong id="admin-total-cities" style="color:#1b5e20;">--</strong></span>
+            <span>Acessos Auditados: <strong id="admin-total-accesses" style="color:#1b5e20;">--</strong></span>
           </div>
         </div>
 
@@ -1550,11 +1575,11 @@
         <p style="margin-bottom: 12px;">
           A câmera do seu aparelho é acionada <b>única e exclusivamente para a decodificação óptica local de códigos de barras (EAN-13)</b>. Nenhuma imagem ou vídeo de pessoas, rostos ou corredores de lojas é filmado, gravado ou transmitido para servidores externos.
         </p>
-        <h4 style="color: #1b5e20; font-size: 14px; margin-bottom: 6px;">3. Autoria e Contato</h4>
+        <h4 style="color: #1b5e20; font-size: 14px; margin-bottom: 6px;">3. Entidade Mantenedora & Contato Oficial</h4>
         <p style="margin-bottom: 6px;">
-          O aplicativo <b>NutriPreço</b> é um projeto tecnológico independente, idealizado e desenvolvido por <b>Arthur L. Santos</b> em Cabo Frio — RJ.
+          O aplicativo <b>NutriPreço</b> é operado por <b>ARTHUR LUIS TECNOLOGIA E INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)</b>, inscrita no CNPJ sob o nº <b>69.423.752/0001-61</b>, com sede em Cabo Frio — RJ.
         </p>
-        <p>Canal oficial para dúvidas, parcerias ou suporte: <b>contato.nutripreco@gmail.com</b></p>
+        <p>Fundador & Administrador: <b>Arthur Luis</b> • Contato: <b>arthur@mestrepratico.com.br</b></p>
       </div>
       <button class="save-btn" onclick="closeLegalTermsModal()" style="margin-top: 16px; background: #2e7d32;">Entendido</button>
     </div>
@@ -1791,10 +1816,11 @@
     </div>
 
     <!-- Assinatura Elegante do Autor no Rodapé do Menu -->
-    <div style="padding: 10px 14px; font-size: 11.5px; color: #555; text-align: center; border-top: 1px solid #eee; background: #fafafa;">
-      NutriPreço • Idealizado por 🌿 <b>Arthur L. Santos</b> 🌿<br>
-      <span style="font-size: 10.5px; color: #777;">Cabo Frio • Rio de Janeiro</span><br>
-      <a href="mailto:contato.nutripreco@gmail.com" style="color: #2e7d32; font-weight: bold; text-decoration: none; font-size: 11px;">contato.nutripreco@gmail.com</a>
+    <div style="padding: 10px 14px; font-size: 11px; color: #555; text-align: center; border-top: 1px solid #eee; background: #fafafa;">
+      NutriPreço • Idealizado por 🌿 <b>Arthur Luis</b> 🌿<br>
+      <span style="font-size: 9.5px; color: #666;">ARTHUR LUIS TECNOLOGIA • CNPJ: <b>69.423.752/0001-61</b></span><br>
+      <span style="font-size: 10px; color: #777;">Cabo Frio • Rio de Janeiro</span><br>
+      <a href="mailto:arthur@mestrepratico.com.br" style="color: #2e7d32; font-weight: bold; text-decoration: none; font-size: 11px;">arthur@mestrepratico.com.br</a>
     </div>
 
     <div class="sidebar-footer">
@@ -2684,6 +2710,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     // FILA DE SINCRONIZAÇÃO OFFLINE (LOCAL-FIRST)
     // ==========================================
     function queueOfflinePrice(itemData) {
+      if (!itemData) return;
+      const numPreco = parseFloat(itemData.preco);
+      if (isNaN(numPreco) || numPreco < 0.50 || numPreco > 2000.00) return;
+      const rawNome = (itemData.nome || '').trim();
+      if (!rawNome || rawNome.toLowerCase().includes('produto sem nome') || rawNome.length < 3) return;
+
       try {
         const queue = JSON.parse(localStorage.getItem('nutri_offline_sync_queue') || '[]');
         queue.push(itemData);
@@ -2704,6 +2736,12 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
       for (const item of queue) {
         try {
+          // SANITY GUARD & ANTI-SPAM (COMPLIANCE AUDIT)
+          const numPreco = parseFloat(item.preco);
+          if (isNaN(numPreco) || numPreco < 0.50 || numPreco > 2000.00) continue;
+          const rawNome = (item.nome || '').trim();
+          if (!rawNome || rawNome.toLowerCase().includes('produto sem nome') || rawNome.length < 3) continue;
+
           let prodId = item.produto_id;
           if (!prodId) {
             const { data: pData } = await client.from('produtos').upsert({
@@ -2812,9 +2850,30 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       }
     }
 
+    // ==========================================
+    // MOTOR MATEMÁTICO FISCAL CANÔNICO (HALF-UP / SEFAZ NFC-e)
+    // ==========================================
+    function getCartTotalCentavos() {
+      if (!cart || !Array.isArray(cart)) return 0;
+      return cart.reduce((acc, item) => {
+        const preco = Number(item.price) || 0;
+        const qtd = Number(item.qty) || 0;
+        return acc + Math.round(preco * qtd * 100);
+      }, 0);
+    }
+
+    function getCartTotal() {
+      return getCartTotalCentavos() / 100;
+    }
+
+    function getCartItemCount() {
+      if (!cart || !Array.isArray(cart)) return 0;
+      return cart.reduce((acc, item) => acc + (Number(item.qty) || 0), 0);
+    }
+
     function updateBudgetDisplay() {
       highlightActiveBudgetChip();
-      const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+      const total = getCartTotal();
       const label = document.getElementById('budget-current-label');
       const percLabel = document.getElementById('budget-percent-label');
       const bar = document.getElementById('budget-progress-bar');
@@ -3327,6 +3386,52 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           const elUsers = document.getElementById('admin-count-users');
           if (elUsers) elUsers.innerText = '0';
         }
+                // Telemetria Geográfica Dinâmica (Demanda 1)
+        try {
+          const { data: telemetryData } = await client.from('app_telemetria').select('cidade, device_id');
+          if (telemetryData && telemetryData.length > 0) {
+            const cityCounts = {};
+            telemetryData.forEach(item => {
+              const city = (item.cidade || 'Não informada').trim();
+              cityCounts[city] = (cityCounts[city] || 0) + 1;
+            });
+            const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]);
+            const maxVal = sortedCities[0][1] || 1;
+            const totalAccesses = telemetryData.length;
+            
+            let html = '';
+            const medals = ['🥇', '🥈', '🥉', '🏅'];
+            sortedCities.forEach(([city, count], idx) => {
+              const pct = Math.round((count / totalAccesses) * 100);
+              const barPct = Math.round((count / maxVal) * 100);
+              const medal = medals[idx] || '📍';
+              const isPiloto = city.toLowerCase().includes('cabo frio');
+              const badgePiloto = isPiloto ? ' <span style="font-size:9px; background:#2e7d32; color:#fff; padding:1px 5px; border-radius:4px; font-weight:bold;">PILOTO</span>' : '';
+              
+              html += `
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <div style="display:flex; justify-content:space-between; font-size:12px;">
+                    <span><strong>${medal} ${idx + 1}º ${city}</strong>${badgePiloto}</span>
+                    <span style="color:#2e7d32; font-weight:bold;">${count} acessos (${pct}%)</span>
+                  </div>
+                  <div style="background:#e0e0e0; border-radius:4px; height:6px; overflow:hidden;">
+                    <div style="background:${isPiloto ? '#2e7d32' : '#1976d2'}; height:100%; width:${barPct}%;"></div>
+                  </div>
+                </div>
+              `;
+            });
+            
+            const rankingEl = document.getElementById('admin-city-ranking-list');
+            if (rankingEl) rankingEl.innerHTML = html;
+            const totalCitiesEl = document.getElementById('admin-total-cities');
+            if (totalCitiesEl) totalCitiesEl.innerText = sortedCities.length;
+            const totalAccessesEl = document.getElementById('admin-total-accesses');
+            if (totalAccessesEl) totalAccessesEl.innerText = totalAccesses;
+          }
+        } catch (errTele) {
+          console.warn('Erro ao carregar ranking de telemetria:', errTele);
+        }
+
         if (typeof loadActivePhotoEncartes === 'function') {
           loadActivePhotoEncartes();
         }
@@ -4490,6 +4595,24 @@ async function exportPricesCSV() {
              document.referrer.includes('android-app://');
     }
 
+    
+    function dismissFloatingInstall() {
+      const bar = document.getElementById('smart-floating-install-bar');
+      if (bar) bar.classList.add('hidden');
+      sessionStorage.setItem('nutri_dismiss_install', 'true');
+    }
+
+    function checkFloatingInstallBanner() {
+      if (isRunningStandalone()) return;
+      if (sessionStorage.getItem('nutri_dismiss_install') === 'true') return;
+      setTimeout(() => {
+        const bar = document.getElementById('smart-floating-install-bar');
+        if (bar && !isRunningStandalone()) {
+          bar.classList.remove('hidden');
+        }
+      }, 2500);
+    }
+
     function checkUniversalPWA() {
       // Se já está instalado na tela inicial, esconde botões e não perturba
       if (isRunningStandalone()) {
@@ -4521,6 +4644,7 @@ async function exportPricesCSV() {
     window.addEventListener('DOMContentLoaded', () => {
       trackAppEvent('app_access');
       setTimeout(checkUniversalPWA, 800);
+      checkFloatingInstallBanner();
     });
 
     async function checkAuthSession() {
@@ -4760,6 +4884,7 @@ async function exportPricesCSV() {
           const priceBadgeEl = document.getElementById('scale-badge-price');
           if (priceBadgeEl) priceBadgeEl.innerText = `Total: R$ ${scaleData.price.toFixed(2).replace('.', ',')}`;
         }
+        showToast(`⚖️ Item de balança: R$ ${scaleData.price.toFixed(2).replace('.', ',')}. Confira o valor na etiqueta!`, 'info');
 
         // Tenta consultar no Supabase se esse código ou EAN já possui cadastro
         if (navigator.onLine) {
@@ -5315,8 +5440,8 @@ async function exportPricesCSV() {
     }
 
     function updateCartDisplay() {
-      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-      const count = cart.reduce((acc, item) => acc + item.qty, 0);
+      const total = getCartTotal();
+      const count = getCartItemCount();
 
       const topHudTotal = document.getElementById('top-hud-total');
       if (topHudTotal) topHudTotal.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
@@ -5828,22 +5953,21 @@ async function exportPricesCSV() {
         showToast('Adicione itens ao carrinho antes de compartilhar!', 'warning');
         return;
       }
-      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const total = getCartTotal();
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
+      const agora = new Date();
+      const dataHora = agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-      let msg = `🛒 *Minha Compra no NutriPreço*
-`;
-      msg += `📍 Supermercado: *${marketName}* (Cabo Frio)
+      let msg = `🛒 *Minha Compra no NutriPreço*\n`;
+      msg += `📍 Supermercado: *${marketName}* (Cabo Frio)\n`;
+      msg += `🕒 Registrado em: ${dataHora}\n\n`;
 
-`;
       cart.forEach(i => {
-        msg += `• ${i.qty}x ${i.name} - R$ ${(i.price * i.qty).toFixed(2)}
-`;
+        const itemSubtotal = Math.round(Number(i.price || 0) * Number(i.qty || 1) * 100) / 100;
+        msg += `• ${i.qty}x ${i.name} - R$ ${itemSubtotal.toFixed(2).replace('.', ',')}\n`;
       });
-      msg += `
-💰 *Total:* R$ ${total.toFixed(2)}
-
-`;
+      msg += `\n💰 *Total:* R$ ${total.toFixed(2).replace('.', ',')}\n\n`;
+      msg += `⚠️ *Aviso Legal:* Valores para conferência pessoal na gôndola e controle de orçamento.\n`;
       msg += `🥗 Calculei e conferi os preços com o *NutriPreço*!`;
 
       const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
@@ -5855,13 +5979,14 @@ async function exportPricesCSV() {
         showToast('Adicione itens ao carrinho antes de copiar!', 'warning');
         return;
       }
-      const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+      const total = getCartTotal();
       const marketName = document.getElementById('market-input').value.trim() || 'Supermercado';
       const city = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
 
       let text = `🛒 Minha Compra no NutriPreço\n📍 Mercado: ${marketName} (${city})\n\n`;
       cart.forEach(i => {
-        text += `• ${i.qty}x ${i.name} — R$ ${(i.price * i.qty).toFixed(2).replace('.', ',')}\n`;
+        const itemSubtotal = Math.round(Number(i.price || 0) * Number(i.qty || 1) * 100) / 100;
+        text += `• ${i.qty}x ${i.name} — R$ ${itemSubtotal.toFixed(2).replace('.', ',')}\n`;
       });
       text += `\n💰 Total: R$ ${total.toFixed(2).replace('.', ',')}\n🥗 Calculado com o NutriPreço!`;
 
@@ -9590,6 +9715,26 @@ Regras obrigatórias:
       <span class="nav-tab-label">Cesta</span>
     </button>
   </nav>
+
+
+  <!-- SMART FLOATING INSTALL BAR (ALTA CONVERSÃO DE INSTALAÇÃO) -->
+  <div id="smart-floating-install-bar" class="hidden" style="position:fixed; bottom:74px; left:12px; right:12px; max-width:440px; margin:0 auto; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border-radius:16px; padding:10px 14px; box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:90; display:flex; align-items:center; justify-content:space-between; gap:10px; border:1px solid rgba(255,255,255,0.25);">
+    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+      <img src="icon-192.png" alt="NutriPreço" style="width:38px; height:38px; border-radius:10px; border:1px solid rgba(255,255,255,0.8); flex-shrink:0;">
+      <div style="overflow:hidden;">
+        <div style="font-size:13px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Instale o NutriPreço Grátis</div>
+        <div style="font-size:11px; color:#e8f5e9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Compare na gôndola sem gastar internet!</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px;">
+      <button onclick="installPWA()" style="background:#ffd600; color:#1b5e20; border:none; padding:7px 14px; border-radius:20px; font-size:12px; font-weight:bold; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2); white-space:nowrap;">
+        📲 Instalar
+      </button>
+      <button onclick="dismissFloatingInstall()" style="background:none; border:none; color:rgba(255,255,255,0.8); font-size:20px; cursor:pointer; padding:2px 6px; line-height:1;">
+        &times;
+      </button>
+    </div>
+  </div>
 
 </body>
 </html>
