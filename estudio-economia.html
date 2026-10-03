@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estúdio Giro da Economia • Comentarista Virtual & Telão Holográfico</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.92); }
+    }
+    @keyframes holoScan {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(1000%); }
+    }
+    @keyframes tickerScroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4), inset 0 0 15px rgba(6, 182, 212, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), inset 0 0 25px rgba(6, 182, 212, 0.4); }
+    }
+    .live-dot { animation: pulseLive 1.4s ease-in-out infinite; }
+    .holo-glow { animation: glowPulse 3s ease-in-out infinite; }
+    .holo-scanner { animation: holoScan 4s linear infinite; }
+    .ticker-content { animation: tickerScroll 25s linear infinite; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 sm:p-6 flex flex-col items-center justify-center font-sans antialiased selection:bg-emerald-500 selection:text-black">
+
+  <div class="max-w-5xl w-full space-y-4">
+
+    <!-- CABEÇALHO DO ESTÚDIO -->
+    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 p-4 rounded-2xl shadow-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg text-black font-black text-xl">
+          🎙️
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-black text-white tracking-tight">Estúdio Giro da Economia</h1>
+            <span class="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              Piloto Interativo
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Comentarista de TV com Telão Holográfico Sincronizado • Cabo Frio / RJ</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold text-slate-300 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          Auditor Neutro &amp; Isento
+        </span>
+      </div>
+    </div>
+
+    <!-- TELA PRINCIPAL DE BROADCAST (16:9 RESPONSIVA ESTILO TV) -->
+    <div id="broadcast-frame" class="relative w-full aspect-video rounded-3xl overflow-hidden border-2 border-slate-800 bg-black shadow-2xl select-none group">
+      
+      <!-- IMAGEM DE FUNDO: A ÂNCORA NO ESTÚDIO DE TV -->
+      <img src="news_anchor.jpg" alt="Âncora de Economia" class="absolute inset-0 w-full h-full object-cover pointer-events-none filter brightness-95">
+
+      <!-- VIGNETTE & OVERLAY BROADCAST CINEMÁTICO -->
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/40 pointer-events-none"></div>
+
+      <!-- ON-AIR BADGE (CANTO SUPERIOR ESQUERDO) -->
+      <div class="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center gap-2 z-20">
+        <div class="bg-red-600/95 text-white font-black text-[11px] sm:text-xs uppercase px-2.5 py-1 rounded-md tracking-wider flex items-center gap-1.5 shadow-lg backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-white live-dot"></span>
+          <span>AO VIVO</span>
+        </div>
+        <div class="bg-black/60 backdrop-blur-md text-slate-200 text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-md border border-white/10 hidden sm:block">
+          Cabo Frio • Edição Especial
+        </div>
+      </div>
+
+      <!-- LOGO BROADCAST & AUDITORIA (CANTO SUPERIOR DIREITO) -->
+      <div class="absolute top-4 right-4 sm:top-6 sm:right-6 text-right z-20">
+        <div class="inline-flex items-center gap-1.5 bg-black/65 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 text-xs font-bold text-white shadow-lg">
+          <span class="text-emerald-400">NutriPreço</span>
+          <span class="text-slate-400">•</span>
+          <span class="text-cyan-300">Mestre Prático</span>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- O TELÃO HOLOGRÁFICO VIRTUAL (POSICIONADO NO GESTO DA APRESENTADORA) -->
+      <!-- ============================================================== -->
+      <div id="holo-screen" class="absolute top-12 left-4 sm:top-14 sm:left-10 w-[60%] sm:w-[48%] h-[68%] sm:h-[72%] rounded-2xl bg-slate-950/85 backdrop-blur-md border-2 border-cyan-400/60 holo-glow p-3 sm:p-5 flex flex-col justify-between overflow-hidden z-20 shadow-2xl transition-all duration-700">
+        
+        <!-- Linha de Scan Laser Holográfico -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-40 holo-scanner pointer-events-none"></div>
+
+        <!-- CONTEÚDO DINÂMICO 1: ABERTURA INSTITUCIONAL -->
+        <div id="scene-intro" class="h-full flex flex-col justify-center space-y-3 transition-all duration-500">
+          <div class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-black uppercase px-2.5 py-1 rounded-full border border-emerald-500/40 w-fit">
+            <span>🛡️ Auditoria Cívica de Varejo</span>
+          </div>
+          <h2 class="text-lg sm:text-2xl font-black text-white leading-tight">
+            Giro da Economia <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+              Cabo Frio &amp; Região
+            </span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+            Pesquisa pública dos 5 itens da Cesta Básica nos 4 maiores supermercados da cidade.
+          </p>
+          <div class="pt-2 border-t border-cyan-500/30 flex items-center gap-2 text-[11px] text-cyan-300 font-medium">
+            <span>⚖️ Imparcialidade Absoluta • CDC Art. 31</span>
+          </div>
+        </div>
+
+        <!-- CONTEÚDO DINÂMICO 2: RANKING HOLOGRÁFICO POR SOMA TOTAL -->
+        <div id="scene-ranking" class="h-full flex flex-col justify-between hidden transition-all duration-500">
+          <div>
+            <div class="flex items-center justify-between pb-1.5 border-b border-cyan-500/30 mb-2">
+              <span class="text-[10px] sm:text-xs uppercase font-extrabold text-cyan-300 tracking-wider">
+                Ranking da Soma Total (5 Itens)
+              </span>
+              <span class="text-[10px] font-bold text-slate-400">Cabo Frio</span>
+            </div>
+
+            <!-- As 4 Barras do Ranking -->
+            <div class="space-y-2">
+              <!-- 1º Assaí -->
+              <div class="space-y-0.5">
+                <div class="flex justify-between items-center text-[11px] sm:text-xs font-bold">
+                  <span class="text-white flex items-center gap-1">
+                    <span class="text-emerald-400 font-black">1º</span> Assaí Atacadista
+                  </span>
+                  <span class="text-emerald-400 font-black sm:text-sm">R$ 41,76</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-2 sm:h-2.5 overflow-hidden border border-slate-700">
+                  <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-700" style="width: 87%;"></div>
+                </div>
+              </div>
+
+              <!-- 2º SuperMarket -->
+              <div class="space-y-0.5">
+                <div class="flex justify-between items-center text-[11px] sm:text-xs font-bold">
+                  <span class="text-white flex items-center gap-1">
+                    <span class="text-cyan-400 font-black">2º</span> SuperMarket
+                  </span>
+                  <span class="text-white sm:text-sm">R$ 44,16</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-2 sm:h-2.5 overflow-hidden border border-slate-700">
+                  <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full rounded-full transition-all duration-700" style="width: 92%;"></div>
+                </div>
+              </div>
+
+              <!-- 3º Rende Pacas -->
+              <div class="space-y-0.5">
+                <div class="flex justify-between items-center text-[11px] sm:text-xs font-bold">
+                  <span class="text-white flex items-center gap-1">
+                    <span class="text-amber-400 font-black">3º</span> Mercado Rende Pacas
+                  </span>
+                  <span class="text-white sm:text-sm">R$ 46,25</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-2 sm:h-2.5 overflow-hidden border border-slate-700">
+                  <div class="bg-gradient-to-r from-amber-500 to-orange-400 h-full rounded-full transition-all duration-700" style="width: 96%;"></div>
+                </div>
+              </div>
+
+              <!-- 4º Princesa -->
+              <div class="space-y-0.5">
+                <div class="flex justify-between items-center text-[11px] sm:text-xs font-bold">
+                  <span class="text-white flex items-center gap-1">
+                    <span class="text-rose-400 font-black">4º</span> Princesa Supermercados
+                  </span>
+                  <span class="text-white sm:text-sm">R$ 47,76</span>
+                </div>
+                <div class="w-full bg-slate-900 rounded-full h-2 sm:h-2.5 overflow-hidden border border-slate-700">
+                  <div class="bg-gradient-to-r from-rose-500 to-red-500 h-full rounded-full transition-all duration-700" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-1.5 border-t border-cyan-500/20 text-[10.5px] sm:text-xs text-cyan-200 font-semibold flex justify-between items-center">
+            <span>Diferença Máxima:</span>
+            <span class="text-emerald-400 font-black bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+              Economia de R$ 6,00 (14,4%)
+            </span>
+          </div>
+        </div>
+
+        <!-- CONTEÚDO DINÂMICO 3: TABELA DETALHADA ITEM A ITEM -->
+        <div id="scene-table" class="h-full flex flex-col justify-between hidden transition-all duration-500">
+          <div>
+            <div class="flex items-center justify-between pb-1.5 border-b border-cyan-500/30 mb-2">
+              <span class="text-[10px] sm:text-xs uppercase font-extrabold text-cyan-300 tracking-wider">
+                Detalhamento dos 5 Itens
+              </span>
+              <span class="text-[10px] text-slate-400">Valores em Reais</span>
+            </div>
+
+            <div class="overflow-x-auto text-[10px] sm:text-[11.5px]">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="text-slate-400 border-b border-slate-800 pb-1">
+                    <th class="py-1">Produto</th>
+                    <th class="py-1 text-emerald-400 font-bold">Assaí</th>
+                    <th class="py-1">SuperM.</th>
+                    <th class="py-1">Rende P.</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/80 font-medium">
+                  <tr>
+                    <td class="py-1 text-white font-semibold">Arroz 5kg</td>
+                    <td class="py-1 text-emerald-400 font-bold">21,90</td>
+                    <td class="py-1">23,90</td>
+                    <td class="py-1 text-amber-300">24,49</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 text-white font-semibold">Feijão 1kg</td>
+                    <td class="py-1">6,99</td>
+                    <td class="py-1 text-emerald-400 font-bold">6,49</td>
+                    <td class="py-1">7,29</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 text-white font-semibold">Óleo 900ml</td>
+                    <td class="py-1 text-emerald-400 font-bold">5,49</td>
+                    <td class="py-1">5,99</td>
+                    <td class="py-1">6,49</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 text-white font-semibold">Macarrão 500g</td>
+                    <td class="py-1 text-emerald-400 font-bold">3,19</td>
+                    <td class="py-1">3,39</td>
+                    <td class="py-1">3,49</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 text-white font-semibold">Açúcar 1kg</td>
+                    <td class="py-1 text-emerald-400 font-bold">4,19</td>
+                    <td class="py-1">4,39</td>
+                    <td class="py-1">4,49</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="pt-1.5 border-t border-cyan-500/20 text-[10px] sm:text-[11px] text-slate-300">
+            * Cotações auditadas em encartes e notas fiscais vigentes.
+          </div>
+        </div>
+
+        <!-- CONTEÚDO DINÂMICO 4: O CLÍMAX / CALL TO ACTION (CTA) -->
+        <div id="scene-cta" class="h-full flex flex-col justify-between items-center text-center p-2 hidden transition-all duration-500">
+          <div class="space-y-1">
+            <span class="text-[10px] sm:text-xs font-black uppercase text-amber-300 tracking-widest bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/40">
+              ⚡ Decisão do Consumidor
+            </span>
+            <h3 class="text-base sm:text-xl font-black text-white leading-tight">
+              Economize Antes de Sair de Casa!
+            </h3>
+            <p class="text-[11px] sm:text-xs text-slate-300 leading-tight">
+              Não pague caro no caixa. Compare todos os mercados de Cabo Frio no app gratuito:
+            </p>
+          </div>
+
+          <!-- QR Code e Botão -->
+          <div class="flex items-center gap-3 my-1">
+            <!-- QR CODE SVG -->
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white p-1 rounded-xl shadow-lg border-2 border-emerald-400 flex items-center justify-center">
+              <svg viewBox="0 0 100 100" class="w-full h-full">
+                <!-- QR Code Simulado Alta Fidelidade -->
+                <rect width="100" height="100" fill="white" />
+                <rect x="10" y="10" width="25" height="25" fill="#0f172a" />
+                <rect x="15" y="15" width="15" height="15" fill="white" />
+                <rect x="18" y="18" width="9" height="9" fill="#0f172a" />
+                <rect x="65" y="10" width="25" height="25" fill="#0f172a" />
+                <rect x="70" y="15" width="15" height="15" fill="white" />
+                <rect x="73" y="18" width="9" height="9" fill="#0f172a" />
+                <rect x="10" y="65" width="25" height="25" fill="#0f172a" />
+                <rect x="15" y="70" width="15" height="15" fill="white" />
+                <rect x="18" y="73" width="9" height="9" fill="#0f172a" />
+                <rect x="42" y="12" width="12" height="6" fill="#0f172a" />
+                <rect x="42" y="24" width="8" height="12" fill="#0f172a" />
+                <rect x="52" y="32" width="6" height="8" fill="#0f172a" />
+                <rect x="12" y="44" width="8" height="10" fill="#0f172a" />
+                <rect x="28" y="42" width="10" height="8" fill="#0f172a" />
+                <rect x="42" y="44" width="18" height="18" fill="#10b981" />
+                <rect x="65" y="44" width="8" height="14" fill="#0f172a" />
+                <rect x="78" y="44" width="12" height="6" fill="#0f172a" />
+                <rect x="42" y="68" width="8" height="16" fill="#0f172a" />
+                <rect x="54" y="72" width="16" height="6" fill="#0f172a" />
+                <rect x="75" y="66" width="14" height="12" fill="#0f172a" />
+                <rect x="72" y="82" width="16" height="8" fill="#0f172a" />
+              </svg>
+            </div>
+
+            <div class="text-left space-y-1">
+              <a href="https://nutripreco-oficial.github.io" target="_blank" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-black text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-lg transition transform hover:scale-105">
+                <span>📲 Instalar App Grátis</span>
+              </a>
+              <a href="https://mestrepratico.com.br" target="_blank" class="block text-[11px] sm:text-xs text-cyan-300 hover:underline font-bold">
+                🌐 mestrepratico.com.br
+              </a>
+            </div>
+          </div>
+
+          <span class="text-[10px] text-slate-300 font-medium">
+            Aponte a câmera do celular para baixar instantaneamente!
+          </span>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- LOWER THIRD / TARJA DE TELEJORNAL PROFISSIONAL (CANTO INFERIOR) -->
+      <!-- ============================================================== -->
+      <div class="absolute bottom-6 left-0 right-0 px-4 sm:px-6 z-20">
+        <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950/90 border-t-2 border-emerald-400 p-2.5 sm:p-3 rounded-2xl shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 backdrop-blur-md">
+          
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-black text-base flex-shrink-0">
+              🎙️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-black text-white">HELENA</span>
+                <span class="text-[10px] uppercase font-extrabold px-1.5 py-0.2 rounded bg-slate-800 text-emerald-400 border border-slate-700">Comentarista Econômica</span>
+              </div>
+              <p id="lower-third-subtitle" class="text-xs text-slate-300 font-medium transition-all duration-300">
+                Auditoria de utilidade pública: Menores preços apurados em Cabo Frio
+              </p>
+            </div>
+          </div>
+
+          <!-- Timer e Ondas Sonoras -->
+          <div class="flex items-center gap-3 self-end sm:self-center">
+            <div class="flex items-center gap-1 h-4" id="audio-wave">
+              <span class="w-1 bg-slate-600 rounded-full h-2"></span>
+              <span class="w-1 bg-slate-600 rounded-full h-3"></span>
+              <span class="w-1 bg-slate-600 rounded-full h-4"></span>
+              <span class="w-1 bg-slate-600 rounded-full h-2"></span>
+              <span class="w-1 bg-slate-600 rounded-full h-4"></span>
+            </div>
+            <span id="display-timer" class="font-mono text-xs font-bold text-emerald-400 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">
+              00:00 / 00:46
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- TICKER DE NOTÍCIAS ROLANDO NO RODAPÉ (NEWS TICKER ESTILO BLOOMBERG) -->
+      <!-- ============================================================== -->
+      <div class="absolute bottom-0 left-0 right-0 h-6 bg-emerald-950/90 border-t border-emerald-500/30 flex items-center overflow-hidden z-20 text-[11px] font-semibold text-emerald-200">
+        <div class="bg-emerald-500 text-black font-black uppercase text-[10px] px-2 h-full flex items-center flex-shrink-0 z-10">
+          RADAR DE PREÇOS
+        </div>
+        <div class="whitespace-nowrap ticker-content">
+          <span>• 1º ASSAÍ SÃO CRISTÓVÃO: R$ 41,76 (CESTA 5 ITENS)</span>
+          <span class="mx-4 text-emerald-400">|</span>
+          <span>• 2º SUPERMARKET CABO FRIO: R$ 44,16</span>
+          <span class="mx-4 text-emerald-400">|</span>
+          <span>• 3º MERCADO RENDE PACAS NOVA CALIFÓRNIA: R$ 46,25 (ARROZ GLADIADOR R$ 24,49)</span>
+          <span class="mx-4 text-emerald-400">|</span>
+          <span>• 4º PRINCESA CENTRO: R$ 47,76</span>
+          <span class="mx-4 text-emerald-400">|</span>
+          <span>• ECONOMIA MÁXIMA AUDITADA: R$ 6,00 NA CESTA</span>
+          <span class="mx-4 text-emerald-400">|</span>
+          <span>• BAIXE O APP NUTRIPREÇO OU ACESSE MESTREPRATICO.COM.BR •</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- PAINEL DE CONTROLE INTERATIVO DO DIRETOR (EMBAIXO DO VÍDEO) -->
+    <!-- ============================================================== -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- BOTÃO PRINCIPAL PLAY / PAUSE COM VOZ -->
+        <button id="btn-master-play" onclick="toggleBroadcast()" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-black font-black text-sm sm:text-base px-6 py-3 rounded-xl shadow-lg transition transform active:scale-95">
+          <span id="master-icon" class="text-xl">▶️</span>
+          <span id="master-text">INICIAR TRANSMISSÃO AO VIVO (COM VOZ)</span>
+        </button>
+
+        <button onclick="resetBroadcast()" class="inline-flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold px-4 py-3 rounded-xl border border-slate-700 transition">
+          <span>🔄 Reiniciar</span>
+        </button>
+
+        <!-- SELETORES DIRETOS DE CENA -->
+        <div class="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+          <button onclick="jumpToScene(1)" class="scene-btn text-xs font-bold px-2.5 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            1. Abertura
+          </button>
+          <button onclick="jumpToScene(2)" class="scene-btn text-xs font-bold px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white">
+            2. Ranking Cesta
+          </button>
+          <button onclick="jumpToScene(3)" class="scene-btn text-xs font-bold px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white">
+            3. Detalhes
+          </button>
+          <button onclick="jumpToScene(4)" class="scene-btn text-xs font-bold px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white">
+            4. Baixar App (CTA)
+          </button>
+        </div>
+      </div>
+
+      <!-- BARRA DE PROGRESSO DO BOLETIM -->
+      <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+        <div id="timeline-progress" class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <!-- LINKS DIRETOS PARA CONVERSÃO (O QUE MAIS IMPORTA) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-800/80">
+        <a href="https://nutripreco-oficial.github.io" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md transition">
+          <span>📲 Abrir &amp; Instalar NutriPreço</span>
+        </a>
+        <a href="https://mestrepratico.com.br" target="_blank" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl border border-slate-700 transition">
+          <span>🌐 Acessar Portal Mestre Prático</span>
+        </a>
+        <button onclick="shareBroadcastWhatsApp()" class="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE5D] text-black font-extrabold text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md transition">
+          <span>💬 Compartilhar no WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT DE SINCRONIZAÇÃO TELEJORNALÍSTICA & VOZ -->
+  <script>
+    // Roteiro Integral da Helena no Telejornal Econômico
+    const NARRATIVE_FULL = "Atenção, consumidor de Cabo Frio! Aqui é a Helena com o Giro da Economia. Atuando como auditor neutro de utilidade pública, nossa equipe auditou a cesta com cinco itens essenciais em quatro supermercados da cidade: arroz cinco quilos, feijão preto, óleo, macarrão e açúcar. Na soma total da cesta, o ranking ficou assim: em primeiro lugar, o Assaí Atacadista em São Cristóvão com quarenta e um reais e setenta e seis centavos. Em segundo lugar, o SuperMarket com quarenta e quatro e dezesseis. Em terceiro lugar, o Mercado Rende Pacas em Nova Califórnia com quarenta e seis e vinte e cinco. E em quarto lugar, o Princesa Supermercados no Centro com quarenta e sete e setenta e seis. A diferença na soma total chega a seis reais na mesma cesta. O nosso papel é apenas informar para você exercer o seu direito de escolha. Instale agora mesmo o aplicativo NutriPreço no seu celular ou acesse mestrepratico ponto com ponto br para conferir todas as ofertas ao vivo!";
+
+    let isBroadcasting = false;
+    let timerSeconds = 0;
+    const totalDuration = 46;
+    let timerInterval = null;
+    let synthUtterance = null;
+
+    // Elementos da UI
+    const sceneIntro = document.getElementById('scene-intro');
+    const sceneRanking = document.getElementById('scene-ranking');
+    const sceneTable = document.getElementById('scene-table');
+    const sceneCta = document.getElementById('scene-cta');
+    const lowerSubtitle = document.getElementById('lower-third-subtitle');
+    const displayTimer = document.getElementById('display-timer');
+    const timelineProgress = document.getElementById('timeline-progress');
+    const masterIcon = document.getElementById('master-icon');
+    const masterText = document.getElementById('master-text');
+    const waveBars = document.querySelectorAll('#audio-wave span');
+
+    function toggleBroadcast() {
+      if (isBroadcasting) {
+        pauseBroadcast();
+      } else {
+        startBroadcast();
+      }
+    }
+
+    function startBroadcast() {
+      if (!('speechSynthesis' in window)) {
+        alert("Seu navegador não suporta voz em áudio. O boletim funcionará com as legendas e telas virtuais!");
+      }
+
+      window.speechSynthesis.cancel();
+      isBroadcasting = true;
+      masterIcon.innerText = "⏸️";
+      masterText.innerText = "PAUSAR TRANSMISSÃO";
+
+      // Configurar Voz da Helena
+      synthUtterance = new SpeechSynthesisUtterance(NARRATIVE_FULL);
+      synthUtterance.lang = 'pt-BR';
+      synthUtterance.rate = 1.05;
+      synthUtterance.pitch = 1.08;
+
+      const voices = window.speechSynthesis.getVoices();
+      const ptVoice = voices.find(v => v.lang.includes('pt') && (v.name.includes('Luciana') || v.name.includes('Google') || v.name.includes('Francisca') || v.name.includes('Maria')));
+      if (ptVoice) synthUtterance.voice = ptVoice;
+
+      synthUtterance.onend = () => {
+        pauseBroadcast();
+        jumpToScene(4);
+      };
+
+      synthUtterance.onerror = () => {
+        pauseBroadcast();
+      };
+
+      window.speechSynthesis.speak(synthUtterance);
+      animateWave(true);
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isBroadcasting) return;
+        timerSeconds++;
+
+        // Atualizar Timer
+        const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+        const secs = String(timerSeconds % 60).padStart(2, '0');
+        displayTimer.innerText = `${mins}:${secs} / 00:46`;
+
+        // Barra de Progresso
+        const pct = Math.min((timerSeconds / totalDuration) * 100, 100);
+        timelineProgress.style.width = `${pct}%`;
+
+        // Sincronização Automática das Cenas Holográficas
+        if (timerSeconds < 8) {
+          showScene(1);
+        } else if (timerSeconds < 24) {
+          showScene(2);
+        } else if (timerSeconds < 34) {
+          showScene(3);
+        } else {
+          showScene(4);
+        }
+
+        if (timerSeconds >= totalDuration) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+    }
+
+    function pauseBroadcast() {
+      isBroadcasting = false;
+      window.speechSynthesis.cancel();
+      clearInterval(timerInterval);
+      masterIcon.innerText = "▶️";
+      masterText.innerText = "CONTINUAR TRANSMISSÃO";
+      animateWave(false);
+    }
+
+    function resetBroadcast() {
+      pauseBroadcast();
+      timerSeconds = 0;
+      displayTimer.innerText = "00:00 / 00:46";
+      timelineProgress.style.width = "0%";
+      jumpToScene(1);
+      masterText.innerText = "INICIAR TRANSMISSÃO AO VIVO (COM VOZ)";
+    }
+
+    function showScene(sceneNum) {
+      sceneIntro.classList.add('hidden');
+      sceneRanking.classList.add('hidden');
+      sceneTable.classList.add('hidden');
+      sceneCta.classList.add('hidden');
+
+      const buttons = document.querySelectorAll('.scene-btn');
+      buttons.forEach((btn, idx) => {
+        if (idx === sceneNum - 1) {
+          btn.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/40');
+          btn.classList.remove('text-slate-400');
+        } else {
+          btn.classList.remove('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/40');
+          btn.classList.add('text-slate-400');
+        }
+      });
+
+      if (sceneNum === 1) {
+        sceneIntro.classList.remove('hidden');
+        lowerSubtitle.innerText = "Auditoria Cívica de Varejo: Menores preços apurados em Cabo Frio";
+      } else if (sceneNum === 2) {
+        sceneRanking.classList.remove('hidden');
+        lowerSubtitle.innerText = "Ranking por Menor Soma Total: 1º Assaí R$ 41,76 | 2º SuperMarket R$ 44,16";
+      } else if (sceneNum === 3) {
+        sceneTable.classList.remove('hidden');
+        lowerSubtitle.innerText = "Detalhamento: Arroz 5kg, Feijão 1kg, Óleo, Macarrão e Açúcar";
+      } else if (sceneNum === 4) {
+        sceneCta.classList.remove('hidden');
+        lowerSubtitle.innerText = "Decisão do Consumidor: Baixe o App NutriPreço ou acesse mestrepratico.com.br";
+      }
+    }
+
+    function jumpToScene(sceneNum) {
+      showScene(sceneNum);
+      if (sceneNum === 1) timerSeconds = 0;
+      if (sceneNum === 2) timerSeconds = 9;
+      if (sceneNum === 3) timerSeconds = 25;
+      if (sceneNum === 4) timerSeconds = 35;
+
+      const pct = Math.min((timerSeconds / totalDuration) * 100, 100);
+      timelineProgress.style.width = `${pct}%`;
+      const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+      const secs = String(timerSeconds % 60).padStart(2, '0');
+      displayTimer.innerText = `${mins}:${secs} / 00:46`;
+    }
+
+    function animateWave(active) {
+      waveBars.forEach((bar, idx) => {
+        if (active) {
+          bar.classList.add('bg-emerald-400');
+          bar.classList.remove('bg-slate-600');
+          bar.style.height = `${(idx % 3 + 1) * 5}px`;
+        } else {
+          bar.classList.remove('bg-emerald-400');
+          bar.classList.add('bg-slate-600');
+          bar.style.height = '6px';
+        }
+      });
+    }
+
+    function shareBroadcastWhatsApp() {
+      const text = encodeURIComponent("📺 Olha esse telejornal de economia de Cabo Frio! Veja o ranking dos supermercados e onde a cesta básica somou mais barato:\n\nhttps://mestrepratico.com.br/estudio-economia-cabofrio/");
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+  </script>
+
+</body>
+</html>
