@@ -2607,6 +2607,17 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           deviceId = (crypto.randomUUID ? crypto.randomUUID() : 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now());
           localStorage.setItem('nutri_device_id', deviceId);
         }
+
+        // Demanda D9: Anti-duplicação de sessão (evita que recarregamentos rápidos da página consumam cotas do Supabase)
+        if (eventType === 'app_access') {
+          const now = Date.now();
+          const lastAccess = parseInt(sessionStorage.getItem('nutri_last_access_ts') || '0', 10);
+          if (now - lastAccess < 10 * 60 * 1000) {
+            return; // Já auditado nesta sessão nos últimos 10 minutos
+          }
+          sessionStorage.setItem('nutri_last_access_ts', now.toString());
+        }
+
         const city = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
         await client.from('app_telemetria').insert([{
           evento: eventType,
@@ -4657,7 +4668,6 @@ async function exportPricesCSV() {
 
     // Executa verificação PWA no carregamento
     window.addEventListener('DOMContentLoaded', () => {
-      trackAppEvent('app_access');
       setTimeout(checkUniversalPWA, 800);
       checkFloatingInstallBanner();
     });
