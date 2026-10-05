@@ -3896,8 +3896,7 @@ async function exportPricesCSV() {
     }
 
     function checkFirstAccessOnboarding() {
-      const onboardDone = localStorage.getItem('nutri_onboarding_completed');
-      const savedName = localStorage.getItem('nutri_user_name');
+      const savedName = localStorage.getItem('nutri_user_name') || 'Economizador(a)';
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio - RJ';
       const greeting = getTimeBasedGreeting();
 
@@ -3907,12 +3906,7 @@ async function exportPricesCSV() {
 
       if (bannerGreeting) bannerGreeting.innerHTML = `<b>${greeting}</b>`;
       if (bannerCity) bannerCity.innerText = savedCity;
-      if (savedName && bannerName) bannerName.innerText = savedName;
-
-      if (!onboardDone || !savedName) {
-        const modal = document.getElementById('welcome-modal');
-        if (modal) modal.classList.remove('hidden');
-      }
+      if (bannerName) bannerName.innerText = savedName;
     }
 
     function triggerNativeInstallFromWelcome() {
@@ -4677,47 +4671,24 @@ async function exportPricesCSV() {
     }
 
     function checkFloatingInstallBanner() {
-      if (isRunningStandalone()) return;
-      if (sessionStorage.getItem('nutri_dismiss_install') === 'true') return;
-      setTimeout(() => {
-        const bar = document.getElementById('smart-floating-install-bar');
-        if (bar && !isRunningStandalone()) {
-          bar.classList.remove('hidden');
-        }
-      }, 2500);
+      // Não sobrecarrega a tela do usuário: botão de instalar fica no header e no menu lateral
+      return;
     }
 
     function checkUniversalPWA() {
-      // Se já está instalado na tela inicial, esconde botões e não perturba
       if (isRunningStandalone()) {
         const installBtn = document.getElementById('install-pwa-btn');
         if (installBtn) installBtn.classList.add('hidden');
         return;
       }
 
-      const isInstagramOrWhatsApp = /Instagram|FBAN|FBAV|WhatsApp/i.test(navigator.userAgent);
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-      // Se abriu pelo navegador interno do Instagram/WhatsApp
-      if (isInstagramOrWhatsApp) {
-        showToast('⚠️ Para instalar e salvar compras offline, toque nos três pontinhos (...) e abra no Chrome ou Safari.', 'info', 6000);
-      }
-
-      // Mostra botão de instalar no topo
+      // Deixa o botão de instalar sutil e visível apenas no header
       const installBtn = document.getElementById('install-pwa-btn');
       if (installBtn) installBtn.classList.remove('hidden');
-
-      // Se for o primeiro acesso e não for standalone, abre o modal de boas-vindas com a instalação
-      const hasVisited = localStorage.getItem('nutri_user_city');
-      if (!hasVisited) {
-        openInstallModal();
-      }
     }
 
-    // Executa verificação PWA no carregamento
     window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(checkUniversalPWA, 800);
-      checkFloatingInstallBanner();
+      checkUniversalPWA();
     });
 
     async function checkAuthSession() {
