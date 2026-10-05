@@ -4027,8 +4027,7 @@ async function exportPricesCSV() {
     // ==========================================
 
     function openRadarModal() {
-      pauseScannerIfActive();
-      const modal = document.getElementById('radar-modal');
+            const modal = document.getElementById('radar-modal');
       if (modal) {
         modal.classList.remove('hidden');
         const content = modal.querySelector('.modal-content');
@@ -4040,8 +4039,7 @@ async function exportPricesCSV() {
     }
 
     function closeRadarModal() {
-      resumeScannerIfPaused();
-      const modal = document.getElementById('radar-modal');
+            const modal = document.getElementById('radar-modal');
       if (modal) modal.classList.add('hidden');
       if (typeof syncBottomNavActive === 'function') syncBottomNavActive('caixa');
     }
@@ -4613,8 +4611,7 @@ async function exportPricesCSV() {
     });
 
         function openInstallModal() {
-      pauseScannerIfActive();
-      const nativeBox = document.getElementById('install-native-box');
+            const nativeBox = document.getElementById('install-native-box');
       if (deferredPrompt) {
         if (nativeBox) nativeBox.classList.remove('hidden');
       } else {
@@ -4625,8 +4622,7 @@ async function exportPricesCSV() {
 
     function closeInstallModal() {
       document.getElementById('install-modal').classList.add('hidden');
-      resumeScannerIfPaused();
-    }
+          }
 
     function triggerNativeInstall() {
       if (deferredPrompt) {
@@ -4704,8 +4700,7 @@ async function exportPricesCSV() {
     }
 
     function openAuthModal() {
-      pauseScannerIfActive();
-      if (currentUser) {
+            if (currentUser) {
         document.getElementById('auth-logged-in-view').classList.remove('hidden');
         document.getElementById('auth-form-view').classList.add('hidden');
         document.getElementById('user-email-display').innerText = currentUser.email;
@@ -4717,8 +4712,7 @@ async function exportPricesCSV() {
     }
 
     function closeAuthModal() {
-      resumeScannerIfPaused();
-      document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.add('hidden');
     }
 
     async function logoutUser() {
@@ -5544,8 +5538,7 @@ async function exportPricesCSV() {
     }
 
     function openCartModal() {
-      pauseScannerIfActive();
-      updateBudgetDisplay();
+            updateBudgetDisplay();
       const list = document.getElementById('cart-items-list');
       list.innerHTML = '';
 
@@ -5577,8 +5570,7 @@ async function exportPricesCSV() {
     }
 
     function closeCartModal() {
-      resumeScannerIfPaused();
-      document.getElementById('cart-modal').classList.add('hidden');
+            document.getElementById('cart-modal').classList.add('hidden');
     }
 
     function changeQty(idx, delta) {
@@ -5681,8 +5673,7 @@ async function exportPricesCSV() {
     }
 
     function openHistoryModal() {
-      pauseScannerIfActive();
-      currentHistoryFilter = 'all';
+            currentHistoryFilter = 'all';
       ['all', 'month', 'week', 'today'].forEach(f => {
         const btn = document.getElementById(`hist-filter-${f}`);
         if (btn) {
@@ -5695,8 +5686,7 @@ async function exportPricesCSV() {
     }
 
     function closeHistoryModal() {
-      resumeScannerIfPaused();
-      document.getElementById('history-modal').classList.add('hidden');
+            document.getElementById('history-modal').classList.add('hidden');
     }
 
     function renderHistoryItems() {
@@ -8048,8 +8038,7 @@ Regras obrigatórias:
     // VITRINE PÚBLICA DE ENCARTES (VISÍVEL AOS USUÁRIOS)
     // ==========================================
     async function openPublicEncartesModal() {
-      pauseScannerIfActive();
-      const modal = document.getElementById('public-encartes-modal');
+            const modal = document.getElementById('public-encartes-modal');
       if (modal) modal.classList.remove('hidden');
 
       initPublicEncartesLocation();
@@ -8057,8 +8046,7 @@ Regras obrigatórias:
     }
 
     function closePublicEncartesModal() {
-      resumeScannerIfPaused();
-      const modal = document.getElementById('public-encartes-modal');
+            const modal = document.getElementById('public-encartes-modal');
       if (modal) modal.classList.add('hidden');
     }
 
@@ -8483,8 +8471,7 @@ Regras obrigatórias:
     // ==========================================
 
     function openCitySelectorModal() {
-      pauseScannerIfActive();
-      const modal = document.getElementById('city-selector-modal');
+            const modal = document.getElementById('city-selector-modal');
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const savedUf = localStorage.getItem('nutri_user_state') || 'RJ';
 
@@ -8494,8 +8481,7 @@ Regras obrigatórias:
     }
 
     function closeCitySelectorModal() {
-      resumeScannerIfPaused();
-      const modal = document.getElementById('city-selector-modal');
+            const modal = document.getElementById('city-selector-modal');
       if (modal) modal.classList.add('hidden');
     }
 
@@ -8563,7 +8549,7 @@ Regras obrigatórias:
         prioritized.forEach(c => {
           const opt = document.createElement('option');
           opt.value = c;
-          opt.innerText = ⭐ ;
+          opt.innerText = '⭐ ' + c;
           if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
             opt.selected = true;
           }
@@ -8911,8 +8897,7 @@ Regras obrigatórias:
     }
 
     async function openOffersHubModal() {
-      pauseScannerIfActive();
-      const modal = document.getElementById('offers-hub-modal');
+            const modal = document.getElementById('offers-hub-modal');
       if (!modal) return;
 
       initOffersHubLocation();
@@ -8923,8 +8908,7 @@ Regras obrigatórias:
     }
 
     function closeOffersHubModal() {
-      resumeScannerIfPaused();
-      if (offersHubObserver) {
+            if (offersHubObserver) {
         offersHubObserver.disconnect();
         offersHubObserver = null;
       }
