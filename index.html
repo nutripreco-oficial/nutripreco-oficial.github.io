@@ -3210,7 +3210,7 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           let minDistance = Infinity;
           const knownMarkets = getAllKnownMarkets();
 
-          // 1. Checa mercados conhecidos
+          // 1. Encontra o mercado / cluster mais próximo
           for (const m of knownMarkets) {
             if (!m.lat || !m.lon) continue;
             const dist = getHaversineDistance(lat, lon, m.lat, m.lon);
@@ -3220,12 +3220,32 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             }
           }
 
-          // 2. Geofence de 350m para atacarejos e hipermercados
+          // 2. IDENTIFICAÇÃO DA CIDADE REAL VIA GPS (Mesmo a quilômetros de distância)
+          if (closestMarket && minDistance <= 80000) {
+            const rawCity = closestMarket.cidade || 'Cabo Frio';
+            const city = rawCity.replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+            const uf = closestMarket.uf || 'RJ';
+
+            localStorage.setItem('nutri_user_city', city);
+            localStorage.setItem('nutri_user_state', uf);
+            localStorage.setItem('nutri_user_uf', uf);
+
+            const bannerCity = document.getElementById('banner-user-city');
+            if (bannerCity) bannerCity.innerText = `${city} - ${uf}`;
+            if (typeof updateQuoteRegionBadge === 'function') updateQuoteRegionBadge();
+            if (typeof loadActivePhotoEncartes === 'function') loadActivePhotoEncartes();
+            if (typeof renderPublicEncartes === 'function') renderPublicEncartes();
+          }
+
+          // 3. Geofence de 350m para seleção automática de gôndola específica
           if (closestMarket && minDistance <= 350) {
             autoSelectMarket(closestMarket.nome);
             if (forceNotify) showToast(`📍 Mercado detectado via GPS: ${closestMarket.nome} (a ${Math.round(minDistance)}m)`, 'success');
+          } else if (closestMarket && minDistance <= 80000) {
+            const city = (closestMarket.cidade || 'Cabo Frio').replace(/\s*-\s*[A-Z]{2}$/i, '').trim();
+            if (forceNotify) showToast(`📍 Região identificada via GPS: ${city} - ${closestMarket.uf || 'RJ'}`, 'success');
           } else {
-            if (forceNotify) showToast('📍 Nenhum supermercado cadastrado a menos de 350m. Selecione na lista.', 'info');
+            if (forceNotify) showToast('📍 Selecione sua cidade na lista para ver os preços da sua região.', 'info');
           }
         },
         (error) => {
@@ -3651,6 +3671,30 @@ async function exportPricesCSV() {
       });
     }
 
+    
+    // ==========================================
+    // CONTROLE DE ENERGIA E PAUSA DA CÂMERA (RISK MANAGEMENT)
+    // ==========================================
+    function pauseScannerIfActive() {
+      if (typeof html5QrCode !== 'undefined' && html5QrCode) {
+        try {
+          if (html5QrCode.isScanning) {
+            html5QrCode.pause();
+          }
+        } catch(e) {}
+      }
+    }
+
+    function resumeScannerIfPaused() {
+      if (typeof html5QrCode !== 'undefined' && html5QrCode) {
+        try {
+          if (html5QrCode.isPaused && html5QrCode.isPaused()) {
+            html5QrCode.resume();
+          }
+        } catch(e) {}
+      }
+    }
+
     let html5QrCode;
     let currentBarcode = '';
     let currentName = '';
@@ -3989,6 +4033,7 @@ async function exportPricesCSV() {
     // ==========================================
 
     function openRadarModal() {
+      pauseScannerIfActive();
       const modal = document.getElementById('radar-modal');
       if (modal) {
         modal.classList.remove('hidden');
@@ -4001,6 +4046,7 @@ async function exportPricesCSV() {
     }
 
     function closeRadarModal() {
+      resumeScannerIfPaused();
       const modal = document.getElementById('radar-modal');
       if (modal) modal.classList.add('hidden');
       if (typeof syncBottomNavActive === 'function') syncBottomNavActive('caixa');
@@ -4685,6 +4731,7 @@ async function exportPricesCSV() {
     }
 
     function openAuthModal() {
+      pauseScannerIfActive();
       if (currentUser) {
         document.getElementById('auth-logged-in-view').classList.remove('hidden');
         document.getElementById('auth-form-view').classList.add('hidden');
@@ -4697,6 +4744,7 @@ async function exportPricesCSV() {
     }
 
     function closeAuthModal() {
+      resumeScannerIfPaused();
       document.getElementById('auth-modal').classList.add('hidden');
     }
 
@@ -5523,6 +5571,7 @@ async function exportPricesCSV() {
     }
 
     function openCartModal() {
+      pauseScannerIfActive();
       updateBudgetDisplay();
       const list = document.getElementById('cart-items-list');
       list.innerHTML = '';
@@ -5555,6 +5604,7 @@ async function exportPricesCSV() {
     }
 
     function closeCartModal() {
+      resumeScannerIfPaused();
       document.getElementById('cart-modal').classList.add('hidden');
     }
 
@@ -5658,6 +5708,7 @@ async function exportPricesCSV() {
     }
 
     function openHistoryModal() {
+      pauseScannerIfActive();
       currentHistoryFilter = 'all';
       ['all', 'month', 'week', 'today'].forEach(f => {
         const btn = document.getElementById(`hist-filter-${f}`);
@@ -5671,6 +5722,7 @@ async function exportPricesCSV() {
     }
 
     function closeHistoryModal() {
+      resumeScannerIfPaused();
       document.getElementById('history-modal').classList.add('hidden');
     }
 
@@ -8023,6 +8075,7 @@ Regras obrigatórias:
     // VITRINE PÚBLICA DE ENCARTES (VISÍVEL AOS USUÁRIOS)
     // ==========================================
     async function openPublicEncartesModal() {
+      pauseScannerIfActive();
       const modal = document.getElementById('public-encartes-modal');
       if (modal) modal.classList.remove('hidden');
 
@@ -8031,6 +8084,7 @@ Regras obrigatórias:
     }
 
     function closePublicEncartesModal() {
+      resumeScannerIfPaused();
       const modal = document.getElementById('public-encartes-modal');
       if (modal) modal.classList.add('hidden');
     }
@@ -8456,6 +8510,7 @@ Regras obrigatórias:
     // ==========================================
 
     function openCitySelectorModal() {
+      pauseScannerIfActive();
       const modal = document.getElementById('city-selector-modal');
       const savedCity = localStorage.getItem('nutri_user_city') || 'Cabo Frio';
       const savedUf = localStorage.getItem('nutri_user_state') || 'RJ';
@@ -8466,6 +8521,7 @@ Regras obrigatórias:
     }
 
     function closeCitySelectorModal() {
+      resumeScannerIfPaused();
       const modal = document.getElementById('city-selector-modal');
       if (modal) modal.classList.add('hidden');
     }
@@ -8507,16 +8563,56 @@ Regras obrigatórias:
 
     function populateCityDropdown(cityList, preselectedCity) {
       const citySelect = document.getElementById('select-city');
+      if (!citySelect) return;
       citySelect.innerHTML = '';
+
+      // Cidades com cobertura ativa e cotações prioritárias
+      const activePriorityCities = ['Cabo Frio', 'São Pedro da Aldeia', 'Araruama', 'Armação dos Búzios', 'Arraial do Cabo', 'Rio de Janeiro', 'Niterói', 'São Gonçalo', 'Recife', 'Olinda', 'Jaboatão dos Guararapes', 'Paulista', 'São Paulo', 'Guarulhos'];
+      
+      const prioritized = [];
+      const others = [];
+
       cityList.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.innerText = c;
-        if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
-          opt.selected = true;
+        const isPriority = activePriorityCities.some(p => p.toLowerCase() === c.toLowerCase());
+        if (isPriority) {
+          prioritized.push(c);
+        } else {
+          others.push(c);
         }
-        citySelect.appendChild(opt);
       });
+
+      prioritized.sort((a, b) => a.localeCompare(b));
+      others.sort((a, b) => a.localeCompare(b));
+
+      if (prioritized.length > 0) {
+        const optGroupActive = document.createElement('optgroup');
+        optGroupActive.label = '⭐ Cidades com Cobertura Ativa';
+        prioritized.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.innerText = ⭐ ;
+          if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
+            opt.selected = true;
+          }
+          optGroupActive.appendChild(opt);
+        });
+        citySelect.appendChild(optGroupActive);
+      }
+
+      if (others.length > 0) {
+        const optGroupOthers = document.createElement('optgroup');
+        optGroupOthers.label = 'Demais Municípios (IBGE)';
+        others.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.innerText = c;
+          if (preselectedCity && c.toLowerCase() === preselectedCity.toLowerCase()) {
+            opt.selected = true;
+          }
+          optGroupOthers.appendChild(opt);
+        });
+        citySelect.appendChild(optGroupOthers);
+      }
     }
 
     function saveSelectedCity() {
@@ -8527,15 +8623,23 @@ Regras obrigatórias:
       const formatted = `${city} - ${uf}`;
       localStorage.setItem('nutri_user_city', city);
       localStorage.setItem('nutri_user_state', uf);
+      localStorage.setItem('nutri_user_uf', uf); // Unificação total de chave
 
       const bannerCity = document.getElementById('banner-user-city');
       if (bannerCity) bannerCity.innerText = formatted;
       updateQuoteRegionBadge();
 
       closeCitySelectorModal();
-      showToast(`Região: ${formatted}`, 'success');
+      showToast(`Região ativa: ${formatted}`, 'success');
       loadActivePhotoEncartes();
       renderPublicEncartes();
+
+      // Sincronização em cascata para a Central de Ofertas
+      const hubStateSel = document.getElementById('offers-hub-state-select');
+      const hubCitySel = document.getElementById('offers-hub-city-select');
+      if (hubStateSel) hubStateSel.value = uf;
+      if (hubCitySel) hubCitySel.value = city;
+      if (typeof handleOffersHubStateChange === 'function') handleOffersHubStateChange();
     }
 
     function editUserCity() {
@@ -8834,6 +8938,7 @@ Regras obrigatórias:
     }
 
     async function openOffersHubModal() {
+      pauseScannerIfActive();
       const modal = document.getElementById('offers-hub-modal');
       if (!modal) return;
 
@@ -8845,6 +8950,7 @@ Regras obrigatórias:
     }
 
     function closeOffersHubModal() {
+      resumeScannerIfPaused();
       if (offersHubObserver) {
         offersHubObserver.disconnect();
         offersHubObserver = null;
