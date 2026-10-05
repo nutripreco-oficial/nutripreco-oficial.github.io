@@ -1,8 +1,8 @@
 {
-  "name": "NutriPreço - Cabo Frio",
+  "name": "NutriPreço - Comparador de Supermercados",
   "short_name": "NutriPreço",
-  "id": "./index.html",
-  "description": "Calculadora de supermercado e inteligência de preços em Cabo Frio e região.",
+  "id": "nutripreco-app",
+  "description": "Calculadora de supermercado e inteligência de preços em tempo real.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -12,19 +12,35 @@
   "lang": "pt-BR",
   "dir": "ltr",
   "prefer_related_applications": false,
-  "categories": ["shopping", "food", "utilities"],
+  "categories": [
+    "shopping",
+    "food",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

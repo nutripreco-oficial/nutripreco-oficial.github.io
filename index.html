@@ -7,7 +7,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>NutriPreço - Cabo Frio</title>
+  <title>NutriPreço - Comparador de Supermercados</title>
 
   <!-- Manifesto PWA para instalação no Android -->
   <link rel="manifest" href="manifest.json">
@@ -2135,7 +2135,7 @@
       </div>
 
       <div style="text-align: center; margin-bottom: 16px; padding: 6px 0;">
-        <img src="https://cdn-icons-png.flaticon.com/512/2424/2424444.png" alt="NutriPreço" style="width: 68px; height: 68px; border-radius: 16px; box-shadow: 0 4px 12px rgba(46,125,50,0.2); margin-bottom: 8px;">
+        <img src="icon-192.png" alt="NutriPreço" style="width: 68px; height: 68px; border-radius: 16px; box-shadow: 0 4px 12px rgba(46,125,50,0.2); margin-bottom: 8px;">
         <h4 style="font-size: 17px; color: #1b5e20; margin-bottom: 4px; font-weight: bold;">NutriPreço no seu Celular</h4>
         <p style="font-size: 13px; color: #555; line-height: 1.4;">Adicione o app à sua tela inicial para calcular o carrinho na gôndola e consultar preços mais rápido, mesmo sem internet.</p>
       </div>
@@ -4619,6 +4619,7 @@ async function exportPricesCSV() {
     });
 
         function openInstallModal() {
+      pauseScannerIfActive();
       const nativeBox = document.getElementById('install-native-box');
       if (deferredPrompt) {
         if (nativeBox) nativeBox.classList.remove('hidden');
@@ -4630,6 +4631,7 @@ async function exportPricesCSV() {
 
     function closeInstallModal() {
       document.getElementById('install-modal').classList.add('hidden');
+      resumeScannerIfPaused();
     }
 
     function triggerNativeInstall() {
