@@ -70,12 +70,96 @@ Retorne estritamente um JSON estruturado com o schema:
 """
 
 ALVOS_CABOFRIO = [
+    # --- 2º DISTRITO: UNAMAR, TAMOIOS & AQUÁRIUS ---
+    {
+        "id": "atacadaosa_unamar",
+        "nome": "Supermercado Leão Atacadão",
+        "bairro": "Unamar / Tamoios",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@atacadaosa.oficial",
+        "url_alvo": "https://www.instagram.com/atacadaosa.oficial/",
+        "tipo": "Atacarejo"
+    },
+    {
+        "id": "supermarket_unamar",
+        "nome": "Rede Supermarket",
+        "bairro": "Unamar / Tamoios",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@redesupermarket",
+        "url_alvo": "https://www.instagram.com/redesupermarket/",
+        "tipo": "Rede Regional"
+    },
+    {
+        "id": "terefrutas_unamar",
+        "nome": "Terê Frutas",
+        "bairro": "Unamar",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@terefrutas",
+        "url_alvo": "https://www.instagram.com/terefrutas/",
+        "tipo": "Hortifrúti e Mercearia"
+    },
+    {
+        "id": "lufelana_aquarius",
+        "nome": "Lufelana Supermercados",
+        "bairro": "Aquárius (Tamoios)",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@lufelanasupermercados",
+        "url_alvo": "https://www.instagram.com/lufelanasupermercados/",
+        "tipo": "Supermercado Tradicional"
+    },
+    {
+        "id": "supermercado_independencia_unamar",
+        "nome": "Supermercado Independência",
+        "bairro": "Unamar / Tamoios",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@supermercado_independencia",
+        "url_alvo": "https://www.instagram.com/supermercado_independencia/",
+        "tipo": "Supermercado de Bairro"
+    },
+    {
+        "id": "bem_barato_tamoios",
+        "nome": "Bem Barato Supermercado",
+        "bairro": "Tamoios",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@bembaratosupermercado",
+        "url_alvo": "https://www.instagram.com/bembaratosupermercado/",
+        "tipo": "Atacarejo Popular"
+    },
+    {
+        "id": "supermercado_barcelos_tamoios",
+        "nome": "Supermercado Barcelos",
+        "bairro": "Tamoios",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@supermercadobarcelos",
+        "url_alvo": "https://www.instagram.com/supermercadobarcelos/",
+        "tipo": "Mercado de Vizinhança"
+    },
+    {
+        "id": "multi_market_unamar",
+        "nome": "Rede Multi Market",
+        "bairro": "Unamar",
+        "cidade": "Cabo Frio",
+        "estado": "RJ",
+        "instagram": "@redemultimarket",
+        "url_alvo": "https://www.instagram.com/redemultimarket/",
+        "tipo": "Rede Regional"
+    },
+
+    # --- 1º DISTRITO: CENTRO & SÃO CRISTÓVÃO ---
     {
         "id": "tinoco_cabofrio",
         "nome": "Supermercados Tinoco",
         "bairro": "Centro",
         "cidade": "Cabo Frio",
         "estado": "RJ",
+        "instagram": "@tinocosupermercados",
         "url_alvo": "https://www.facebook.com/tinocorb/photos",
         "tipo": "Supermercado Tradicional"
     },
@@ -85,6 +169,7 @@ ALVOS_CABOFRIO = [
         "bairro": "Centro",
         "cidade": "Cabo Frio",
         "estado": "RJ",
+        "instagram": "@grandmarchecabofrio",
         "url_alvo": "https://www.facebook.com/grandmarchecabofrio/photos",
         "tipo": "Supermercado Regional"
     },
@@ -94,6 +179,7 @@ ALVOS_CABOFRIO = [
         "bairro": "São Cristóvão",
         "cidade": "Cabo Frio",
         "estado": "RJ",
+        "instagram": "@garagemverdesupermercados",
         "url_alvo": "https://www.facebook.com/garagemverdesupermercados/photos",
         "tipo": "Hortifrúti e Mercearia"
     }
