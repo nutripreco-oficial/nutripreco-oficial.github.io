@@ -1,0 +1,35 @@
+name: Robo Cacador de Encartes Nuvem (NutriPreco)
+
+on:
+  schedule:
+    # Executar automaticamente 2x ao dia (06:00 e 15:00 BRT -> 09:00 e 18:00 UTC)
+    - cron: '0 9,18 * * *'
+  workflow_dispatch: # Permite disparar manualmente com 1 clique no GitHub
+
+jobs:
+  executar-robo-nuvem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Dependências e Playwright Chromium
+        run: |
+          pip install playwright requests beautifulsoup4
+          playwright install --with-deps chromium
+
+      - name: Executar Varredura e Extração IA (Cabo Frio)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://fzoyldcfyiigwyxxhosd.supabase.co' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: "gemini-3.8-flash"
+        run: |
+          python robo_cacador_nuvem.py
