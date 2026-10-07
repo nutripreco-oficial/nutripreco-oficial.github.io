@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriPreço — Estúdio & Simulador Oficial de Reel 9:16</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-tag {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .reel-frame {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+            border-radius: 28px;
+            border: 2px solid #334155;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px 20px;
+        }
+        .top-badge {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .brand-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 6px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .brand-logo {
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 11px;
+            color: #fff;
+        }
+        .brand-title {
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .city-tag {
+            background: #10b981;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .scene-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10;
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+        .headline {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+        .ranking-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .market-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(71, 85, 105, 0.6);
+            padding: 10px 14px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+        .market-item.winner {
+            background: rgba(6, 78, 59, 0.9);
+            border-color: #10b981;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .market-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .market-sub {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+        .market-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .market-item.winner .market-price {
+            color: #34d399;
+        }
+        .caption-overlay {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: #f1f5f9;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .caption-icon {
+            font-size: 20px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #10b981;
+            transition: width 0.1s linear;
+        }
+        .controls {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-play {
+            flex: 1;
+            background: #10b981;
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s;
+        }
+        .btn-play:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-tag">🎬 Estúdio de Vídeo IA • NutriPreço</div>
+        
+        <div class="reel-frame" id="reelFrame">
+            <div class="top-badge">
+                <div class="brand-pill">
+                    <div class="brand-logo">NP</div>
+                    <div class="brand-title">NutriPreço</div>
+                </div>
+                <div class="city-tag">CABO FRIO • RJ</div>
+            </div>
+
+            <div class="scene-content">
+                <div class="headline" id="sceneHeadline">O Alerta da Gôndola: Arroz + Feijão</div>
+                <div class="subtitle" id="sceneSubtitle">Auditoria factual independente em 4 redes da cidade.</div>
+                
+                <div class="ranking-box">
+                    <div class="market-item winner" id="item1">
+                        <div>
+                            <div class="market-name">Assaí Atacadista</div>
+                            <div class="market-sub">São Cristóvão • Arroz 4,89 + Feijão 7,98</div>
+                        </div>
+                        <div class="market-price">R$ 12,87</div>
+                    </div>
+                    <div class="market-item" id="item2">
+                        <div>
+                            <div class="market-name">SuperMarket</div>
+                            <div class="market-sub">Centro • Arroz 5,39 + Feijão 8,49</div>
+                        </div>
+                        <div class="market-price">R$ 13,88</div>
+                    </div>
+                    <div class="market-item" id="item3">
+                        <div>
+                            <div class="market-name">Mercado Rende Pacas</div>
+                            <div class="market-sub">Nova Califórnia • Arroz 5,59 + Feijão 8,99</div>
+                        </div>
+                        <div class="market-price">R$ 14,58</div>
+                    </div>
+                    <div class="market-item" id="item4">
+                        <div>
+                            <div class="market-name">Princesa Supermercados</div>
+                            <div class="market-sub">Centro • Arroz 5,99 + Feijão 9,19</div>
+                        </div>
+                        <div class="market-price">R$ 15,18</div>
+                    </div>
+                </div>
+
+                <div class="caption-overlay" id="captionBox">
+                    <div class="caption-icon">🎙️</div>
+                    <div id="captionText">Toque no botão abaixo para dar PLAY na locução neural da Helena!</div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <audio id="audioHelena" preload="auto">
+            <source src="https://raw.githubusercontent.com/nutripreco-oficial/nutripreco-oficial.github.io/main/app/marketing/reel_cabo_frio_dupla_sagrada_helena.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="controls">
+            <button class="btn-play" id="btnPlay" onclick="togglePlay()">
+                <span id="playIcon">▶️</span> <span id="playText">Assistir Reel com Áudio da Helena</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('audioHelena');
+        const progressBar = document.getElementById('progressBar');
+        const playIcon = document.getElementById('playIcon');
+        const playText = document.getElementById('playText');
+        const captionText = document.getElementById('captionText');
+
+        const legendas = [
+            { time: 0, text: "Atenção famílias de Cabo Frio! Antes de colocar o pé no mercado..." },
+            { time: 4, text: "Você sabia que a mesma dupla de arroz e feijão pode custar 23% mais cara?" },
+            { time: 9, text: "A equipe do NutriPreço auditou quatro grandes redes da nossa cidade..." },
+            { time: 13, text: "🥇 1º Assaí (São Cristóvão) ➔ R$ 12,87 (Mais Econômico)" },
+            { time: 18, text: "🥈 2º SuperMarket (Centro) ➔ R$ 13,88" },
+            { time: 22, text: "🥉 3º Mercado Rende Pacas (Nova Califórnia) ➔ R$ 14,58" },
+            { time: 26, text: "4º Princesa Supermercados ➔ R$ 15,18" },
+            { time: 30, text: "💡 Comprando no lugar certo, você economiza quase R$ 70,00 no mês!" },
+            { time: 35, text: "📲 Some antes de passar no caixa: nutripreco.com.br" }
+        ];
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.textContent = "⏸️";
+                playText.textContent = "Pausar Demonstração";
+            } else {
+                audio.pause();
+                playIcon.textContent = "▶️";
+                playText.textContent = "Continuar Assistindo";
+            }
+        }
+
+        audio.ontimeupdate = () => {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = pct + "%";
+
+            const cur = audio.currentTime;
+            for (let i = legendas.length - 1; i >= 0; i--) {
+                if (cur >= legendas[i].time) {
+                    captionText.textContent = legendas[i].text;
+                    break;
+                }
+            }
+        };
+
+        audio.onended = () => {
+            playIcon.textContent = "🔄";
+            playText.textContent = "Assistir Novamente";
+            progressBar.style.width = "100%";
+        };
+    </script>
+</body>
+</html>
