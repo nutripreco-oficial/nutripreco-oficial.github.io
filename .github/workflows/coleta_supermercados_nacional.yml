@@ -1,0 +1,46 @@
+name: Coleta Nacional de Supermercados - 4 Blocos (NutriPreço)
+
+on:
+  schedule:
+    # Executa todos os dias às 06:00 Horário de Brasília (09:00 UTC)
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Permite disparo manual com 1 clique no painel do GitHub
+
+jobs:
+  coleta-nacional-auditada:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar Dependências Otimizadas
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Executar Varredura das 14 Redes e Sincronizar Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://fzoyldcfyiigwyxxhosd.supabase.co' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          OUTPUT_FILE: 'dados_supermercados_onda1.json'
+        run: |
+          python robo_coleta_supermercados_nacional.py
+
+      - name: Versionar Base Atualizada de Cotações (Git Commit & Push)
+        run: |
+          git config --local user.name "NutriPreco Robot"
+          git config --local user.email "bot@nutripreco.com.br"
+          git add dados_supermercados_onda1.json || true
+          if git diff --staged --quiet; then
+            echo "Nenhuma alteração detectada na base."
+          else
+            git commit -m "chore(bot): atualização diária de cotações nacionais auditadas [skip ci]"
+            git push origin main
+          fi
