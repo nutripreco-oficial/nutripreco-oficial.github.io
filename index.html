@@ -363,10 +363,36 @@
         <button 
           id="btnSearchAi" 
           onclick="perguntarHelenaIA()" 
-          class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-indigo-600/30 hover:from-emerald-600/50 hover:to-indigo-600/50 border border-emerald-500/40 text-xs sm:text-sm font-bold text-emerald-300 hover:text-white transition-all shadow-sm flex items-center gap-1.5">
+          class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-indigo-600/30 hover:from-emerald-600/50 hover:to-indigo-600/50 border border-emerald-500/40 text-xs sm:text-sm font-bold text-emerald-300 hover:text-white transition-all shadow-sm flex items-center gap-1.5 cursor-pointer">
           <span>✨</span>
           <span id="btnAiText">Perguntar à Helena IA</span>
         </button>
+      </div>
+
+      <!-- BOLETIM OFICIAL DE VOZ THALITA AMIGA (OPÇÃO 3 APROVADA PELO ARTHUR) -->
+      <div id="thalitaAudioPlayerContainer" class="mt-5 flex items-center justify-center">
+        <button 
+          id="btnPlayThalitaOfficial"
+          onclick="toggleAudioThalitaOficial()" 
+          class="group flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-emerald-500/15 hover:from-emerald-500/25 hover:to-teal-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white transition-all shadow-lg shadow-emerald-500/10 cursor-pointer">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
+            <span id="thalitaPlayIcon">▶️</span>
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="text-xs font-bold flex items-center gap-1.5">
+              <span>🎙️ Ouvir Boletim da Helena</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-500/30 text-[10px] text-emerald-300 font-semibold uppercase">Voz Oficial Thalita</span>
+            </span>
+            <span class="text-[11px] text-slate-400" id="thalitaAudioStatus">Thalita Amiga • Dica de Economia do Dia</span>
+          </div>
+          <!-- Barrinhas de onda sonora animadas -->
+          <div id="thalitaSoundWave" class="hidden flex items-center gap-1 ml-1">
+            <span class="w-1 h-3 bg-emerald-400 rounded-full animate-pulse"></span>
+            <span class="w-1 h-5 bg-emerald-300 rounded-full animate-pulse delay-75"></span>
+            <span class="w-1 h-2 bg-emerald-400 rounded-full animate-pulse delay-150"></span>
+          </div>
+        </button>
+        <audio id="audioThalitaElement" src="audio_boletim_thalita_hoje.mp3" preload="metadata"></audio>
       </div>
 
       <!-- CHIPS DE BUSCA RÁPIDA (DINÂMICOS POR MODO) -->
@@ -1198,33 +1224,80 @@
       searchInput.placeholder = 'Digite o que procura ou fale no microfone...';
     }
 
-    // RESPOSTA POR VOZ DA IA
-    function falarRespostaIA() {
-      if (!window.speechSynthesis) {
-        alert("Síntese de voz não disponível neste navegador.");
-        return;
+    // PLAYER DE ÁUDIO OFICIAL DA THALITA AMIGA (OPÇÃO 3 APROVADA PELO ARTHUR)
+    function toggleAudioThalitaOficial() {
+      const audio = document.getElementById('audioThalitaElement');
+      const icon = document.getElementById('thalitaPlayIcon');
+      const wave = document.getElementById('thalitaSoundWave');
+      const status = document.getElementById('thalitaAudioStatus');
+
+      if (!audio) return;
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          if (icon) icon.innerText = "⏸️";
+          if (wave) wave.classList.remove('hidden');
+          if (status) status.innerText = "Tocando na voz da Thalita Amiga...";
+        }).catch((err) => {
+          console.warn("Autoplay bloqueado pelo navegador:", err);
+          falarRespostaIA();
+        });
+      } else {
+        audio.pause();
+        if (icon) icon.innerText = "▶️";
+        if (wave) wave.classList.add('hidden');
+        if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
       }
 
+      audio.onended = () => {
+        if (icon) icon.innerText = "▶️";
+        if (wave) wave.classList.add('hidden');
+        if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
+      };
+    }
+
+    // RESPOSTA POR VOZ DA IA (CONFIGURADA NO PADRÃO THALITA AMIGA: +6% RATE, +5HZ PITCH)
+    function falarRespostaIA() {
       const btnText = document.getElementById('btnSpeakText');
 
-      if (window.speechSynthesis.speaking) {
+      if (window.speechSynthesis && window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
-        btnText.innerText = "Ouvir Resumo";
+        if (btnText) btnText.innerText = "Ouvir Resumo";
         return;
       }
 
-      if (!currentAiSummary) return;
+      // Se não houver resumo na tela, toca o boletim oficial em estúdio da Thalita
+      if (!currentAiSummary) {
+        toggleAudioThalitaOficial();
+        return;
+      }
+
+      if (!window.speechSynthesis) {
+        toggleAudioThalitaOficial();
+        return;
+      }
 
       synthUtterance = new SpeechSynthesisUtterance(currentAiSummary);
       synthUtterance.lang = 'pt-BR';
-      synthUtterance.rate = 1.05;
+      synthUtterance.rate = 1.06;  // Padrão Aprovado: +6%
+      synthUtterance.pitch = 1.05; // Padrão Aprovado: +5Hz
+
+      // Seleção prioritária de vozes neurais brasileiras (Thalita / Natural / Neural)
+      const voices = window.speechSynthesis.getVoices();
+      const thalitaVoice = voices.find(v => 
+        v.lang.toLowerCase().includes('pt') && 
+        (v.name.includes('Thalita') || v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Francisca') || v.name.includes('Google português do Brasil'))
+      );
+      if (thalitaVoice) {
+        synthUtterance.voice = thalitaVoice;
+      }
 
       synthUtterance.onstart = () => {
-        btnText.innerText = "Pausar Voz";
+        if (btnText) btnText.innerText = "Pausar Voz";
       };
 
       synthUtterance.onend = () => {
-        btnText.innerText = "Ouvir Resumo";
+        if (btnText) btnText.innerText = "Ouvir Resumo";
       };
 
       window.speechSynthesis.speak(synthUtterance);
