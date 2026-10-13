@@ -298,73 +298,6 @@
               </svg>
             </button>
 
-            <!-- Seletor Rápido de Cidade -->
-            <div class="relative shrink-0">
-              <button 
-                type="button" 
-                id="btnCitySelect" 
-                onclick="toggleCityMenu()" 
-                class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-emerald-400 transition-colors"
-                title="Alterar Cidade Ativa">
-                <span>📍</span>
-                <span id="currentCityLabel">Cabo Frio, RJ</span>
-                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </button>
-
-              <!-- Dropdown de Cidades -->
-              <!-- Dropdown de Cidades (12 Estados) -->
-              <div id="cityMenu" class="hidden absolute right-0 mt-2 w-64 max-h-80 overflow-y-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50 text-xs custom-scrollbar">
-                <div class="px-2 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Cidades Auditadas (12 Estados)</div>
-                <button type="button" onclick="selecionarCidade('Rio de Janeiro', 'RJ')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Rio de Janeiro</span><span class="text-slate-500 font-mono">RJ</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('São Paulo', 'SP')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>São Paulo</span><span class="text-slate-500 font-mono">SP</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Belo Horizonte', 'MG')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Belo Horizonte</span><span class="text-slate-500 font-mono">MG</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Vitória', 'ES')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Vitória</span><span class="text-slate-500 font-mono">ES</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Curitiba', 'PR')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Curitiba</span><span class="text-slate-500 font-mono">PR</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Florianópolis', 'SC')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Florianópolis</span><span class="text-slate-500 font-mono">SC</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Criciúma', 'SC')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Criciúma</span><span class="text-slate-500 font-mono">SC</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Blumenau', 'SC')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Blumenau</span><span class="text-slate-500 font-mono">SC</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Porto Alegre', 'RS')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Porto Alegre</span><span class="text-slate-500 font-mono">RS</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Salvador', 'BA')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Salvador</span><span class="text-slate-500 font-mono">BA</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Brasília', 'DF')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Brasília</span><span class="text-slate-500 font-mono">DF</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Goiânia', 'GO')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Goiânia</span><span class="text-slate-500 font-mono">GO</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Recife', 'PE')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Recife</span><span class="text-slate-500 font-mono">PE</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Fortaleza', 'CE')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Fortaleza</span><span class="text-slate-500 font-mono">CE</span>
-                </button>
-                <button type="button" onclick="selecionarCidade('Cabo Frio', 'RJ')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
-                  <span>Cabo Frio</span><span class="text-slate-500 font-mono">RJ</span>
-                </button>
-              </div>
-            </div>
-
             <!-- Botão Microfone IA -->
             <button 
               type="button" 
@@ -380,7 +313,31 @@
 
           </div>
         </form>
-      </div>
+        <!-- Indicador Discreto e Elegante de Localização Automática (GPS/IP) -->
+        <div id="locationIndicatorBar" class="mt-3.5 flex items-center justify-center gap-1.5 text-xs text-slate-400">
+          <span class="text-emerald-400 transition-colors" id="locationIndicatorPin">📍</span>
+          <span>Ofertas para: <strong id="detectedCityText" class="text-slate-200 font-semibold">Detectando localização...</strong></span>
+          <span id="detectedMethodBadge" class="text-[10px] text-slate-500 font-normal">(Detectado via GPS/IP)</span>
+          <span class="text-slate-600">•</span>
+          <button type="button" id="btnCitySelect" onclick="abrirModalTrocarCidade()" class="text-emerald-400 hover:text-emerald-300 underline font-medium cursor-pointer transition-colors" title="Alterar Cidade Ativa">Alterar</button>
+        </div>
+
+        <!-- Card de Expansão Territorial Ativa (Exibido se a cidade detectada não tiver mercados mapeados) -->
+        <div id="expansionCard" class="hidden w-full max-w-xl mx-auto mt-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs shadow-lg backdrop-blur-sm">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl shrink-0">🚧</span>
+            <div class="flex-1">
+              <div class="font-bold text-amber-300 text-sm">O NutriPreço está expandindo para <span id="expansionCityName">sua região</span>!</div>
+              <p class="text-slate-300 text-xs mt-1">💡 Quer ver as ofertas do seu bairro aqui? Indique os supermercados da sua região!</p>
+              <form id="formSugestaoMercado" onsubmit="enviarSugestaoMercado(event, 'home')" class="mt-3 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="inputSugestaoMercado" placeholder="Nome do mercado e bairro (ex: Supermercado Guanabara, Centro)..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400" required />
+                <button type="submit" id="btnSugestaoMercado" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors shrink-0 cursor-pointer">Indicar Mercado</button>
+              </form>
+              <div id="sugestaoFeedback" class="hidden mt-2 text-[11px] text-emerald-400 font-semibold">✓ Sugestão recebida com sucesso! Nossa equipe irá auditar esta praça.</div>
+            </div>
+          </div>
+        </div>
+      </div>>
 
       <!-- BOTÕES ESTILO GOOGLE (ESTADO INICIAL) -->
       <div id="homeButtonsBlock" class="flex flex-wrap items-center justify-center gap-3 mt-6">
@@ -435,7 +392,19 @@
 
   <!-- CONTAINER DE RESULTADOS (OCULTO NA ENTRADA, REVELA APÓS BUSCA) -->
   <main id="resultsContainer" class="hidden max-w-4xl w-full mx-auto px-4 pb-16">
-    
+
+    <!-- Indicador de Praça em Resultados -->
+    <div class="flex flex-wrap items-center justify-between gap-2 py-2.5 px-4 rounded-2xl bg-slate-900/60 border border-slate-800/80 mb-4 text-xs text-slate-300">
+      <div class="flex items-center gap-2">
+        <span class="text-emerald-400 transition-colors" id="resultsPin">📍</span>
+        <span>Ofertas para: <strong id="resultsCityText" class="text-white font-bold">Cabo Frio, RJ</strong></span>
+        <span class="text-[10px] text-slate-500 font-mono" id="resultsLocationMethod">(Detectado via GPS/IP)</span>
+      </div>
+      <button type="button" onclick="abrirModalTrocarCidade()" class="text-emerald-400 hover:text-emerald-300 text-xs font-semibold underline cursor-pointer">
+        Alterar Cidade
+      </button>
+    </div>
+
     <!-- Status / Quantidade de Resultados -->
     <div class="flex items-center justify-between py-4 text-xs text-slate-400 border-b border-slate-800/80 mb-6">
       <div id="resultsCountText">
@@ -475,6 +444,57 @@
     </div>
 
   </main>
+
+    <!-- MODAL DE ALTERAÇÃO RÁPIDA DE CIDADE / PRAÇA -->
+  <div id="modalTrocarCidade" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 max-w-lg w-full text-slate-200 shadow-2xl relative">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📍</span>
+          <h3 class="text-base sm:text-lg font-bold text-white">Alterar Cidade / Praça</h3>
+        </div>
+        <button onclick="fecharModalTrocarCidade()" class="text-slate-400 hover:text-white p-1 rounded-full text-lg cursor-pointer">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-400 mb-4">
+        O NutriPreço detecta sua localização automaticamente via GPS ou IP para entregar os menores preços da sua vizinhança. Se preferir, selecione outra praça ou ative seu GPS:
+      </p>
+
+      <!-- Botão GPS Imediato -->
+      <button 
+        type="button" 
+        id="btnSolicitarGpsModal"
+        onclick="solicitarGpsManual()" 
+        class="w-full mb-4 py-2.5 px-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+        <span>🎯</span>
+        <span id="btnGpsManualText">Detectar Minha Localização Atual via GPS</span>
+      </button>
+
+      <!-- Campo de Busca por Qualquer Cidade -->
+      <div class="relative mb-3">
+        <input 
+          type="text" 
+          id="inputBuscaCidadeModal" 
+          oninput="filtrarCidadesModal()" 
+          placeholder="Filtrar praça ou digite o nome de sua cidade..." 
+          class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-emerald-400"
+        />
+      </div>
+
+      <!-- Lista de Cidades com Rolagem -->
+      <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Cidades com Auditoria Ativa (12 Estados)</div>
+      <div id="listaCidadesModal" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto custom-scrollbar p-1">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-slate-800/80 flex justify-between items-center">
+        <span class="text-[11px] text-slate-500">Atualiza automaticamente supermercados e postos</span>
+        <button onclick="fecharModalTrocarCidade()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-xs text-slate-300 hover:text-white transition-colors cursor-pointer">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL DE ORIENTAÇÃO PARA INSTALAR APP (PWA) -->
   <div id="modalInstall" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -1044,7 +1064,11 @@
         headerAudit.innerText = "Postos Oficiais ANP & Cupons de Abastecimento";
         btnPrimary.innerText = "⛽ Buscar Posto Mais Barato";
         sortLabel.className = "font-bold text-amber-400";
-        cityBtn.className = "flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-amber-400 transition-colors";
+        if (cityBtn) cityBtn.className = "text-amber-400 hover:text-amber-300 underline font-medium cursor-pointer transition-colors";
+        const pinH = document.getElementById("locationIndicatorPin");
+        const pinR = document.getElementById("resultsPin");
+        if (pinH) pinH.className = "text-amber-400 transition-colors";
+        if (pinR) pinR.className = "text-amber-400 transition-colors";
 
       } else {
         body.classList.remove('mode-fuel');
@@ -1063,7 +1087,11 @@
         headerAudit.innerText = "SEFAZ & ANP Verificados";
         btnPrimary.innerText = "🔍 Pesquisar Menor Preço";
         sortLabel.className = "font-bold text-emerald-400";
-        cityBtn.className = "flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-emerald-400 transition-colors";
+        if (cityBtn) cityBtn.className = "text-emerald-400 hover:text-emerald-300 underline font-medium cursor-pointer transition-colors";
+        const pinH2 = document.getElementById("locationIndicatorPin");
+        const pinR2 = document.getElementById("resultsPin");
+        if (pinH2) pinH2.className = "text-emerald-400 transition-colors";
+        if (pinR2) pinR2.className = "text-emerald-400 transition-colors";
       }
 
       renderChips();
@@ -1197,38 +1225,390 @@
       searchInput.focus();
     }
 
-    function toggleCityMenu() {
-      const menu = document.getElementById('cityMenu');
-      menu.classList.toggle('hidden');
+    // ==============================================================================
+    // MOTOR DE GEOLOCALIZAÇÃO AUTOMÁTICA HÍBRIDA (GPS / IP) & EXPANSÃO TERRITORIAL
+    // DIRETRIZ ESTRATÉGICA DO FUNDADOR ARTHUR LUIS VIEIRA DOS SANTOS
+    // ==============================================================================
+    const CIDADES_AUDITADAS = [
+      { nome: 'Cabo Frio', uf: 'RJ', lat: -22.88, lon: -42.02 },
+      { nome: 'Rio de Janeiro', uf: 'RJ', lat: -22.90, lon: -43.17 },
+      { nome: 'São Paulo', uf: 'SP', lat: -23.55, lon: -46.63 },
+      { nome: 'Belo Horizonte', uf: 'MG', lat: -19.92, lon: -43.93 },
+      { nome: 'Vitória', uf: 'ES', lat: -20.31, lon: -40.33 },
+      { nome: 'Curitiba', uf: 'PR', lat: -25.42, lon: -49.27 },
+      { nome: 'Florianópolis', uf: 'SC', lat: -27.59, lon: -48.54 },
+      { nome: 'Criciúma', uf: 'SC', lat: -28.67, lon: -49.37 },
+      { nome: 'Blumenau', uf: 'SC', lat: -26.91, lon: -49.07 },
+      { nome: 'Porto Alegre', uf: 'RS', lat: -30.03, lon: -51.23 },
+      { nome: 'Salvador', uf: 'BA', lat: -12.97, lon: -38.50 },
+      { nome: 'Brasília', uf: 'DF', lat: -15.79, lon: -47.88 },
+      { nome: 'Goiânia', uf: 'GO', lat: -16.68, lon: -49.26 },
+      { nome: 'Recife', uf: 'PE', lat: -8.05, lon: -34.88 },
+      { nome: 'Fortaleza', uf: 'CE', lat: -3.73, lon: -38.54 }
+    ];
+
+    const ESTADOS_MAP = {
+      'Acre': 'AC', 'Alagoas': 'AL', 'Amapá': 'AP', 'Amazonas': 'AM', 'Bahia': 'BA',
+      'Ceará': 'CE', 'Distrito Federal': 'DF', 'Espírito Santo': 'ES', 'Goiás': 'GO',
+      'Maranhão': 'MA', 'Mato Grosso': 'MT', 'Mato Grosso do Sul': 'MS', 'Minas Gerais': 'MG',
+      'Pará': 'PA', 'Paraíba': 'PB', 'Paraná': 'PR', 'Pernambuco': 'PE', 'Piauí': 'PI',
+      'Rio de Janeiro': 'RJ', 'Rio Grande do Norte': 'RN', 'Rio Grande do Sul': 'RS',
+      'Rondônia': 'RO', 'Roraima': 'RR', 'Santa Catarina': 'SC', 'São Paulo': 'SP',
+      'Sergipe': 'SE', 'Tocantins': 'TO'
+    };
+
+    let locationMethod = 'IP'; // 'GPS', 'IP' ou 'Manual'
+
+    function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
     }
 
-        function selecionarCidade(cidade, uf) {
+    function isCityCovered(cidade) {
+      if (!cidade) return false;
+      const clean = cidade.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      const temProdutos = DATABASE_PRODUTOS.some(p => {
+        const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
+      });
+      if (temProdutos) return true;
+      const temPostos = DATABASE_POSTOS.some(p => {
+        const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
+      });
+      return temPostos;
+    }
+
+    function atualizarIndicadoresLocalizacao() {
+      const labelText = `${currentCity}, ${currentUF}`;
+      const methodText = `(Detectado via ${locationMethod})`;
+
+      const detText = document.getElementById('detectedCityText');
+      const detBadge = document.getElementById('detectedMethodBadge');
+      const resText = document.getElementById('resultsCityText');
+      const resBadge = document.getElementById('resultsLocationMethod');
+      const expCity = document.getElementById('expansionCityName');
+      const curCityLabel = document.getElementById('currentCityLabel');
+
+      if (detText) detText.innerText = labelText;
+      if (detBadge) detBadge.innerText = methodText;
+      if (resText) resText.innerText = labelText;
+      if (resBadge) resBadge.innerText = methodText;
+      if (expCity) expCity.innerText = `${currentCity} - ${currentUF}`;
+      if (curCityLabel) curCityLabel.innerText = labelText;
+
+      verificarCoberturaCidade();
+    }
+
+    function verificarCoberturaCidade() {
+      const card = document.getElementById('expansionCard');
+      if (!card) return;
+      const coberta = isCityCovered(currentCity);
+      if (!coberta) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    }
+
+    function abrirModalTrocarCidade() {
+      const modal = document.getElementById('modalTrocarCidade');
+      if (modal) {
+        modal.classList.remove('hidden');
+        renderizarCidadesModal();
+      }
+    }
+
+    function fecharModalTrocarCidade() {
+      const modal = document.getElementById('modalTrocarCidade');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderizarCidadesModal(filtro = '') {
+      const container = document.getElementById('listaCidadesModal');
+      if (!container) return;
+      
+      const filtroClean = filtro.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      const filtradas = CIDADES_AUDITADAS.filter(c => {
+        if (!filtroClean) return true;
+        const nomeClean = c.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        return nomeClean.includes(filtroClean) || c.uf.toLowerCase().includes(filtroClean);
+      });
+
+      if (filtradas.length === 0 && filtroClean.length > 0) {
+        container.innerHTML = `
+          <div class="col-span-2 p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 text-center">
+            <p class="text-xs text-slate-300 mb-2">Cidade não listada nos polos auditados.</p>
+            <button type="button" onclick="selecionarCidade('${filtro}', 'BR', 'Manual'); fecharModalTrocarCidade();" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors cursor-pointer">
+              Definir "${filtro}" mesmo assim
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtradas.map(c => {
+        const isCurrent = c.nome.toLowerCase() === currentCity.toLowerCase();
+        const activeClass = isCurrent 
+          ? 'bg-emerald-500/20 border-emerald-500/50 text-white font-bold shadow-[0_0_10px_rgba(0,230,118,0.2)]' 
+          : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+        return `
+          <button type="button" onclick="selecionarCidade('${c.nome}', '${c.uf}', 'Manual'); fecharModalTrocarCidade();" class="p-2.5 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+            <span class="flex items-center gap-1.5">
+              <span>📍</span>
+              <span>${c.nome}</span>
+            </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-900 font-mono text-slate-400">${c.uf}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function filtrarCidadesModal() {
+      const input = document.getElementById('inputBuscaCidadeModal');
+      renderizarCidadesModal(input ? input.value : '');
+    }
+
+    async function solicitarGpsManual() {
+      const btnText = document.getElementById('btnGpsManualText');
+      if (btnText) btnText.innerText = 'Consultando satélites GPS...';
+
+      if (!navigator.geolocation) {
+        alert('Seu navegador não suporta geolocalização. Mantendo detecção via IP.');
+        if (btnText) btnText.innerText = 'Detectar Minha Localização Atual via GPS';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          try {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            let encontrada = false;
+
+            try {
+              const resp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`);
+              if (resp.ok) {
+                const geo = await resp.json();
+                const cid = geo.city || geo.locality;
+                let uf = 'RJ';
+                if (geo.principalSubdivisionCode && geo.principalSubdivisionCode.startsWith('BR-')) {
+                  uf = geo.principalSubdivisionCode.replace('BR-', '');
+                } else if (geo.principalSubdivision && ESTADOS_MAP[geo.principalSubdivision]) {
+                  uf = ESTADOS_MAP[geo.principalSubdivision];
+                }
+                if (cid) {
+                  selecionarCidade(cid, uf, 'GPS');
+                  encontrada = true;
+                }
+              }
+            } catch(e) {}
+
+            if (!encontrada) {
+              let maisProxima = null;
+              let menorDist = Infinity;
+              CIDADES_AUDITADAS.forEach(c => {
+                const d = calcularDistanciaKm(lat, lon, c.lat, c.lon);
+                if (d < menorDist) {
+                  menorDist = d;
+                  maisProxima = c;
+                }
+              });
+              if (maisProxima) {
+                selecionarCidade(maisProxima.nome, maisProxima.uf, 'GPS');
+              }
+            }
+
+            if (btnText) btnText.innerText = 'Detectar Minha Localização Atual via GPS';
+            fecharModalTrocarCidade();
+          } catch(err) {
+            console.warn('Erro ao processar GPS manual:', err);
+            if (btnText) btnText.innerText = 'Detectar Minha Localização Atual via GPS';
+          }
+        },
+        (err) => {
+          alert('Não foi possível obter permissão de GPS no navegador. Mantendo detecção via IP.');
+          if (btnText) btnText.innerText = 'Detectar Minha Localização Atual via GPS';
+        },
+        { timeout: 8000, maximumAge: 60000, enableHighAccuracy: true }
+      );
+    }
+
+    async function detectarViaIp() {
+      try {
+        const res = await fetch('https://get.geojs.io/v1/ip/geo.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.city) {
+            let uf = 'RJ';
+            if (data.region && ESTADOS_MAP[data.region]) {
+              uf = ESTADOS_MAP[data.region];
+            } else if (data.region && data.region.length === 2) {
+              uf = data.region.toUpperCase();
+            }
+            selecionarCidade(data.city, uf, 'IP');
+          }
+        }
+      } catch (e) {
+        console.warn('Detecção via IP offline, mantendo praça padrão:', e);
+        atualizarIndicadoresLocalizacao();
+      }
+    }
+
+    async function detectarLocalizacaoAutomatica() {
+      const salva = localStorage.getItem('nutri_user_location');
+      if (salva) {
+        try {
+          const loc = JSON.parse(salva);
+          if (loc.cidade && loc.uf) {
+            currentCity = loc.cidade;
+            currentUF = loc.uf;
+            locationMethod = loc.metodo || 'Manual';
+            atualizarIndicadoresLocalizacao();
+            if (typeof carregarCombustiveisOnline === 'function') carregarCombustiveisOnline(currentUF);
+            return;
+          }
+        } catch(e) {}
+      }
+
+      // 1. Fallback instantâneo por IP (resiliente, não trava a tela)
+      detectarViaIp();
+
+      // 2. Coleta precisa por GPS (se autorizado)
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            try {
+              const lat = pos.coords.latitude;
+              const lon = pos.coords.longitude;
+              let reverseDone = false;
+              try {
+                const resp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`);
+                if (resp.ok) {
+                  const geo = await resp.json();
+                  const cid = geo.city || geo.locality;
+                  let uf = 'RJ';
+                  if (geo.principalSubdivisionCode && geo.principalSubdivisionCode.startsWith('BR-')) {
+                    uf = geo.principalSubdivisionCode.replace('BR-', '');
+                  } else if (geo.principalSubdivision && ESTADOS_MAP[geo.principalSubdivision]) {
+                    uf = ESTADOS_MAP[geo.principalSubdivision];
+                  }
+                  if (cid) {
+                    selecionarCidade(cid, uf, 'GPS');
+                    reverseDone = true;
+                  }
+                }
+              } catch(e) {}
+
+              if (!reverseDone) {
+                let maisProxima = null;
+                let menorDist = Infinity;
+                CIDADES_AUDITADAS.forEach(c => {
+                  const d = calcularDistanciaKm(lat, lon, c.lat, c.lon);
+                  if (d < menorDist) {
+                    menorDist = d;
+                    maisProxima = c;
+                  }
+                });
+                if (maisProxima && menorDist < 80) {
+                  selecionarCidade(maisProxima.nome, maisProxima.uf, 'GPS');
+                }
+              }
+            } catch(e) {}
+          },
+          (err) => {},
+          { timeout: 7000, maximumAge: 300000, enableHighAccuracy: false }
+        );
+      }
+    }
+
+    function selecionarCidade(cidade, uf, metodo = 'Manual') {
       currentCity = cidade;
       currentUF = uf;
-      document.getElementById('currentCityLabel').innerText = `${cidade}, ${uf}`;
-      document.getElementById('cityMenu').classList.add('hidden');
+      locationMethod = metodo;
+
+      if (metodo === 'Manual' || metodo === 'GPS') {
+        try {
+          localStorage.setItem('nutri_user_location', JSON.stringify({ cidade, uf, metodo }));
+        } catch(e) {}
+      }
+
+      atualizarIndicadoresLocalizacao();
+
       if (typeof carregarCombustiveisOnline === 'function') {
         carregarCombustiveisOnline(uf);
       }
-      if (document.body.classList.contains('in-results')) {
-        executarBusca();
-      }
-    }, ${uf}`;
-      document.getElementById('cityMenu').classList.add('hidden');
-      
+
       if (document.body.classList.contains('in-results')) {
         executarBusca();
       }
     }
 
-    document.addEventListener('click', (e) => {
-      const menu = document.getElementById('cityMenu');
-      const btn = document.getElementById('btnCitySelect');
-      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-        menu.classList.add('hidden');
-      }
-    });
+    async function enviarSugestaoMercado(event, source = 'home') {
+      if (event) event.preventDefault();
+      const input = source === 'home' 
+        ? document.getElementById('inputSugestaoMercado') 
+        : document.getElementById('inputSugestaoMercadoResults');
+      const feedback = source === 'home' 
+        ? document.getElementById('sugestaoFeedback') 
+        : document.getElementById('sugestaoFeedbackResults');
 
+      if (!input || !input.value.trim()) return;
+      const texto = input.value.trim();
+
+      // Salvar no localStorage
+      try {
+        const list = JSON.parse(localStorage.getItem('nutri_sugestoes_mercados') || '[]');
+        list.push({
+          cidade: currentCity,
+          uf: currentUF,
+          sugestao: texto,
+          modo: searchMode,
+          origem: source,
+          data: new Date().toISOString()
+        });
+        localStorage.setItem('nutri_sugestoes_mercados', JSON.stringify(list));
+      } catch(e) {}
+
+      // Salvar no Supabase Telemetria
+      try {
+        fetch(`${TELEMETRIA_CONFIG.url}/rest/v1/app_telemetria`, {
+          method: 'POST',
+          headers: {
+            'apikey': TELEMETRIA_CONFIG.key,
+            'Authorization': `Bearer ${TELEMETRIA_CONFIG.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            device_id: getOrCreateDeviceId(),
+            evento: 'sugestao_expansao_mercado',
+            cidade: `${currentCity} - ${currentUF}`,
+            metadata: {
+              sugestao: texto,
+              cidade: currentCity,
+              uf: currentUF,
+              modo: searchMode,
+              origem: source
+            },
+            created_at: new Date().toISOString()
+          })
+        }).catch(() => {});
+      } catch(e) {}
+
+      input.value = '';
+      if (feedback) {
+        feedback.classList.remove('hidden');
+        setTimeout(() => feedback.classList.add('hidden'), 5000);
+      }
+    }
+    
     function voltarParaHome() {
       document.body.classList.remove('in-results');
       document.getElementById('resultsContainer').classList.add('hidden');
@@ -1318,13 +1698,35 @@
       produtos.sort((a, b) => a.preco - b.preco);
 
       if (produtos.length === 0) {
-        countText.innerHTML = `Nenhum preço auditado para "${termo || 'sua busca'}" em ${currentCity}.`;
-        currentAiSummary = `Não encontramos cotações ativas para ${termo || 'este produto'} em ${currentCity} no momento.`;
+        countText.innerHTML = `Nenhum preço auditado para "${termo || 'sua busca'}" em ${currentCity} - ${currentUF}.`;
+        currentAiSummary = `O NutriPreço está expandindo para ${currentCity} - ${currentUF}! Nossos robôs caçadores estão mapeando supermercados da sua região.`;
         aiBody.innerHTML = `
-          <p class="text-amber-300 font-semibold mb-2">⚠️ Fase de Expansão Territorial em ${currentCity}</p>
-          <p class="text-slate-300 text-sm">Nossos robôs ainda não registraram cupons recentes para "${termo || queryOriginal}" nesta praça.</p>
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">🚧</span>
+            <div>
+              <p class="text-amber-300 font-bold mb-1 text-base">O NutriPreço está expandindo para ${currentCity} - ${currentUF}!</p>
+              <p class="text-slate-300 text-sm">Nossos robôs caçadores de menor preço ainda não registraram cotações nesta localidade para "${termo || queryOriginal}".</p>
+            </div>
+          </div>
         `;
-        container.innerHTML = `<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">Nenhum resultado direto em ${currentCity}.</div>`;
+        container.innerHTML = `
+          <div class="rounded-3xl bg-slate-900/80 border border-amber-500/30 p-6 sm:p-8 text-center max-w-2xl mx-auto shadow-2xl">
+            <div class="text-4xl mb-3">🚧</div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">O NutriPreço está expandindo para ${currentCity} - ${currentUF}!</h3>
+            <p class="text-slate-300 text-sm mb-6">Estamos conectando novos supermercados e redes locais para trazer economia real à sua mesa.</p>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 text-left">
+              <div class="font-bold text-amber-300 text-sm flex items-center gap-1.5 mb-2">
+                <span>💡</span>
+                <span>Quer ver as ofertas do seu bairro aqui? Indique os supermercados da sua região!</span>
+              </div>
+              <form onsubmit="enviarSugestaoMercado(event, 'results')" class="mt-3 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="inputSugestaoMercadoResults" placeholder="Nome do mercado e bairro (ex: Supermercado Silva, Centro)..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400" required />
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors shrink-0 cursor-pointer">Indicar Mercado</button>
+              </form>
+              <div id="sugestaoFeedbackResults" class="hidden mt-2.5 text-xs text-emerald-400 font-semibold">✓ Muito obrigado! Sugestão enviada à nossa equipe de expansão.</div>
+            </div>
+          </div>
+        `;
         return;
       }
 
@@ -1467,13 +1869,35 @@
       postos.sort((a, b) => a[tipoCombustivel] - b[tipoCombustivel]);
 
       if (postos.length === 0) {
-        countText.innerHTML = `Nenhum posto com ${nomeCombustivel} encontrado em ${currentCity}.`;
-        currentAiSummary = `Não encontramos registros ativos de ${nomeCombustivel} em ${currentCity} no momento.`;
+        countText.innerHTML = `Nenhum posto com ${nomeCombustivel} encontrado em ${currentCity} - ${currentUF}.`;
+        currentAiSummary = `O NutriCombust está expandindo para ${currentCity} - ${currentUF}! Nossos sistemas estão mapeando os postos da região.`;
         aiBody.innerHTML = `
-          <p class="text-amber-300 font-semibold mb-2">⚠️ Fase de Expansão de Postos em ${currentCity}</p>
-          <p class="text-slate-300 text-sm">Envie a foto do totem ou cupom de abastecimento para cadastrar este posto e pontuar!</p>
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">🚧</span>
+            <div>
+              <p class="text-amber-300 font-bold mb-1 text-base">O NutriCombust está expandindo para ${currentCity} - ${currentUF}!</p>
+              <p class="text-slate-300 text-sm">Ainda não encontramos registros ativos de ${nomeCombustivel} em ${currentCity}.</p>
+            </div>
+          </div>
         `;
-        container.innerHTML = `<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">Nenhum posto encontrado em ${currentCity}.</div>`;
+        container.innerHTML = `
+          <div class="rounded-3xl bg-slate-900/80 border border-amber-500/30 p-6 sm:p-8 text-center max-w-2xl mx-auto shadow-2xl">
+            <div class="text-4xl mb-3">🚧</div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">O NutriCombust está expandindo para ${currentCity} - ${currentUF}!</h3>
+            <p class="text-slate-300 text-sm mb-6">Indique os postos da sua cidade para priorizarmos a auditoria dos preços na bomba.</p>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 text-left">
+              <div class="font-bold text-amber-300 text-sm flex items-center gap-1.5 mb-2">
+                <span>💡</span>
+                <span>Quer ver os preços do posto da sua esquina aqui? Indique o posto da sua região!</span>
+              </div>
+              <form onsubmit="enviarSugestaoMercado(event, 'results')" class="mt-3 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="inputSugestaoMercadoResults" placeholder="Nome do posto, bandeira e bairro..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400" required />
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors shrink-0 cursor-pointer">Indicar Posto</button>
+              </form>
+              <div id="sugestaoFeedbackResults" class="hidden mt-2.5 text-xs text-emerald-400 font-semibold">✓ Muito obrigado! Sugestão enviada à nossa equipe de expansão.</div>
+            </div>
+          </div>
+        `;
         return;
       }
 
@@ -1824,7 +2248,7 @@
         const payload = {
           device_id: getOrCreateDeviceId(),
           evento: evento,
-          cidade: selectedCityName || 'Nacional',
+          cidade: `${currentCity} - ${currentUF}`,
           metadata: {
             modo: searchMode,
             path: window.location.pathname,
@@ -1931,6 +2355,7 @@
     // INICIALIZAÇÃO
     renderChips();
     runTypewriter();
+    detectarLocalizacaoAutomatica();
 
     // Inicia Telemetria Real Supabase
     enviarPingTelemetria('pageview');
