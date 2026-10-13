@@ -10,6 +10,8 @@ jobs:
   coleta-nacional-auditada:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout do Repositório
@@ -23,7 +25,7 @@ jobs:
 
       - name: Instalar Dependências Otimizadas
         run: |
-          pip install requests beautifulsoup4
+          pip install -r requirements.txt
 
       - name: Executar Varredura das 14 Redes e Sincronizar Supabase
         env:
