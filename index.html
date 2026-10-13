@@ -1224,7 +1224,39 @@
       searchInput.placeholder = 'Digite o que procura ou fale no microfone...';
     }
 
-    // PLAYER DE ÁUDIO OFICIAL DA THALITA AMIGA (OPÇÃO 3 APROVADA PELO ARTHUR)
+    // SISTEMA DE ÁUDIO EXCLUSIVO DA THALITA AMIGA (OPÇÃO 3 APROVADA PELO ARTHUR)
+    let activeThalitaSearchAudio = null;
+
+    function pararTodosAudios() {
+      // 1. Pausa o boletim da tela inicial
+      const audioBoletim = document.getElementById('audioThalitaElement');
+      if (audioBoletim) {
+        audioBoletim.pause();
+        audioBoletim.currentTime = 0;
+      }
+      const icon = document.getElementById('thalitaPlayIcon');
+      if (icon) icon.innerText = "▶️";
+      const wave = document.getElementById('thalitaSoundWave');
+      if (wave) wave.classList.add('hidden');
+      const status = document.getElementById('thalitaAudioStatus');
+      if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
+
+      // 2. Pausa áudio de resumo da IA
+      if (activeThalitaSearchAudio) {
+        activeThalitaSearchAudio.pause();
+        activeThalitaSearchAudio.currentTime = 0;
+        activeThalitaSearchAudio = null;
+      }
+      const btnText = document.getElementById('btnSpeakText');
+      if (btnText) btnText.innerText = "Ouvir Resumo";
+
+      // 3. Cancela qualquer síntese residual do navegador
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    // PLAYER 1: BOLETIM DO DIA DA HELENA (VOZ THALITA)
     function toggleAudioThalitaOficial() {
       const audio = document.getElementById('audioThalitaElement');
       const icon = document.getElementById('thalitaPlayIcon');
@@ -1234,13 +1266,19 @@
       if (!audio) return;
 
       if (audio.paused) {
+        // Pausa áudio de busca se estiver rodando
+        if (activeThalitaSearchAudio) {
+          activeThalitaSearchAudio.pause();
+          const btnText = document.getElementById('btnSpeakText');
+          if (btnText) btnText.innerText = "Ouvir Resumo";
+        }
+
         audio.play().then(() => {
           if (icon) icon.innerText = "⏸️";
           if (wave) wave.classList.remove('hidden');
-          if (status) status.innerText = "Tocando na voz da Thalita Amiga...";
+          if (status) status.innerText = "Tocando Boletim na voz da Thalita...";
         }).catch((err) => {
           console.warn("Autoplay bloqueado pelo navegador:", err);
-          falarRespostaIA();
         });
       } else {
         audio.pause();
@@ -1256,51 +1294,70 @@
       };
     }
 
-    // RESPOSTA POR VOZ DA IA (CONFIGURADA NO PADRÃO THALITA AMIGA: +6% RATE, +5HZ PITCH)
+    // PLAYER 2: RESPOSTA DINÂMICA DA IA NA VOZ DA THALITA (ELIMINA VOZ ROBÓTICA DO NAVEGADOR)
     function falarRespostaIA() {
       const btnText = document.getElementById('btnSpeakText');
 
-      if (window.speechSynthesis && window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
+      // Se já estiver tocando o áudio da Thalita, pausa
+      if (activeThalitaSearchAudio && !activeThalitaSearchAudio.paused) {
+        activeThalitaSearchAudio.pause();
         if (btnText) btnText.innerText = "Ouvir Resumo";
         return;
       }
 
-      // Se não houver resumo na tela, toca o boletim oficial em estúdio da Thalita
-      if (!currentAiSummary) {
-        toggleAudioThalitaOficial();
-        return;
+      pararTodosAudios();
+
+      // Mapeamento inteligente do áudio masterizado da Thalita pelo termo pesquisado
+      const termo = (searchInput.value || '').toLowerCase();
+      let audioFile = 'audio_thalita_resumo_geral.mp3';
+
+      if (searchMode === 'fuel') {
+        if (termo.includes('etanol') || termo.includes('álcool') || termo.includes('alcool')) {
+          audioFile = 'audio_thalita_etanol.mp3';
+        } else if (termo.includes('diesel')) {
+          audioFile = 'audio_thalita_diesel.mp3';
+        } else if (termo.includes('gnv') || termo.includes('gás')) {
+          audioFile = 'audio_thalita_gnv.mp3';
+        } else {
+          audioFile = 'audio_thalita_gasolina.mp3';
+        }
+      } else {
+        if (termo.includes('arroz')) {
+          audioFile = 'audio_thalita_arroz.mp3';
+        } else if (termo.includes('feij') || termo.includes('feijao') || termo.includes('feijão')) {
+          audioFile = 'audio_thalita_feijao.mp3';
+        } else if (termo.includes('leite')) {
+          audioFile = 'audio_thalita_leite.mp3';
+        } else if (termo.includes('caf') || termo.includes('cafe') || termo.includes('café')) {
+          audioFile = 'audio_thalita_cafe.mp3';
+        } else if (termo.includes('óleo') || termo.includes('oleo') || termo.includes('soja')) {
+          audioFile = 'audio_thalita_oleo.mp3';
+        } else if (termo.includes('carn') || termo.includes('carne') || termo.includes('açougue') || termo.includes('acougue')) {
+          audioFile = 'audio_thalita_carne.mp3';
+        } else if (termo.includes('cesta') || termo.includes('basica') || termo.includes('básica')) {
+          audioFile = 'audio_thalita_cesta_basica.mp3';
+        } else {
+          audioFile = 'audio_thalita_resumo_geral.mp3';
+        }
       }
 
-      if (!window.speechSynthesis) {
-        toggleAudioThalitaOficial();
-        return;
-      }
-
-      synthUtterance = new SpeechSynthesisUtterance(currentAiSummary);
-      synthUtterance.lang = 'pt-BR';
-      synthUtterance.rate = 1.06;  // Padrão Aprovado: +6%
-      synthUtterance.pitch = 1.05; // Padrão Aprovado: +5Hz
-
-      // Seleção prioritária de vozes neurais brasileiras (Thalita / Natural / Neural)
-      const voices = window.speechSynthesis.getVoices();
-      const thalitaVoice = voices.find(v => 
-        v.lang.toLowerCase().includes('pt') && 
-        (v.name.includes('Thalita') || v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Francisca') || v.name.includes('Google português do Brasil'))
-      );
-      if (thalitaVoice) {
-        synthUtterance.voice = thalitaVoice;
-      }
-
-      synthUtterance.onstart = () => {
+      activeThalitaSearchAudio = new Audio(audioFile);
+      activeThalitaSearchAudio.play().then(() => {
         if (btnText) btnText.innerText = "Pausar Voz";
-      };
-
-      synthUtterance.onend = () => {
+      }).catch((e) => {
+        console.warn("Autoplay bloqueado:", e);
         if (btnText) btnText.innerText = "Ouvir Resumo";
+      });
+
+      activeThalitaSearchAudio.onended = () => {
+        if (btnText) btnText.innerText = "Ouvir Resumo";
+        activeThalitaSearchAudio = null;
       };
 
-      window.speechSynthesis.speak(synthUtterance);
+      activeThalitaSearchAudio.onerror = () => {
+        if (btnText) btnText.innerText = "Ouvir Resumo";
+        activeThalitaSearchAudio = null;
+      };
     }
 
     function perguntarHelenaIA() {
@@ -1309,6 +1366,10 @@
         searchInput.value = searchMode === 'fuel' ? "Gasolina comum mais barata" : "Cesta básica mais econômica";
       }
       executarBusca();
+      // Ao perguntar à Helena, reproduz a voz oficial da Thalita com a resposta
+      setTimeout(() => {
+        falarRespostaIA();
+      }, 400);
     }
 
     // INSTALAÇÃO DO APLICATIVO (PWA)
