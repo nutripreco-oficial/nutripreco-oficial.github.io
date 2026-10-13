@@ -2,46 +2,28 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#080D0A">
-  <meta name="description" content="NutriPreço 2.0 - O primeiro aplicativo com Inteligência Artificial Viva, Voz Neural Google e Scanner de Cupons para economizar em 15 supermercados de Cabo Frio e Região dos Lagos.">
-  <title>NutriPreço 2.0 • I.A Viva & Economia Real em Supermercados</title>
-
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriPreço — O Motor de Busca da Economia Popular</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #080D0A;
-      --bg-card: rgba(18, 26, 21, 0.75);
-      --bg-card-hover: rgba(26, 38, 30, 0.85);
-      --border-glow: rgba(0, 230, 118, 0.25);
-      --border-subtle: rgba(255, 255, 255, 0.08);
+      --bg-dark: #070B08;
       --accent-green: #00E676;
-      --accent-emerald: #10B981;
       --accent-gold: #FFD700;
-      --accent-pink: #FF4081;
-      --text-main: #FFFFFF;
-      --text-muted: #94A3B8;
-      --text-dim: #64748B;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-dark);
-      color: var(--text-main);
+      color: #E2E8F0;
       overflow-x: hidden;
-      line-height: 1.6;
+      min-height: 100vh;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(0, 230, 118, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 85% 65%, rgba(255, 215, 0, 0.05) 0%, transparent 45%),
@@ -49,878 +31,666 @@
       background-attachment: fixed;
     }
 
-    /* Navegação */
-    nav {
+    /* Animação do Brilho da Logo */
+    .glow-brand {
+      box-shadow: 0 0 25px rgba(0, 230, 118, 0.35);
+      transition: all 0.3s ease;
+    }
+    .glow-brand:hover {
+      box-shadow: 0 0 35px rgba(0, 230, 118, 0.6);
+      transform: scale(1.03);
+    }
+
+    /* Barra de Busca Estilo Google NutriPreço */
+    .search-box-glow {
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(255, 255, 255, 0.1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .search-box-glow:focus-within {
+      box-shadow: 0 15px 35px -5px rgba(0, 230, 118, 0.25), 0 0 0 2px rgba(0, 230, 118, 0.6);
+      border-color: rgba(0, 230, 118, 0.8);
+      background-color: rgba(15, 23, 18, 0.95);
+    }
+
+    /* Pulso do Microfone ao Ouvir */
+    .mic-recording {
+      animation: micPulse 1.2s infinite;
+      background-color: #ef4444 !important;
+      color: white !important;
+    }
+    @keyframes micPulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* Transição Google da Home para Resultados */
+    #heroContainer {
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.in-results #heroContainer {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 11, 8, 0.88);
+      backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
-      z-index: 1000;
-      background: rgba(8, 13, 10, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      z-index: 50;
+    }
+    body.in-results #heroWrapper {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 1.5rem;
       max-width: 1200px;
       margin: 0 auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: white;
+    body.in-results #brandLogoBlock {
+      margin-bottom: 0;
+      transform: scale(0.85);
     }
-
-    .brand-logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #00E676, #1b5e20);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+    body.in-results #brandText {
+      display: none;
     }
-
-    .brand-name {
-      font-weight: 800;
-      font-size: 19px;
-      letter-spacing: -0.5px;
-    }
-
-    .brand-tag {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-gold);
-      background: rgba(255, 215, 0, 0.12);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      padding: 2px 7px;
-      border-radius: 6px;
-      margin-left: 4px;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-link:hover {
-      color: var(--accent-green);
-    }
-
-    .btn-download-nav {
-      background: linear-gradient(135deg, #00E676, #00C853);
-      color: #04250e;
-      font-weight: 700;
-      font-size: 13.5px;
-      padding: 9px 18px;
-      border-radius: 99px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-download-nav:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 230, 118, 0.45);
-    }
-
-    /* Container Principal */
-    .container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 60px 0 50px 0;
-      text-align: center;
-      position: relative;
-    }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 230, 118, 0.08);
-      border: 1px solid rgba(0, 230, 118, 0.3);
-      padding: 6px 14px;
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--accent-green);
-      margin-bottom: 22px;
-      animation: pulseGlow 3s infinite;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { border-color: rgba(0, 230, 118, 0.3); box-shadow: 0 0 10px rgba(0, 230, 118, 0.1); }
-      50% { border-color: rgba(0, 230, 118, 0.6); box-shadow: 0 0 20px rgba(0, 230, 118, 0.25); }
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 5.5vw, 56px);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -1.2px;
-      margin-bottom: 20px;
-      background: linear-gradient(180deg, #FFFFFF 0%, #CFD8DC 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-title span {
-      background: linear-gradient(135deg, #00E676 0%, #FFD700 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-desc {
-      font-size: clamp(16px, 2.2vw, 19px);
-      color: var(--text-muted);
-      max-width: 780px;
-      margin: 0 auto 34px auto;
-      font-weight: 400;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-
-    .btn-hero-primary {
-      background: linear-gradient(135deg, #00E676, #00B0FF);
-      color: #041a10;
-      font-weight: 800;
-      font-size: 16px;
-      padding: 16px 32px;
-      border-radius: 14px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 25px rgba(0, 230, 118, 0.35);
-      transition: all 0.25s ease;
-    }
-
-    .btn-hero-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(0, 230, 118, 0.5);
-    }
-
-    .btn-hero-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      font-weight: 700;
-      font-size: 15px;
-      padding: 16px 26px;
-      border-radius: 14px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      backdrop-filter: blur(10px);
-      transition: all 0.2s ease;
-    }
-
-    .btn-hero-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Métricas em Linha */
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-      backdrop-filter: blur(12px);
-    }
-
-    .stat-val {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--accent-green);
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* Demonstração de I.A Viva e Áudio */
-    .showcase-card {
-      background: linear-gradient(180deg, rgba(20, 32, 25, 0.8) 0%, rgba(12, 18, 14, 0.95) 100%);
-      border: 1px solid var(--border-glow);
-      border-radius: 24px;
-      padding: 32px 28px;
-      margin: 40px 0;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .showcase-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 18px;
-    }
-
-    .persona-selector {
-      display: flex;
-      gap: 10px;
-    }
-
-    .persona-tab {
-      padding: 8px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.2s;
-    }
-
-    .persona-tab.penelope {
-      background: rgba(255, 64, 129, 0.15);
-      color: #FF4081;
-      border-color: rgba(255, 64, 129, 0.4);
-    }
-
-    .persona-tab.odisseu {
-      background: rgba(0, 230, 118, 0.15);
-      color: #00E676;
-      border-color: rgba(0, 230, 118, 0.4);
-    }
-
-    .voice-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--accent-gold);
-      background: rgba(255, 215, 0, 0.1);
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 215, 0, 0.25);
-    }
-
-    /* Vortex Visualizer Simulation */
-    .vortex-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0;
-      text-align: center;
-    }
-
-    .orb-glow {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #00E676 0%, #10B981 40%, rgba(0, 230, 118, 0) 70%);
-      box-shadow: 0 0 35px rgba(0, 230, 118, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      margin-bottom: 20px;
-      animation: breathe 3s ease-in-out infinite;
-    }
-
-    @keyframes breathe {
-      0%, 100% { transform: scale(0.96); box-shadow: 0 0 25px rgba(0, 230, 118, 0.5); }
-      50% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0, 230, 118, 0.8); }
-    }
-
-    .audio-player-box {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 16px 20px;
-      max-width: 600px;
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    .waveform-bars {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      height: 36px;
-      margin-bottom: 12px;
-    }
-
-    .waveform-bars span {
-      width: 4px;
-      background: var(--accent-green);
-      border-radius: 2px;
-      animation: wave 1.2s ease-in-out infinite alternate;
-    }
-
-    .waveform-bars span:nth-child(2) { animation-delay: 0.2s; height: 18px; }
-    .waveform-bars span:nth-child(3) { animation-delay: 0.4s; height: 30px; }
-    .waveform-bars span:nth-child(4) { animation-delay: 0.1s; height: 24px; }
-    .waveform-bars span:nth-child(5) { animation-delay: 0.5s; height: 34px; }
-    .waveform-bars span:nth-child(6) { animation-delay: 0.3s; height: 16px; }
-
-    @keyframes wave {
-      0% { transform: scaleY(0.3); }
-      100% { transform: scaleY(1); }
-    }
-
-    .dialogue-text {
-      font-size: 15px;
-      color: #ECEFF1;
-      font-style: italic;
-      line-height: 1.5;
-    }
-
-    /* 15 Supermercados Grid */
-    .section-title {
-      font-size: 26px;
-      font-weight: 800;
-      text-align: center;
-      margin: 40px 0 10px 0;
-      color: white;
-    }
-
-    .section-sub {
-      font-size: 15px;
-      color: var(--text-muted);
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 30px auto;
-    }
-
-    .markets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
-      margin-bottom: 40px;
-    }
-
-    .market-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .market-item:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-glow);
-      background: var(--bg-card-hover);
-    }
-
-    .market-icon {
-      font-size: 22px;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .market-name {
-      font-weight: 700;
-      font-size: 14px;
-      color: white;
-      display: block;
-    }
-
-    .market-loc {
-      font-size: 11.5px;
-      color: var(--text-muted);
-    }
-
-    /* Recursos & Diferenciais */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin: 30px 0;
-    }
-
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 24px;
-      transition: all 0.25s ease;
-    }
-
-    .feature-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(0, 230, 118, 0.1);
-      border: 1px solid rgba(0, 230, 118, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin-bottom: 16px;
-    }
-
-    .feature-title {
-      font-size: 17px;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 8px;
-    }
-
-    .feature-text {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* Download Box */
-    .download-section {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(0, 230, 118, 0.05) 100%);
-      border: 1.5px solid var(--border-glow);
-      border-radius: 24px;
-      padding: 40px 30px;
-      text-align: center;
-      margin: 50px 0;
-    }
-
-    .download-title {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      color: white;
-    }
-
-    .download-steps {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin: 28px 0;
-      text-align: left;
-    }
-
-    .step-box {
+    body.in-results #searchFormWrapper {
+      max-width: 680px;
+      margin: 0;
       flex: 1;
-      min-width: 220px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 16px;
     }
-
-    .step-number {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--accent-gold);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .step-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .step-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* Rodapé */
-    footer {
-      border-top: 1px solid var(--border-subtle);
-      padding: 30px 20px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-dim);
-      margin-top: 60px;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-bottom: 12px;
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    .footer-links a:hover {
-      color: var(--accent-green);
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 12px 16px; }
-      .nav-links { display: none; }
-      .hero { padding: 40px 0 30px 0; }
-      .showcase-card { padding: 24px 18px; }
+    body.in-results #quickChipsBlock,
+    body.in-results #homeButtonsBlock,
+    body.in-results #homeTagline {
+      display: none;
     }
   </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 
-  <!-- Navegação -->
-  <nav>
-    <a href="#" class="brand">
-      <div class="brand-logo">🌿</div>
-      <div>
-        <span class="brand-name">NutriPreço</span>
-        <span class="brand-tag">2.0 VIVA</span>
-      </div>
-    </a>
-
-    <div class="nav-links">
-      <a href="#recursos" class="nav-link">Recursos</a>
-      <a href="#mercados" class="nav-link">15 Mercados</a>
-      <a href="#governanca" class="nav-link">Governança & LGPD</a>
-      <span class="btn-download-nav" style="background: rgba(255, 215, 0, 0.15); color: #FFD700; border: 1px solid rgba(255, 215, 0, 0.4); cursor: default;">⏳ Em Breve Versão Atualizada</span>
+  <!-- TOPO INSTITUCIONAL / INDICADORES -->
+  <header class="w-full px-4 sm:px-8 py-3 flex items-center justify-between text-xs text-slate-400">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-medium text-slate-300">Base Nacional Auditada (SEFAZ & ANP)</span>
     </div>
-  </nav>
+    <div class="flex items-center gap-4">
+      <a href="/combustivel.html" class="hover:text-amber-400 font-semibold transition-colors flex items-center gap-1">
+        <span>⛽ NutriCombust</span>
+      </a>
+      <a href="/index.html" class="hover:text-emerald-400 font-semibold transition-colors flex items-center gap-1">
+        <span>🏪 Cesta Completa</span>
+      </a>
+      <a href="https://mestrepratico.com.br" class="text-slate-500 hover:text-white transition-colors hidden sm:inline">
+        Mestre Prático Holding
+      </a>
+    </div>
+  </header>
 
-  <main class="container">
-
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="badge-pill">
-        ✨ Em Calibração Final • Lançamento Oficial Região dos Lagos 2026
-      </div>
-
-      <h1 class="hero-title">
-        O Primeiro Assistente com<br>
-        <span>I.A Viva & Voz Neural</span> para Supermercados
-      </h1>
-
-      <p class="hero-desc">
-        Economize até <strong>37%</strong> nas suas compras sem digitar nada. Fale naturalmente com a <strong>Penélope</strong>, consulte cotações em tempo real e receba o menor preço entre 15 supermercados da Região dos Lagos.
-      </p>
-
-      <div class="hero-actions">
-        <div class="btn-hero-primary" style="background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(0,230,118,0.15)); color: #FFD700; border: 1px solid rgba(255,215,0,0.4); cursor: default; box-shadow: none;">
-          ⏳ Em Breve: Versão Atualizada
+  <!-- BLOCO CENTRAL GOOGLE-STYLE (HERO / BARRA) -->
+  <div id="heroContainer" class="flex-1 flex flex-col justify-center items-center px-4 py-8">
+    <div id="heroWrapper" class="w-full max-w-3xl flex flex-col items-center">
+      
+      <!-- LOGO CENTRAL OFICIAL NUTRIPREÇO -->
+      <div id="brandLogoBlock" class="flex items-center gap-3.5 mb-6 cursor-pointer" onclick="voltarParaHome()">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center glow-brand border border-emerald-300/40">
+          <!-- Ícone Folhinha Estilizada -->
+          <svg class="w-8 h-8 text-white drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
         </div>
-        <a href="#demo" class="btn-hero-secondary">
-          🎙️ Ouvir Demonstração de Voz
-        </a>
-      </div>
-
-      <!-- Métricas em Linha -->
-      <div class="hero-stats">
-        <div class="stat-card">
-          <span class="stat-val">15</span>
-          <span class="stat-label">Supermercados Monitorados</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-val">R$ 140+</span>
-          <span class="stat-label">Economia Média Mensal</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-val">100%</span>
-          <span class="stat-label">Conformidade LGPD & Criptografia</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-val">0.3s</span>
-          <span class="stat-label">Resposta Neural por Voz</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Showcase I.A Viva & Audio Player -->
-    <section id="demo" class="showcase-card">
-      <div class="showcase-header">
-        <div>
-          <h3 style="font-size: 19px; font-weight: 800; color: white;">Experiência Conversacional Studio</h3>
-          <p style="font-size: 12.5px; color: var(--text-muted);">Sintetizada com Google Cloud Neural2 Studio Audio em tempo real</p>
-        </div>
-
-        <div class="voice-badge">
-          ⚡ Google Cloud Speech API Conectada
+        <div class="flex flex-col">
+          <span id="brandText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5">
+            NutriPreço
+          </span>
+          <span id="homeTagline" class="text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5">
+            O Motor de Busca da Economia Real
+          </span>
         </div>
       </div>
 
-      <div class="vortex-container">
-        <div class="orb-glow">
-          🎙️
-        </div>
+      <!-- BARRA DE PESQUISA FLUTUANTE -->
+      <div id="searchFormWrapper" class="w-full">
+        <form id="searchForm" onsubmit="executarBusca(event)" class="relative">
+          <div class="search-box-glow w-full bg-slate-900/80 border border-slate-700/80 rounded-full px-4 sm:px-5 py-3 sm:py-3.5 flex items-center gap-2.5 backdrop-blur-xl">
+            
+            <!-- Lupa -->
+            <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
 
-        <div class="persona-selector">
-          <div class="persona-tab penelope">🌸 Penélope (Estratégia & Cesta Básica)</div>
-          <div class="persona-tab odisseu">⚡ Odisseu (Velocidade & Atacados)</div>
-        </div>
+            <!-- Input Central -->
+            <input 
+              type="text" 
+              id="searchInput" 
+              class="w-full bg-transparent text-white placeholder-slate-400 text-sm sm:text-base outline-none font-medium"
+              placeholder="Digite o produto (ex: arroz, leite, café) ou fale no microfone..."
+              autocomplete="off"
+            />
 
-        <div class="audio-player-box">
-          <div class="waveform-bars">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <!-- Botão Limpar (X) -->
+            <button 
+              type="button" 
+              id="btnClear" 
+              onclick="limparBusca()" 
+              class="hidden text-slate-400 hover:text-white p-1 rounded-full transition-colors"
+              title="Limpar pesquisa">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+
+            <!-- Seletor Rápido de Cidade -->
+            <div class="relative shrink-0">
+              <button 
+                type="button" 
+                id="btnCitySelect" 
+                onclick="toggleCityMenu()" 
+                class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-emerald-400 transition-colors"
+                title="Alterar Cidade Ativa">
+                <span>📍</span>
+                <span id="currentCityLabel">Cabo Frio, RJ</span>
+                <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+
+              <!-- Dropdown de Cidades -->
+              <div id="cityMenu" class="hidden absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50 text-xs">
+                <div class="px-2 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Cidades Auditadas</div>
+                <button type="button" onclick="selecionarCidade('Cabo Frio', 'RJ')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Cabo Frio</span><span class="text-slate-500 font-mono">RJ</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('Recife', 'PE')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Recife</span><span class="text-slate-500 font-mono">PE</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('São Paulo', 'SP')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>São Paulo</span><span class="text-slate-500 font-mono">SP</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('Rio de Janeiro', 'RJ')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Rio de Janeiro</span><span class="text-slate-500 font-mono">RJ</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('Belo Horizonte', 'MG')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Belo Horizonte</span><span class="text-slate-500 font-mono">MG</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('Goiânia', 'GO')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Goiânia</span><span class="text-slate-500 font-mono">GO</span>
+                </button>
+                <button type="button" onclick="selecionarCidade('Brasília', 'DF')" class="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 flex justify-between items-center">
+                  <span>Brasília</span><span class="text-slate-500 font-mono">DF</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Botão Microfone IA -->
+            <button 
+              type="button" 
+              id="btnMic" 
+              onclick="iniciarPesquisaVoz()" 
+              class="w-9 h-9 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 transition-all cursor-pointer"
+              title="Pesquisar por Voz com a Inteligência Artificial">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+              </svg>
+            </button>
+
           </div>
-          <p class="dialogue-text">
-            "Olá Arthur! Analisei os supermercados de Cabo Frio hoje. O café 500g e o arroz 5kg estão mais baratos no Assaí de São Cristóvão e no Atacadão em comparação à média de varejo. Deseja que eu monte sua lista otimizada?"
-          </p>
-
-          <audio id="demo-audio" controls style="width: 100%; margin-top: 14px; filter: invert(0.9);">
-            <source src="00_locucao_completa_helena.mp3" type="audio/mpeg">
-            Seu navegador não suporta áudio HTML5.
-          </audio>
-        </div>
+        </form>
       </div>
-    </section>
 
-    <!-- 15 Supermercados Monitorados -->
-    <section id="mercados">
-      <h2 class="section-title">Redes e Supermercados Monitorados em Cabo Frio & Região</h2>
-      <p class="section-sub">GPS inteligente calculando distâncias e cotações auditadas em tempo real.</p>
-
-      <div class="markets-grid">
-        <div class="market-item">
-          <div class="market-icon">🏬</div>
-          <div>
-            <span class="market-name">Assaí Atacadista</span>
-            <span class="market-loc">Av. América Central • São Cristóvão</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🏬</div>
-          <div>
-            <span class="market-name">Atacadão Cabo Frio</span>
-            <span class="market-loc">Estrada dos Perynas • Porto do Carro</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🏬</div>
-          <div>
-            <span class="market-name">Dom Atacadista</span>
-            <span class="market-loc">Rod. RJ-140 • São Pedro / Cabo Frio</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Supermercados Princesa</span>
-            <span class="market-loc">Av. Teixeira e Souza • Centro & Portinho</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">SuperMarket</span>
-            <span class="market-loc">Braga, Portinho & São Cristóvão</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Mercado Rende Pacas</span>
-            <span class="market-loc">Nova Califórnia • Tamoios</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Super Bom</span>
-            <span class="market-loc">Braga & Rod. RJ-140</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Tropical Supermercados</span>
-            <span class="market-loc">Jardim Caiçara & Unamar (Tamoios)</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Supermercados Diano</span>
-            <span class="market-loc">Cabo Frio</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Atacadão das Redes</span>
-            <span class="market-loc">São Cristóvão • Cabo Frio</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🛒</div>
-          <div>
-            <span class="market-name">Multi Atacadão</span>
-            <span class="market-loc">Jardim Esperança • Cabo Frio</span>
-          </div>
-        </div>
-
-        <div class="market-item">
-          <div class="market-icon">🍎</div>
-          <div>
-            <span class="market-name">Hortifrúti São Cristóvão</span>
-            <span class="market-loc">São Cristóvão • Cabo Frio</span>
-          </div>
-        </div>
+      <!-- BOTÕES ESTILO GOOGLE (ESTADO INICIAL) -->
+      <div id="homeButtonsBlock" class="flex flex-wrap items-center justify-center gap-3 mt-6">
+        <button 
+          onclick="executarBusca()" 
+          class="px-5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 hover:text-white transition-all shadow-sm">
+          🔍 Pesquisar Menor Preço
+        </button>
+        <button 
+          onclick="perguntarHelenaIA()" 
+          class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-indigo-600/30 hover:from-emerald-600/50 hover:to-indigo-600/50 border border-emerald-500/40 text-xs sm:text-sm font-bold text-emerald-300 hover:text-white transition-all shadow-sm flex items-center gap-1.5">
+          <span>✨</span>
+          <span>Perguntar à Helena IA</span>
+        </button>
       </div>
-    </section>
 
-    <!-- Recursos -->
-    <section id="recursos">
-      <h2 class="section-title">Tecnologia de Ponta a Serviço do seu Bolso</h2>
-      <p class="section-sub">Projetado com arquitetura offline-first e inteligência multimodal.</p>
+      <!-- CHIPS DE BUSCA RÁPIDA -->
+      <div id="quickChipsBlock" class="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-xl">
+        <span class="text-xs text-slate-500 font-semibold mr-1">Mais buscados:</span>
+        <button onclick="buscarTermo('Arroz 5kg')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🍚 Arroz 5kg
+        </button>
+        <button onclick="buscarTermo('Feijão Preto')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🫘 Feijão Preto 1kg
+        </button>
+        <button onclick="buscarTermo('Leite Integral')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🥛 Leite 1L
+        </button>
+        <button onclick="buscarTermo('Café 500g')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          ☕ Café 500g
+        </button>
+        <button onclick="buscarTermo('Óleo de Soja')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🍳 Óleo de Soja
+        </button>
+        <button onclick="buscarTermo('Cesta Básica')" class="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs text-emerald-400 font-bold transition-colors">
+          🧺 Cesta Básica
+        </button>
+      </div>
 
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon-box">🎙️</div>
-          <h4 class="feature-title">Vozes Neurais Google Cloud</h4>
-          <p class="feature-text">Conversação fluida com Penélope e Odisseu usando os modelos Neural2 de estúdio, garantindo pronúncia natural e sem robótica.</p>
+    </div>
+  </div>
+
+  <!-- CONTAINER DE RESULTADOS (OCULTO NA ENTRADA, REVELA APÓS BUSCA) -->
+  <main id="resultsContainer" class="hidden max-w-4xl w-full mx-auto px-4 pb-16">
+    
+    <!-- Status / Quantidade de Resultados -->
+    <div class="flex items-center justify-between py-4 text-xs text-slate-400 border-b border-slate-800/80 mb-6">
+      <div id="resultsCountText">
+        Exibindo cotações oficiais auditadas
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-slate-500">Ordenação:</span>
+        <span class="font-bold text-emerald-400">Menor Preço Primeiro (Padrão)</span>
+      </div>
+    </div>
+
+    <!-- CARD SÍNTESE HELENA IA (GEMINI AI OVERVIEW) -->
+    <section id="aiOverviewCard" class="mb-8 rounded-3xl bg-gradient-to-br from-slate-900/90 via-emerald-950/20 to-slate-900/90 border border-emerald-500/40 p-5 sm:p-6 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+      <div class="flex items-center justify-between gap-3 mb-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide">
+          <span>✨</span>
+          <span>Síntese de Inteligência Artificial • Helena IA</span>
         </div>
+        <button 
+          id="btnSpeakAi" 
+          onclick="falarRespostaIA()" 
+          class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white text-xs font-bold flex items-center gap-1.5 border border-slate-700 transition-colors"
+          title="Ouvir Resumo com Voz Neural">
+          <span>🔊</span>
+          <span id="btnSpeakText">Ouvir Resumo</span>
+        </button>
+      </div>
 
-        <div class="feature-card">
-          <div class="feature-icon-box">🧾</div>
-          <h4 class="feature-title">Auditoria de Cupons NFC-e</h4>
-          <p class="feature-text">Tire foto da sua nota fiscal ou encarte. A IA valida preços na hora, alimenta o banco colaborativo e registra sua economia.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-box">🧺</div>
-          <h4 class="feature-title">Cesta Básica DIEESE (13 Itens)</h4>
-          <p class="feature-text">Acompanhe os 13 itens oficiais da cesta básica e saiba exatamente em qual supermercado o pacote essencial está mais barato.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-box">📷</div>
-          <h4 class="feature-title">Scanner EAN-13 Instantâneo</h4>
-          <p class="feature-text">Aponte a câmera para o código de barras de qualquer produto na gôndola e descubra se o preço da etiqueta é realmente uma promoção.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-box">🛡️</div>
-          <h4 class="feature-title">Conformidade LGPD & Zero Risco</h4>
-          <p class="feature-text">Anonimização de dados de NFC-e, armazenamento local criptografado em SQLite Room e total respeito à privacidade.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon-box">📶</div>
-          <h4 class="feature-title">100% Funcional Offline</h4>
-          <p class="feature-text">Sem sinal dentro do galpão do atacarejo? Não se preocupe: o banco de dados interno garante comparação instantânea sem internet.</p>
-        </div>
+      <div id="aiOverviewBody" class="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
+        <!-- Preenchido dinamicamente via IA -->
       </div>
     </section>
 
-    <!-- Status de Lançamento Box -->
-    <section id="download" class="download-section" style="border: 1px solid rgba(255, 215, 0, 0.3); background: linear-gradient(180deg, rgba(20, 32, 25, 0.9) 0%, rgba(10, 15, 12, 0.95) 100%);">
-      <div class="badge-pill" style="margin-bottom: 16px; background: rgba(255, 215, 0, 0.1); color: #FFD700; border-color: rgba(255, 215, 0, 0.4);">
-        ⏳ Calibração & Homologação em Andamento
-      </div>
-      <h2 class="download-title" style="color: #FFFFFF;">Em Breve: Versão Atualizada</h2>
-      <p style="font-size: 15px; color: var(--text-muted); max-width: 620px; margin: 0 auto 24px auto;">
-        Estamos realizando os testes finais da inteligência neural da <strong>Penélope</strong> e a integração de cotações com os supermercados da Região dos Lagos. A versão oficial e atualizada estará disponível em breve!
-      </p>
-
-      <div class="download-steps">
-        <div class="step-box">
-          <div class="step-number">Etapa 1</div>
-          <div class="step-title">Calibração Neural</div>
-          <div class="step-desc">Ajuste fino do tom de voz e respostas inteligentes da Penélope.</div>
-        </div>
-
-        <div class="step-box">
-          <div class="step-number">Etapa 2</div>
-          <div class="step-title">15 Mercados</div>
-          <div class="step-desc">Auditoria e sincronização contínua de cotações em Cabo Frio e região.</div>
-        </div>
-
-        <div class="step-box">
-          <div class="step-number">Etapa 3</div>
-          <div class="step-title">Lojas de Apps</div>
-          <div class="step-desc">Disponibilização oficial na Google Play Store e Apple App Store.</div>
-        </div>
-      </div>
-
-      <div style="display: inline-block; margin-top: 20px; padding: 14px 28px; background: rgba(255, 215, 0, 0.12); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; color: #FFD700; font-weight: 700; font-size: 16px;">
-        🚀 Lançamento Oficial em Breve
-      </div>
-      <p style="font-size: 12px; color: var(--text-dim); margin-top: 12px;">Cadastre-se para ser notificado no lançamento oficial</p>
-    </section>
+    <!-- LISTA DE CARDS DE SUPERMERCADOS COM O BOTÃO DO MAPA -->
+    <div class="space-y-4" id="productsList">
+      <!-- Cards renderizados dinamicamente -->
+    </div>
 
   </main>
 
-  <!-- Rodapé -->
-  <footer>
-    <div class="container">
-      <div class="footer-links">
-        <a href="#demo">Vozes IA</a>
-        <a href="#mercados">Supermercados</a>
-        <a href="#recursos">Recursos</a>
-        <a href="privacidade.html">Política de Privacidade & LGPD</a>
-      </div>
-      <p>© 2026 NutriPreço • Região dos Lagos, RJ • Todos os direitos reservados.</p>
-      <p style="font-size: 11px; margin-top: 6px; color: #94a3b8;">Razão Social: <strong>ARTHUR LUIS VIEIRA DOS SANTOS TECNOLOGIA E INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)</strong> • CNPJ: <strong>69.423.752/0001-61</strong></p>
-      <p style="font-size: 11px; margin-top: 4px; color: #475569;">Projeto qualificado para o programa Google for Startups & SEBRAE Regional.</p>
-    </div>
+  <!-- RODAPÉ CLEAN -->
+  <footer class="mt-auto py-6 border-t border-slate-800/60 text-center text-xs text-slate-500">
+    <p>© 2026 Holding Arthur Luis Vieira dos Santos — NutriPreço • Mestre Prático • NutriCombust</p>
+    <p class="mt-1 text-[11px] text-slate-600">
+      Tecnologia de busca neutra baseada em dados primários de cupons fiscais eletrônicos (NFC-e) e auditorias de gôndola.
+    </p>
   </footer>
 
+  <!-- SCRIPT DE INTELIGÊNCIA ARTIFICIAL E BUSCA -->
+  <script>
+    // ESTADO GLOBAL
+    let currentCity = 'Cabo Frio';
+    let currentUF = 'RJ';
+    let isListening = false;
+    let recognition = null;
+    let synthUtterance = null;
+    let currentAiSummary = '';
+
+    // BASE DE DADOS COMPLETA DE EXEMPLO AUDITADA (CABO FRIO + OUTRAS CIDADES)
+    const DATABASE_PRODUTOS = [
+      // CABO FRIO
+      { id: 1, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 24.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 08:30 via SEFAZ', lat: -22.8808, lng: -42.0224 },
+      { id: 2, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 26.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 09:12 via SEFAZ', lat: -22.8790, lng: -42.0210 },
+      { id: 3, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Prato Fino', preco: 28.90, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200 - São Cristóvão', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado ontem via SEFAZ', lat: -22.8850, lng: -42.0300 },
+      { id: 4, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Combrasil', preco: 6.99, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
+      { id: 5, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Kicaldo', preco: 7.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8790, lng: -42.0210 },
+      { id: 6, nome: 'Leite Integral UHT 1L', marca: 'Piracanjuba', preco: 4.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
+      { id: 7, nome: 'Leite Integral UHT 1L', marca: 'Itambé', preco: 5.19, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8790, lng: -42.0210 },
+      { id: 8, nome: 'Café Torrado e Moído 500g', marca: 'Pilão Tradicional', preco: 16.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
+      { id: 9, nome: 'Café Torrado e Moído 500g', marca: '3 Corações', preco: 17.50, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8850, lng: -42.0300 },
+      { id: 10, nome: 'Óleo de Soja Refinado 900ml', marca: 'Soya', preco: 6.29, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
+
+      // RECIFE
+      { id: 11, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 22.90, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.0967, lng: -34.9284 },
+      { id: 12, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 23.80, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200 - Imbiribeira', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.1098, lng: -34.9080 },
+      { id: 13, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Turquesa', preco: 24.50, mercado: 'Carrefour Hipermercado', endereco: 'R. Benfica, 715 - Madalena', cidade: 'Recife', uf: 'PE', data: 'Auditado ontem via SEFAZ-PE', lat: -8.0580, lng: -34.9040 },
+      { id: 14, nome: 'Feijão Carioca 1kg', marca: 'Turquesa', preco: 6.30, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.0967, lng: -34.9284 },
+      { id: 15, nome: 'Leite Integral 1L', marca: 'Betânia', preco: 4.69, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.1098, lng: -34.9080 },
+
+      // SÃO PAULO
+      { id: 16, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 23.49, mercado: 'Atacadão Marginal Tietê', endereco: 'Av. Morvan Dias de Figueiredo, 6169', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5180, lng: -46.5920 },
+      { id: 17, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 24.19, mercado: 'Assaí Barra Funda', endereco: 'Av. Marquês de São Vicente, 1619', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5200, lng: -46.6700 },
+      { id: 18, nome: 'Leite Integral 1L', marca: 'Itambé', preco: 4.79, mercado: 'Carrefour Pamplona', endereco: 'Rua Pamplona, 1704 - Jd. Paulista', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5700, lng: -46.6550 },
+
+      // GOIÂNIA
+      { id: 19, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Cristal', preco: 24.99, mercado: 'Atacadão Goiânia Sul', endereco: 'Rod. BR-153, km 5', cidade: 'Goiânia', uf: 'GO', data: 'Auditado hoje via SEFAZ-GO', lat: -16.7100, lng: -49.2500 },
+      { id: 20, nome: 'Feijão Carioca 1kg', marca: 'Barão', preco: 6.89, mercado: 'Assaí Perimetral', endereco: 'Av. Perimetral Norte, 3600', cidade: 'Goiânia', uf: 'GO', data: 'Auditado hoje via SEFAZ-GO', lat: -16.6500, lng: -49.2700 }
+    ];
+
+    // INICIALIZAÇÃO E MONITORAMENTO DO INPUT
+    const searchInput = document.getElementById('searchInput');
+    const btnClear = document.getElementById('btnClear');
+
+    searchInput.addEventListener('input', () => {
+      if (searchInput.value.trim().length > 0) {
+        btnClear.classList.remove('hidden');
+      } else {
+        btnClear.classList.add('hidden');
+      }
+    });
+
+    function limparBusca() {
+      searchInput.value = '';
+      btnClear.classList.add('hidden');
+      searchInput.focus();
+    }
+
+    function toggleCityMenu() {
+      const menu = document.getElementById('cityMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    function selecionarCidade(cidade, uf) {
+      currentCity = cidade;
+      currentUF = uf;
+      document.getElementById('currentCityLabel').innerText = `${cidade}, ${uf}`;
+      document.getElementById('cityMenu').classList.add('hidden');
+      
+      // Se já estiver na tela de resultados, refaz a busca para a nova cidade
+      if (document.body.classList.contains('in-results')) {
+        executarBusca();
+      }
+    }
+
+    // FECHA O MENU SE CLICAR FORA
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('cityMenu');
+      const btn = document.getElementById('btnCitySelect');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    function voltarParaHome() {
+      document.body.classList.remove('in-results');
+      document.getElementById('resultsContainer').classList.add('hidden');
+      searchInput.value = '';
+      btnClear.classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function buscarTermo(termo) {
+      searchInput.value = termo;
+      btnClear.classList.remove('hidden');
+      executarBusca();
+    }
+
+    // PROCESSAMENTO INTELIGENTE DE BUSCA (SEMÂNTICA + VOZ)
+    function executarBusca(e) {
+      if (e) e.preventDefault();
+      
+      const queryOriginal = searchInput.value.trim();
+      let query = queryOriginal.toLowerCase();
+
+      // PARSER DE LINGUAGEM NATURAL (Detecta menção a cidades no texto ou voz)
+      if (query.includes('recife')) { selecionarCidade('Recife', 'PE'); }
+      else if (query.includes('cabo frio')) { selecionarCidade('Cabo Frio', 'RJ'); }
+      else if (query.includes('são paulo') || query.includes('sao paulo')) { selecionarCidade('São Paulo', 'SP'); }
+      else if (query.includes('goiânia') || query.includes('goiania')) { selecionarCidade('Goiânia', 'GO'); }
+      else if (query.includes('rio de janeiro')) { selecionarCidade('Rio de Janeiro', 'RJ'); }
+      else if (query.includes('belo horizonte')) { selecionarCidade('Belo Horizonte', 'MG'); }
+
+      // Limpa palavras auxiliares de voz com word boundaries ("quanto tá", "arroz mais barato em", etc.)
+      const termosLimpos = query
+        .replace(/\b(quanto|que|está|esta|ta|tá|o|a|os|as|um|uma|quilo|kg|do|da|de|em|no|na|nos|nas|mais|barato|barata|menor|preço|preco|onde|comprar|supermercado|mercado)\b/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      const termoBusca = termosLimpos.length > 0 ? termosLimpos : query;
+
+      // ATIVA MODO RESULTADOS (TRANSIÇÃO ESTILO GOOGLE)
+      document.body.classList.add('in-results');
+      document.getElementById('resultsContainer').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      renderizarResultados(termoBusca, queryOriginal);
+    }
+
+    // RENDERIZADOR DOS RESULTADOS E DO RESUMO DA HELENA IA
+    function renderizarResultados(termo, queryOriginal) {
+      const container = document.getElementById('productsList');
+      const countText = document.getElementById('resultsCountText');
+      const aiBody = document.getElementById('aiOverviewBody');
+
+      // Filtra produtos pela cidade atual
+      let produtos = DATABASE_PRODUTOS.filter(p => p.cidade.toLowerCase() === currentCity.toLowerCase());
+
+      // Se informou um termo específico, filtra pelo nome do produto ou marca
+      if (termo && termo.length > 0) {
+        produtos = produtos.filter(p => 
+          p.nome.toLowerCase().includes(termo) || 
+          p.marca.toLowerCase().includes(termo) ||
+          termo.includes(p.nome.toLowerCase().split(' ')[0])
+        );
+      }
+
+      // Ordena rigorosamente pelo menor preço (Padrão de Integridade Arthur)
+      produtos.sort((a, b) => a.preco - b.preco);
+
+      if (produtos.length === 0) {
+        countText.innerHTML = `Nenhum preço auditado para "${termo || 'sua busca'}" em ${currentCity}.`;
+        
+        currentAiSummary = `Não encontramos cotações ativas para ${termo || 'este produto'} em ${currentCity} no momento. Você pode ser o primeiro a enviar uma foto de cupom fiscal para este item!`;
+        aiBody.innerHTML = `
+          <p class="text-amber-300 font-semibold mb-2">⚠️ Fase de Expansão Territorial em ${currentCity}</p>
+          <p class="text-slate-300 text-sm">
+            Nossos robôs e a comunidade ainda não registraram cupons recentes para <strong>"${termo || queryOriginal}"</strong> nesta praça.
+          </p>
+          <div class="mt-4">
+            <a href="/combustivel.html#auditar" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors">
+              <span>📸 Auditar Cupom Fiscal & Ganhar Pontos</span>
+            </a>
+          </div>
+        `;
+
+        container.innerHTML = `
+          <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">
+            <div class="text-3xl mb-2">🔍</div>
+            <p class="font-bold text-white text-base">Nenhum resultado direto em ${currentCity}</p>
+            <p class="text-xs text-slate-400 mt-1">Experimente pesquisar outro termo como "Arroz", "Feijão" ou selecionar outra cidade no topo.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // CÁLCULOS PARA A HELENA IA
+      const menor = produtos[0];
+      const maior = produtos[produtos.length - 1];
+      const media = (produtos.reduce((acc, p) => acc + p.preco, 0) / produtos.length).toFixed(2);
+      const economiaPorcento = (((maior.preco - menor.preco) / maior.preco) * 100).toFixed(0);
+
+      currentAiSummary = `Em ${currentCity}, o menor preço encontrado para ${menor.nome} é de R$ ${menor.preco.toFixed(2).replace('.', ',')} no ${menor.mercado}. A média da cidade está em R$ ${media.replace('.', ',')}, garantindo uma economia de até ${economiaPorcento}% para o seu bolso.`;
+
+      aiBody.innerHTML = `
+        <p class="text-slate-100 text-sm sm:text-base mb-2">
+          Em <strong class="text-emerald-400 font-bold">${currentCity}</strong>, o menor preço auditado para <strong class="text-white">${menor.nome}</strong> está saindo por <strong class="text-emerald-400 font-black text-lg">R$ ${menor.preco.toFixed(2).replace('.', ',')}</strong> no <strong class="text-white underline decoration-emerald-500 underline-offset-4">${menor.mercado}</strong>.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-3 pt-3 border-t border-slate-800/80">
+          <div>📊 Média da Cidade: <span class="font-bold text-white">R$ ${media.replace('.', ',')}</span></div>
+          <div>💰 Variação de Preço: <span class="font-bold text-amber-400">Até ${economiaPorcento}% de economia</span></div>
+          <div>🛡️ Fonte: <span class="font-semibold text-emerald-300">Auditoria SEFAZ (${menor.data})</span></div>
+        </div>
+      `;
+
+      countText.innerHTML = `Encontrados <strong class="text-white">${produtos.length}</strong> estabelecimentos com cotação auditada em <strong class="text-emerald-400">${currentCity}</strong>`;
+
+      // MONTAGEM DOS CARDS DE PRODUTOS COM O BOTÃO DO MAPA
+      let html = '';
+      produtos.forEach((prod, idx) => {
+        const isWinner = idx === 0;
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(prod.mercado + ' ' + prod.endereco + ' ' + prod.cidade)}`;
+        
+        html += `
+          <div class="rounded-2xl sm:rounded-3xl p-4 sm:p-5 transition-all ${
+            isWinner 
+              ? 'bg-gradient-to-r from-emerald-950/40 via-slate-900/90 to-slate-900 border-2 border-emerald-500/70 shadow-xl shadow-emerald-950/40' 
+              : 'bg-slate-900/70 border border-slate-800 hover:border-slate-700'
+          }">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              
+              <!-- Informações do Produto & Mercado -->
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl ${isWinner ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'} flex items-center justify-center font-black text-sm shrink-0">
+                  ${isWinner ? '🥇 1º' : `${idx + 1}º`}
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md ${isWinner ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-400'}">
+                      ${prod.marca}
+                    </span>
+                    <span class="text-xs text-slate-500">• ${prod.data}</span>
+                  </div>
+                  <h4 class="text-base sm:text-lg font-bold text-white mt-0.5">${prod.nome}</h4>
+                  <p class="text-xs sm:text-sm text-slate-400 flex items-center gap-1 mt-1">
+                    <span class="text-slate-300 font-semibold">${prod.mercado}</span> — ${prod.endereco}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Preço em Destaque & Botão do Mapa -->
+              <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                <div class="text-left sm:text-right">
+                  <div class="text-[10px] text-slate-400 font-semibold uppercase">Preço Auditado</div>
+                  <div class="text-2xl sm:text-3xl font-black ${isWinner ? 'text-emerald-400' : 'text-slate-200'}">
+                    R$ ${prod.preco.toFixed(2).replace('.', ',')}
+                  </div>
+                </div>
+
+                <!-- O BOTÃO DO MAPA SOLICITADO PELO ARTHUR -->
+                <a 
+                  href="${mapsUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="px-4 py-2.5 rounded-xl ${
+                    isWinner 
+                      ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black shadow-lg shadow-emerald-500/30' 
+                      : 'bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-700'
+                  } text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                  title="Abrir Rota e Localização no Google Maps">
+                  <span>🗺️</span>
+                  <span>Ver no Mapa</span>
+                </a>
+
+              </div>
+
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // PESQUISA POR VOZ VIA WEB SPEECH API
+    function iniciarPesquisaVoz() {
+      const btnMic = document.getElementById('btnMic');
+
+      // Verifica se o navegador suporta Web Speech
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert("Seu navegador não possui suporte à API de voz. Digite sua pesquisa na barra!");
+        return;
+      }
+
+      if (isListening) {
+        if (recognition) recognition.stop();
+        return;
+      }
+
+      try {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'pt-BR';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          isListening = true;
+          btnMic.classList.add('mic-recording');
+          searchInput.placeholder = '🎙️ Ouvindo... Pode falar agora!';
+        };
+
+        recognition.onresult = (event) => {
+          const fala = event.results[0][0].transcript;
+          searchInput.value = fala;
+          btnClear.classList.remove('hidden');
+          executarBusca();
+        };
+
+        recognition.onerror = (event) => {
+          console.warn('Erro de reconhecimento de voz:', event.error);
+          isListening = false;
+          btnMic.classList.remove('mic-recording');
+          searchInput.placeholder = 'Digite o produto (ex: arroz, leite, café) ou fale no microfone...';
+        };
+
+        recognition.onend = () => {
+          isListening = false;
+          btnMic.classList.remove('mic-recording');
+          searchInput.placeholder = 'Digite o produto (ex: arroz, leite, café) ou fale no microfone...';
+        };
+
+        recognition.start();
+      } catch (err) {
+        console.error('Falha ao iniciar SpeechRecognition:', err);
+      }
+    }
+
+    // RESPOSTA POR VOZ DA HELENA IA
+    function falarRespostaIA() {
+      if (!window.speechSynthesis) {
+        alert("Síntese de voz não disponível neste navegador.");
+        return;
+      }
+
+      const btnText = document.getElementById('btnSpeakText');
+
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        btnText.innerText = "Ouvir Resumo";
+        return;
+      }
+
+      if (!currentAiSummary) return;
+
+      synthUtterance = new SpeechSynthesisUtterance(currentAiSummary);
+      synthUtterance.lang = 'pt-BR';
+      synthUtterance.rate = 1.05;
+
+      synthUtterance.onstart = () => {
+        btnText.innerText = "Pausar Voz";
+      };
+
+      synthUtterance.onend = () => {
+        btnText.innerText = "Ouvir Resumo";
+      };
+
+      window.speechSynthesis.speak(synthUtterance);
+    }
+
+    function perguntarHelenaIA() {
+      const q = searchInput.value.trim();
+      if (!q) {
+        searchInput.value = "Cesta básica mais econômica";
+      }
+      executarBusca();
+    }
+  </script>
 </body>
 </html>
