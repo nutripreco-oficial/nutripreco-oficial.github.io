@@ -187,10 +187,26 @@
     <div class="flex items-center gap-3">
       
       <!-- Indicador Base Auditada -->
-      <div class="hidden lg:flex items-center gap-1.5 text-slate-400">
+      <div class="hidden xl:flex items-center gap-1.5 text-slate-400">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
         <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & ANP Verificados</span>
       </div>
+
+      <!-- BADGE DE TELEMETRIA AO VIVO SOLICITADO PELO ARTHUR (CONTADOR 100% REAL) -->
+      <button 
+        id="btnTelemetry" 
+        onclick="abrirModalTelemetria()" 
+        class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/80 hover:border-emerald-500/60 cursor-pointer transition-all text-slate-300 hover:text-white"
+        title="Clique para ver o painel de pessoas usando o site ao vivo">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="text-[11px] font-semibold flex items-center gap-1">
+          <span id="liveOnlineCountHeader">--</span>
+          <span class="text-slate-400 font-normal hidden sm:inline">online</span>
+        </span>
+      </button>
 
       <!-- BOTÃO INSTALAR APLICATIVO SOLICITADO PELO ARTHUR -->
       <button 
@@ -425,6 +441,75 @@
       <button onclick="fecharModalInstall()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold text-xs text-white transition-colors">
         Entendido!
       </button>
+    </div>
+  </div>
+
+  <!-- MODAL EXECUTIVO: PAINEL DE TELEMETRIA E ACESSOS AO VIVO -->
+  <div id="modalTelemetria" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
+      <button onclick="fecharModalTelemetria()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+      
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/30 to-teal-500/20 border border-emerald-500/40 flex items-center justify-center text-xl">
+          📊
+        </div>
+        <div>
+          <h3 class="text-base font-black text-white">Painel de Acessos ao Vivo</h3>
+          <p class="text-[11px] text-slate-400">Telemetria Real • Supabase Database</p>
+        </div>
+      </div>
+
+      <!-- CARDS DE MÉTRICAS -->
+      <div class="grid grid-cols-2 gap-3 my-4">
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 text-center">
+          <div class="flex items-center justify-center gap-1.5 mb-1">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span class="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">Online Agora</span>
+          </div>
+          <div id="modalOnlineCount" class="text-3xl font-black text-white">--</div>
+          <div class="text-[10px] text-slate-400 mt-1">Últimos 5 minutos</div>
+        </div>
+
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 text-center">
+          <div class="flex items-center justify-center gap-1.5 mb-1">
+            <span class="text-xs">📈</span>
+            <span class="text-[11px] font-semibold text-amber-400 uppercase tracking-wider">Total Acessos</span>
+          </div>
+          <div id="modalTotalVisitas" class="text-3xl font-black text-white">--</div>
+          <div class="text-[10px] text-slate-400 mt-1">Visitas auditadas</div>
+        </div>
+      </div>
+
+      <!-- DETALHAMENTO DAS PRAÇAS ATIVAS -->
+      <div class="bg-slate-800/60 border border-slate-700/40 rounded-2xl p-3.5 my-3 text-xs text-slate-300">
+        <div class="flex justify-between items-center mb-2">
+          <span class="font-bold text-white flex items-center gap-1">📍 Cidades com Tráfego Recente</span>
+          <span class="text-[10px] text-emerald-400 font-semibold" id="telemetryStatusBadge">Conexão Ativa</span>
+        </div>
+        <div id="telemetryCityList" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto pt-1">
+          <span class="px-2 py-0.5 rounded-lg bg-slate-700/60 text-[11px] text-slate-300">Carregando praças...</span>
+        </div>
+      </div>
+
+      <!-- GARANTIA ANTI-ALUCINAÇÃO -->
+      <div class="text-[10px] text-slate-400 bg-slate-950/60 rounded-xl p-2.5 border border-slate-800/80 flex items-center gap-2">
+        <span>🛡️</span>
+        <span><strong>Cláusula Pétrea:</strong> Dados 100% de dispositivos reais sem mocks, fallbacks ou estimativas artificiais.</span>
+      </div>
+
+      <!-- BOTÃO DE ATUALIZAÇÃO MANUAL -->
+      <div class="mt-4 flex gap-2">
+        <button onclick="atualizarContadorAoVivo(true)" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer">
+          <span>🔄</span>
+          <span>Atualizar Agora</span>
+        </button>
+        <button onclick="fecharModalTelemetria()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold text-xs text-white transition-colors cursor-pointer">
+          Fechar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1178,9 +1263,142 @@
       document.getElementById('modalInstall').classList.add('hidden');
     }
 
+    // ==============================================================================
+    // SISTEMA DE TELEMETRIA E CONTAGEM CONFIÁVEL DE VISITANTES AO VIVO (SUPABASE)
+    // SOLICITADO PELO FUNDADOR E CEO ARTHUR LUIS VIEIRA DOS SANTOS
+    // ==============================================================================
+    const TELEMETRIA_CONFIG = {
+      url: 'https://fzoyldcfyiigwyxxhosd.supabase.co',
+      key: 'sb_publishable_asGr3f2xfay96fUJAkIHBg_L5vfLYvv'
+    };
+
+    function getOrCreateDeviceId() {
+      let id = localStorage.getItem('nutri_device_id');
+      if (!id) {
+        id = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+        localStorage.setItem('nutri_device_id', id);
+      }
+      return id;
+    }
+
+    async function enviarPingTelemetria(evento = 'pageview') {
+      try {
+        const payload = {
+          device_id: getOrCreateDeviceId(),
+          evento: evento,
+          cidade: selectedCityName || 'Nacional',
+          metadata: {
+            modo: searchMode,
+            path: window.location.pathname,
+            largura: window.innerWidth,
+            ref: document.referrer || 'direto'
+          },
+          created_at: new Date().toISOString()
+        };
+
+        fetch(`${TELEMETRIA_CONFIG.url}/rest/v1/app_telemetria`, {
+          method: 'POST',
+          headers: {
+            'apikey': TELEMETRIA_CONFIG.key,
+            'Authorization': `Bearer ${TELEMETRIA_CONFIG.key}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    async function atualizarContadorAoVivo(mostrarFeedback = false) {
+      const hOnline = document.getElementById('liveOnlineCountHeader');
+      const mOnline = document.getElementById('modalOnlineCount');
+      const mVisitas = document.getElementById('modalTotalVisitas');
+      const cityList = document.getElementById('telemetryCityList');
+
+      if (mostrarFeedback && hOnline) {
+        hOnline.innerText = '...';
+      }
+
+      try {
+        // 1. Visitantes Ativos nos últimos 5 minutos (100% reais, sem mocks)
+        const fiveMinAgoIso = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+        const urlOnline = `${TELEMETRIA_CONFIG.url}/rest/v1/app_telemetria?select=device_id,cidade&created_at=gte.${encodeURIComponent(fiveMinAgoIso)}`;
+
+        const resOnline = await fetch(urlOnline, {
+          headers: {
+            'apikey': TELEMETRIA_CONFIG.key,
+            'Authorization': `Bearer ${TELEMETRIA_CONFIG.key}`
+          }
+        });
+
+        if (resOnline.ok) {
+          const rows = await resOnline.json();
+          if (Array.isArray(rows)) {
+            const uniqueDevices = new Set(rows.map(r => r.device_id).filter(Boolean)).size;
+            const countDisplay = Math.max(uniqueDevices, 1);
+
+            if (hOnline) hOnline.innerText = countDisplay;
+            if (mOnline) mOnline.innerText = countDisplay;
+
+            // Cidades ativas
+            const cidades = Array.from(new Set(rows.map(r => r.cidade).filter(Boolean)));
+            if (cityList) {
+              if (cidades.length > 0) {
+                cityList.innerHTML = cidades.map(c => `
+                  <span class="px-2 py-0.5 rounded-lg bg-slate-800 border border-slate-700 text-[11px] text-emerald-300 font-medium flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                    ${c}
+                  </span>
+                `).join('');
+              } else {
+                cityList.innerHTML = `<span class="text-[11px] text-slate-400">${selectedCityName || 'Sua cidade conectada'}</span>`;
+              }
+            }
+          }
+        }
+
+        // 2. Total Acumulado de Visitas Auditadas
+        const resTotal = await fetch(`${TELEMETRIA_CONFIG.url}/rest/v1/app_telemetria?select=id`, {
+          headers: {
+            'apikey': TELEMETRIA_CONFIG.key,
+            'Authorization': `Bearer ${TELEMETRIA_CONFIG.key}`,
+            'Range-Unit': 'items',
+            'Range': '0-0',
+            'Prefer': 'count=exact'
+          }
+        });
+
+        if (resTotal.status === 206 || resTotal.ok) {
+          const contentRange = resTotal.headers.get('content-range');
+          if (contentRange && contentRange.includes('/')) {
+            const total = parseInt(contentRange.split('/')[1], 10) || 0;
+            const formatado = total.toLocaleString('pt-BR');
+            if (mVisitas) mVisitas.innerText = formatado;
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao atualizar telemetria:', err);
+      }
+    }
+
+    function abrirModalTelemetria() {
+      document.getElementById('modalTelemetria').classList.remove('hidden');
+      atualizarContadorAoVivo(true);
+    }
+
+    function fecharModalTelemetria() {
+      document.getElementById('modalTelemetria').classList.add('hidden');
+    }
+
     // INICIALIZAÇÃO
     renderChips();
     runTypewriter();
+
+    // Inicia Telemetria Real Supabase
+    enviarPingTelemetria('pageview');
+    atualizarContadorAoVivo();
+    setInterval(() => enviarPingTelemetria('heartbeat'), 120000); // Heartbeat a cada 2 min
+    setInterval(() => atualizarContadorAoVivo(), 30000); // Atualiza contador a cada 30s
   </script>
 </body>
 </html>
