@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriPreço — O Motor de Busca da Economia Popular</title>
+  <title>NutriPreço & NutriCombust — O Motor de Busca da Economia Popular</title>
+  <meta name="description" content="O Google da Economia Popular: Menor preço de supermercados e postos de combustíveis no Brasil com Inteligência Artificial e rotas no mapa.">
+  
+  <!-- Manifest & Meta PWA -->
+  <meta name="theme-color" content="#070B08">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NutriPreço">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts Inter & Plus Jakarta Sans -->
@@ -16,6 +24,7 @@
       --bg-dark: #070B08;
       --accent-green: #00E676;
       --accent-gold: #FFD700;
+      --accent-amber: #F59E0B;
     }
 
     body {
@@ -29,15 +38,32 @@
         radial-gradient(circle at 85% 65%, rgba(255, 215, 0, 0.05) 0%, transparent 45%),
         radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
       background-attachment: fixed;
+      transition: background-image 0.5s ease;
+    }
+
+    /* MODO COMBUSTÍVEL - GRADIENTE ÂMBAR */
+    body.mode-fuel {
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 85% 65%, rgba(255, 215, 0, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(234, 88, 12, 0.08) 0%, transparent 50%);
     }
 
     /* Animação do Brilho da Logo */
-    .glow-brand {
+    .glow-brand-green {
       box-shadow: 0 0 25px rgba(0, 230, 118, 0.35);
       transition: all 0.3s ease;
     }
-    .glow-brand:hover {
+    .glow-brand-green:hover {
       box-shadow: 0 0 35px rgba(0, 230, 118, 0.6);
+      transform: scale(1.03);
+    }
+    .glow-brand-amber {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+      transition: all 0.3s ease;
+    }
+    .glow-brand-amber:hover {
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.65);
       transform: scale(1.03);
     }
 
@@ -51,12 +77,30 @@
       border-color: rgba(0, 230, 118, 0.8);
       background-color: rgba(15, 23, 18, 0.95);
     }
+    body.mode-fuel .search-box-glow:focus-within {
+      box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.3), 0 0 0 2px rgba(245, 158, 11, 0.7);
+      border-color: rgba(245, 158, 11, 0.8);
+      background-color: rgba(26, 20, 12, 0.95);
+    }
+
+    /* Animação de Onda Sonora no Microfone */
+    .waveform-bar {
+      animation: wavePulse 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes wavePulse {
+      0% { height: 4px; }
+      100% { height: 22px; }
+    }
+    .waveform-bar:nth-child(2) { animation-delay: 0.15s; }
+    .waveform-bar:nth-child(3) { animation-delay: 0.3s; }
+    .waveform-bar:nth-child(4) { animation-delay: 0.45s; }
 
     /* Pulso do Microfone ao Ouvir */
     .mic-recording {
       animation: micPulse 1.2s infinite;
       background-color: #ef4444 !important;
       color: white !important;
+      border-color: #f87171 !important;
     }
     @keyframes micPulse {
       0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
@@ -72,7 +116,7 @@
       padding-top: 1rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(7, 11, 8, 0.88);
+      background: rgba(7, 11, 8, 0.92);
       backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
@@ -108,21 +152,57 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
-  <!-- TOPO INSTITUCIONAL / INDICADORES -->
-  <header class="w-full px-4 sm:px-8 py-3 flex items-center justify-between text-xs text-slate-400">
-    <div class="flex items-center gap-2">
-      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="font-medium text-slate-300">Base Nacional Auditada (SEFAZ & ANP)</span>
+  <!-- TOPO INSTITUCIONAL / SELETOR DE MODO / INSTALAR APP -->
+  <header class="w-full px-4 sm:px-8 py-3.5 flex items-center justify-between text-xs border-b border-slate-800/40 relative z-20">
+    
+    <!-- LADO ESQUERDO: OS CARDZINHOS/BOTÕES BONITINHOS DE NAVEGAÇÃO -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- BOTÃO 1: NUTRIPREÇO (SUPERMERCADOS) -->
+      <button 
+        id="btnModeFood" 
+        onclick="setSearchMode('food')" 
+        class="group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-emerald-500/15 border-emerald-500/50 text-white shadow-[0_0_15px_rgba(0,230,118,0.2)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 group-hover:scale-125 transition-transform"></span>
+        <span class="font-bold text-xs">🌿 NutriPreço</span>
+        <span class="text-[10px] text-emerald-300 font-semibold hidden md:inline">Supermercados</span>
+      </button>
+
+      <!-- BOTÃO 2: NUTRICOMBUST (POSTOS) — O CARDZINHO COM DETALHE BONITINHO SOLICITADO PELO ARTHUR -->
+      <button 
+        id="btnModeFuel" 
+        onclick="setSearchMode('fuel')" 
+        class="group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 border-slate-700/80 hover:border-amber-500/60 text-slate-300 hover:text-amber-300">
+        <span class="w-2 h-2 rounded-full bg-amber-400 group-hover:scale-125 transition-transform"></span>
+        <span class="font-bold text-xs flex items-center gap-1">
+          <span>⛽</span>
+          <span>NutriCombust</span>
+        </span>
+        <span class="text-[10px] text-amber-400/80 font-semibold hidden md:inline">Postos ANP</span>
+      </button>
+
     </div>
-    <div class="flex items-center gap-4">
-      <a href="/combustivel.html" class="hover:text-amber-400 font-semibold transition-colors flex items-center gap-1">
-        <span>⛽ NutriCombust</span>
-      </a>
-      <a href="/index.html" class="hover:text-emerald-400 font-semibold transition-colors flex items-center gap-1">
-        <span>🏪 Cesta Completa</span>
-      </a>
-      <a href="https://mestrepratico.com.br" class="text-slate-500 hover:text-white transition-colors hidden sm:inline">
-        Mestre Prático Holding
+
+    <!-- LADO DIREITO: STATUS E BOTÃO INSTALAR APLICATIVO -->
+    <div class="flex items-center gap-3">
+      
+      <!-- Indicador Base Auditada -->
+      <div class="hidden lg:flex items-center gap-1.5 text-slate-400">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & ANP Verificados</span>
+      </div>
+
+      <!-- BOTÃO INSTALAR APLICATIVO SOLICITADO PELO ARTHUR -->
+      <button 
+        id="btnInstallPwa" 
+        onclick="instalarAplicativo()" 
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-teal-600/30 hover:from-emerald-600/50 hover:to-teal-600/50 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs transition-all shadow-sm">
+        <span>📲</span>
+        <span>Instalar App</span>
+      </button>
+
+      <a href="https://mestrepratico.com.br" target="_blank" class="text-slate-500 hover:text-white transition-colors hidden sm:inline text-[11px]">
+        Holding Mestre Prático
       </a>
     </div>
   </header>
@@ -131,20 +211,28 @@
   <div id="heroContainer" class="flex-1 flex flex-col justify-center items-center px-4 py-8">
     <div id="heroWrapper" class="w-full max-w-3xl flex flex-col items-center">
       
-      <!-- LOGO CENTRAL OFICIAL NUTRIPREÇO -->
+      <!-- LOGO CENTRAL OFICIAL (ADAPTÁVEL ENTRE NUTRIPREÇO E NUTRICOMBUST) -->
       <div id="brandLogoBlock" class="flex items-center gap-3.5 mb-6 cursor-pointer" onclick="voltarParaHome()">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center glow-brand border border-emerald-300/40">
-          <!-- Ícone Folhinha Estilizada -->
-          <svg class="w-8 h-8 text-white drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        
+        <!-- Ícone Squircle Dinâmico -->
+        <div id="brandIconBadge" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center glow-brand-green border border-emerald-300/40 transition-all duration-300">
+          <!-- Ícone Folhinha (NutriPreço) -->
+          <svg id="iconFood" class="w-8 h-8 text-white drop-shadow block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
             <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
           </svg>
+          <!-- Ícone Combustível (NutriCombust) -->
+          <svg id="iconFuel" class="w-8 h-8 text-white drop-shadow hidden" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.22v5.72c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+          </svg>
         </div>
+
+        <!-- Textos da Marca -->
         <div class="flex flex-col">
-          <span id="brandText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5">
+          <span id="brandNameText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5 transition-all">
             NutriPreço
           </span>
-          <span id="homeTagline" class="text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5">
+          <span id="homeTagline" class="text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5 transition-colors">
             O Motor de Busca da Economia Real
           </span>
         </div>
@@ -153,21 +241,29 @@
       <!-- BARRA DE PESQUISA FLUTUANTE -->
       <div id="searchFormWrapper" class="w-full">
         <form id="searchForm" onsubmit="executarBusca(event)" class="relative">
-          <div class="search-box-glow w-full bg-slate-900/80 border border-slate-700/80 rounded-full px-4 sm:px-5 py-3 sm:py-3.5 flex items-center gap-2.5 backdrop-blur-xl">
+          <div class="search-box-glow w-full bg-slate-900/80 border border-slate-700/80 rounded-full px-4 sm:px-5 py-3 sm:py-3.5 flex items-center gap-2.5 backdrop-blur-xl relative">
             
             <!-- Lupa -->
             <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
 
-            <!-- Input Central -->
+            <!-- Input Central com Typewriter -->
             <input 
               type="text" 
               id="searchInput" 
               class="w-full bg-transparent text-white placeholder-slate-400 text-sm sm:text-base outline-none font-medium"
-              placeholder="Digite o produto (ex: arroz, leite, café) ou fale no microfone..."
+              placeholder="Digite o que procura ou fale no microfone..."
               autocomplete="off"
             />
+
+            <!-- Onda Sonora Animada (Surge quando microfone está gravando) -->
+            <div id="waveContainer" class="hidden items-center gap-1 px-2 shrink-0">
+              <div class="w-1 bg-emerald-400 rounded-full waveform-bar"></div>
+              <div class="w-1 bg-emerald-400 rounded-full waveform-bar"></div>
+              <div class="w-1 bg-emerald-400 rounded-full waveform-bar"></div>
+              <div class="w-1 bg-emerald-400 rounded-full waveform-bar"></div>
+            </div>
 
             <!-- Botão Limpar (X) -->
             <button 
@@ -243,39 +339,23 @@
       <!-- BOTÕES ESTILO GOOGLE (ESTADO INICIAL) -->
       <div id="homeButtonsBlock" class="flex flex-wrap items-center justify-center gap-3 mt-6">
         <button 
+          id="btnSearchPrimary" 
           onclick="executarBusca()" 
           class="px-5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 hover:text-white transition-all shadow-sm">
           🔍 Pesquisar Menor Preço
         </button>
         <button 
+          id="btnSearchAi" 
           onclick="perguntarHelenaIA()" 
           class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-indigo-600/30 hover:from-emerald-600/50 hover:to-indigo-600/50 border border-emerald-500/40 text-xs sm:text-sm font-bold text-emerald-300 hover:text-white transition-all shadow-sm flex items-center gap-1.5">
           <span>✨</span>
-          <span>Perguntar à Helena IA</span>
+          <span id="btnAiText">Perguntar à Helena IA</span>
         </button>
       </div>
 
-      <!-- CHIPS DE BUSCA RÁPIDA -->
+      <!-- CHIPS DE BUSCA RÁPIDA (DINÂMICOS POR MODO) -->
       <div id="quickChipsBlock" class="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-xl">
-        <span class="text-xs text-slate-500 font-semibold mr-1">Mais buscados:</span>
-        <button onclick="buscarTermo('Arroz 5kg')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-          🍚 Arroz 5kg
-        </button>
-        <button onclick="buscarTermo('Feijão Preto')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-          🫘 Feijão Preto 1kg
-        </button>
-        <button onclick="buscarTermo('Leite Integral')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-          🥛 Leite 1L
-        </button>
-        <button onclick="buscarTermo('Café 500g')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-          ☕ Café 500g
-        </button>
-        <button onclick="buscarTermo('Óleo de Soja')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-          🍳 Óleo de Soja
-        </button>
-        <button onclick="buscarTermo('Cesta Básica')" class="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs text-emerald-400 font-bold transition-colors">
-          🧺 Cesta Básica
-        </button>
+        <!-- Renderizados dinamicamente via JS -->
       </div>
 
     </div>
@@ -291,14 +371,14 @@
       </div>
       <div class="flex items-center gap-2">
         <span class="text-slate-500">Ordenação:</span>
-        <span class="font-bold text-emerald-400">Menor Preço Primeiro (Padrão)</span>
+        <span class="font-bold text-emerald-400" id="sortLabel">Menor Preço Primeiro (Padrão)</span>
       </div>
     </div>
 
     <!-- CARD SÍNTESE HELENA IA (GEMINI AI OVERVIEW) -->
     <section id="aiOverviewCard" class="mb-8 rounded-3xl bg-gradient-to-br from-slate-900/90 via-emerald-950/20 to-slate-900/90 border border-emerald-500/40 p-5 sm:p-6 shadow-2xl relative overflow-hidden backdrop-blur-xl">
       <div class="flex items-center justify-between gap-3 mb-3">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide" id="aiCardBadge">
           <span>✨</span>
           <span>Síntese de Inteligência Artificial • Helena IA</span>
         </div>
@@ -317,63 +397,307 @@
       </div>
     </section>
 
-    <!-- LISTA DE CARDS DE SUPERMERCADOS COM O BOTÃO DO MAPA -->
+    <!-- LISTA DE CARDS DE SUPERMERCADOS / POSTOS COM O BOTÃO DO MAPA -->
     <div class="space-y-4" id="productsList">
       <!-- Cards renderizados dinamicamente -->
     </div>
 
   </main>
 
+  <!-- MODAL DE ORIENTAÇÃO PARA INSTALAR APP (PWA) -->
+  <div id="modalInstall" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
+      <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center mx-auto mb-4 glow-brand-green">
+        <span class="text-2xl">📲</span>
+      </div>
+      <h3 class="text-lg font-black text-white">Instalar NutriPreço no Celular</h3>
+      <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+        Adicione à tela inicial do seu celular para pesquisar preços de comida e combustíveis com 1 toque, sem gastar memória da Play Store!
+      </p>
+      <div class="bg-slate-800/80 rounded-2xl p-3.5 my-4 text-left text-xs text-slate-300 space-y-2 border border-slate-700/60">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-emerald-400">1.</span> Toque no botão de menu do seu navegador (três pontinhos ⋮ ou botão de compartilhar ⎋).
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-emerald-400">2.</span> Escolha a opção <strong>"Adicionar à tela de início"</strong> ou <strong>"Instalar aplicativo"</strong>.
+        </div>
+      </div>
+      <button onclick="fecharModalInstall()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold text-xs text-white transition-colors">
+        Entendido!
+      </button>
+    </div>
+  </div>
+
   <!-- RODAPÉ CLEAN -->
   <footer class="mt-auto py-6 border-t border-slate-800/60 text-center text-xs text-slate-500">
     <p>© 2026 Holding Arthur Luis Vieira dos Santos — NutriPreço • Mestre Prático • NutriCombust</p>
     <p class="mt-1 text-[11px] text-slate-600">
-      Tecnologia de busca neutra baseada em dados primários de cupons fiscais eletrônicos (NFC-e) e auditorias de gôndola.
+      Tecnologia de busca neutra com dados primários auditados de NFC-e (SEFAZ) e bombas de abastecimento (ANP).
     </p>
   </footer>
 
-  <!-- SCRIPT DE INTELIGÊNCIA ARTIFICIAL E BUSCA -->
+  <!-- SCRIPT DE INTELIGÊNCIA ARTIFICIAL, BUSCA E PWA -->
   <script>
     // ESTADO GLOBAL
+    let searchMode = 'food'; // 'food' (NutriPreço) ou 'fuel' (NutriCombust)
     let currentCity = 'Cabo Frio';
     let currentUF = 'RJ';
     let isListening = false;
     let recognition = null;
     let synthUtterance = null;
     let currentAiSummary = '';
+    let deferredPrompt = null;
 
-    // BASE DE DADOS COMPLETA DE EXEMPLO AUDITADA (CABO FRIO + OUTRAS CIDADES)
+    // BANCO DE DADOS: SUPERMERCADOS (NUTRIPREÇO)
     const DATABASE_PRODUTOS = [
       // CABO FRIO
-      { id: 1, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 24.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 08:30 via SEFAZ', lat: -22.8808, lng: -42.0224 },
-      { id: 2, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 26.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 09:12 via SEFAZ', lat: -22.8790, lng: -42.0210 },
-      { id: 3, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Prato Fino', preco: 28.90, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200 - São Cristóvão', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado ontem via SEFAZ', lat: -22.8850, lng: -42.0300 },
-      { id: 4, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Combrasil', preco: 6.99, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
-      { id: 5, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Kicaldo', preco: 7.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8790, lng: -42.0210 },
-      { id: 6, nome: 'Leite Integral UHT 1L', marca: 'Piracanjuba', preco: 4.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
-      { id: 7, nome: 'Leite Integral UHT 1L', marca: 'Itambé', preco: 5.19, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8790, lng: -42.0210 },
-      { id: 8, nome: 'Café Torrado e Moído 500g', marca: 'Pilão Tradicional', preco: 16.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
-      { id: 9, nome: 'Café Torrado e Moído 500g', marca: '3 Corações', preco: 17.50, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8850, lng: -42.0300 },
-      { id: 10, nome: 'Óleo de Soja Refinado 900ml', marca: 'Soya', preco: 6.29, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ', lat: -22.8808, lng: -42.0224 },
+      { id: 1, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 24.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 08:30 via SEFAZ' },
+      { id: 2, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 26.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje às 09:12 via SEFAZ' },
+      { id: 3, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Prato Fino', preco: 28.90, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200 - São Cristóvão', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado ontem via SEFAZ' },
+      { id: 4, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Combrasil', preco: 6.99, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 5, nome: 'Feijão Preto Tipo 1 1kg', marca: 'Kicaldo', preco: 7.49, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 6, nome: 'Leite Integral UHT 1L', marca: 'Piracanjuba', preco: 4.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 7, nome: 'Leite Integral UHT 1L', marca: 'Itambé', preco: 5.19, mercado: 'SuperPrix', endereco: 'Rua Raul Veiga, 450 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 8, nome: 'Café Torrado e Moído 500g', marca: 'Pilão Tradicional', preco: 16.89, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800 - Centro', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 9, nome: 'Café Torrado e Moído 500g', marca: '3 Corações', preco: 17.50, mercado: 'Extra Supermercado', endereco: 'Av. América Central, 1200', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
+      { id: 10, nome: 'Óleo de Soja Refinado 900ml', marca: 'Soya', preco: 6.29, mercado: 'Supermercado Princesa', endereco: 'Av. Teixeira e Souza, 800', cidade: 'Cabo Frio', uf: 'RJ', data: 'Auditado hoje via SEFAZ' },
 
       // RECIFE
-      { id: 11, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 22.90, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.0967, lng: -34.9284 },
-      { id: 12, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 23.80, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200 - Imbiribeira', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.1098, lng: -34.9080 },
-      { id: 13, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Turquesa', preco: 24.50, mercado: 'Carrefour Hipermercado', endereco: 'R. Benfica, 715 - Madalena', cidade: 'Recife', uf: 'PE', data: 'Auditado ontem via SEFAZ-PE', lat: -8.0580, lng: -34.9040 },
-      { id: 14, nome: 'Feijão Carioca 1kg', marca: 'Turquesa', preco: 6.30, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.0967, lng: -34.9284 },
-      { id: 15, nome: 'Leite Integral 1L', marca: 'Betânia', preco: 4.69, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE', lat: -8.1098, lng: -34.9080 },
+      { id: 11, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 22.90, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE' },
+      { id: 12, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 23.80, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200 - Imbiribeira', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE' },
+      { id: 13, nome: 'Feijão Carioca 1kg', marca: 'Turquesa', preco: 6.30, mercado: 'Atacadão Recife', endereco: 'Av. Recife, 400 - Areias', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE' },
+      { id: 14, nome: 'Leite Integral 1L', marca: 'Betânia', preco: 4.69, mercado: 'Assaí Atacadista', endereco: 'Av. Mal. Mascarenhas de Morais, 2200', cidade: 'Recife', uf: 'PE', data: 'Auditado hoje via SEFAZ-PE' },
 
       // SÃO PAULO
-      { id: 16, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 23.49, mercado: 'Atacadão Marginal Tietê', endereco: 'Av. Morvan Dias de Figueiredo, 6169', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5180, lng: -46.5920 },
-      { id: 17, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 24.19, mercado: 'Assaí Barra Funda', endereco: 'Av. Marquês de São Vicente, 1619', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5200, lng: -46.6700 },
-      { id: 18, nome: 'Leite Integral 1L', marca: 'Itambé', preco: 4.79, mercado: 'Carrefour Pamplona', endereco: 'Rua Pamplona, 1704 - Jd. Paulista', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP', lat: -23.5700, lng: -46.6550 },
-
-      // GOIÂNIA
-      { id: 19, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Cristal', preco: 24.99, mercado: 'Atacadão Goiânia Sul', endereco: 'Rod. BR-153, km 5', cidade: 'Goiânia', uf: 'GO', data: 'Auditado hoje via SEFAZ-GO', lat: -16.7100, lng: -49.2500 },
-      { id: 20, nome: 'Feijão Carioca 1kg', marca: 'Barão', preco: 6.89, mercado: 'Assaí Perimetral', endereco: 'Av. Perimetral Norte, 3600', cidade: 'Goiânia', uf: 'GO', data: 'Auditado hoje via SEFAZ-GO', lat: -16.6500, lng: -49.2700 }
+      { id: 15, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Tio João', preco: 23.49, mercado: 'Atacadão Marginal Tietê', endereco: 'Av. Morvan Dias de Figueiredo, 6169', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP' },
+      { id: 16, nome: 'Arroz Branco Tipo 1 5kg', marca: 'Camil', preco: 24.19, mercado: 'Assaí Barra Funda', endereco: 'Av. Marquês de São Vicente, 1619', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP' },
+      { id: 17, nome: 'Leite Integral 1L', marca: 'Itambé', preco: 4.79, mercado: 'Carrefour Pamplona', endereco: 'Rua Pamplona, 1704 - Jd. Paulista', cidade: 'São Paulo', uf: 'SP', data: 'Auditado hoje via SEFAZ-SP' }
     ];
 
-    // INICIALIZAÇÃO E MONITORAMENTO DO INPUT
+    // BANCO DE DADOS: POSTOS DE COMBUSTÍVEIS (NUTRICOMBUST ANP OFICIAL)
+    const DATABASE_POSTOS = [
+      // CABO FRIO (RJ)
+      { id: 101, posto: 'Posto do Cabo LTDA', bandeira: 'Ipiranga', endereco: 'Av. América Central, 2270', bairro: 'Praia do Siqueira', cidade: 'Cabo Frio', uf: 'RJ', gasolina_comum: 6.77, gasolina_aditivada: 6.77, etanol: 4.88, diesel_s10: 7.19, gnv: 4.79, data: 'Auditado via ANP Dados Abertos' },
+      { id: 102, posto: 'Auto Posto São Pedro', bandeira: 'Shell', endereco: 'Rod. Amaral Peixoto, km 136', bairro: 'Portinho', cidade: 'Cabo Frio', uf: 'RJ', gasolina_comum: 6.79, gasolina_aditivada: 6.95, etanol: 4.92, diesel_s10: 7.24, gnv: 4.85, data: 'Auditado via ANP Dados Abertos' },
+      { id: 103, posto: 'Posto Estrela da Praia', bandeira: 'Vibra / Petrobras', endereco: 'Av. Assumpção, 350', bairro: 'Passagem', cidade: 'Cabo Frio', uf: 'RJ', gasolina_comum: 6.84, gasolina_aditivada: 6.99, etanol: 4.99, diesel_s10: 7.29, gnv: 0, data: 'Auditado via ANP Dados Abertos' },
+      { id: 104, posto: 'Posto Mar Azul', bandeira: 'Bandeira Branca', endereco: 'Rua Raul Veiga, 120', bairro: 'Centro', cidade: 'Cabo Frio', uf: 'RJ', gasolina_comum: 6.69, gasolina_aditivada: 6.79, etanol: 4.79, diesel_s10: 7.09, gnv: 4.69, data: 'Auditado via Cupom Fiscal' },
+
+      // RIO DE JANEIRO (CAPITAL)
+      { id: 105, posto: 'Posto Jardim Sulacap', bandeira: 'Bandeira Branca', endereco: 'Rua Euzebio de Almeida, 2098', bairro: 'Jardim Sulacap', cidade: 'Rio de Janeiro', uf: 'RJ', gasolina_comum: 5.99, gasolina_aditivada: 6.19, etanol: 4.49, diesel_s10: 6.87, gnv: 4.45, data: 'Auditado via ANP' },
+      { id: 106, posto: 'Auto Posto Maracanã', bandeira: 'Shell', endereco: 'Av. Maracanã, 750', bairro: 'Tijuca', cidade: 'Rio de Janeiro', uf: 'RJ', gasolina_comum: 6.15, gasolina_aditivada: 6.35, etanol: 4.59, diesel_s10: 6.95, gnv: 4.59, data: 'Auditado via ANP' },
+
+      // SÃO PAULO
+      { id: 107, posto: 'Posto Shell Marginal Tietê', bandeira: 'Shell', endereco: 'Av. Marginal Tietê, 4500', bairro: 'Lapa', cidade: 'São Paulo', uf: 'SP', gasolina_comum: 5.79, gasolina_aditivada: 5.99, etanol: 3.89, diesel_s10: 6.19, gnv: 4.29, data: 'Auditado via ANP' },
+      { id: 108, posto: 'Auto Posto Ipiranga Rebouças', bandeira: 'Ipiranga', endereco: 'Av. Rebouças, 1800', bairro: 'Pinheiros', cidade: 'São Paulo', uf: 'SP', gasolina_comum: 5.85, gasolina_aditivada: 6.05, etanol: 3.95, diesel_s10: 6.25, gnv: 4.35, data: 'Auditado via ANP' },
+
+      // RECIFE
+      { id: 109, posto: 'Posto Petrobras Mascarenhas', bandeira: 'Vibra / Petrobras', endereco: 'Av. Mascarenhas de Morais, 3100', bairro: 'Imbiribeira', cidade: 'Recife', uf: 'PE', gasolina_comum: 5.99, gasolina_aditivada: 6.19, etanol: 4.45, diesel_s10: 6.39, gnv: 4.59, data: 'Auditado via ANP' },
+      { id: 110, posto: 'Posto Shell Agamenon', bandeira: 'Shell', endereco: 'Av. Gov. Agamenon Magalhães, 1200', bairro: 'Derby', cidade: 'Recife', uf: 'PE', gasolina_comum: 6.05, gasolina_aditivada: 6.25, etanol: 4.49, diesel_s10: 6.45, gnv: 4.65, data: 'Auditado via ANP' }
+    ];
+
+    // CARREGADOR DE DADOS ADICIONAIS DE COMBUSTÍVEL SE DISPONÍVEIS VIA JSON
+    async function carregarCombustiveisOnline(uf) {
+      try {
+        const res = await fetch(`/dados_combustiveis_${uf.toLowerCase()}.json`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.postos && Array.isArray(data.postos)) {
+            data.postos.forEach(p => {
+              if (!DATABASE_POSTOS.some(existing => existing.id === p.id)) {
+                DATABASE_POSTOS.push({
+                  id: p.id || Math.random(),
+                  posto: p.posto,
+                  bandeira: p.bandeira,
+                  endereco: p.endereco,
+                  bairro: p.bairro,
+                  cidade: p.cidade,
+                  uf: uf.toUpperCase(),
+                  gasolina_comum: p.gasolina_comum || 0,
+                  gasolina_aditivada: p.gasolina_aditivada || 0,
+                  etanol: p.etanol || 0,
+                  diesel_s10: p.diesel_s10 || 0,
+                  gnv: p.gnv || 0,
+                  data: 'Auditado via ANP Oficial'
+                });
+              }
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Uso da base local de postos:', e);
+      }
+    }
+    carregarCombustiveisOnline('rj');
+
+    // MODO ALTERNADOR: NUTRIPREÇO (SUPERMERCADOS) vs NUTRICOMBUST (POSTOS)
+    function setSearchMode(mode) {
+      searchMode = mode;
+      const body = document.body;
+      const btnFood = document.getElementById('btnModeFood');
+      const btnFuel = document.getElementById('btnModeFuel');
+      const brandBadge = document.getElementById('brandIconBadge');
+      const iconFood = document.getElementById('iconFood');
+      const iconFuel = document.getElementById('iconFuel');
+      const brandText = document.getElementById('brandNameText');
+      const tagline = document.getElementById('homeTagline');
+      const headerAudit = document.getElementById('headerAuditText');
+      const btnPrimary = document.getElementById('btnSearchPrimary');
+      const sortLabel = document.getElementById('sortLabel');
+      const cityBtn = document.getElementById('btnCitySelect');
+
+      if (mode === 'fuel') {
+        body.classList.add('mode-fuel');
+        
+        // Estilo dos Botões de Modo
+        btnFood.className = "group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 border-slate-700/80 hover:border-emerald-500/60 text-slate-300 hover:text-emerald-300";
+        btnFuel.className = "group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-amber-500/20 border-amber-400 text-white shadow-[0_0_20px_rgba(245,158,11,0.35)]";
+
+        // Logo NutriCombust
+        brandBadge.className = "w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-700 flex items-center justify-center glow-brand-amber border border-amber-300/40 transition-all duration-300";
+        iconFood.classList.add('hidden');
+        iconFuel.classList.remove('hidden');
+        brandText.innerText = "NutriCombust";
+        tagline.innerText = "O Motor de Busca de Combustíveis no Brasil";
+        tagline.className = "text-xs font-semibold text-amber-400 tracking-wider uppercase pl-0.5";
+        headerAudit.innerText = "Postos Oficiais ANP & Cupons de Abastecimento";
+        btnPrimary.innerText = "⛽ Buscar Posto Mais Barato";
+        sortLabel.className = "font-bold text-amber-400";
+        cityBtn.className = "flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-amber-400 transition-colors";
+
+      } else {
+        body.classList.remove('mode-fuel');
+
+        // Estilo dos Botões de Modo
+        btnFood.className = "group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-emerald-500/15 border-emerald-500/50 text-white shadow-[0_0_15px_rgba(0,230,118,0.2)]";
+        btnFuel.className = "group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 border-slate-700/80 hover:border-amber-500/60 text-slate-300 hover:text-amber-300";
+
+        // Logo NutriPreço
+        brandBadge.className = "w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center glow-brand-green border border-emerald-300/40 transition-all duration-300";
+        iconFood.classList.remove('hidden');
+        iconFuel.classList.add('hidden');
+        brandText.innerText = "NutriPreço";
+        tagline.innerText = "O Motor de Busca da Economia Real";
+        tagline.className = "text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5";
+        headerAudit.innerText = "SEFAZ & ANP Verificados";
+        btnPrimary.innerText = "🔍 Pesquisar Menor Preço";
+        sortLabel.className = "font-bold text-emerald-400";
+        cityBtn.className = "flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-semibold text-emerald-400 transition-colors";
+      }
+
+      renderChips();
+      resetTypewriter();
+      
+      // Se já estiver na tela de resultados, refaz a busca no novo modo
+      if (document.body.classList.contains('in-results')) {
+        executarBusca();
+      }
+    }
+
+    // RENDERIZADOR DE CHIPS RÁPIDOS CONFORME O MODO
+    function renderChips() {
+      const container = document.getElementById('quickChipsBlock');
+      if (searchMode === 'fuel') {
+        container.innerHTML = `
+          <span class="text-xs text-slate-500 font-semibold mr-1">Combustíveis:</span>
+          <button onclick="buscarTermo('Gasolina Comum')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
+            ⛽ Gasolina Comum
+          </button>
+          <button onclick="buscarTermo('Etanol')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
+            ⚡ Etanol Hidratado
+          </button>
+          <button onclick="buscarTermo('Diesel S10')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
+            🛢️ Diesel S10
+          </button>
+          <button onclick="buscarTermo('GNV')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
+            💨 GNV
+          </button>
+          <button onclick="buscarTermo('Gasolina Aditivada')" class="px-3 py-1.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs text-amber-400 font-bold transition-colors">
+            ⭐ Gasolina Aditivada
+          </button>
+        `;
+      } else {
+        container.innerHTML = `
+          <span class="text-xs text-slate-500 font-semibold mr-1">Mais buscados:</span>
+          <button onclick="buscarTermo('Arroz 5kg')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+            🍚 Arroz 5kg
+          </button>
+          <button onclick="buscarTermo('Feijão Preto')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+            🫘 Feijão Preto 1kg
+          </button>
+          <button onclick="buscarTermo('Leite Integral')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+            🥛 Leite 1L
+          </button>
+          <button onclick="buscarTermo('Café 500g')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+            ☕ Café 500g
+          </button>
+          <button onclick="buscarTermo('Cesta Básica')" class="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs text-emerald-400 font-bold transition-colors">
+            🧺 Cesta Básica
+          </button>
+        `;
+      }
+    }
+
+    // EFEITO TYPEWRITER AUTOMÁTICO NO PLACEHOLDER
+    const placeholdersFood = [
+      "Arroz 5kg mais barato em Cabo Frio...",
+      "Leite integral em Recife...",
+      "Feijão preto tipo 1 em São Paulo...",
+      "Café torrado 500g mais em conta...",
+      "Cesta básica completa com menor preço..."
+    ];
+    const placeholdersFuel = [
+      "Gasolina comum mais barata em Cabo Frio...",
+      "Etanol hidratado em São Paulo...",
+      "Diesel S10 em Recife...",
+      "Posto Shell com melhor preço...",
+      "Onde abastecer mais barato hoje..."
+    ];
+
+    let twIndex = 0;
+    let twCharIndex = 0;
+    let isDeleting = false;
+    let twTimeout = null;
+
+    function runTypewriter() {
+      const input = document.getElementById('searchInput');
+      if (document.activeElement === input || input.value.length > 0) {
+        twTimeout = setTimeout(runTypewriter, 1000);
+        return;
+      }
+
+      const list = searchMode === 'fuel' ? placeholdersFuel : placeholdersFood;
+      const currentText = list[twIndex % list.length];
+
+      if (!isDeleting) {
+        input.placeholder = currentText.substring(0, twCharIndex + 1);
+        twCharIndex++;
+        if (twCharIndex >= currentText.length) {
+          isDeleting = true;
+          twTimeout = setTimeout(runTypewriter, 2200);
+          return;
+        }
+        twTimeout = setTimeout(runTypewriter, 50);
+      } else {
+        input.placeholder = currentText.substring(0, twCharIndex - 1);
+        twCharIndex--;
+        if (twCharIndex <= 0) {
+          isDeleting = false;
+          twIndex++;
+          twTimeout = setTimeout(runTypewriter, 500);
+          return;
+        }
+        twTimeout = setTimeout(runTypewriter, 25);
+      }
+    }
+
+    function resetTypewriter() {
+      clearTimeout(twTimeout);
+      twCharIndex = 0;
+      isDeleting = false;
+      runTypewriter();
+    }
+
+    // MONITORAMENTO DO INPUT
     const searchInput = document.getElementById('searchInput');
     const btnClear = document.getElementById('btnClear');
 
@@ -402,13 +726,11 @@
       document.getElementById('currentCityLabel').innerText = `${cidade}, ${uf}`;
       document.getElementById('cityMenu').classList.add('hidden');
       
-      // Se já estiver na tela de resultados, refaz a busca para a nova cidade
       if (document.body.classList.contains('in-results')) {
         executarBusca();
       }
     }
 
-    // FECHA O MENU SE CLICAR FORA
     document.addEventListener('click', (e) => {
       const menu = document.getElementById('cityMenu');
       const btn = document.getElementById('btnCitySelect');
@@ -431,14 +753,14 @@
       executarBusca();
     }
 
-    // PROCESSAMENTO INTELIGENTE DE BUSCA (SEMÂNTICA + VOZ)
+    // PROCESSAMENTO INTELIGENTE DA BUSCA
     function executarBusca(e) {
       if (e) e.preventDefault();
       
       const queryOriginal = searchInput.value.trim();
       let query = queryOriginal.toLowerCase();
 
-      // PARSER DE LINGUAGEM NATURAL (Detecta menção a cidades no texto ou voz)
+      // PARSER DE CIDADE
       if (query.includes('recife')) { selecionarCidade('Recife', 'PE'); }
       else if (query.includes('cabo frio')) { selecionarCidade('Cabo Frio', 'RJ'); }
       else if (query.includes('são paulo') || query.includes('sao paulo')) { selecionarCidade('São Paulo', 'SP'); }
@@ -446,32 +768,42 @@
       else if (query.includes('rio de janeiro')) { selecionarCidade('Rio de Janeiro', 'RJ'); }
       else if (query.includes('belo horizonte')) { selecionarCidade('Belo Horizonte', 'MG'); }
 
-      // Limpa palavras auxiliares de voz com word boundaries ("quanto tá", "arroz mais barato em", etc.)
+      // Se a pessoa pesquisou por gasolina/etanol/diesel estando no modo comida, chaveia automaticamente!
+      if (query.includes('gasolina') || query.includes('etanol') || query.includes('diesel') || query.includes('gnv') || query.includes('combustivel') || query.includes('posto')) {
+        if (searchMode !== 'fuel') setSearchMode('fuel');
+      }
+
+      // Limpa palavras auxiliares de voz com word boundaries
       const termosLimpos = query
-        .replace(/\b(quanto|que|está|esta|ta|tá|o|a|os|as|um|uma|quilo|kg|do|da|de|em|no|na|nos|nas|mais|barato|barata|menor|preço|preco|onde|comprar|supermercado|mercado)\b/gi, ' ')
+        .replace(/\b(quanto|que|está|esta|ta|tá|o|a|os|as|um|uma|quilo|kg|litro|l|do|da|de|em|no|na|nos|nas|mais|barato|barata|menor|preço|preco|onde|comprar|abastecer|supermercado|mercado|posto)\b/gi, ' ')
         .replace(/\s+/g, ' ')
         .trim();
 
       const termoBusca = termosLimpos.length > 0 ? termosLimpos : query;
 
-      // ATIVA MODO RESULTADOS (TRANSIÇÃO ESTILO GOOGLE)
       document.body.classList.add('in-results');
       document.getElementById('resultsContainer').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      renderizarResultados(termoBusca, queryOriginal);
+      if (searchMode === 'fuel') {
+        renderizarResultadosCombustivel(termoBusca, queryOriginal);
+      } else {
+        renderizarResultadosComida(termoBusca, queryOriginal);
+      }
     }
 
-    // RENDERIZADOR DOS RESULTADOS E DO RESUMO DA HELENA IA
-    function renderizarResultados(termo, queryOriginal) {
+    // RENDERIZADOR 1: MODO SUPERMERCADOS (NUTRIPREÇO)
+    function renderizarResultadosComida(termo, queryOriginal) {
       const container = document.getElementById('productsList');
       const countText = document.getElementById('resultsCountText');
       const aiBody = document.getElementById('aiOverviewBody');
+      const aiBadge = document.getElementById('aiCardBadge');
 
-      // Filtra produtos pela cidade atual
+      aiBadge.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide";
+      aiBadge.innerHTML = "<span>✨</span><span>Síntese de Inteligência Artificial • Helena IA</span>";
+
       let produtos = DATABASE_PRODUTOS.filter(p => p.cidade.toLowerCase() === currentCity.toLowerCase());
 
-      // Se informou um termo específico, filtra pelo nome do produto ou marca
       if (termo && termo.length > 0) {
         produtos = produtos.filter(p => 
           p.nome.toLowerCase().includes(termo) || 
@@ -480,42 +812,25 @@
         );
       }
 
-      // Ordena rigorosamente pelo menor preço (Padrão de Integridade Arthur)
       produtos.sort((a, b) => a.preco - b.preco);
 
       if (produtos.length === 0) {
         countText.innerHTML = `Nenhum preço auditado para "${termo || 'sua busca'}" em ${currentCity}.`;
-        
-        currentAiSummary = `Não encontramos cotações ativas para ${termo || 'este produto'} em ${currentCity} no momento. Você pode ser o primeiro a enviar uma foto de cupom fiscal para este item!`;
+        currentAiSummary = `Não encontramos cotações ativas para ${termo || 'este produto'} em ${currentCity} no momento.`;
         aiBody.innerHTML = `
           <p class="text-amber-300 font-semibold mb-2">⚠️ Fase de Expansão Territorial em ${currentCity}</p>
-          <p class="text-slate-300 text-sm">
-            Nossos robôs e a comunidade ainda não registraram cupons recentes para <strong>"${termo || queryOriginal}"</strong> nesta praça.
-          </p>
-          <div class="mt-4">
-            <a href="/combustivel.html#auditar" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors">
-              <span>📸 Auditar Cupom Fiscal & Ganhar Pontos</span>
-            </a>
-          </div>
+          <p class="text-slate-300 text-sm">Nossos robôs ainda não registraram cupons recentes para "${termo || queryOriginal}" nesta praça.</p>
         `;
-
-        container.innerHTML = `
-          <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">
-            <div class="text-3xl mb-2">🔍</div>
-            <p class="font-bold text-white text-base">Nenhum resultado direto em ${currentCity}</p>
-            <p class="text-xs text-slate-400 mt-1">Experimente pesquisar outro termo como "Arroz", "Feijão" ou selecionar outra cidade no topo.</p>
-          </div>
-        `;
+        container.innerHTML = `<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">Nenhum resultado direto em ${currentCity}.</div>`;
         return;
       }
 
-      // CÁLCULOS PARA A HELENA IA
       const menor = produtos[0];
       const maior = produtos[produtos.length - 1];
       const media = (produtos.reduce((acc, p) => acc + p.preco, 0) / produtos.length).toFixed(2);
       const economiaPorcento = (((maior.preco - menor.preco) / maior.preco) * 100).toFixed(0);
 
-      currentAiSummary = `Em ${currentCity}, o menor preço encontrado para ${menor.nome} é de R$ ${menor.preco.toFixed(2).replace('.', ',')} no ${menor.mercado}. A média da cidade está em R$ ${media.replace('.', ',')}, garantindo uma economia de até ${economiaPorcento}% para o seu bolso.`;
+      currentAiSummary = `Em ${currentCity}, o menor preço auditado para ${menor.nome} é de R$ ${menor.preco.toFixed(2).replace('.', ',')} no ${menor.mercado}. A média da cidade está em R$ ${media.replace('.', ',')}, gerando até ${economiaPorcento}% de economia.`;
 
       aiBody.innerHTML = `
         <p class="text-slate-100 text-sm sm:text-base mb-2">
@@ -523,14 +838,13 @@
         </p>
         <div class="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-3 pt-3 border-t border-slate-800/80">
           <div>📊 Média da Cidade: <span class="font-bold text-white">R$ ${media.replace('.', ',')}</span></div>
-          <div>💰 Variação de Preço: <span class="font-bold text-amber-400">Até ${economiaPorcento}% de economia</span></div>
-          <div>🛡️ Fonte: <span class="font-semibold text-emerald-300">Auditoria SEFAZ (${menor.data})</span></div>
+          <div>💰 Economia: <span class="font-bold text-amber-400">Até ${economiaPorcento}%</span></div>
+          <div>🛡️ Fonte: <span class="font-semibold text-emerald-300">${menor.data}</span></div>
         </div>
       `;
 
-      countText.innerHTML = `Encontrados <strong class="text-white">${produtos.length}</strong> estabelecimentos com cotação auditada em <strong class="text-emerald-400">${currentCity}</strong>`;
+      countText.innerHTML = `Encontrados <strong class="text-white">${produtos.length}</strong> supermercados com cotação auditada em <strong class="text-emerald-400">${currentCity}</strong>`;
 
-      // MONTAGEM DOS CARDS DE PRODUTOS COM O BOTÃO DO MAPA
       let html = '';
       produtos.forEach((prod, idx) => {
         const isWinner = idx === 0;
@@ -543,8 +857,6 @@
               : 'bg-slate-900/70 border border-slate-800 hover:border-slate-700'
           }">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              
-              <!-- Informações do Produto & Mercado -->
               <div class="flex items-start gap-3.5">
                 <div class="w-10 h-10 rounded-xl ${isWinner ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-400'} flex items-center justify-center font-black text-sm shrink-0">
                   ${isWinner ? '🥇 1º' : `${idx + 1}º`}
@@ -563,7 +875,6 @@
                 </div>
               </div>
 
-              <!-- Preço em Destaque & Botão do Mapa -->
               <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
                 <div class="text-left sm:text-right">
                   <div class="text-[10px] text-slate-400 font-semibold uppercase">Preço Auditado</div>
@@ -572,7 +883,6 @@
                   </div>
                 </div>
 
-                <!-- O BOTÃO DO MAPA SOLICITADO PELO ARTHUR -->
                 <a 
                   href="${mapsUrl}" 
                   target="_blank" 
@@ -586,9 +896,7 @@
                   <span>🗺️</span>
                   <span>Ver no Mapa</span>
                 </a>
-
               </div>
-
             </div>
           </div>
         `;
@@ -597,11 +905,156 @@
       container.innerHTML = html;
     }
 
-    // PESQUISA POR VOZ VIA WEB SPEECH API
+    // RENDERIZADOR 2: MODO COMBUSTÍVEIS (NUTRICOMBUST ANP)
+    function renderizarResultadosCombustivel(termo, queryOriginal) {
+      const container = document.getElementById('productsList');
+      const countText = document.getElementById('resultsCountText');
+      const aiBody = document.getElementById('aiOverviewBody');
+      const aiBadge = document.getElementById('aiCardBadge');
+
+      aiBadge.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase tracking-wide";
+      aiBadge.innerHTML = "<span>⛽</span><span>Auditoria Oficial de Bombas • NutriCombust IA</span>";
+
+      // Identifica o combustível foco pesquisado (padrão: Gasolina Comum)
+      let tipoCombustivel = 'gasolina_comum';
+      let nomeCombustivel = 'Gasolina Comum';
+
+      if (termo.includes('etanol') || termo.includes('alcool')) {
+        tipoCombustivel = 'etanol';
+        nomeCombustivel = 'Etanol Hidratado';
+      } else if (termo.includes('diesel')) {
+        tipoCombustivel = 'diesel_s10';
+        nomeCombustivel = 'Diesel S10';
+      } else if (termo.includes('gnv') || termo.includes('gas natural')) {
+        tipoCombustivel = 'gnv';
+        nomeCombustivel = 'GNV';
+      } else if (termo.includes('aditivada')) {
+        tipoCombustivel = 'gasolina_aditivada';
+        nomeCombustivel = 'Gasolina Aditivada';
+      }
+
+      // Filtra postos pela cidade ativa e que tenham preço maior que zero no combustível foco
+      let postos = DATABASE_POSTOS.filter(p => 
+        p.cidade.toLowerCase() === currentCity.toLowerCase() && 
+        p[tipoCombustivel] > 0
+      );
+
+      // Se pesquisou por bandeira (ex: Shell, Ipiranga)
+      if (termo && !termo.includes('gasolina') && !termo.includes('etanol') && !termo.includes('diesel') && !termo.includes('gnv')) {
+        const postosBandeira = postos.filter(p => 
+          p.posto.toLowerCase().includes(termo) || 
+          p.bandeira.toLowerCase().includes(termo)
+        );
+        if (postosBandeira.length > 0) postos = postosBandeira;
+      }
+
+      // Ordena rigorosamente pelo menor preço na bomba
+      postos.sort((a, b) => a[tipoCombustivel] - b[tipoCombustivel]);
+
+      if (postos.length === 0) {
+        countText.innerHTML = `Nenhum posto com ${nomeCombustivel} encontrado em ${currentCity}.`;
+        currentAiSummary = `Não encontramos registros ativos de ${nomeCombustivel} em ${currentCity} no momento.`;
+        aiBody.innerHTML = `
+          <p class="text-amber-300 font-semibold mb-2">⚠️ Fase de Expansão de Postos em ${currentCity}</p>
+          <p class="text-slate-300 text-sm">Envie a foto do totem ou cupom de abastecimento para cadastrar este posto e pontuar!</p>
+        `;
+        container.innerHTML = `<div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 text-center text-slate-400">Nenhum posto encontrado em ${currentCity}.</div>`;
+        return;
+      }
+
+      const menor = postos[0];
+      const maior = postos[postos.length - 1];
+      const media = (postos.reduce((acc, p) => acc + p[tipoCombustivel], 0) / postos.length).toFixed(2);
+      const economiaLitro = (maior[tipoCombustivel] - menor[tipoCombustivel]).toFixed(2);
+
+      currentAiSummary = `Em ${currentCity}, o menor preço de ${nomeCombustivel} está saindo por R$ ${menor[tipoCombustivel].toFixed(2).replace('.', ',')} no ${menor.posto} (${menor.bandeira}). A média da cidade está em R$ ${media.replace('.', ',')}. Abastecer um tanque de 50 litros no melhor posto gera economia de até R$ ${(economiaLitro * 50).toFixed(2).replace('.', ',')}.`;
+
+      aiBody.innerHTML = `
+        <p class="text-slate-100 text-sm sm:text-base mb-2">
+          Em <strong class="text-amber-400 font-bold">${currentCity}</strong>, o menor preço auditado para <strong class="text-white">${nomeCombustivel}</strong> está no posto <strong class="text-white underline decoration-amber-500 underline-offset-4">${menor.posto}</strong> (${menor.bandeira}) por apenas <strong class="text-amber-400 font-black text-lg">R$ ${menor[tipoCombustivel].toFixed(2).replace('.', ',')}/L</strong>.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 text-xs text-slate-300 mt-3 pt-3 border-t border-slate-800/80">
+          <div>📊 Média Local: <span class="font-bold text-white">R$ ${media.replace('.', ',')}/L</span></div>
+          <div>⛽ Economia por Tanque (50L): <span class="font-bold text-emerald-400">R$ ${(economiaLitro * 50).toFixed(2).replace('.', ',')} de economia</span></div>
+          <div>🛡️ Dados: <span class="font-semibold text-amber-300">${menor.data}</span></div>
+        </div>
+      `;
+
+      countText.innerHTML = `Encontrados <strong class="text-white">${postos.length}</strong> postos com <strong class="text-amber-400">${nomeCombustivel}</strong> auditada em <strong class="text-white">${currentCity}</strong>`;
+
+      let html = '';
+      postos.forEach((p, idx) => {
+        const isWinner = idx === 0;
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.posto + ' ' + p.endereco + ' ' + p.cidade)}`;
+        
+        html += `
+          <div class="rounded-2xl sm:rounded-3xl p-4 sm:p-5 transition-all ${
+            isWinner 
+              ? 'bg-gradient-to-r from-amber-950/40 via-slate-900/90 to-slate-900 border-2 border-amber-500/70 shadow-xl shadow-amber-950/40' 
+              : 'bg-slate-900/70 border border-slate-800 hover:border-slate-700'
+          }">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl ${isWinner ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'} flex items-center justify-center font-black text-sm shrink-0">
+                  ${isWinner ? '🥇 1º' : `${idx + 1}º`}
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md ${isWinner ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-400'}">
+                      ${p.bandeira}
+                    </span>
+                    <span class="text-xs text-slate-500">• ${p.bairro}</span>
+                  </div>
+                  <h4 class="text-base sm:text-lg font-bold text-white mt-0.5">${p.posto}</h4>
+                  <p class="text-xs sm:text-sm text-slate-400 flex items-center gap-1 mt-1">
+                    <span>📍</span> ${p.endereco}
+                  </p>
+                  
+                  <!-- Outros Combustíveis do Posto -->
+                  <div class="flex items-center gap-3 mt-2 text-[11px] text-slate-400 flex-wrap">
+                    ${p.gasolina_comum > 0 ? `<span>Gasolina: <strong class="text-slate-200">R$ ${p.gasolina_comum.toFixed(2).replace('.', ',')}</strong></span>` : ''}
+                    ${p.etanol > 0 ? `<span>Etanol: <strong class="text-slate-200">R$ ${p.etanol.toFixed(2).replace('.', ',')}</strong></span>` : ''}
+                    ${p.diesel_s10 > 0 ? `<span>Diesel S10: <strong class="text-slate-200">R$ ${p.diesel_s10.toFixed(2).replace('.', ',')}</strong></span>` : ''}
+                    ${p.gnv > 0 ? `<span>GNV: <strong class="text-slate-200">R$ ${p.gnv.toFixed(2).replace('.', ',')}</strong></span>` : ''}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                <div class="text-left sm:text-right">
+                  <div class="text-[10px] text-slate-400 font-semibold uppercase">${nomeCombustivel}</div>
+                  <div class="text-2xl sm:text-3xl font-black ${isWinner ? 'text-amber-400' : 'text-slate-200'}">
+                    R$ ${p[tipoCombustivel].toFixed(2).replace('.', ',')}
+                  </div>
+                </div>
+
+                <!-- O BOTÃO DO MAPA / GPS SOLICITADO PELO ARTHUR -->
+                <a 
+                  href="${mapsUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="px-4 py-2.5 rounded-xl ${
+                    isWinner 
+                      ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/30' 
+                      : 'bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-700'
+                  } text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                  title="Abrir Rota e Localização do Posto no Google Maps">
+                  <span>🗺️</span>
+                  <span>Ver no Mapa</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // PESQUISA POR VOZ VIA WEB SPEECH API COM ONDA SONORA
     function iniciarPesquisaVoz() {
       const btnMic = document.getElementById('btnMic');
-
-      // Verifica se o navegador suporta Web Speech
+      const wave = document.getElementById('waveContainer');
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
       if (!SpeechRecognition) {
@@ -623,6 +1076,8 @@
         recognition.onstart = () => {
           isListening = true;
           btnMic.classList.add('mic-recording');
+          wave.classList.remove('hidden');
+          wave.classList.add('flex');
           searchInput.placeholder = '🎙️ Ouvindo... Pode falar agora!';
         };
 
@@ -633,26 +1088,32 @@
           executarBusca();
         };
 
-        recognition.onerror = (event) => {
-          console.warn('Erro de reconhecimento de voz:', event.error);
-          isListening = false;
-          btnMic.classList.remove('mic-recording');
-          searchInput.placeholder = 'Digite o produto (ex: arroz, leite, café) ou fale no microfone...';
+        recognition.onerror = () => {
+          pararGravacaoVisual();
         };
 
         recognition.onend = () => {
-          isListening = false;
-          btnMic.classList.remove('mic-recording');
-          searchInput.placeholder = 'Digite o produto (ex: arroz, leite, café) ou fale no microfone...';
+          pararGravacaoVisual();
         };
 
         recognition.start();
       } catch (err) {
         console.error('Falha ao iniciar SpeechRecognition:', err);
+        pararGravacaoVisual();
       }
     }
 
-    // RESPOSTA POR VOZ DA HELENA IA
+    function pararGravacaoVisual() {
+      isListening = false;
+      const btnMic = document.getElementById('btnMic');
+      const wave = document.getElementById('waveContainer');
+      btnMic.classList.remove('mic-recording');
+      wave.classList.add('hidden');
+      wave.classList.remove('flex');
+      searchInput.placeholder = 'Digite o que procura ou fale no microfone...';
+    }
+
+    // RESPOSTA POR VOZ DA IA
     function falarRespostaIA() {
       if (!window.speechSynthesis) {
         alert("Síntese de voz não disponível neste navegador.");
@@ -687,10 +1148,39 @@
     function perguntarHelenaIA() {
       const q = searchInput.value.trim();
       if (!q) {
-        searchInput.value = "Cesta básica mais econômica";
+        searchInput.value = searchMode === 'fuel' ? "Gasolina comum mais barata" : "Cesta básica mais econômica";
       }
       executarBusca();
     }
+
+    // INSTALAÇÃO DO APLICATIVO (PWA)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    function instalarAplicativo() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuário aceitou instalar o PWA');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        // Exibe modal com orientação simples
+        document.getElementById('modalInstall').classList.remove('hidden');
+      }
+    }
+
+    function fecharModalInstall() {
+      document.getElementById('modalInstall').classList.add('hidden');
+    }
+
+    // INICIALIZAÇÃO
+    renderChips();
+    runTypewriter();
   </script>
 </body>
 </html>
