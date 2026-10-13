@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Layout Mobile — NutriPreço (Holding Arthur Luis)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #0d1712 0%, #060907 100%);
+      color: #E2E8F0;
+      min-height: 100vh;
+    }
+
+    /* Moldura de Smartphone Ultra-Realista */
+    .phone-mockup {
+      width: 390px;
+      height: 820px;
+      background: #070B08;
+      border-radius: 52px;
+      box-shadow: 
+        0 0 0 12px #1E293B,
+        0 0 0 14px #0F172A,
+        0 25px 60px -15px rgba(0, 0, 0, 0.9),
+        0 0 50px rgba(0, 230, 118, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island / Notch */
+    .dynamic-island {
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      margin: 10px auto 0 auto;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
+
+    /* Scrollbar personalizada */
+    .phone-screen::-webkit-scrollbar {
+      width: 4px;
+    }
+    .phone-screen::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    /* Estilo dos Blocos Reorganizáveis */
+    .draggable-card {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: grab;
+      user-select: none;
+      position: relative;
+    }
+    .draggable-card:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
+    .draggable-card.dragging {
+      opacity: 0.4;
+      border: 2px dashed #00E676;
+    }
+    .draggable-card.drag-over {
+      border-top: 3px solid #00E676;
+      transform: translateY(2px);
+    }
+
+    .glow-brand-green {
+      box-shadow: 0 0 25px rgba(0, 230, 118, 0.35);
+    }
+  </style>
+</head>
+<body class="flex flex-col lg:flex-row items-center justify-center p-4 sm:p-8 gap-8">
+
+  <!-- ========================================================================= -->
+  <!-- PAINEL LATERAL ESQUERDO: INSTRUÇÕES E CONTROLES -->
+  <!-- ========================================================================= -->
+  <aside class="w-full lg:w-96 flex flex-col gap-5 order-2 lg:order-1">
+    
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl backdrop-blur-xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase mb-3">
+        <span>📱</span>
+        <span>Simulador Mobile Interativo</span>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-black text-white leading-tight">
+        Monte o NutriPreço do Seu Jeito no Celular
+      </h1>
+      <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+        Arthur, arraste os blocos dentro da tela do celular ou use as setinhas <strong class="text-white">⬆️ e ⬇️</strong> para colocar cada elemento na ordem exata que você quer ver no smartphone.
+      </p>
+    </div>
+
+    <!-- Controles Rápidos -->
+    <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 space-y-3">
+      <div class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+        <span>Ações do Simulador</span>
+        <span class="text-[10px] text-emerald-400 font-normal">8 Blocos Editáveis</span>
+      </div>
+
+      <button 
+        onclick="resetarOrdemPadrao()" 
+        class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs transition flex items-center justify-center gap-2">
+        <span>🔄</span>
+        <span>Resetar para o Padrão Atual</span>
+      </button>
+
+      <button 
+        onclick="copiarEstruturaAprovada()" 
+        class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs transition shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+        <span>✅</span>
+        <span>Finalizar e Copiar Ordem para o Chat</span>
+      </button>
+
+      <div id="toastCopiado" class="hidden text-center text-xs text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/40 py-2 rounded-xl">
+        ✓ Ordem copiada! Pode colar aqui no chat para eu aplicar!
+      </div>
+    </div>
+
+    <!-- Lista da Ordem Atual em Tempo Real -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 text-xs">
+      <div class="font-bold text-slate-300 mb-2">Ordem Atual dos Blocos:</div>
+      <ol id="orderListSummary" class="space-y-1.5 text-slate-400 list-decimal list-inside font-medium">
+        <!-- Preenchido via JS -->
+      </ol>
+    </div>
+
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- CENTRO: MOLDURA DO SMARTPHONE (SIMULADOR MOBILE VIVO) -->
+  <!-- ========================================================================= -->
+  <main class="order-1 lg:order-2">
+    <div class="phone-mockup">
+      
+      <!-- Topo do iPhone / Barra de Status -->
+      <div class="dynamic-island">
+        <span class="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-800"></span>
+        <span class="w-3 h-3 rounded-full bg-emerald-500/80 animate-pulse"></span>
+      </div>
+
+      <!-- Barra de Status do Celular -->
+      <div class="flex items-center justify-between px-7 pt-1 pb-2 text-[11px] font-bold text-slate-300 shrink-0">
+        <span>12:00</span>
+        <div class="flex items-center gap-1.5">
+          <span>5G</span>
+          <span>📶</span>
+          <span>🔋 100%</span>
+        </div>
+      </div>
+
+      <!-- TELA DO SMARTPHONE (SCROLLÁVEL & REORGANIZÁVEL) -->
+      <div id="phoneScreen" class="phone-screen flex-1 overflow-y-auto px-4 py-3 space-y-3 pb-16">
+        
+        <!-- BLOCO 1: TOPO & SELETOR DE MODO -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_topo">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🏷️</span> <span>Bloco: Topo & Modos</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="flex items-center justify-between gap-1 bg-slate-950/60 p-1.5 rounded-xl border border-slate-800">
+            <div class="flex items-center gap-1">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold flex items-center gap-1">
+                <span>🛒</span> <span>Mercados</span>
+              </span>
+              <span class="px-2.5 py-1 rounded-lg text-slate-400 text-[11px] font-bold flex items-center gap-1">
+                <span>⛽</span> <span>Postos</span>
+              </span>
+            </div>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-500/30 font-semibold">100% Real</span>
+          </div>
+        </div>
+
+        <!-- BLOCO 2: LOGO CENTRAL E SLOGAN -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md text-center" draggable="true" data-id="bloco_logo">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🌿</span> <span>Bloco: Logo & Marca</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="flex flex-col items-center py-2">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-800 flex items-center justify-center glow-brand-green border border-emerald-300/40 mb-1.5">
+              <span class="text-2xl">🌱</span>
+            </div>
+            <div class="text-2xl font-black text-white tracking-tight">NutriPreço</div>
+            <div class="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">O Motor de Busca da Economia Real</div>
+          </div>
+        </div>
+
+        <!-- BLOCO 3: BARRA DE PESQUISA -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_busca">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🔍</span> <span>Bloco: Barra de Pesquisa</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="bg-slate-950/80 border border-slate-700 rounded-full px-3.5 py-2.5 flex items-center gap-2 shadow-inner">
+            <span class="text-slate-400 text-sm">🔍</span>
+            <span class="text-xs text-slate-400 flex-1 truncate">Digite o que procura ou fale no microfone...</span>
+            <span class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">🎙️</span>
+          </div>
+        </div>
+
+        <!-- BLOCO 4: LOCALIZAÇÃO GPS / CIDADE -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_localizacao">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>📍</span> <span>Bloco: Localização GPS / IP</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="flex items-center justify-center gap-1.5 text-[11px] text-slate-300 bg-slate-950/40 py-1.5 rounded-xl border border-slate-800">
+            <span class="text-emerald-400">📍</span>
+            <span>Ofertas para: <strong class="text-white">Cabo Frio, RJ</strong></span>
+            <span class="text-[9px] text-slate-500">(GPS)</span>
+          </div>
+        </div>
+
+        <!-- BLOCO 5: BOTÕES DE AÇÃO (PESQUISAR / PERGUNTAR HELENA) -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_botoes">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>⚡</span> <span>Bloco: Botões de Ação</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="grid grid-cols-2 gap-2">
+            <div class="py-2 px-2.5 rounded-xl bg-slate-800 border border-slate-700 text-[11px] font-bold text-white text-center">
+              🔍 Menor Preço
+            </div>
+            <div class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-emerald-600/40 to-indigo-600/40 border border-emerald-500/40 text-[11px] font-bold text-emerald-300 text-center flex items-center justify-center gap-1">
+              <span>✨</span> <span>Helena IA</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 6: BOLETIM DE VOZ DA THALITA -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_audio_thalita">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🎙️</span> <span>Bloco: Boletim de Voz Thalita</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
+            <div class="w-7 h-7 rounded-full bg-emerald-500/30 flex items-center justify-center text-xs">▶️</div>
+            <div class="flex flex-col text-left flex-1 truncate">
+              <span class="text-[11px] font-bold">🎙️ Ouvir Boletim da Helena</span>
+              <span class="text-[9px] text-slate-400">Voz Oficial Thalita Amiga</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOCO 7: CHIPS RÁPIDOS DE CESTA BÁSICA -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md" draggable="true" data-id="bloco_chips">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🏷️</span> <span>Bloco: Atalhos Rápidos</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="flex flex-wrap gap-1.5 justify-center py-1">
+            <span class="px-2 py-1 rounded-lg bg-slate-800/80 text-[10px] text-slate-300 border border-slate-700">🍚 Arroz 5kg</span>
+            <span class="px-2 py-1 rounded-lg bg-slate-800/80 text-[10px] text-slate-300 border border-slate-700">🫘 Feijão Preto</span>
+            <span class="px-2 py-1 rounded-lg bg-slate-800/80 text-[10px] text-slate-300 border border-slate-700">☕ Café 500g</span>
+            <span class="px-2 py-1 rounded-lg bg-slate-800/80 text-[10px] text-slate-300 border border-slate-700">🥛 Leite UHT</span>
+          </div>
+        </div>
+
+        <!-- BLOCO 8: RODAPÉ CORPORATIVO -->
+        <div class="draggable-card bg-slate-900/90 border border-slate-800 hover:border-emerald-500/40 rounded-2xl p-3 shadow-md text-center" draggable="true" data-id="bloco_rodape">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wide flex items-center gap-1">
+              <span>🛡️</span> <span>Bloco: Rodapé Corporativo</span>
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="moverBloco(this, -1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬆️</button>
+              <button onclick="moverBloco(this, 1)" class="w-6 h-6 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold flex items-center justify-center">⬇️</button>
+            </div>
+          </div>
+          <!-- Conteúdo Real -->
+          <div class="text-[10px] text-slate-400 font-semibold py-1">
+            HOLDING INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Navegação Inferior do Celular (Home Indicator) -->
+      <div class="h-6 flex items-center justify-center shrink-0">
+        <div class="w-32 h-1 bg-slate-600 rounded-full"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const screen = document.getElementById('phoneScreen');
+    let draggedItem = null;
+
+    // Configura Drag and Drop
+    function setupDragAndDrop() {
+      const cards = document.querySelectorAll('.draggable-card');
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+          draggedItem = card;
+          card.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          cards.forEach(c => c.classList.remove('drag-over'));
+          atualizarResumoOrdem();
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          const target = e.currentTarget;
+          if (target !== draggedItem) {
+            target.classList.add('drag-over');
+          }
+        });
+
+        card.addEventListener('dragleave', (e) => {
+          e.currentTarget.classList.remove('drag-over');
+        });
+
+        card.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const target = e.currentTarget;
+          target.classList.remove('drag-over');
+          if (target !== draggedItem) {
+            const allCards = Array.from(screen.querySelectorAll('.draggable-card'));
+            const draggedIdx = allCards.indexOf(draggedItem);
+            const targetIdx = allCards.indexOf(target);
+
+            if (draggedIdx < targetIdx) {
+              target.after(draggedItem);
+            } else {
+              target.before(draggedItem);
+            }
+            atualizarResumoOrdem();
+          }
+        });
+      });
+    }
+
+    // Botões de subir/descer
+    function moverBloco(btn, direcao) {
+      const card = btn.closest('.draggable-card');
+      if (direcao === -1 && card.previousElementSibling) {
+        card.previousElementSibling.before(card);
+      } else if (direcao === 1 && card.nextElementSibling) {
+        card.nextElementSibling.after(card);
+      }
+      atualizarResumoOrdem();
+    }
+
+    // Atualiza a listagem de texto lateral
+    function atualizarResumoOrdem() {
+      const cards = document.querySelectorAll('.draggable-card');
+      const list = document.getElementById('orderListSummary');
+      list.innerHTML = '';
+
+      const titulos = {
+        'bloco_topo': '1. Topo & Modos (Mercados / Postos)',
+        'bloco_logo': '2. Logo Central & Slogan',
+        'bloco_busca': '3. Barra de Pesquisa Flutuante',
+        'bloco_localizacao': '4. Localização GPS / Cidade Ativa',
+        'bloco_botoes': '5. Botões de Ação (Pesquisar / Helena)',
+        'bloco_audio_thalita': '6. Boletim de Voz da Thalita',
+        'bloco_chips': '7. Atalhos Rápidos da Cesta Básica',
+        'bloco_rodape': '8. Rodapé da Holding Inova Simples'
+      };
+
+      cards.forEach((c, idx) => {
+        const id = c.getAttribute('data-id');
+        const li = document.createElement('li');
+        li.innerText = `${idx + 1}º: ${titulos[id] || id}`;
+        list.appendChild(li);
+      });
+    }
+
+    // Resetar para ordem padrão
+    function resetarOrdemPadrao() {
+      const ordemPadrao = [
+        'bloco_topo',
+        'bloco_logo',
+        'bloco_busca',
+        'bloco_localizacao',
+        'bloco_botoes',
+        'bloco_audio_thalita',
+        'bloco_chips',
+        'bloco_rodape'
+      ];
+      ordemPadrao.forEach(id => {
+        const el = document.querySelector(`[data-id="${id}"]`);
+        if (el) screen.appendChild(el);
+      });
+      atualizarResumoOrdem();
+    }
+
+    // Copiar para o clipboard
+    function copiarEstruturaAprovada() {
+      const cards = document.querySelectorAll('.draggable-card');
+      let texto = "ORDEM DO LAYOUT MOBILE APROVADA PELO ARTHUR:\n";
+      cards.forEach((c, idx) => {
+        const id = c.getAttribute('data-id');
+        texto += `${idx + 1}. ${id}\n`;
+      });
+
+      navigator.clipboard.writeText(texto).then(() => {
+        const toast = document.getElementById('toastCopiado');
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4000);
+      });
+    }
+
+    setupDragAndDrop();
+    atualizarResumoOrdem();
+  </script>
+</body>
+</html>
