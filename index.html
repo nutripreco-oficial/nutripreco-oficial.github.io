@@ -6,6 +6,11 @@
   <title>NutriPreço & NutriCombust — O Motor de Busca da Economia Popular</title>
   <meta name="description" content="O Google da Economia Popular: Menor preço de supermercados e postos de combustíveis no Brasil com Inteligência Artificial e rotas no mapa.">
   
+  <!-- Prevenção de Cache Residual do Navegador -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
   <!-- Manifest & Meta PWA -->
   <meta name="theme-color" content="#070B08">
   <meta name="mobile-web-app-capable" content="yes">
@@ -1341,7 +1346,7 @@
         }
       }
 
-      activeThalitaSearchAudio = new Audio(audioFile);
+      activeThalitaSearchAudio = new Audio(audioFile + '?v=' + Date.now());
       activeThalitaSearchAudio.play().then(() => {
         if (btnText) btnText.innerText = "Pausar Voz";
       }).catch((e) => {
