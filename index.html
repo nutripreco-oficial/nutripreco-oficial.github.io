@@ -214,39 +214,13 @@
 
     </div>
 
-    <!-- LADO DIREITO: STATUS E BOTÃO INSTALAR APLICATIVO -->
+    <!-- LADO DIREITO: STATUS AUDITADO (HEADER LIMPO) -->
     <div class="flex items-center gap-3">
-      
       <!-- Indicador Base Auditada -->
-      <div class="hidden xl:flex items-center gap-1.5 text-slate-400">
+      <div class="flex items-center gap-1.5 text-slate-400">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
         <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & ANP Verificados</span>
       </div>
-
-      <!-- BADGE DE TELEMETRIA AO VIVO OFICIAL (CONTADOR 100% REAL) -->
-      <button 
-        id="btnTelemetry" 
-        onclick="abrirModalTelemetria()" 
-        class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900/80 border border-slate-700/80 hover:border-emerald-500/60 cursor-pointer transition-all text-slate-300 hover:text-white"
-        title="Clique para ver o painel de pessoas usando o site ao vivo">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span class="text-[11px] font-semibold flex items-center gap-1">
-          <span id="liveOnlineCountHeader">--</span>
-          <span class="text-slate-400 font-normal hidden sm:inline">online</span>
-        </span>
-      </button>
-
-      <!-- BOTÃO INSTALAR APLICATIVO OFICIAL -->
-      <button 
-        id="btnInstallPwa" 
-        onclick="instalarAplicativo()" 
-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/30 to-teal-600/30 hover:from-emerald-600/50 hover:to-teal-600/50 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs transition-all shadow-sm">
-        <span>📲</span>
-        <span>Instalar App</span>
-      </button>
 
       <a href="https://mestrepratico.com.br" target="_blank" class="text-slate-500 hover:text-white transition-colors hidden sm:inline text-[11px]">
         Holding Mestre Prático
@@ -615,12 +589,45 @@
     </div>
   </div>
 
-  <!-- RODAPÉ CLEAN -->
-  <footer class="mt-auto py-6 border-t border-slate-800/60 text-center text-xs text-slate-500">
-    <p>HOLDING INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)</p>
-    <p class="mt-1 text-[11px] text-slate-600">
-      Tecnologia de busca neutra com dados primários auditados de NFC-e (SEFAZ) e bombas de abastecimento (ANP).
-    </p>
+  <!-- RODAPÉ CLEAN & ORGANIZADO -->
+  <footer id="footer" class="mt-auto py-8 border-t border-slate-800/80 bg-slate-950/70 backdrop-blur-sm text-xs text-slate-500">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col items-center">
+      
+      <!-- CONTROLES DO RODAPÉ (USUÁRIOS ONLINE + INSTALAR APP) -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+        <!-- BADGE DE TELEMETRIA AO VIVO OFICIAL (NO RODAPÉ) -->
+        <button 
+          id="btnTelemetry" 
+          onclick="abrirModalTelemetria()" 
+          class="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-emerald-500/60 cursor-pointer transition-all text-slate-300 hover:text-white shadow-md hover:shadow-emerald-950/30"
+          title="Clique para ver o painel de pessoas usando o site ao vivo">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span class="text-xs font-semibold flex items-center gap-1.5">
+            <span id="liveOnlineCountHeader" class="text-white font-bold">--</span>
+            <span class="text-slate-400 font-normal">usuários online</span>
+          </span>
+          <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">Ao Vivo</span>
+        </button>
+
+        <!-- BOTÃO INSTALAR APLICATIVO OFICIAL (NO RODAPÉ) -->
+        <button 
+          id="btnInstallPwa" 
+          onclick="instalarAplicativo()" 
+          class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600/30 to-teal-600/30 hover:from-emerald-600/50 hover:to-teal-600/50 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs transition-all shadow-md cursor-pointer">
+          <span>📲</span>
+          <span>Instalar Aplicativo NutriPreço</span>
+        </button>
+      </div>
+
+      <!-- TEXTOS INSTITUCIONAIS -->
+      <p class="font-semibold tracking-wide text-slate-400">HOLDING INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)</p>
+      <p class="mt-1 text-[11px] text-slate-600 text-center max-w-xl">
+        Tecnologia de busca neutra com dados primários auditados de NFC-e (SEFAZ) e bombas de abastecimento (ANP).
+      </p>
+    </div>
   </footer>
 
   <!-- SCRIPT DE INTELIGÊNCIA ARTIFICIAL, BUSCA E PWA -->
@@ -1856,12 +1863,269 @@
       return { texto: `🟢 Válido até ${dia}/${mes}`, classe: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' };
     }
 
+    // ==============================================================================
+    // ROTINA EXCLUSIVA: CESTA BÁSICA INTELIGENTE POR CIDADE (MENOR PREÇO POR ITEM)
+    // Calcula a cesta básica exclusiva de cada cidade cruzando preços dos mercados locais
+    // ==============================================================================
+    const CATEGORIAS_CESTA_BASICA = [
+      { id: 'arroz', nome: 'Arroz 1kg/5kg', icon: '🌾', regex: /arroz/i },
+      { id: 'feijao', nome: 'Feijão 1kg', icon: '🫘', regex: /feij[aã]o/i },
+      { id: 'leite', nome: 'Leite 1L', icon: '🥛', regex: /leite/i },
+      { id: 'cafe', nome: 'Café 250g/500g', icon: '☕', regex: /caf[eé]/i },
+      { id: 'oleo', nome: 'Óleo de Soja 900ml', icon: '🌻', regex: /[oó]leo/i },
+      { id: 'acucar', nome: 'Açúcar 1kg', icon: '🧂', regex: /a[cç][uú]car/i },
+      { id: 'macarrao', nome: 'Macarrão 500g/1kg', icon: '🍝', regex: /macarr[aã]o|espaguete/i },
+      { id: 'farinha', nome: 'Farinha de Trigo 1kg', icon: '🥖', regex: /farinha/i },
+      { id: 'proteina', nome: 'Carne / Frango / Ovos', icon: '🥩', regex: /frango|carne|alcatra|bovin|ovos|ovo/i },
+      { id: 'manteiga', nome: 'Manteiga / Margarina', icon: '🧈', regex: /manteiga|margarina/i },
+      { id: 'limpeza', nome: 'Higiene & Sabão', icon: '🧼', regex: /sab[aã]o|detergente|papel higi/i }
+    ];
+
+    function renderizarCestaBasicaDaCidade() {
+      const container = document.getElementById('productsList');
+      const countText = document.getElementById('resultsCountText');
+      const aiBody = document.getElementById('aiOverviewBody');
+      const aiBadge = document.getElementById('aiCardBadge');
+
+      aiBadge.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide";
+      aiBadge.innerHTML = `<span>🧺</span><span>Cesta Básica Inteligente • ${currentCity} (${currentUF})</span>`;
+
+      const curClean = (currentCity || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+      let produtosCidade = DATABASE_PRODUTOS.filter(p => {
+        const pCidClean = (p.cidade || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+        return pCidClean === curClean || pCidClean.includes(curClean) || curClean.includes(pCidClean);
+      });
+
+      // Filtro de validade obrigatório (descarta automaticamente ofertas vencidas)
+      const agora = new Date();
+      produtosCidade = produtosCidade.filter(p => {
+        if (!p.valido_ate) return true;
+        return new Date(p.valido_ate) >= agora;
+      });
+
+      if (produtosCidade.length === 0) {
+        countText.innerHTML = `Nenhuma cotação de cesta básica ativa em ${currentCity} - ${currentUF}.`;
+        currentAiSummary = `O NutriPreço está expandindo para ${currentCity} - ${currentUF}! Nossos sistemas estão mapeando os supermercados locais para compor a cesta básica da cidade.`;
+        aiBody.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">🚧</span>
+            <div>
+              <p class="text-amber-300 font-bold mb-1 text-base">O NutriPreço está expandindo para ${currentCity} - ${currentUF}!</p>
+              <p class="text-slate-300 text-sm">Ainda não temos cotações ativas dos mercados locais de ${currentCity} para calcular a cesta básica.</p>
+            </div>
+          </div>
+        `;
+        container.innerHTML = `
+          <div class="rounded-3xl bg-slate-900/80 border border-amber-500/30 p-6 sm:p-8 text-center max-w-2xl mx-auto shadow-2xl">
+            <div class="text-4xl mb-3">🚧</div>
+            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">O NutriPreço está expandindo para ${currentCity} - ${currentUF}!</h3>
+            <p class="text-slate-300 text-sm mb-6">Indique os supermercados e atacadões da sua cidade para montarmos a cesta básica local.</p>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-5 text-left">
+              <div class="font-bold text-amber-300 text-sm flex items-center gap-1.5 mb-2">
+                <span>💡</span>
+                <span>Quer ver os preços dos mercados da sua cidade aqui? Indique agora!</span>
+              </div>
+              <form onsubmit="enviarSugestaoMercado(event, 'results')" class="mt-3 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="inputSugestaoMercadoResults" placeholder="Nome do supermercado e bairro..." class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400" required />
+                <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors shrink-0 cursor-pointer">Indicar Mercado</button>
+              </form>
+              <div id="sugestaoFeedbackResults" class="hidden mt-2.5 text-xs text-emerald-400 font-semibold">✓ Muito obrigado! Sugestão enviada à nossa equipe de expansão.</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Agrupa e calcula menor preço por categoria da cesta básica
+      let itensCesta = [];
+      let totalEconomizadoGeral = 0;
+
+      CATEGORIAS_CESTA_BASICA.forEach(cat => {
+        const prods = produtosCidade.filter(p => cat.regex.test(p.nome));
+        if (prods.length > 0) {
+          prods.sort((a, b) => a.preco - b.preco);
+          const menor = prods[0];
+          const maior = prods[prods.length - 1];
+          const diff = Math.max(0, maior.preco - menor.preco);
+          totalEconomizadoGeral += diff;
+          itensCesta.push({
+            categoria: cat.nome,
+            icon: cat.icon,
+            menor: menor,
+            maiorPreco: maior.preco,
+            economiaItem: diff,
+            totalOpcoes: prods.length
+          });
+        }
+      });
+
+      if (itensCesta.length === 0) {
+        produtosCidade.sort((a, b) => a.preco - b.preco);
+        const top5 = produtosCidade.slice(0, 5);
+        top5.forEach((p, idx) => {
+          itensCesta.push({
+            categoria: `Item Essencial ${idx + 1}`,
+            icon: '🛒',
+            menor: p,
+            maiorPreco: p.preco,
+            economiaItem: 0,
+            totalOpcoes: 1
+          });
+        });
+      }
+
+      const totalCesta = itensCesta.reduce((acc, it) => acc + it.menor.preco, 0);
+      const totalSemEconomia = itensCesta.reduce((acc, it) => acc + it.maiorPreco, 0);
+      const economiaTotal = Math.max(0, totalSemEconomia - totalCesta).toFixed(2);
+      const mercadosUtilizados = [...new Set(itensCesta.map(it => it.menor.mercado))];
+
+      currentAiSummary = `Em ${currentCity}, a Cesta Básica Inteligente com menor preço totaliza R$ ${totalCesta.toFixed(2).replace('.', ',')} reunindo ${itensCesta.length} itens essenciais auditados. Pesquisando os melhores mercados, você economiza até R$ ${economiaTotal.replace('.', ',')}.`;
+
+      aiBody.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Cesta Básica Mais Barata • ${currentCity} (${currentUF})</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">${itensCesta.length} itens</span>
+              </div>
+              <p class="text-white text-xl sm:text-2xl font-black mt-1">
+                Valor Total Otimizado: <span class="text-emerald-400">R$ ${totalCesta.toFixed(2).replace('.', ',')}</span>
+              </p>
+            </div>
+            <div class="text-left sm:text-right">
+              <span class="text-[11px] text-slate-400">Economia apurada na praça:</span>
+              <div class="text-sm sm:text-base font-bold text-amber-400">Até R$ ${economiaTotal.replace('.', ',')} de economia</div>
+            </div>
+          </div>
+          
+          <p class="text-slate-300 text-xs sm:text-sm">
+            Montamos a cesta básica de <strong>${currentCity}</strong> selecionando o menor preço auditado para cada item de primeira necessidade nos supermercados da sua cidade:
+          </p>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-400">
+            <span class="font-semibold text-slate-300">Onde comprar mais barato nesta cidade:</span>
+            ${mercadosUtilizados.map(m => `<span class="px-2 py-0.5 rounded-md bg-slate-800 text-slate-200 border border-slate-700/60 font-medium">${m}</span>`).join('')}
+          </div>
+        </div>
+      `;
+
+      countText.innerHTML = `Cesta Básica calculada para <strong class="text-emerald-400">${currentCity} - ${currentUF}</strong> com <strong class="text-white">${itensCesta.length}</strong> itens auditados`;
+
+      let html = `
+        <!-- CARD RESUMO TOTAL DA CESTA BÁSICA -->
+        <div class="rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-emerald-950/60 via-slate-900/90 to-slate-900 border-2 border-emerald-500/80 shadow-2xl mb-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center text-2xl font-black shrink-0 shadow-lg shadow-emerald-500/30">
+                🧺
+              </div>
+              <div>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Cesta Básica Completa • Menor Custo</span>
+                <h3 class="text-lg sm:text-xl font-bold text-white mt-0.5">${currentCity} — Todos os Itens Essenciais</h3>
+                <p class="text-xs text-slate-400 mt-1">Cálculo automatizado cruzando preços de todos os mercados auditados da praça.</p>
+              </div>
+            </div>
+            <div class="text-left md:text-right shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-800">
+              <div class="text-[10px] text-slate-400 font-bold uppercase">Custo Total da Cesta</div>
+              <div class="text-3xl font-black text-emerald-400">R$ ${totalCesta.toFixed(2).replace('.', ',')}</div>
+              <div class="text-[11px] text-emerald-300 font-semibold mt-0.5">💰 Economia de até R$ ${economiaTotal.replace('.', ',')}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">
+          Composição da Cesta Básica Item a Item em ${currentCity}:
+        </div>
+      `;
+
+      itensCesta.forEach((item, idx) => {
+        const prod = item.menor;
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(prod.mercado + ' ' + prod.endereco + ' ' + prod.cidade)}`;
+        const validade = obterBadgeValidade(prod.valido_ate);
+
+        html += `
+          <div class="rounded-2xl sm:rounded-3xl p-4 sm:p-5 bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 transition-all mb-3 shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 text-white flex items-center justify-center font-bold text-base shrink-0">
+                  ${item.icon}
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      ${item.categoria}
+                    </span>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300">
+                      ${prod.marca}
+                    </span>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${validade.classe}">
+                      ${validade.texto}
+                    </span>
+                  </div>
+                  <h4 class="text-base sm:text-lg font-bold text-white mt-1">${prod.nome}</h4>
+                  <p class="text-xs sm:text-sm text-slate-400 flex items-center gap-1 mt-1">
+                    <span class="text-emerald-300 font-bold">${prod.mercado}</span> — ${prod.endereco}
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                <div class="text-left sm:text-right">
+                  <div class="text-[10px] text-slate-400 font-semibold uppercase">Menor Preço na Cidade</div>
+                  <div class="text-2xl sm:text-3xl font-black text-emerald-400">
+                    R$ ${prod.preco.toFixed(2).replace('.', ',')}
+                  </div>
+                  ${item.economiaItem > 0 ? `
+                  <div class="text-[10px] text-amber-400 font-bold mt-0.5">
+                    Economiza R$ ${item.economiaItem.toFixed(2).replace('.', ',')} vs outros
+                  </div>` : ''}
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <a 
+                    href="${mapsUrl}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-700 text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                    title="Abrir rota no Google Maps">
+                    <span>🗺️</span>
+                    <span>Rota</span>
+                  </a>
+                  ${prod.fonte_url ? `
+                  <a 
+                    href="${prod.fonte_url}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-3.5 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 font-bold border border-emerald-500/40 text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                    title="Ver no site oficial do mercado">
+                    <span>🛒</span>
+                    <span>Fonte</span>
+                  </a>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
     // RENDERIZADOR 1: MODO SUPERMERCADOS (NUTRIPREÇO)
     function renderizarResultadosComida(termo, queryOriginal) {
       const container = document.getElementById('productsList');
       const countText = document.getElementById('resultsCountText');
       const aiBody = document.getElementById('aiOverviewBody');
       const aiBadge = document.getElementById('aiCardBadge');
+
+      // Se a pesquisa for Cesta Básica, direciona para o agrupador inteligente por cidade
+      const termoLimpo = (termo || '').toLowerCase();
+      const queryLimpa = (queryOriginal || '').toLowerCase();
+      if (termoLimpo.includes('cesta') || termoLimpo.includes('basica') || termoLimpo.includes('básica') || queryLimpa.includes('cesta') || queryLimpa.includes('basica') || queryLimpa.includes('básica')) {
+        renderizarCestaBasicaDaCidade();
+        return;
+      }
 
       aiBadge.className = "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold uppercase tracking-wide";
       aiBadge.innerHTML = "<span>✨</span><span>Síntese de Inteligência Artificial • Helena IA</span>";
