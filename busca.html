@@ -2130,6 +2130,11 @@
         return pCidClean === curClean || pCidClean.includes(curClean) || curClean.includes(pCidClean);
       });
 
+      // Fallback Inteligente por Estado (Atendimento Regional / Estadual)
+      if (produtos.length === 0 && currentUF) {
+        produtos = DATABASE_PRODUTOS.filter(p => (p.uf || '').toUpperCase() === currentUF.toUpperCase());
+      }
+
       // ==============================================================================
       // MECANISMO DE GOVERNANÇA: EXPIRAÇÃO AUTOMÁTICA DE OFERTAS
       // Ofertas com data de validade vencida são descartadas automaticamente das buscas!
