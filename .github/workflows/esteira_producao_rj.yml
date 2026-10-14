@@ -10,15 +10,15 @@ on:
       lote:
         description: 'Lote Regional'
         required: true
-        default: 'Lote 1 - Metropolitana e Baixada'
+        default: 'todos'
         type: choice
         options:
+          - 'todos'
           - 'Lote 1 - Metropolitana e Baixada'
           - 'Lote 2 - Região dos Lagos'
           - 'Lote 3 - Região Serrana'
           - 'Lote 4 - Norte e Noroeste'
           - 'Lote 5 - Médio Paraíba e Costa Verde'
-          - 'todos'
       limite:
         description: 'Limite de produtos por rede'
         required: true
@@ -47,7 +47,7 @@ jobs:
 
       - name: Instalar Dependências
         run: |
-          pip install requests beautifulsoup4 openpyxl
+          pip install requests beautifulsoup4 openpyxl pypdf
 
       - name: Executar Esteira Industrial em Nuvem (0% de CPU Local)
         run: |

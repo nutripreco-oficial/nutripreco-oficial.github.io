@@ -10,6 +10,9 @@ import sys
 import json
 import re
 
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 def atualizar_frontends():
     caminho_dados = os.path.join(os.path.dirname(__file__), "dados_coleta_nuvem_rj.json")
     if not os.path.exists(caminho_dados):
@@ -46,6 +49,9 @@ def atualizar_frontends():
     js_chunk = json.dumps(js_items, ensure_ascii=False)
 
     # 1. Atualizar index.html e busca.html do NutriPreço
+    pattern = r'DATABASE_PRODUTOS\s*=\s*\[[\s\S]*?\];'
+    replacement = f'DATABASE_PRODUTOS = {js_chunk};'
+
     arquivos_nutripreco = ["index.html", "busca.html"]
     for nome_arq in arquivos_nutripreco:
         arq_path = os.path.join(os.path.dirname(__file__), nome_arq)
@@ -53,9 +59,8 @@ def atualizar_frontends():
             with open(arq_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            if "DATABASE_PRODUTOS = [" in content:
-                marker = "DATABASE_PRODUTOS = ["
-                content = content.replace(marker, marker + "\n" + js_chunk[1:-1] + ",")
+            if re.search(pattern, content):
+                content = re.sub(pattern, replacement, content, count=1)
                 with open(arq_path, "w", encoding="utf-8") as f:
                     f.write(content)
                 print(f"✓ NutriPreço atualizado com sucesso: {nome_arq}")
@@ -65,9 +70,8 @@ def atualizar_frontends():
     if os.path.exists(mestre_busca):
         with open(mestre_busca, "r", encoding="utf-8") as f:
             content = f.read()
-        if "DATABASE_PRODUTOS = [" in content:
-            marker = "DATABASE_PRODUTOS = ["
-            content = content.replace(marker, marker + "\n" + js_chunk[1:-1] + ",")
+        if re.search(pattern, content):
+            content = re.sub(pattern, replacement, content, count=1)
             with open(mestre_busca, "w", encoding="utf-8") as f:
                 f.write(content)
             print("✓ Mestre Prático atualizado localmente: public/busca.html")
