@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriPreço • Menor Preço de Supermercado e Cesta Básica na sua Cidade</title>
-  <meta name="description" content="NutriPreço: Encontre o menor preço em supermercados, atacarejos e itens de cesta básica na sua cidade. Economize com cotações auditadas e ofertas em tempo real.">
-  <link rel="canonical" href="https://nutripreco.com.br/">
+  <title>Mestre Prático • Radar de Combustíveis e Economia Popular no Brasil</title>
+  <meta name="description" content="Mestre Prático: Comparador de preços de combustíveis (gasolina, etanol, diesel e GNV) e economia popular em tempo real no Brasil com cotações auditadas da ANP e SEFAZ.">
+  <link rel="canonical" href="https://mestrepratico.com.br/">
   
   <!-- Schema.org JSON-LD para o Googlebot (Entidade & SearchAction) -->
   <script type="application/ld+json">
@@ -14,25 +14,25 @@
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://nutripreco.com.br/#organization",
-        "name": "NutriPreço",
+        "@id": "https://mestrepratico.com.br/#organization",
+        "name": "Mestre Prático",
         "legalName": "TECNOLOGIA E INTELIGÊNCIA DE VAREJO INOVA SIMPLES (I.S.)",
         "taxID": "69.423.752/0001-61",
-        "url": "https://nutripreco.com.br/",
-        "logo": "https://nutripreco.com.br/icon-512.png"
+        "url": "https://mestrepratico.com.br/",
+        "logo": "https://mestrepratico.com.br/icon-512.png"
       },
       {
         "@type": "WebSite",
-        "@id": "https://nutripreco.com.br/#website",
-        "url": "https://nutripreco.com.br/",
-        "name": "NutriPreço",
-        "description": "Comparador de preços de supermercados, atacarejos e cesta básica em tempo real no Brasil com cotações auditadas.",
+        "@id": "https://mestrepratico.com.br/#website",
+        "url": "https://mestrepratico.com.br/",
+        "name": "Mestre Prático",
+        "description": "Radar de Combustíveis e Economia Popular no Brasil. Menor preço em postos ANP e supermercados em tempo real.",
         "publisher": {
-          "@id": "https://nutripreco.com.br/#organization"
+          "@id": "https://mestrepratico.com.br/#organization"
         },
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://nutripreco.com.br/busca.html?q={search_term_string}",
+          "target": "https://mestrepratico.com.br/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -218,6 +218,74 @@
       padding-right: 0.85rem;
     }
   </style>
+  <!-- Open Graph & Social Cards Oficiais -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="NutriPreço & NutriCombust">
+  <meta property="og:title" content="NutriPreço & NutriCombust • O Motor de Busca da Economia Real">
+  <meta property="og:description" content="Pesquise e compare os menores preços auditados em supermercados e postos de combustíveis em mais de 340 cidades do Brasil. Inteligência Artificial com dados oficiais SEFAZ e ANP.">
+  <meta property="og:image" content="https://nutripreco.com.br/icon-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NutriPreço & NutriCombust • Menor Preço em Supermercados e Postos">
+  <meta name="twitter:description" content="Compare preços da cesta básica e combustíveis em 12 estados do Brasil em tempo real.">
+  <meta name="twitter:image" content="https://nutripreco.com.br/icon-512.png">
+
+  <!-- Canônica Dinâmica Resolvida por Domínio (Previne Canibalização de SEO) -->
+  <link rel="canonical" id="canonicalTag" href="https://nutripreco.com.br/busca">
+  <script>
+    (function() {
+      try {
+        var h = window.location.hostname.replace('www.', '') || 'nutripreco.com.br';
+        var p = window.location.pathname || '/busca';
+        var el = document.getElementById('canonicalTag');
+        if (el) el.href = 'https://' + h + p;
+      } catch(e) {}
+    })();
+  </script>
+
+  <!-- Schema.org JSON-LD Avançado: WebSite com SearchAction (Sitelinks do Google) + Organização -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://nutripreco.com.br/#website",
+        "url": "https://nutripreco.com.br/",
+        "name": "NutriPreço & NutriCombust",
+        "alternateName": "Mestre Prático Varejo e Combustíveis",
+        "description": "Motor de busca de preços reais em supermercados e postos de combustíveis no Brasil.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Holding Arthur Luis Vieira dos Santos Tecnologia e Inteligência de Varejo Inova Simples",
+          "url": "https://mestrepratico.com.br",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://nutripreco.com.br/icon-512.png"
+          }
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://nutripreco.com.br/busca?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "NutriPreço App",
+        "operatingSystem": "Android, iOS, Web",
+        "applicationCategory": "ShoppingApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "BRL"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="flex flex-col min-h-screen">
 
@@ -305,10 +373,10 @@
         <!-- Textos da Marca -->
         <div class="flex flex-col">
           <h1 id="brandNameText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5 transition-all">
-            NutriPreço
+            Mestre Prático
           </h1>
-          <p id="homeTagline" class="text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5 transition-colors">
-            Menor Preço de Supermercado e Cesta Básica na sua Cidade
+          <p id="homeTagline" class="text-xs font-semibold text-amber-400 tracking-wider uppercase pl-0.5 transition-colors">
+            Radar de Combustíveis e Economia Popular no Brasil
           </p>
         </div>
       </div>
