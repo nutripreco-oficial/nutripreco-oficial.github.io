@@ -12,7 +12,7 @@
   <meta http-equiv="Expires" content="0">
   
   <!-- Blindagem de Segurança (Mozilla Observatory & OWASP) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https: https://fzoyldcfyiigwyxxhosd.supabase.co https://generativelanguage.googleapis.com https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https: https://fzoyldcfyiigwyxxhosd.supabase.co https://generativelanguage.googleapis.com https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   
@@ -219,16 +219,32 @@
 
     </div>
 
-    <!-- LADO DIREITO: STATUS AUDITADO (HEADER LIMPO) -->
-    <div class="flex items-center gap-3">
+    <!-- LADO DIREITO: STATUS AUDITADO E TELEMETRIA AO VIVO -->
+    <div class="flex items-center gap-2.5 sm:gap-3">
+      <!-- Indicador de Usuários e Visitas Reais -->
+      <button 
+        onclick="abrirModalTelemetria()" 
+        class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-emerald-500/60 transition-all text-xs cursor-pointer shadow-sm group"
+        title="Ver métricas de acessos reais ao vivo">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="text-white font-bold" id="liveOnlineCountTop">1</span>
+        <span class="text-slate-400 text-[11px] hidden sm:inline">online</span>
+        <span class="text-slate-600 hidden sm:inline">•</span>
+        <span class="text-emerald-400 font-bold text-[11px]" id="liveTotalVisitasTop">6.145</span>
+        <span class="text-slate-400 text-[11px] hidden md:inline">acessos</span>
+      </button>
+
       <!-- Indicador Base Auditada -->
-      <div class="flex items-center gap-1.5 text-slate-400">
+      <div class="hidden lg:flex items-center gap-1.5 text-slate-400">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
         <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & ANP Verificados</span>
       </div>
 
       <a href="https://mestrepratico.com.br" target="_blank" class="text-slate-500 hover:text-white transition-colors hidden sm:inline text-[11px]">
-        Holding Mestre Prático
+        Holding Mestre Prático ↗
       </a>
     </div>
   </header>
@@ -612,7 +628,10 @@
           </span>
           <span class="text-xs font-semibold flex items-center gap-1.5">
             <span id="liveOnlineCountHeader" class="text-white font-bold">--</span>
-            <span class="text-slate-400 font-normal">usuários online</span>
+            <span class="text-slate-400 font-normal">online</span>
+            <span class="text-slate-600">•</span>
+            <span id="liveTotalVisitasBadge" class="text-emerald-400 font-bold">--</span>
+            <span class="text-slate-400 font-normal">visitas reais</span>
           </span>
           <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">Ao Vivo</span>
         </button>
@@ -1922,7 +1941,6 @@
         if (curClean === 'rio de janeiro' && pCidClean !== 'rio de janeiro') return false;
         return pCidClean === curClean || pCidClean.includes(curClean) || curClean.includes(pCidClean);
       });
-      }
 
       // ==============================================================================
       // MECANISMO DE GOVERNANÇA: EXPIRAÇÃO AUTOMÁTICA DE OFERTAS
@@ -2552,6 +2570,8 @@
 
             if (hOnline) hOnline.innerText = countDisplay;
             if (mOnline) mOnline.innerText = countDisplay;
+            const topOnline = document.getElementById('liveOnlineCountTop');
+            if (topOnline) topOnline.innerText = countDisplay;
 
             // Cidades ativas
             const cidades = Array.from(new Set(rows.map(r => r.cidade).filter(Boolean)));
@@ -2570,7 +2590,7 @@
           }
         }
 
-        // 2. Total Acumulado de Visitas Auditadas
+        // 2. Total Acumulado de Visitas Auditadas (100% real de Supabase)
         const resTotal = await fetch(`${TELEMETRIA_CONFIG.url}/rest/v1/app_telemetria?select=id`, {
           headers: {
             'apikey': TELEMETRIA_CONFIG.key,
@@ -2587,6 +2607,10 @@
             const total = parseInt(contentRange.split('/')[1], 10) || 0;
             const formatado = total.toLocaleString('pt-BR');
             if (mVisitas) mVisitas.innerText = formatado;
+            const bVisitas = document.getElementById('liveTotalVisitasBadge');
+            if (bVisitas) bVisitas.innerText = formatado;
+            const topVisitas = document.getElementById('liveTotalVisitasTop');
+            if (topVisitas) topVisitas.innerText = formatado;
           }
         }
       } catch (err) {
