@@ -1,9 +1,33 @@
 {
-  "versao": "2.5-nacional-auditada-cro",
-  "gerado_em": "2026-10-14T09:20:45.171482+00:00",
-  "metodo_auditoria": "Coleta Primária Direta via APIs VTEX e E-commerce Oficial com URL Verificável",
-  "total_redes_auditadas": 13,
-  "total_cotacoes_reais": 233,
+  "versao": "3.0-nacional-12-estados-auditada",
+  "gerado_em": "2026-10-13T18:37:19.465769+00:00",
+  "metodo_auditoria": "Coleta Primária Direta via APIs VTEX e E-commerce Oficial com URL Verificável (Zero Dados Sintéticos)",
+  "total_redes_auditadas": 19,
+  "total_cotacoes_reais": 292,
+  "blocos": {
+    "Sudeste": [
+      "rj_capital",
+      "rj_zona_sul",
+      "sp_capital",
+      "mg_belo_horizonte",
+      "es_vitoria"
+    ],
+    "Sul": [
+      "pr_curitiba_muffato",
+      "sc_florianopolis",
+      "sc_criciuma_giassi",
+      "sc_blumenau_bistek",
+      "rs_porto_alegre"
+    ],
+    "Nordeste": [
+      "ba_salvador",
+      "ba_gbarbosa"
+    ],
+    "Centro-Oeste": [
+      "df_brasilia",
+      "go_goiania"
+    ]
+  },
   "polos": {
     "rj_capital": {
       "cidade": "Rio de Janeiro",
@@ -13,133 +37,133 @@
       "unidade": "Prezunic (E-commerce Oficial RJ)",
       "fonte_oficial_dominio": "https://www.prezunic.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 185.49,
+      "soma_itens_verificados_reais": 193.81,
       "itens": {
         "arroz": {
           "produto": "Arroz Branco Prezunic Tipo1 1Kg",
           "marca": "PREZUNIC",
           "preco": 4.99,
           "fonte_url": "https://www.prezunic.com.br/arroz-branco-prezunic-tipo1-1kg-1838105/p",
-          "coletado_em": "2026-10-14T09:20:47.088996+00:00"
+          "coletado_em": "2026-10-12T23:08:06.624737+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Super Máximo 1Kg",
           "marca": "Maximo",
           "preco": 10.49,
           "fonte_url": "https://www.prezunic.com.br/feijao-carioca-super-maximo-1kg-1664572/p",
-          "coletado_em": "2026-10-14T09:20:47.970235+00:00"
+          "coletado_em": "2026-10-12T23:08:07.604707+00:00"
         },
         "farinha de trigo": {
-          "produto": "Farinha de Trigo Granfino sem Fermento 1Kg",
-          "marca": "GRANFINO",
-          "preco": 4.99,
-          "fonte_url": "https://www.prezunic.com.br/farinha-de-trigo-granfino-sem-fermento-1kg-1873199/p",
-          "coletado_em": "2026-10-14T09:20:48.855057+00:00"
+          "produto": "Farinha de Trigo Três Coroas 1Kg",
+          "marca": "SEM MARCA",
+          "preco": 3.99,
+          "fonte_url": "https://www.prezunic.com.br/farinha-de-trigo-tres-coroas-1kg-1674535/p",
+          "coletado_em": "2026-10-12T23:08:08.346124+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Espaguete Santa Amália Sêmola 1Kg",
           "marca": "Santa Amalia",
-          "preco": 4.22,
+          "preco": 4.49,
           "fonte_url": "https://www.prezunic.com.br/macarrao-espaguete-santa-amalia-semola-1kg-1228852/p",
-          "coletado_em": "2026-10-14T09:20:49.404623+00:00"
+          "coletado_em": "2026-10-12T23:08:09.150370+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Cuisine&Co Pacote 1Kg",
           "marca": "CUISINE&CO",
-          "preco": 3.39,
+          "preco": 3.99,
           "fonte_url": "https://www.prezunic.com.br/acucar-refinado-cuisine-co-pacote-1kg-1871735/p",
-          "coletado_em": "2026-10-14T09:20:49.996979+00:00"
+          "coletado_em": "2026-10-12T23:08:09.883132+00:00"
         },
         "cafe": {
           "produto": "Café em Pó Pimpinela Golden Torrado e Moído Pacote 250g",
           "marca": "PIMPINELA",
-          "preco": 16.49,
+          "preco": 12.49,
           "fonte_url": "https://www.prezunic.com.br/cafe-em-po-pimpinela-golden-torrado-e-moido-pacote-250g-1482625/p",
-          "coletado_em": "2026-10-14T09:20:50.742748+00:00"
+          "coletado_em": "2026-10-12T23:08:10.501569+00:00"
         },
         "leite integral": {
           "produto": "Leite Líquido UHT Glória Integral c/ Tampa 1l",
           "marca": "GLORIA",
           "preco": 4.99,
           "fonte_url": "https://www.prezunic.com.br/leite-liquido-uht-gloria-integral-c--tampa-1l-1846608/p",
-          "coletado_em": "2026-10-14T09:20:50.977083+00:00"
+          "coletado_em": "2026-10-12T23:08:11.369399+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Soya Pet 900ml",
           "marca": "Soya",
-          "preco": 7.64,
+          "preco": 8.99,
           "fonte_url": "https://www.prezunic.com.br/oleo-de-soja-soya-pet-900ml-1100378/p",
-          "coletado_em": "2026-10-14T09:20:51.438754+00:00"
+          "coletado_em": "2026-10-12T23:08:12.454053+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Lactmilk com Sal 200g",
           "marca": "LACTMILK",
           "preco": 9.99,
           "fonte_url": "https://www.prezunic.com.br/manteiga-lactmilk-com-sal-200g-1893698/p",
-          "coletado_em": "2026-10-14T09:20:52.708226+00:00"
+          "coletado_em": "2026-10-12T23:08:13.510534+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina com Maminha Peça",
           "marca": "SEM MARCA",
-          "preco": 46.98,
+          "preco": 55.99,
           "fonte_url": "https://www.prezunic.com.br/alcatra-bovina-com-maminha-peca-1111608/p",
-          "coletado_em": "2026-10-14T09:20:53.421312+00:00"
+          "coletado_em": "2026-10-12T23:08:14.074118+00:00"
         },
         "peito de frango": {
-          "produto": "Peito de Frango Ceratti Defumado Light Fatiado 100g",
-          "marca": "Ceratti",
-          "preco": 14.89,
-          "fonte_url": "https://www.prezunic.com.br/peito-de-frango-ceratti-defumado-light-fatiado-100g-1671542/p",
-          "coletado_em": "2026-10-14T09:20:53.878419+00:00"
+          "produto": "Filé de Peito de Frango Congelado",
+          "marca": "SEM MARCA",
+          "preco": 14.98,
+          "fonte_url": "https://www.prezunic.com.br/file-de-peito-de-frango-congelado-1477892/p",
+          "coletado_em": "2026-10-12T23:08:15.013650+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Iana Pvc Extra com 20 Unidades",
           "marca": "SEM MARCA",
           "preco": 12.99,
           "fonte_url": "https://www.prezunic.com.br/ovos-brancos-iana-pvc-extra-com-20-unidades-1425362/p",
-          "coletado_em": "2026-10-14T09:20:54.315712+00:00"
+          "coletado_em": "2026-10-12T23:08:16.165475+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Itambé Fatiado 150g",
           "marca": "ITAMBE",
-          "preco": 9.99,
+          "preco": 11.99,
           "fonte_url": "https://www.prezunic.com.br/queijo-mussarela-itambe-fatiado-150g-1764616/p",
-          "coletado_em": "2026-10-14T09:20:54.805031+00:00"
+          "coletado_em": "2026-10-12T23:08:17.523539+00:00"
         },
         "sabao em po": {
           "produto": "Sabão em Pó Tixan Ypê Primavera 800g",
           "marca": "TIXAN YPE",
           "preco": 12.99,
           "fonte_url": "https://www.prezunic.com.br/sabao-em-po-tixan-ype-primavera-800g-1810825001/p",
-          "coletado_em": "2026-10-14T09:20:55.053881+00:00"
+          "coletado_em": "2026-10-12T23:08:19.090744+00:00"
         },
         "detergente": {
-          "produto": "Detergente Limpol Cristal 500ml",
+          "produto": "Detergente Limpol Neutro 500ml",
           "marca": "LIMPOL",
           "preco": 3.49,
-          "fonte_url": "https://www.prezunic.com.br/detergente-limpol-cristal-500ml-1114606005/p",
-          "coletado_em": "2026-10-14T09:20:55.770276+00:00"
+          "fonte_url": "https://www.prezunic.com.br/detergente-limpol-neutro-500ml-1114606003/p",
+          "coletado_em": "2026-10-12T23:08:21.537497+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Mimmo Folha Dupla 30 Metros com 4 Unidades",
           "marca": "MIMMO",
           "preco": 7.49,
           "fonte_url": "https://www.prezunic.com.br/papel-higienico-mimmo-folha-dupla-30-metros-com-4-unidades-1730298/p",
-          "coletado_em": "2026-10-14T09:20:56.395869+00:00"
+          "coletado_em": "2026-10-12T23:08:22.416052+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Lebre 1Kg",
           "marca": "LEBRE",
           "preco": 5.49,
           "fonte_url": "https://www.prezunic.com.br/sal-refinado-lebre-1kg-1099848/p",
-          "coletado_em": "2026-10-14T09:20:57.315711+00:00"
+          "coletado_em": "2026-10-12T23:08:22.844479+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Marilan Pacote 140g",
           "marca": "MARILAN",
           "preco": 3.99,
           "fonte_url": "https://www.prezunic.com.br/biscoito-cream-cracker-marilan-pacote-140g-1890605/p",
-          "coletado_em": "2026-10-14T09:20:58.141708+00:00"
+          "coletado_em": "2026-10-12T23:08:24.021545+00:00"
         }
       }
     },
@@ -151,133 +175,133 @@
       "unidade": "Zona Sul (E-commerce Oficial RJ)",
       "fonte_oficial_dominio": "https://www.zonasul.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 232.19,
+      "soma_itens_verificados_reais": 216.99,
       "itens": {
         "arroz": {
           "produto": "Farinha Oro Tipo 00 Le 5 Stagioni 1kg",
           "marca": "Le 5 Stagioni",
           "preco": 27.59,
           "fonte_url": "https://www.zonasul.com.br/farinha-oro-tipo-00-le-5-stagioni-1kg-1147536/p",
-          "coletado_em": "2026-10-14T09:20:58.951008+00:00"
+          "coletado_em": "2026-10-12T23:08:25.007255+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Granfino 1kg",
-          "marca": "GRANFINO",
+          "produto": "Feijão Carioca Máximo 1kg",
+          "marca": "MAXIMO",
           "preco": 12.99,
-          "fonte_url": "https://www.zonasul.com.br/feijao-carioca-granfino-1kg-1118846/p",
-          "coletado_em": "2026-10-14T09:20:59.660973+00:00"
+          "fonte_url": "https://www.zonasul.com.br/feijao-carioca-maximo-1kg-352608/p",
+          "coletado_em": "2026-10-12T23:08:25.846490+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Regina 1kg",
           "marca": "REGINA",
           "preco": 5.99,
           "fonte_url": "https://www.zonasul.com.br/farinha-de-trigo-regina-1kg-1066820/p",
-          "coletado_em": "2026-10-14T09:21:00.132345+00:00"
+          "coletado_em": "2026-10-12T23:08:26.714161+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Piraquê Espaguete Ovos 500g",
           "marca": "PIRAQUE",
           "preco": 5.99,
           "fonte_url": "https://www.zonasul.com.br/macarrao-piraque-espaguete-ovos-500g-165581/p",
-          "coletado_em": "2026-10-14T09:21:00.597337+00:00"
+          "coletado_em": "2026-10-12T23:08:27.597967+00:00"
         },
         "acucar": {
-          "produto": "Açúcar Refinado Caravelas 1kg",
-          "marca": "Caravelas",
-          "preco": 3.79,
-          "fonte_url": "https://www.zonasul.com.br/acucar-refinado-caravelas-1kg-980129/p",
-          "coletado_em": "2026-10-14T09:21:00.805065+00:00"
+          "produto": "Açúcar Refinado União Pacote 1kg",
+          "marca": "UNIAO",
+          "preco": 3.75,
+          "fonte_url": "https://www.zonasul.com.br/acucar-refinado-uniao-pacote-1-kg-144894/p",
+          "coletado_em": "2026-10-12T23:08:28.614205+00:00"
         },
         "cafe": {
           "produto": "Café Torrado e Moído Evolutto Premium 500g",
           "marca": "Evolutto",
           "preco": 25.9,
           "fonte_url": "https://www.zonasul.com.br/cafe-torrado-e-moido-evolutto-premium-500g-1172514/p",
-          "coletado_em": "2026-10-14T09:21:02.360611+00:00"
+          "coletado_em": "2026-10-12T23:08:30.003550+00:00"
         },
         "leite integral": {
           "produto": "Leite Desnatado UHT Batavo Pense Zero 1L",
           "marca": "BATAVO",
           "preco": 9.39,
           "fonte_url": "https://www.zonasul.com.br/leite-desnatado-uht-batavo-pense-zero-1l-1133063/p",
-          "coletado_em": "2026-10-14T09:21:03.022489+00:00"
+          "coletado_em": "2026-10-12T23:08:30.897857+00:00"
         },
         "oleo de soja": {
-          "produto": "Sardinha Ao Óleo De Soja Coqueiro Lata 125g",
-          "marca": "COQUEIRO",
-          "preco": 7.59,
-          "fonte_url": "https://www.zonasul.com.br/sardinha-ao-oleo-de-soja-coqueiro-lata-125g-102431/p",
-          "coletado_em": "2026-10-14T09:21:03.169229+00:00"
+          "produto": "Óleo De Soja Liza 900ml",
+          "marca": "LIZA",
+          "preco": 7.99,
+          "fonte_url": "https://www.zonasul.com.br/oleo-de-soja-liza-900ml-127310/p",
+          "coletado_em": "2026-10-12T23:08:31.964682+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Com Sal Da Matina Pote 200g",
           "marca": "DA MATINA",
-          "preco": 11.99,
+          "preco": 13.69,
           "fonte_url": "https://www.zonasul.com.br/manteiga-com-sal-da-matina-pote-200g-1136003/p",
-          "coletado_em": "2026-10-14T09:21:03.678116+00:00"
+          "coletado_em": "2026-10-12T23:08:33.066096+00:00"
         },
         "carne bovina": {
-          "produto": "Acém Bovino Pedaço 1kg",
-          "marca": "Zona Sul",
-          "preco": 46.49,
-          "fonte_url": "https://www.zonasul.com.br/acem-bovino-pedaco-1kg-47520/p",
-          "coletado_em": "2026-10-14T09:21:03.979201+00:00"
+          "produto": "Hambúrguer Bovino Costela Corte D'Oro com Unidades 240g",
+          "marca": "CORTE DORO",
+          "preco": 23.99,
+          "fonte_url": "https://www.zonasul.com.br/hamburguer-bovino-costela-corte-d-oro-com-unidades-240g-1207490/p",
+          "coletado_em": "2026-10-12T23:08:34.976779+00:00"
         },
         "peito de frango": {
-          "produto": "Filé de Peito de Frango Moído Nat 400g",
-          "marca": "NAT",
-          "preco": 13.69,
-          "fonte_url": "https://www.zonasul.com.br/file-de-peito-de-frango-moido-nat-400g-1195727/p",
-          "coletado_em": "2026-10-14T09:21:04.101944+00:00"
+          "produto": "Peito de Frango com Osso Resfriado Do Seu Jeito 1kg",
+          "marca": "DO SEU JEITO",
+          "preco": 26.29,
+          "fonte_url": "https://www.zonasul.com.br/peito-de-frango-com-osso-resfriado-do-seu-jeito-1kg/p",
+          "coletado_em": "2026-10-12T23:08:35.516456+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Jumbo Mantiqueira Com 10 Unidades",
           "marca": "MANTIQUEIRA",
-          "preco": 7.95,
+          "preco": 9.39,
           "fonte_url": "https://www.zonasul.com.br/ovos-brancos-jumbo-mantiqueira-com-10-unidades-437638/p",
-          "coletado_em": "2026-10-14T09:21:04.559368+00:00"
+          "coletado_em": "2026-10-12T23:08:36.590497+00:00"
         },
         "queijo mussarela": {
-          "produto": "Queijo Mussarela Pega Leva Ralada 500g",
-          "marca": "PEGA LEVE",
-          "preco": 27.29,
-          "fonte_url": "https://www.zonasul.com.br/queijo-mussarela-pega-leva-ralada-500g-1104500/p",
-          "coletado_em": "2026-10-14T09:21:05.100795+00:00"
+          "produto": "Queijo Mussarela Parmalat Fit 130g",
+          "marca": "PARMALAT",
+          "preco": 17.89,
+          "fonte_url": "https://www.zonasul.com.br/queijo-mussarela-parmalat-fit-130g-1187490/p",
+          "coletado_em": "2026-10-12T23:08:37.561889+00:00"
         },
         "sabao em po": {
           "produto": "Sabão em Pó Urca Concentrado 800g",
           "marca": "URCA",
           "preco": 5.99,
           "fonte_url": "https://www.zonasul.com.br/sabao-em-po-urca-concentrado-800g-1099558/p",
-          "coletado_em": "2026-10-14T09:21:05.643221+00:00"
+          "coletado_em": "2026-10-12T23:08:38.623895+00:00"
         },
         "detergente": {
           "produto": "Detergente Para Louças Odd Clear 500ml",
           "marca": "LIMPPANO",
-          "preco": 2.19,
+          "preco": 2.79,
           "fonte_url": "https://www.zonasul.com.br/detergente-para-loucas-odd-clear-500ml-982911/p",
-          "coletado_em": "2026-10-14T09:21:05.993270+00:00"
+          "coletado_em": "2026-10-12T23:08:40.019757+00:00"
         },
         "papel higienico": {
           "produto": "Guardanapo de Papel Folha Dupla Snob 23,5cm x 23,5cm Pacote 50 Unidades",
           "marca": "SNOB",
           "preco": 8.99,
           "fonte_url": "https://www.zonasul.com.br/guardanapo-de-papel-folha-dupla-snob-235cm-x-235cm-pacote-50-unidades-482447/p",
-          "coletado_em": "2026-10-14T09:21:07.414100+00:00"
+          "coletado_em": "2026-10-12T23:08:40.835525+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Iodado Ita 1kg",
           "marca": "ITA",
           "preco": 4.39,
           "fonte_url": "https://www.zonasul.com.br/sal-refinado-iodado-ita-1kg-117293/p",
-          "coletado_em": "2026-10-14T09:21:07.998298+00:00"
+          "coletado_em": "2026-10-12T23:08:41.737184+00:00"
         },
         "biscoito": {
-          "produto": "Biscoito Sarloni Cream Cracker 200g",
-          "marca": "SARLONI",
+          "produto": "Biscoito Cream Cracker Piraquê Pacote 184g",
+          "marca": "PIRAQUE",
           "preco": 3.99,
-          "fonte_url": "https://www.zonasul.com.br/biscoito-sarloni-cream-cracker-200g-1117866/p",
-          "coletado_em": "2026-10-14T09:21:08.236944+00:00"
+          "fonte_url": "https://www.zonasul.com.br/biscoito-cream-cracker-piraque-pacote-184g-1105795/p",
+          "coletado_em": "2026-10-12T23:08:42.457346+00:00"
         }
       }
     },
@@ -289,133 +313,133 @@
       "unidade": "Mambo (E-commerce Oficial SP)",
       "fonte_oficial_dominio": "https://www.mambo.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 246.38,
+      "soma_itens_verificados_reais": 245.58,
       "itens": {
         "arroz": {
-          "produto": "Arroz Polido Tipo 1 Broto Legal 1kg",
-          "marca": "Broto Legal",
+          "produto": "Arroz Polido Tipo 1 Tio João 1kg",
+          "marca": "Tio João",
           "preco": 7.69,
-          "fonte_url": "https://www.mambo.com.br/arroz-polido-tipo-1-broto-legal-1kg/p",
-          "coletado_em": "2026-10-14T09:21:09.145423+00:00"
+          "fonte_url": "https://www.mambo.com.br/arroz-polido-tipo-1-tio-joao-1kg/p",
+          "coletado_em": "2026-10-12T23:08:43.301550+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Orgânico Kicaldo 500g",
-          "marca": "Kicaldo",
-          "preco": 9.79,
-          "fonte_url": "https://www.mambo.com.br/feijao-carioca-organico-kicaldo-500g/p",
-          "coletado_em": "2026-10-14T09:21:09.622551+00:00"
+          "produto": "Feijão Carioca Temperado Camil 380g",
+          "marca": "Camil",
+          "preco": 8.99,
+          "fonte_url": "https://www.mambo.com.br/feijao-carioca-temperado-camil-380g/p",
+          "coletado_em": "2026-10-12T23:08:45.239023+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Tradicional Sol 1kg",
           "marca": "Sol",
           "preco": 5.19,
           "fonte_url": "https://www.mambo.com.br/farinha-de-trigo-tradicional-sol-1kg/p",
-          "coletado_em": "2026-10-14T09:21:09.816881+00:00"
+          "coletado_em": "2026-10-12T23:08:46.307728+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Espaguete Sem Glúten Urbano 500g",
           "marca": "Urbano",
           "preco": 4.29,
           "fonte_url": "https://www.mambo.com.br/macarrao-espaguete-sem-gluten-urbano-500g/p",
-          "coletado_em": "2026-10-14T09:21:10.431266+00:00"
+          "coletado_em": "2026-10-12T23:08:47.092367+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Guarani 1kg",
           "marca": "Guarani",
           "preco": 3.99,
           "fonte_url": "https://www.mambo.com.br/acucar-refinado-guarani-1kg/p",
-          "coletado_em": "2026-10-14T09:21:10.925293+00:00"
+          "coletado_em": "2026-10-12T23:08:47.885643+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado e Moído Extraforte Café Brasileiro 500g",
+          "produto": "Café Torrado e Moído Tradicional Café Brasileiro 500g",
           "marca": "Café Brasileiro",
           "preco": 21.49,
-          "fonte_url": "https://www.mambo.com.br/cafe-torrado-e-moido-extraforte-cafe-brasileiro-pacote-500g/p",
-          "coletado_em": "2026-10-14T09:21:12.292943+00:00"
+          "fonte_url": "https://www.mambo.com.br/cafe-torrado-e-moido-tradicional-cafe-brasileiro-500g/p",
+          "coletado_em": "2026-10-12T23:08:49.160307+00:00"
         },
         "leite integral": {
           "produto": "Leite UHT Integral Itambé 1L",
           "marca": "Itambé",
           "preco": 6.49,
           "fonte_url": "https://www.mambo.com.br/leite-uht-integral-itambe-1l/p",
-          "coletado_em": "2026-10-14T09:21:12.956502+00:00"
+          "coletado_em": "2026-10-12T23:08:49.826508+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Soya 900ml",
           "marca": "Soya",
           "preco": 7.99,
           "fonte_url": "https://www.mambo.com.br/oleo-de-soja-soya-900ml/p",
-          "coletado_em": "2026-10-14T09:21:13.149672+00:00"
+          "coletado_em": "2026-10-12T23:08:50.616042+00:00"
         },
         "manteiga": {
           "produto": "Manteiga sem Sal Momento Mambo 200g",
           "marca": "Momento Mambo",
           "preco": 10.59,
           "fonte_url": "https://www.mambo.com.br/manteiga-sem-sal-momento-mambo-200g/p",
-          "coletado_em": "2026-10-14T09:21:13.339297+00:00"
+          "coletado_em": "2026-10-12T23:08:51.525954+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina Resfriada para Grelhar",
           "marca": "Bovino in Natura",
           "preco": 89.98,
           "fonte_url": "https://www.mambo.com.br/alcatra-bovina-resfriada-para-grelhar/p",
-          "coletado_em": "2026-10-14T09:21:13.888679+00:00"
+          "coletado_em": "2026-10-12T23:08:52.386075+00:00"
         },
         "peito de frango": {
           "produto": "Filé de Peito de Frango Congelado Sadia 1kg",
           "marca": "Sadia",
           "preco": 16.98,
           "fonte_url": "https://www.mambo.com.br/filedepeitodefrangocongeladosadia1kg/p",
-          "coletado_em": "2026-10-14T09:21:14.350352+00:00"
+          "coletado_em": "2026-10-12T23:08:53.606174+00:00"
         },
         "ovos": {
           "produto": "Ovos Vermelhos Grandes Ômega 3 e Selênio Graciana com 10 Unidades",
           "marca": "Graciana",
           "preco": 11.98,
           "fonte_url": "https://www.mambo.com.br/ovos-vermelhos-grandes-omega-3-e-selenio-graciana-com-10-unidades/p",
-          "coletado_em": "2026-10-14T09:21:14.554035+00:00"
+          "coletado_em": "2026-10-12T23:08:54.683114+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mozzarella Búfala Bola Cereja Momento Mambo 160g",
           "marca": "Momento Mambo",
           "preco": 9.98,
           "fonte_url": "https://www.mambo.com.br/queijo-mozzarella-bufala-bola-cereja-momento-mambo-160g/p",
-          "coletado_em": "2026-10-14T09:21:14.968744+00:00"
+          "coletado_em": "2026-10-12T23:08:56.960313+00:00"
         },
         "sabao em po": {
           "produto": "Lava Roupas em Pó Primavera Tixan Ypê 800g",
           "marca": "Tixan",
           "preco": 16.49,
           "fonte_url": "https://www.mambo.com.br/lava-roupas-em-po-primavera-tixan-ype-800g/p",
-          "coletado_em": "2026-10-14T09:21:15.449630+00:00"
+          "coletado_em": "2026-10-12T23:08:57.666578+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Neutro Ypê 500ml",
           "marca": "Ypê",
           "preco": 3.59,
           "fonte_url": "https://www.mambo.com.br/detergente-liquido-neutro-ype-500ml/p",
-          "coletado_em": "2026-10-14T09:21:15.643157+00:00"
+          "coletado_em": "2026-10-12T23:08:58.366646+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Folha Dupla Derma Care Neve com 4 Unidades",
           "marca": "Neve",
           "preco": 12.49,
           "fonte_url": "https://www.mambo.com.br/papel-higienico-folha-dupla-derma-care-neve-com-4-unidades/p",
-          "coletado_em": "2026-10-14T09:21:17.181452+00:00"
+          "coletado_em": "2026-10-12T23:08:59.084052+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Lebre 1kg",
           "marca": "Lebre",
           "preco": 3.69,
           "fonte_url": "https://www.mambo.com.br/sal-refinado-lebre-1kg/p",
-          "coletado_em": "2026-10-14T09:21:17.498608+00:00"
+          "coletado_em": "2026-10-12T23:09:00.022584+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Adria 170g",
           "marca": "Adria",
           "preco": 3.69,
           "fonte_url": "https://www.mambo.com.br/biscoito-cream-cracker-adria-170g/p",
-          "coletado_em": "2026-10-14T09:21:18.131906+00:00"
+          "coletado_em": "2026-10-12T23:09:00.728854+00:00"
         }
       }
     },
@@ -427,133 +451,271 @@
       "unidade": "Super Nosso (E-commerce Oficial BH)",
       "fonte_oficial_dominio": "https://www.supernosso.com",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 206.82,
+      "soma_itens_verificados_reais": 199.82,
       "itens": {
         "arroz": {
-          "produto": "Arroz Polido Tipo 1 Pilecco Nobre Pacote 2kg",
+          "produto": "Arroz Polido Tipo 1 Pilecco Nobre Pacote 1kg",
           "marca": "Pilecco",
-          "preco": 9.99,
-          "fonte_url": "https://www.supernosso.com/111107-arroz-polido-tipo-1-pilecco-nobre-pacote-2kg/p",
-          "coletado_em": "2026-10-14T09:21:19.006316+00:00"
+          "preco": 5.09,
+          "fonte_url": "https://www.supernosso.com/111106-arroz-polido-tipo-1-pilecco-nobre-pacote-1kg/p",
+          "coletado_em": "2026-10-12T23:09:01.459728+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Camil 1kg",
           "marca": "Camil",
           "preco": 8.99,
           "fonte_url": "https://www.supernosso.com/12924-feijao-carioca-camil-1kg/p",
-          "coletado_em": "2026-10-14T09:21:19.579566+00:00"
+          "coletado_em": "2026-10-12T23:09:02.520378+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Vilma Integral  500 g",
           "marca": "Vilma",
           "preco": 4.19,
           "fonte_url": "https://www.supernosso.com/149330-farinha-de-trigo-vilma-integral--500-g/p",
-          "coletado_em": "2026-10-14T09:21:20.004462+00:00"
+          "coletado_em": "2026-10-12T23:09:03.264758+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Espaguete Ovos Santa Amália 500g",
           "marca": "Santa Amalia",
           "preco": 3.99,
           "fonte_url": "https://www.supernosso.com/10434-macarrao-espaguete-ovos-santa-amalia-500g/p",
-          "coletado_em": "2026-10-14T09:21:20.493248+00:00"
+          "coletado_em": "2026-10-12T23:09:04.040863+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Especial Guarani Pacote 1kg",
           "marca": "Guarani",
           "preco": 4.19,
           "fonte_url": "https://www.supernosso.com/7787-acucar-refinado-especial-guarani-pacote-1kg/p",
-          "coletado_em": "2026-10-14T09:21:21.146197+00:00"
+          "coletado_em": "2026-10-12T23:09:05.325914+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado Moído Tradicional Pouch União 500g",
-          "marca": "Uniao",
+          "produto": "Café Torrado e Moído Tradicional Melitta Pacote 500g",
+          "marca": "Melitta",
           "preco": 25.99,
-          "fonte_url": "https://www.supernosso.com/219943-cafe-torrado-moido-tradicional-pouch-uniao-500g/p",
-          "coletado_em": "2026-10-14T09:21:21.383650+00:00"
+          "fonte_url": "https://www.supernosso.com/175314-cafe-torrado-e-moido-tradicional-melitta-pacote-500g/p",
+          "coletado_em": "2026-10-12T23:09:06.067278+00:00"
         },
         "leite integral": {
-          "produto": "Leite UHT Integral Piracanjuba Caixa com Tampa 1l",
-          "marca": "Piracanjuba",
-          "preco": 5.99,
-          "fonte_url": "https://www.supernosso.com/71798-leite-uht-integral-piracanjuba-caixa-com-tampa-1l/p",
-          "coletado_em": "2026-10-14T09:21:22.207558+00:00"
+          "produto": "Leite UHT Integral Itambé Caixa com Tampa 1l",
+          "marca": "Itambe",
+          "preco": 5.89,
+          "fonte_url": "https://www.supernosso.com/65000-leite-uht-integral-itambe-caixa-com-tampa-1l/p",
+          "coletado_em": "2026-10-12T23:09:06.898298+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Liza PET 900ml",
           "marca": "Liza",
           "preco": 7.99,
           "fonte_url": "https://www.supernosso.com/23060-oleo-de-soja-liza-pet-900ml/p",
-          "coletado_em": "2026-10-14T09:21:22.598416+00:00"
+          "coletado_em": "2026-10-12T23:09:07.780779+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Itambé Sem Sal Tablete 200g",
           "marca": "Itambe",
           "preco": 11.99,
           "fonte_url": "https://www.supernosso.com/7244-manteiga-itambe-sem-sal-tablete-200g/p",
-          "coletado_em": "2026-10-14T09:21:23.403429+00:00"
+          "coletado_em": "2026-10-12T23:09:08.999829+00:00"
         },
         "carne bovina": {
           "produto": "Patinho Bovino Porcionado Resfriado 1.3Kg",
           "marca": "A Mapear",
           "preco": 52.99,
           "fonte_url": "https://www.supernosso.com/155340-patinho-bovino-porcionado-resfriado-1-3kg/p",
-          "coletado_em": "2026-10-14T09:21:23.732808+00:00"
+          "coletado_em": "2026-10-12T23:09:10.563845+00:00"
         },
         "peito de frango": {
           "produto": "Peito De Frango Defumado Dsfd Tropeira 300g",
           "marca": "Tropeira",
           "preco": 18.99,
           "fonte_url": "https://www.supernosso.com/211816-peito-de-frango-defumado-dsfd-tropeira-300g/p",
-          "coletado_em": "2026-10-14T09:21:23.938307+00:00"
+          "coletado_em": "2026-10-12T23:09:11.577632+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Mantiqueira Galinha Pintadinha com 12 Unidades",
           "marca": "Hortifruti",
           "preco": 9.09,
           "fonte_url": "https://www.supernosso.com/198721-ovos-brancos-mantiqueira-galinha-pintadinha-com-12-unidades/p",
-          "coletado_em": "2026-10-14T09:21:24.204634+00:00"
+          "coletado_em": "2026-10-12T23:09:12.557481+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Fatiado Président Pacote 150g",
           "marca": "President",
           "preco": 9.99,
           "fonte_url": "https://www.supernosso.com/214498-queijo-mussarela-fatiado-president-pacote-150g/p",
-          "coletado_em": "2026-10-14T09:21:24.368404+00:00"
+          "coletado_em": "2026-10-12T23:09:13.847683+00:00"
         },
         "sabao em po": {
           "produto": "Sabão em Pó Tixan Ypê Primavera 800g",
           "marca": "Tixan",
           "preco": 10.99,
           "fonte_url": "https://www.supernosso.com/216507-sabao-em-po-tixan-ype-primavera-800g/p",
-          "coletado_em": "2026-10-14T09:21:24.849177+00:00"
+          "coletado_em": "2026-10-12T23:09:14.567613+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido com Glicerina Coco Limpol Squeeze 500ml",
+          "produto": "Detergente Líquido Neutro com Glicerina Limpol Squeeze 500ml",
           "marca": "Limpol",
           "preco": 2.99,
-          "fonte_url": "https://www.supernosso.com/1939-detergente-liquido-com-glicerina-coco-limpol-squeeze-500ml/p",
-          "coletado_em": "2026-10-14T09:21:25.124735+00:00"
+          "fonte_url": "https://www.supernosso.com/1947-detergente-liquido-neutro-com-glicerina-limpol-squeeze-500ml/p",
+          "coletado_em": "2026-10-12T23:09:15.557418+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Folha Dupla Neutro Neve Toque da Seda 30m Pacote 4 Unidades",
           "marca": "Neve",
-          "preco": 12.99,
+          "preco": 10.99,
           "fonte_url": "https://www.supernosso.com/5076-papel-higienico-folha-dupla-neutro-neve-toque-da-seda-30m-pacote-4-unidades/p",
-          "coletado_em": "2026-10-14T09:21:25.550544+00:00"
+          "coletado_em": "2026-10-12T23:09:16.858838+00:00"
         },
         "sal refinado": {
           "produto": "Sal refinado Globo Tradicional Pacote 1 Kg",
           "marca": "Globo",
           "preco": 2.39,
           "fonte_url": "https://www.supernosso.com/76784-sal-refinado-globo-tradicional-pacote-1-kg/p",
-          "coletado_em": "2026-10-14T09:21:25.795086+00:00"
+          "coletado_em": "2026-10-12T23:09:17.819725+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Aymoré Pacote 164g",
           "marca": "Aymore",
           "preco": 3.09,
           "fonte_url": "https://www.supernosso.com/218365-biscoito-cream-cracker-aymore-pacote-164g/p",
-          "coletado_em": "2026-10-14T09:21:27.733815+00:00"
+          "coletado_em": "2026-10-12T23:09:19.385629+00:00"
+        }
+      }
+    },
+    "es_vitoria": {
+      "cidade": "Vitória",
+      "uf": "ES",
+      "regiao": "Sudeste",
+      "rede": "Extrabom Supermercados",
+      "unidade": "Extrabom (E-commerce Oficial Vitória)",
+      "fonte_oficial_dominio": "https://www.extrabom.com.br",
+      "qtd_itens_verificados": 18,
+      "soma_itens_verificados_reais": 113.15,
+      "itens": {
+        "arroz": {
+          "produto": "Arroz Zuppa Tipo 1 1kg",
+          "marca": "Extrabom",
+          "preco": 4.49,
+          "fonte_url": "https://www.extrabom.com.br/p/arroz-zuppa-tipo-1-1kg/161453/",
+          "coletado_em": "2026-10-12T23:09:20.864544+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Carioca Bonare Pronto Sachê 280g",
+          "marca": "Extrabom",
+          "preco": 4.39,
+          "fonte_url": "https://www.extrabom.com.br/p/feijao-carioca-bonare-pronto-sache-280g/208595/",
+          "coletado_em": "2026-10-12T23:09:22.038047+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Número Um 1Kg",
+          "marca": "Extrabom",
+          "preco": 3.19,
+          "fonte_url": "https://www.extrabom.com.br/p/farinha-de-trigo-numero-um-1kg/8458/",
+          "coletado_em": "2026-10-12T23:09:22.588329+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão Espaguete Aldente 400g",
+          "marca": "Extrabom",
+          "preco": 2.79,
+          "fonte_url": "https://www.extrabom.com.br/p/macarrao-espaguete-aldente-400g/179318/",
+          "coletado_em": "2026-10-12T23:09:23.693495+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Confeiteiro União Glaçúcar 500G",
+          "marca": "Extrabom",
+          "preco": 3.59,
+          "fonte_url": "https://www.extrabom.com.br/p/acucar-confeiteiro-uniao-glacucar-500g/7117/",
+          "coletado_em": "2026-10-12T23:09:24.772297+00:00"
+        },
+        "cafe": {
+          "produto": "Cerveja Escura Caracu 350ml Lata",
+          "marca": "Extrabom",
+          "preco": 5.49,
+          "fonte_url": "https://www.extrabom.com.br/p/cerveja-escura-caracu-350ml-lata/6106/",
+          "coletado_em": "2026-10-12T23:09:25.318330+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Longa Vida Porto Alegre Integral 1L",
+          "marca": "Extrabom",
+          "preco": 4.78,
+          "fonte_url": "https://www.extrabom.com.br/p/leite-longa-vida-porto-alegre-integral-1l/4329/",
+          "coletado_em": "2026-10-12T23:09:27.421374+00:00"
+        },
+        "oleo de soja": {
+          "produto": "Óleo de Soja ABC 900ml",
+          "marca": "Extrabom",
+          "preco": 7.48,
+          "fonte_url": "https://www.extrabom.com.br/p/oleo-de-soja-abc-900ml/44389/",
+          "coletado_em": "2026-10-12T23:09:28.010690+00:00"
+        },
+        "manteiga": {
+          "produto": "Margarina cremosa com sal Claybom pote 250g",
+          "marca": "Extrabom",
+          "preco": 4.99,
+          "fonte_url": "https://www.extrabom.com.br/p/margarina-cremosa-com-sal-claybom-pote-250g/4266/",
+          "coletado_em": "2026-10-12T23:09:29.452476+00:00"
+        },
+        "carne bovina": {
+          "produto": "Alcatra Bovina Com Maminha Bandeja 500g Aproximadamente 500g",
+          "marca": "Extrabom",
+          "preco": 27.45,
+          "fonte_url": "https://www.extrabom.com.br/p/alcatra-bovina-com-maminha-bandeja-500g/20983/",
+          "coletado_em": "2026-10-12T23:09:30.620260+00:00"
+        },
+        "peito de frango": {
+          "produto": "Empanado de Peito de Frango Aurora 100g",
+          "marca": "Extrabom",
+          "preco": 2.39,
+          "fonte_url": "https://www.extrabom.com.br/p/empanado-de-peito-de-frango-aurora-100g/132896/",
+          "coletado_em": "2026-10-12T23:09:31.948672+00:00"
+        },
+        "ovos": {
+          "produto": "Ovos Brancos Dúzia",
+          "marca": "Extrabom",
+          "preco": 9.99,
+          "fonte_url": "https://www.extrabom.com.br/p/ovos-brancos-duzia/2170/",
+          "coletado_em": "2026-10-12T23:09:33.082030+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Tche Milk Fatiado 150g",
+          "marca": "Extrabom",
+          "preco": 8.98,
+          "fonte_url": "https://www.extrabom.com.br/p/queijo-mussarela-tche-milk-fatiado-150g/214304/",
+          "coletado_em": "2026-10-12T23:09:34.399231+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Astra Sachê 1,6Kg",
+          "marca": "Extrabom",
+          "preco": 7.39,
+          "fonte_url": "https://www.extrabom.com.br/p/sabao-em-po-astra-sache-1-6kg/174295/",
+          "coletado_em": "2026-10-12T23:09:36.062060+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Neutro Ypê 500ml",
+          "marca": "Extrabom",
+          "preco": 2.89,
+          "fonte_url": "https://www.extrabom.com.br/p/detergente-liquido-neutro-ype-500ml/2699/",
+          "coletado_em": "2026-10-12T23:09:37.493337+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Folha Dupla Carinho Premium Neutro 30m 4Und.",
+          "marca": "Extrabom",
+          "preco": 7.79,
+          "fonte_url": "https://www.extrabom.com.br/p/papel-higienico-folha-dupla-carinho-premium-neutro-30m-4und/55031/",
+          "coletado_em": "2026-10-12T23:09:38.729262+00:00"
+        },
+        "sal refinado": {
+          "produto": "Sal Polar 1kg Refinado",
+          "marca": "Extrabom",
+          "preco": 2.19,
+          "fonte_url": "https://www.extrabom.com.br/p/sal-polar-1kg-refinado/195622/",
+          "coletado_em": "2026-10-12T23:09:39.882057+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Cream Cracker Renata 200g",
+          "marca": "Extrabom",
+          "preco": 2.89,
+          "fonte_url": "https://www.extrabom.com.br/p/biscoito-cream-cracker-renata-200g/166588/",
+          "coletado_em": "2026-10-12T23:09:41.405317+00:00"
         }
       }
     },
@@ -565,133 +727,133 @@
       "unidade": "Super Muffato (E-commerce Oficial PR)",
       "fonte_oficial_dominio": "https://www.supermuffato.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 194.3,
+      "soma_itens_verificados_reais": 197.52,
       "itens": {
         "arroz": {
           "produto": "Arroz Branco Prato Fino Tipo 1 2kg",
           "marca": "Prato Fino",
           "preco": 14.11,
           "fonte_url": "https://www.supermuffato.com.br/arroz-prato-fino-tipo-1-pacote-2kg-45738/p",
-          "coletado_em": "2026-10-14T09:21:29.860184+00:00"
+          "coletado_em": "2026-10-12T23:09:42.329580+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Coradinho 1kg",
-          "marca": "Coradinho",
-          "preco": 8.7,
-          "fonte_url": "https://www.supermuffato.com.br/feijao-coradinho-carioquinha-1kg-106061/p",
-          "coletado_em": "2026-10-14T09:21:30.351372+00:00"
+          "produto": "Feijão Fugini Carioca 250g",
+          "marca": "Fugini",
+          "preco": 7.8,
+          "fonte_url": "https://www.supermuffato.com.br/feijao-fugini-carioca-250g-168085/p",
+          "coletado_em": "2026-10-12T23:09:43.579798+00:00"
         },
         "farinha de trigo": {
-          "produto": "Farinha de Trigo Arapongas 1kg",
-          "marca": "Arapongas",
-          "preco": 4.4,
-          "fonte_url": "https://www.supermuffato.com.br/farinha-arapongas-trigo-pacote-1-kg-123933/p",
-          "coletado_em": "2026-10-14T09:21:30.642349+00:00"
+          "produto": "Farinha de Trigo Anaconda 1kg",
+          "marca": "Anaconda",
+          "preco": 4.1,
+          "fonte_url": "https://www.supermuffato.com.br/farinha-de-trigo-anaconda-1kg-37728/p",
+          "coletado_em": "2026-10-12T23:09:44.476588+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Dona Benta Sêmola Espaguete 500g",
           "marca": "Dona Benta",
           "preco": 3.5,
           "fonte_url": "https://www.supermuffato.com.br/macarrao-dona-benta-semola-espaguete-578/p",
-          "coletado_em": "2026-10-14T09:21:31.578184+00:00"
+          "coletado_em": "2026-10-12T23:09:45.929781+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Alto Alegre 1Kg",
           "marca": "Alto Alegre",
           "preco": 4.51,
           "fonte_url": "https://www.supermuffato.com.br/acucar-alto-alegre-refinado-1kg-12809/p",
-          "coletado_em": "2026-10-14T09:21:32.909315+00:00"
+          "coletado_em": "2026-10-12T23:09:46.735607+00:00"
         },
         "cafe": {
           "produto": "Café em Sachê Torrado e Moído Drip Coffee Tradicional 3 Corações Envelope 10g",
           "marca": "3 Corações",
           "preco": 2.8,
           "fonte_url": "https://www.supermuffato.com.br/cafe-em-sache-torrado-e-moido-drip-coffee-tradicional-3-coracoes-envelope-10g-303136/p",
-          "coletado_em": "2026-10-14T09:21:33.279475+00:00"
+          "coletado_em": "2026-10-12T23:09:47.950048+00:00"
         },
         "leite integral": {
           "produto": "Leite Elege UHT Semi Desnatado Sem Lactose 1L",
           "marca": "ELEGE",
           "preco": 5.1,
           "fonte_url": "https://www.supermuffato.com.br/leite-elege-uht-semi-desnatado-sem-lactose-1l-313360/p",
-          "coletado_em": "2026-10-14T09:21:33.414867+00:00"
+          "coletado_em": "2026-10-12T23:09:49.008450+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Cocamar 900ml",
           "marca": "Cocamar",
-          "preco": 7.2,
+          "preco": 7.7,
           "fonte_url": "https://www.supermuffato.com.br/oleo-de-soja-cocamar--900ml-8059/p",
-          "coletado_em": "2026-10-14T09:21:33.724990+00:00"
+          "coletado_em": "2026-10-12T23:09:49.734270+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Frimesa com Sal 200g",
           "marca": "Frimesa",
           "preco": 10.17,
           "fonte_url": "https://www.supermuffato.com.br/manteiga-frimesa-com-sal-200g-256622/p",
-          "coletado_em": "2026-10-14T09:21:34.173471+00:00"
+          "coletado_em": "2026-10-12T23:09:51.013295+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina Peça Kg",
           "marca": "Açougue",
           "preco": 54.6,
           "fonte_url": "https://www.supermuffato.com.br/carne-bovina-alcatra-peca-7178/p",
-          "coletado_em": "2026-10-14T09:21:34.718768+00:00"
+          "coletado_em": "2026-10-12T23:09:51.959201+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango c/ Osso Congelado Kg",
           "marca": "Açougue",
           "preco": 12.3,
           "fonte_url": "https://www.supermuffato.com.br/peito-de-frango-com-osso-congelado-kg-134504/p",
-          "coletado_em": "2026-10-14T09:21:35.253076+00:00"
+          "coletado_em": "2026-10-12T23:09:53.552417+00:00"
         },
         "ovos": {
-          "produto": "Ovos Brancos Katayama Grande 30un",
-          "marca": "Katayama",
-          "preco": 13.3,
-          "fonte_url": "https://www.supermuffato.com.br/ovo-branco-katayama-grande-30-un-217896/p",
-          "coletado_em": "2026-10-14T09:21:37.034486+00:00"
+          "produto": "Ovos Brancos Granja Feliz Grandes 30un",
+          "marca": "Granja Feliz",
+          "preco": 19.6,
+          "fonte_url": "https://www.supermuffato.com.br/ovo-branco-granja-feliz-grande-30-un-190374/p",
+          "coletado_em": "2026-10-12T23:09:54.200555+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Président Fatiado 150g",
           "marca": "President",
           "preco": 9.3,
           "fonte_url": "https://www.supermuffato.com.br/queijo-mussarela-president-fatiado-150g-211541/p",
-          "coletado_em": "2026-10-14T09:21:37.601357+00:00"
+          "coletado_em": "2026-10-12T23:09:55.755469+00:00"
         },
         "sabao em po": {
           "produto": "Lava-Roupas Pó Roupas Brancas e Coloridas Brilhante Limpeza Total Caixa 2,2kg Tamanho Família",
           "marca": "Brilhante",
-          "preco": 18.03,
+          "preco": 18.13,
           "fonte_url": "https://www.supermuffato.com.br/lava-roupas-po-roupas-brancas-e-coloridas-brilhante-limpeza-total-caixa-22kg-tamanho-familia-284294/p",
-          "coletado_em": "2026-10-14T09:21:39.021289+00:00"
+          "coletado_em": "2026-10-12T23:09:56.860278+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Ypê Neutro 500ml",
           "marca": "Ypê",
           "preco": 2.8,
           "fonte_url": "https://www.supermuffato.com.br/detergente-liquido-ype-neutro-500ml-7916/p",
-          "coletado_em": "2026-10-14T09:21:40.169836+00:00"
+          "coletado_em": "2026-10-12T23:09:58.138652+00:00"
         },
         "papel higienico": {
-          "produto": "Papel Higiênico Pratic Care Fardo 12x30m Un",
-          "marca": "PRATIC CARE",
-          "preco": 15.88,
-          "fonte_url": "https://www.supermuffato.com.br/papel-higienico-pratic-care-fardo-12x30m-un-321340/p",
-          "coletado_em": "2026-10-14T09:21:40.750049+00:00"
+          "produto": "Papel Higiênico Neve Ultracomfort Folha Quádrupla 4 Rolos 20m Un",
+          "marca": "Neve",
+          "preco": 13.4,
+          "fonte_url": "https://www.supermuffato.com.br/papel-higienico-neve-ultracomfort-folha-quadrupla-4-rolos-20m-un-309961/p",
+          "coletado_em": "2026-10-12T23:09:59.295794+00:00"
         },
         "sal refinado": {
           "produto": "Sal Delizza Refinado Marinho Pacote 1kg",
           "marca": "Delizza",
           "preco": 2.5,
           "fonte_url": "https://www.supermuffato.com.br/sal-delizza-refinado-marinho-pacote-1kg-316475/p",
-          "coletado_em": "2026-10-14T09:21:42.252236+00:00"
+          "coletado_em": "2026-10-12T23:10:00.119302+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Orquídea Cream Creacker 320g",
           "marca": "Orquidea",
           "preco": 5.1,
           "fonte_url": "https://www.supermuffato.com.br/biscoito-orquidea-cream-creacker-320g-315630/p",
-          "coletado_em": "2026-10-14T09:21:42.653779+00:00"
+          "coletado_em": "2026-10-12T23:10:01.343326+00:00"
         }
       }
     },
@@ -703,133 +865,133 @@
       "unidade": "Angeloni (E-commerce Oficial SC)",
       "fonte_oficial_dominio": "https://www.angeloni.com.br/super",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 209.96,
+      "soma_itens_verificados_reais": 209.65,
       "itens": {
         "arroz": {
           "produto": "Arroz Branco DELLARROZ Tipo 1 1kg",
           "marca": "DELLARROZ",
           "preco": 3.89,
           "fonte_url": "https://super.angeloni.com.br/4980090-arroz-branco-dellarroz-tipo-1-1kg/p",
-          "coletado_em": "2026-10-14T09:21:44.202586+00:00"
+          "coletado_em": "2026-10-12T23:10:02.535628+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca TRADIÇÃO DA MESA Tipo 1 1kg",
           "marca": "TRADIÇÃO DA MESA",
           "preco": 8.99,
           "fonte_url": "https://super.angeloni.com.br/feijao-carioca-tipo-1-tradicao-da-mesa-1kg-4331899/p",
-          "coletado_em": "2026-10-14T09:21:44.879504+00:00"
+          "coletado_em": "2026-10-12T23:10:04.015788+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo NORDESTE 1kg",
           "marca": "NORDESTE",
           "preco": 3.59,
           "fonte_url": "https://super.angeloni.com.br/farinha-de-trigo-nordeste-1kg-317730/p",
-          "coletado_em": "2026-10-14T09:21:45.548914+00:00"
+          "coletado_em": "2026-10-12T23:10:05.134333+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão ORQUÍDEA Espaguete com Ovos 500g",
           "marca": "ORQUÍDEA",
           "preco": 4.19,
           "fonte_url": "https://super.angeloni.com.br/3816492-macarrao-orquidea-espaguete-com-ovos-500g/p",
-          "coletado_em": "2026-10-14T09:21:47.068943+00:00"
+          "coletado_em": "2026-10-12T23:10:06.296954+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado CARAVELAS 1kg",
           "marca": "CARAVELAS",
           "preco": 3.49,
           "fonte_url": "https://super.angeloni.com.br/acucar-refinado-caravelas-1kg-3324399/p",
-          "coletado_em": "2026-10-14T09:21:48.015560+00:00"
+          "coletado_em": "2026-10-12T23:10:07.379720+00:00"
         },
         "cafe": {
-          "produto": "Grãos de Áçaí GUAMÁ + Café Torrado e Moido 250g",
-          "marca": "GUAMÁ",
-          "preco": 14.9,
-          "fonte_url": "https://super.angeloni.com.br/5496436-graos-de-acai-guama---cafe-torrado-e-moido-250g/p",
-          "coletado_em": "2026-10-14T09:21:48.969867+00:00"
+          "produto": "Café Torrado e Moído PILÃO Extra Forte 500g",
+          "marca": "PILÃO",
+          "preco": 25.99,
+          "fonte_url": "https://super.angeloni.com.br/cafe-torrado-e-moido-pilao-extra-forte-500g-4192454/p",
+          "coletado_em": "2026-10-12T23:10:08.566895+00:00"
         },
         "leite integral": {
           "produto": "Leite Tirol Integral Com Tampa 1l",
           "marca": "TIROL",
-          "preco": 4.79,
+          "preco": 4.39,
           "fonte_url": "https://super.angeloni.com.br/leite-tirol-integral-com-tampa-1l-3852102/p",
-          "coletado_em": "2026-10-14T09:21:49.674395+00:00"
+          "coletado_em": "2026-10-12T23:10:09.811822+00:00"
         },
         "oleo de soja": {
           "produto": "Biscoito ISABELA Rosquinhas Leite Pacote 300g",
           "marca": "ISABELA",
           "preco": 6.99,
           "fonte_url": "https://super.angeloni.com.br/5117991-biscoito-isabela-rosquinhas-leite-pacote-300g/p",
-          "coletado_em": "2026-10-14T09:21:50.384800+00:00"
+          "coletado_em": "2026-10-12T23:10:11.591537+00:00"
         },
         "manteiga": {
-          "produto": "Manteiga TIROL com Sal 200g",
-          "marca": "TIROL",
-          "preco": 11.99,
-          "fonte_url": "https://super.angeloni.com.br/manteiga-tirol-com-sal-200g-4717855/p",
-          "coletado_em": "2026-10-14T09:21:51.196065+00:00"
+          "produto": "Manteiga CRUZILIA Sem Sal 200g",
+          "marca": "CRUZILIA",
+          "preco": 9.99,
+          "fonte_url": "https://super.angeloni.com.br/manteiga-cruzilia-sem-sal-200g-5394777/p",
+          "coletado_em": "2026-10-12T23:10:12.468221+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina BEST BEEF Angus Resfriada Kg",
           "marca": "BEST BEEF",
           "preco": 83.9,
           "fonte_url": "https://super.angeloni.com.br/alcatra-bovina-best-beef-angus-resfriada-kg-3898854/p",
-          "coletado_em": "2026-10-14T09:21:52.585706+00:00"
+          "coletado_em": "2026-10-12T23:10:14.031743+00:00"
         },
         "peito de frango": {
           "produto": "Empanado AURORA Peito de Frango 100g",
           "marca": "AURORA",
           "preco": 2.39,
           "fonte_url": "https://super.angeloni.com.br/5331427-empanado-aurora-peito-de-frango-100g/p",
-          "coletado_em": "2026-10-14T09:21:53.406635+00:00"
+          "coletado_em": "2026-10-12T23:10:15.005763+00:00"
         },
         "ovos": {
           "produto": "Macarrão ORQUÍDEA Penne com Ovos 500g",
           "marca": "ORQUÍDEA",
           "preco": 4.19,
           "fonte_url": "https://super.angeloni.com.br/3802325-macarrao-orquidea-penne-com-ovos-500g/p",
-          "coletado_em": "2026-10-14T09:21:55.726607+00:00"
+          "coletado_em": "2026-10-12T23:10:18.480795+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Président Fatiado 150g",
           "marca": "PRÉSIDENT",
           "preco": 9.29,
           "fonte_url": "https://super.angeloni.com.br/queijo-mussarela-president-fatiado-150g-3877255/p",
-          "coletado_em": "2026-10-14T09:21:57.653147+00:00"
+          "coletado_em": "2026-10-12T23:10:19.356159+00:00"
         },
         "sabao em po": {
-          "produto": "Sabão em Pó OMO Lavanda 800g",
-          "marca": "OMO",
-          "preco": 17.99,
-          "fonte_url": "https://super.angeloni.com.br/5052654-sabao-em-po-omo-lavanda-800g/p",
-          "coletado_em": "2026-10-14T09:21:58.549843+00:00"
+          "produto": "Sabão em pó SURF Rosas e Flor de Lis 800g",
+          "marca": "SURF",
+          "preco": 8.99,
+          "fonte_url": "https://super.angeloni.com.br/sabao-em-po-surf-rosas-e-flor-de-lis-800g-5459307/p",
+          "coletado_em": "2026-10-12T23:10:21.056824+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Lava Louças LIMPOL Coco 500ml",
           "marca": "LIMPOL",
           "preco": 3.15,
           "fonte_url": "https://super.angeloni.com.br/detergente-limpol-coco-500ml-1783/p",
-          "coletado_em": "2026-10-14T09:21:59.169469+00:00"
+          "coletado_em": "2026-10-12T23:10:21.913088+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico MIMMO Folha Dupla com 12 Unidades 30 metros cada Leve 12 Pague 11 Rolos",
           "marca": "MIMMO",
           "preco": 19.99,
           "fonte_url": "https://super.angeloni.com.br/papel-higienico-mimmo-folha-dupla-com-12-unidades-30-metros-cada-leve-12-pague-11-rolos-5215526/p",
-          "coletado_em": "2026-10-14T09:22:00.363954+00:00"
+          "coletado_em": "2026-10-12T23:10:23.133553+00:00"
         },
         "sal refinado": {
           "produto": "Sal refinado ZIZO 1kg",
           "marca": "ZIZO",
           "preco": 1.79,
           "fonte_url": "https://super.angeloni.com.br/sal-refinado-zizo-1kg-2033070/p",
-          "coletado_em": "2026-10-14T09:22:02.544471+00:00"
+          "coletado_em": "2026-10-12T23:10:24.584475+00:00"
         },
         "biscoito": {
           "produto": "Biscoito RANCHEIRO Cream Cracker 300g",
           "marca": "RANCHEIRO",
           "preco": 4.45,
           "fonte_url": "https://super.angeloni.com.br/biscoito-rancheiro-cream-cracker-300g-5552339/p",
-          "coletado_em": "2026-10-14T09:22:03.752120+00:00"
+          "coletado_em": "2026-10-12T23:10:27.473716+00:00"
         }
       }
     },
@@ -841,133 +1003,133 @@
       "unidade": "Giassi (E-commerce Oficial SC)",
       "fonte_oficial_dominio": "https://www.giassi.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 172.18,
+      "soma_itens_verificados_reais": 170.48,
       "itens": {
         "arroz": {
           "produto": "Arroz Parboilizado Tipo 1 Dalfovo Pacote 1kg",
           "marca": "Dalfovo",
           "preco": 3.88,
           "fonte_url": "https://www.giassi.com.br/arroz_parboilizado_tipo_1_dalfovo_pacote_1kg_128350/p",
-          "coletado_em": "2026-10-14T09:22:04.424991+00:00"
+          "coletado_em": "2026-10-12T23:10:29.890640+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Temperado Fugini Sachê 250g",
           "marca": "Fugini",
-          "preco": 4.68,
+          "preco": 4.88,
           "fonte_url": "https://www.giassi.com.br/feijao_carioca_temperado_fugini_sache_250g_715514/p",
-          "coletado_em": "2026-10-14T09:22:04.857391+00:00"
+          "coletado_em": "2026-10-12T23:10:31.462998+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Tipo 1 Roseflor Pacote 1kg",
           "marca": "Roseflor",
           "preco": 3.78,
           "fonte_url": "https://www.giassi.com.br/farinha_de_trigo_tipo_1_roseflor_pacote_1kg_695483/p",
-          "coletado_em": "2026-10-14T09:22:05.274760+00:00"
+          "coletado_em": "2026-10-12T23:10:32.468199+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão de Sêmola Espaguete Isabela Pacote 400g",
           "marca": "Isabela",
           "preco": 3.18,
           "fonte_url": "https://www.giassi.com.br/macarrao_de_semola_espaguete_isabela_pacote_400g_1493531/p",
-          "coletado_em": "2026-10-14T09:22:05.718552+00:00"
+          "coletado_em": "2026-10-12T23:10:33.148011+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Duçula Especial Pacote 1kg",
           "marca": "Ducula",
           "preco": 3.88,
           "fonte_url": "https://www.giassi.com.br/acucar_refinado_ducula_especial_pacote_1kg_120677/p",
-          "coletado_em": "2026-10-14T09:22:06.262475+00:00"
+          "coletado_em": "2026-10-12T23:10:34.092300+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado e Moído a Vácuo Café do Ponto Pacote 500g",
-          "marca": "Ponto",
-          "preco": 25.98,
-          "fonte_url": "https://www.giassi.com.br/cafe_torrado_e_moido_a_vacuo_cafe_do_ponto_pacote_500g_164720/p",
-          "coletado_em": "2026-10-14T09:22:07.475942+00:00"
+          "produto": "Café Torrado e Moído Extraforte Melitta Caixa 500g",
+          "marca": "Melitta",
+          "preco": 24.98,
+          "fonte_url": "https://www.giassi.com.br/cafe_torrado_e_moido_extraforte_melitta_caixa_500g_6160522/p",
+          "coletado_em": "2026-10-12T23:10:34.563287+00:00"
         },
         "leite integral": {
           "produto": "Leite UHT Integral Tirol Caixa com Tampa 1l",
           "marca": "Tirol",
           "preco": 4.78,
           "fonte_url": "https://www.giassi.com.br/leite_uht_integral_tirol_caixa_com_tampa_1l_673390/p",
-          "coletado_em": "2026-10-14T09:22:07.932421+00:00"
+          "coletado_em": "2026-10-12T23:10:35.351119+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Tipo 1 Coamo Garrafa 900ml",
           "marca": "Coamo",
           "preco": 7.38,
           "fonte_url": "https://www.giassi.com.br/oleo_de_soja_tipo_1_coamo_garrafa_900ml_808598/p",
-          "coletado_em": "2026-10-14T09:22:08.352253+00:00"
+          "coletado_em": "2026-10-12T23:10:36.104805+00:00"
         },
         "manteiga": {
           "produto": "Margarina Manteiga com Sal Claybom Pote 500g",
           "marca": "Claybom",
           "preco": 8.18,
           "fonte_url": "https://www.giassi.com.br/margarina_manteiga_com_sal_claybom_pote_500g_959057/p",
-          "coletado_em": "2026-10-14T09:22:08.551722+00:00"
+          "coletado_em": "2026-10-12T23:10:37.153471+00:00"
         },
         "carne bovina": {
           "produto": "Maminha da Alcatra Bovina Resfriada sem Osso Friboi Vácuo Kg",
           "marca": "Friboi",
           "preco": 49.9,
           "fonte_url": "https://www.giassi.com.br/maminha_da_alcatra_bovina_resfriada_sem_osso_friboi_vacuo_kg_75817/p",
-          "coletado_em": "2026-10-14T09:22:08.983720+00:00"
+          "coletado_em": "2026-10-12T23:10:37.853913+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango com Osso Congelado Copacol Kg",
           "marca": "Copacol",
           "preco": 11.28,
           "fonte_url": "https://www.giassi.com.br/peito_de_frango_com_osso_congelado_copacol_kg_1090/p",
-          "coletado_em": "2026-10-14T09:22:10.215840+00:00"
+          "coletado_em": "2026-10-12T23:10:38.599987+00:00"
         },
         "ovos": {
-          "produto": "Ovos Caipiras Organicos Fazenda Toca C/10 Un",
-          "marca": "Fazenda da Toca",
-          "preco": 11.98,
-          "fonte_url": "https://www.giassi.com.br/ovos_caipiras_organicos_fazenda_toca_c10_un_1655876/p",
-          "coletado_em": "2026-10-14T09:22:10.570961+00:00"
+          "produto": "Maionese Heinz Squeeze 215g",
+          "marca": "Heinz",
+          "preco": 10.18,
+          "fonte_url": "https://www.giassi.com.br/maionese_heinz_squeeze_215g_440078/p",
+          "coletado_em": "2026-10-12T23:10:40.010098+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Fatiado Veneza 150g",
           "marca": "Veneza",
           "preco": 8.18,
           "fonte_url": "https://www.giassi.com.br/queijo_mussarela_fatiado_veneza_150g_4019865/p",
-          "coletado_em": "2026-10-14T09:22:12.359792+00:00"
+          "coletado_em": "2026-10-12T23:10:40.753443+00:00"
         },
         "sabao em po": {
           "produto": "Lava-Roupas Pó Concentrado Primavera Tixan Ypê Pacote Leve 800g Pague 720g",
           "marca": "Tixan",
-          "preco": 9.61,
+          "preco": 10.51,
           "fonte_url": "https://www.giassi.com.br/lavaroupas_po_concentrado_primavera_tixan_ype_pacote_leve_800g_pague_720g_1348540/p",
-          "coletado_em": "2026-10-14T09:22:12.832576+00:00"
+          "coletado_em": "2026-10-12T23:10:41.793724+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Glicerinado Zavaski Squeeze 500ml",
           "marca": "Zavaski",
           "preco": 2.27,
           "fonte_url": "https://www.giassi.com.br/detergente_liquido_glicerinado_zavaski_squeeze_500ml_5392101/p",
-          "coletado_em": "2026-10-14T09:22:13.186757+00:00"
+          "coletado_em": "2026-10-12T23:10:43.534617+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Folha Dupla Neutro Duetto 30m Pacote 4 Unidades",
           "marca": "Duetto",
           "preco": 7.38,
           "fonte_url": "https://www.giassi.com.br/papel_higienico_folha_dupla_neutro_duetto_30m_pacote_4_unidades_1114735/p",
-          "coletado_em": "2026-10-14T09:22:13.642397+00:00"
+          "coletado_em": "2026-10-12T23:10:44.004264+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Tradicional Zizo Pacote 1kg",
           "marca": "Zizo",
           "preco": 1.78,
           "fonte_url": "https://www.giassi.com.br/sal_refinado_tradicional_zizo_pacote_1kg_5131480/p",
-          "coletado_em": "2026-10-14T09:22:14.088739+00:00"
+          "coletado_em": "2026-10-12T23:10:45.593835+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Tradicional Bauducco Pacote 165g",
           "marca": "Bauducco",
           "preco": 4.08,
           "fonte_url": "https://www.giassi.com.br/biscoito_cream_cracker_tradicional_bauducco_pacote_165g_1615076/p",
-          "coletado_em": "2026-10-14T09:22:14.203991+00:00"
+          "coletado_em": "2026-10-12T23:10:46.284162+00:00"
         }
       }
     },
@@ -979,133 +1141,133 @@
       "unidade": "Bistek (E-commerce Oficial SC)",
       "fonte_oficial_dominio": "https://www.bistek.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 141.13,
+      "soma_itens_verificados_reais": 135.49,
       "itens": {
         "arroz": {
           "produto": "Arroz Rampinelli Branco Tipo 1 1kg",
           "marca": "Rampinelli",
           "preco": 4.11,
           "fonte_url": "https://www.bistek.com.br/arroz-branco-rampinelli-1kg-1002368/p",
-          "coletado_em": "2026-10-14T09:22:14.880271+00:00"
+          "coletado_em": "2026-10-12T23:10:47.006769+00:00"
         },
         "feijao": {
           "produto": "Feijao Carioca Fugini 250g Sache",
           "marca": "Fugini",
           "preco": 6.17,
           "fonte_url": "https://www.bistek.com.br/feijao-carioca-fugini-250g-sache-1696840/p",
-          "coletado_em": "2026-10-14T09:22:15.351993+00:00"
+          "coletado_em": "2026-10-12T23:10:48.060589+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha De Trigo Orquídea 1kg",
           "marca": "Orquidea",
           "preco": 4.11,
           "fonte_url": "https://www.bistek.com.br/farinha-de-trigo-orquidea-1kg-1008331/p",
-          "coletado_em": "2026-10-14T09:22:15.519137+00:00"
+          "coletado_em": "2026-10-12T23:10:48.856330+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Diana 500g Espaguete",
           "marca": "Diana",
           "preco": 2.67,
           "fonte_url": "https://www.bistek.com.br/macarrao-diana-500g-espaguete-1464280/p",
-          "coletado_em": "2026-10-14T09:22:15.979365+00:00"
+          "coletado_em": "2026-10-12T23:10:50.240103+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Da Barra 1kg",
           "marca": "Da Barra",
           "preco": 3.8,
           "fonte_url": "https://www.bistek.com.br/acucar-da-barra-1kg-refinado-1501305/p",
-          "coletado_em": "2026-10-14T09:22:16.186406+00:00"
+          "coletado_em": "2026-10-12T23:10:51.004352+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado E Moído A Vácuo Extraforte Pilão Pacote 500g",
+          "produto": "Café Torrado E Moído A Vácuo Tradicional Pilão Pacote 250g",
           "marca": "Pilao",
-          "preco": 21.6,
-          "fonte_url": "https://www.bistek.com.br/cafe-torrado-e-moido-a-vacuo-extraforte-pilao-pacote-500g-1605372/p",
-          "coletado_em": "2026-10-14T09:22:17.154136+00:00"
+          "preco": 17.5,
+          "fonte_url": "https://www.bistek.com.br/cafe-torrado-e-moido-a-vacuo-tradicional-pilao-pacote-250g-1072277/p",
+          "coletado_em": "2026-10-12T23:10:52.354743+00:00"
         },
         "leite integral": {
           "produto": "Leite Uht Integral Zero Lactose Tirol Caixa Com Tampa 1l",
           "marca": "Tirol",
           "preco": 5.12,
           "fonte_url": "https://www.bistek.com.br/leite-uht-tirol-1l-integral-zrlac-ctp-2243610/p",
-          "coletado_em": "2026-10-14T09:22:17.578670+00:00"
+          "coletado_em": "2026-10-12T23:10:53.209629+00:00"
         },
         "oleo de soja": {
           "produto": "Oleo Soja Coamo 900ml Pet",
           "marca": "Coamo",
           "preco": 7.59,
           "fonte_url": "https://www.bistek.com.br/oleo-soja-coamo-900ml-pet-1477102/p",
-          "coletado_em": "2026-10-14T09:22:17.902239+00:00"
+          "coletado_em": "2026-10-12T23:10:53.964751+00:00"
         },
         "manteiga": {
           "produto": "Margarina Vigor 500g Manteiga C/Sal",
           "marca": "Vigor",
           "preco": 8.72,
           "fonte_url": "https://www.bistek.com.br/margarina-vigor-500g-manteiga-csal-1704125/p",
-          "coletado_em": "2026-10-14T09:22:18.431371+00:00"
+          "coletado_em": "2026-10-12T23:10:55.144657+00:00"
         },
         "carne bovina": {
           "produto": "Hambúrguer De Carne Bovina Picanha Perdigão Na Brasa Pacote 150g",
           "marca": "Perdigao",
           "preco": 9.24,
           "fonte_url": "https://www.bistek.com.br/hamburguer-de-carne-bovina-picanha-perdigao-na-brasa-pacote-150g-2307448/p",
-          "coletado_em": "2026-10-14T09:22:19.486919+00:00"
+          "coletado_em": "2026-10-12T23:10:56.447916+00:00"
         },
         "peito de frango": {
-          "produto": "Peito De Frango Defumado Fatiado Ceratti 100g",
-          "marca": "Ceratti",
-          "preco": 13.87,
-          "fonte_url": "https://www.bistek.com.br/peito-de-frango-defumado-fatiado-ceratti-100g-2358301/p",
-          "coletado_em": "2026-10-14T09:22:19.887616+00:00"
+          "produto": "Peito Frango Excelsior Defumado 180g",
+          "marca": "Excelsior",
+          "preco": 12.33,
+          "fonte_url": "https://www.bistek.com.br/peito-frango-excelsior-180g-defumado-1201131/p",
+          "coletado_em": "2026-10-12T23:10:59.347867+00:00"
         },
         "ovos": {
-          "produto": "Ovos Caipira Free Lar Com 10 Unidades",
-          "marca": "Freelar",
+          "produto": "Ovos Caipira Selenio Filippsen Com 10 Unidades",
+          "marca": "Ovos Filippsen",
           "preco": 12.86,
-          "fonte_url": "https://www.bistek.com.br/ovos-caipira-free-lar-com-10-unidades-2133156/p",
-          "coletado_em": "2026-10-14T09:22:20.387668+00:00"
+          "fonte_url": "https://www.bistek.com.br/ovos-caipira-selenio-filippsen-com-10-unidades-2025310/p",
+          "coletado_em": "2026-10-12T23:11:00.113400+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Président Fatiado 150g",
           "marca": "President",
           "preco": 10.17,
           "fonte_url": "https://www.bistek.com.br/queijo-mussarela-president-150g-fatiado-1893394/p",
-          "coletado_em": "2026-10-14T09:22:20.580061+00:00"
+          "coletado_em": "2026-10-12T23:11:00.635194+00:00"
         },
         "sabao em po": {
           "produto": "Sabão Em Pó Tixan Ypê Primavera 800g",
           "marca": "Tixan Ype",
           "preco": 10.27,
           "fonte_url": "https://www.bistek.com.br/lava-roupa-po-tixan-ype-800g-primavera-2101742/p",
-          "coletado_em": "2026-10-14T09:22:21.073453+00:00"
+          "coletado_em": "2026-10-12T23:11:01.925203+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Limpol 500ml Coco",
+          "produto": "Detergente Líquido Limpol 500ml Neutro",
           "marca": "Limpol",
           "preco": 3.27,
-          "fonte_url": "https://www.bistek.com.br/detergente-liquido-limpol-500ml-coco-715875/p",
-          "coletado_em": "2026-10-14T09:22:21.278910+00:00"
+          "fonte_url": "https://www.bistek.com.br/detergente-liquido-limpol-500ml-neutro-715867/p",
+          "coletado_em": "2026-10-12T23:11:02.538548+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Folha Dupla Neutro Neve 30m Pacote 4 Unidades",
           "marca": "Neve",
           "preco": 10.6,
           "fonte_url": "https://www.bistek.com.br/papel-higienico-neve-c-4-un-neutro-652164/p",
-          "coletado_em": "2026-10-14T09:22:22.349601+00:00"
+          "coletado_em": "2026-10-12T23:11:03.376896+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Zizo 1kg",
           "marca": "Zizo",
           "preco": 1.84,
           "fonte_url": "https://www.bistek.com.br/sal-refinado-zizo-1kg-1019724/p",
-          "coletado_em": "2026-10-14T09:22:22.964417+00:00"
+          "coletado_em": "2026-10-12T23:11:04.027524+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Orquídea Pacote 320g 8 Unidades",
           "marca": "Orquidea",
           "preco": 5.12,
           "fonte_url": "https://www.bistek.com.br/biscoito-cream-cracker-orquidea-320g-2238748/p",
-          "coletado_em": "2026-10-14T09:22:23.383455+00:00"
+          "coletado_em": "2026-10-12T23:11:05.032392+00:00"
         }
       }
     },
@@ -1117,133 +1279,133 @@
       "unidade": "Zaffari (E-commerce Oficial RS)",
       "fonte_oficial_dominio": "https://www.zaffari.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 192.3,
+      "soma_itens_verificados_reais": 191.54,
       "itens": {
         "arroz": {
           "produto": "Milho para Pipoca Tipo 1 Yoki 400g",
           "marca": "Yoki",
           "preco": 3.99,
           "fonte_url": "https://www.zaffari.com.br/milho-para-pipoca-tipo-1-yoki-400g-1111938/p",
-          "coletado_em": "2026-10-14T09:22:24.056302+00:00"
+          "coletado_em": "2026-10-12T23:11:05.745609+00:00"
         },
         "feijao": {
           "produto": "Feijão-carioca Arbaza 500g",
           "marca": "Arbaza",
           "preco": 6.49,
           "fonte_url": "https://www.zaffari.com.br/feijao-carioca-arbaza-500g-1080080/p",
-          "coletado_em": "2026-10-14T09:22:24.868980+00:00"
+          "coletado_em": "2026-10-12T23:11:06.682644+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Garota 1kg",
           "marca": "Garota",
           "preco": 3.19,
           "fonte_url": "https://www.zaffari.com.br/farinha-de-trigo-garota-1kg-1032193/p",
-          "coletado_em": "2026-10-14T09:22:25.301842+00:00"
+          "coletado_em": "2026-10-12T23:11:07.801523+00:00"
         },
         "macarrao espaguete": {
           "produto": "Massa de Sêmola com Ovos Spaghetti Capellini 500g",
           "marca": "Capellini",
           "preco": 2.99,
           "fonte_url": "https://www.zaffari.com.br/massa-de-semola-com-ovos-spaghetti-capellini-500g-1096818/p",
-          "coletado_em": "2026-10-14T09:22:25.576994+00:00"
+          "coletado_em": "2026-10-12T23:11:08.332010+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Caravelas 1kg",
           "marca": "Caravelas",
           "preco": 3.29,
           "fonte_url": "https://www.zaffari.com.br/acucar-refinado-caravelas-1kg-1014575/p",
-          "coletado_em": "2026-10-14T09:22:26.813314+00:00"
+          "coletado_em": "2026-10-12T23:11:09.333347+00:00"
         },
         "cafe": {
           "produto": "Café Tradicional Mercatto 500g",
           "marca": "Mercatto",
           "preco": 23.9,
           "fonte_url": "https://www.zaffari.com.br/cafe-tradicional-mercatto-500g-1080301/p",
-          "coletado_em": "2026-10-14T09:22:27.230834+00:00"
+          "coletado_em": "2026-10-12T23:11:10.199623+00:00"
         },
         "leite integral": {
-          "produto": "Leite UHT Integral Parmalat Garrafa 1 Litro",
-          "marca": "Parmalat",
-          "preco": 4.55,
-          "fonte_url": "https://www.zaffari.com.br/leite-uht-integral-parmalat-1-litro-1057159/p",
-          "coletado_em": "2026-10-14T09:22:27.749188+00:00"
+          "produto": "Leite UHT Integral Santa Clara 1 Litro",
+          "marca": "Santa Clara",
+          "preco": 4.59,
+          "fonte_url": "https://www.zaffari.com.br/leite-uht-integral-santa-clara-1-litro-1017551/p",
+          "coletado_em": "2026-10-12T23:11:10.773955+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Coamo 900ml",
           "marca": "Coamo",
           "preco": 6.98,
           "fonte_url": "https://www.zaffari.com.br/oleo-de-soja-coamo-900ml-1097696/p",
-          "coletado_em": "2026-10-14T09:22:27.925428+00:00"
+          "coletado_em": "2026-10-12T23:11:11.643510+00:00"
         },
         "manteiga": {
           "produto": "Manteiga sem Sal Gastronomique Président 200g",
           "marca": "Président",
           "preco": 14.39,
           "fonte_url": "https://www.zaffari.com.br/manteiga-sem-sal-gastronomique-president-200g-1002833/p",
-          "coletado_em": "2026-10-14T09:22:28.137595+00:00"
+          "coletado_em": "2026-10-12T23:11:12.315966+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina Pedaço Resfriada a Vácuo",
           "marca": "Açougue",
           "preco": 52.8,
           "fonte_url": "https://www.zaffari.com.br/alcatra-bovina-pedaco-resfriada-a-vacuo-1077226/p",
-          "coletado_em": "2026-10-14T09:22:28.548752+00:00"
+          "coletado_em": "2026-10-12T23:11:13.073595+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango Congelado",
           "marca": "Açougue",
           "preco": 12.9,
           "fonte_url": "https://www.zaffari.com.br/peito-de-frango-congelado-1005709/p",
-          "coletado_em": "2026-10-14T09:22:29.311308+00:00"
+          "coletado_em": "2026-10-12T23:11:14.011161+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Grandes Cageri 12 unidades",
           "marca": "Cageri",
           "preco": 9.9,
           "fonte_url": "https://www.zaffari.com.br/ovos-brancos-grandes-cageri-12-unidades-1039920/p",
-          "coletado_em": "2026-10-14T09:22:29.450129+00:00"
+          "coletado_em": "2026-10-12T23:11:14.933073+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Fatiado Président 150g",
           "marca": "Président",
           "preco": 9.98,
           "fonte_url": "https://www.zaffari.com.br/queijo-mussarela-fatiado-president-150g-1008729/p",
-          "coletado_em": "2026-10-14T09:22:30.104716+00:00"
+          "coletado_em": "2026-10-12T23:11:15.351366+00:00"
         },
         "sabao em po": {
           "produto": "Lava-roupas em Pó Splendo Ação Total 1,6kg",
           "marca": "Splendo",
           "preco": 15.9,
           "fonte_url": "https://www.zaffari.com.br/lava-roupas-em-po-splendo-acao-total-1-6kg-1109933/p",
-          "coletado_em": "2026-10-14T09:22:30.287593+00:00"
+          "coletado_em": "2026-10-12T23:11:16.425965+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Cristal Splendo 500ml",
+          "produto": "Detergente Líquido Neutro Splendo 500ml",
           "marca": "Splendo",
-          "preco": 2.89,
-          "fonte_url": "https://www.zaffari.com.br/detergente-liquido-cristal-splendo-500ml-1096043/p",
-          "coletado_em": "2026-10-14T09:22:30.608376+00:00"
+          "preco": 2.09,
+          "fonte_url": "https://www.zaffari.com.br/detergente-liquido-neutro-splendo-500ml-1095790/p",
+          "coletado_em": "2026-10-12T23:11:17.364841+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Folha Dupla Linea Utilo 4 Rolos 30m",
           "marca": "Linea Utilo",
           "preco": 8.98,
           "fonte_url": "https://www.zaffari.com.br/papel-higienico-folha-dupla-linea-utilo-4-rolos-30m-1097132/p",
-          "coletado_em": "2026-10-14T09:22:32.566114+00:00"
+          "coletado_em": "2026-10-12T23:11:17.749850+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Iodado Lebre 1kg",
           "marca": "Lebre",
           "preco": 3.49,
           "fonte_url": "https://www.zaffari.com.br/sal-refinado-iodado-lebre-1kg-1045677/p",
-          "coletado_em": "2026-10-14T09:22:32.800595+00:00"
+          "coletado_em": "2026-10-12T23:11:18.547665+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Piraquê 184g",
           "marca": "Piraquê",
           "preco": 5.69,
           "fonte_url": "https://www.zaffari.com.br/biscoito-cream-cracker-piraque-184g-1109999/p",
-          "coletado_em": "2026-10-14T09:22:33.426656+00:00"
+          "coletado_em": "2026-10-12T23:11:19.096573+00:00"
         }
       }
     },
@@ -1255,126 +1417,126 @@
       "unidade": "Hiperideal (E-commerce Oficial Salvador)",
       "fonte_oficial_dominio": "https://www.hiperideal.com.br",
       "qtd_itens_verificados": 17,
-      "soma_itens_verificados_reais": 185.39,
+      "soma_itens_verificados_reais": 183.39,
       "itens": {
         "arroz": {
           "produto": "Arroz Integral Parboilizado Emoções Tipo1 1Kg",
           "marca": "EMOCOES",
           "preco": 5.98,
           "fonte_url": "https://www.hiperideal.com.br/arroz-integral-parboilizado-emocoes-tipo1-1kg-150136/p",
-          "coletado_em": "2026-10-14T09:22:34.887141+00:00"
+          "coletado_em": "2026-10-12T23:11:20.232328+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Tio Mingote 1Kg",
           "marca": "TIO MINGOTE",
           "preco": 9.28,
           "fonte_url": "https://www.hiperideal.com.br/feijao-carioca-tio-mingote-1kg-209301/p",
-          "coletado_em": "2026-10-14T09:22:35.187283+00:00"
+          "coletado_em": "2026-10-12T23:11:20.842278+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha Trigo Finna Tradicional 1Kg",
           "marca": "FINNA",
           "preco": 4.98,
           "fonte_url": "https://www.hiperideal.com.br/farinha-trigo-finna-tradicional-1kg-154526/p",
-          "coletado_em": "2026-10-14T09:22:35.584455+00:00"
+          "coletado_em": "2026-10-12T23:11:22.044480+00:00"
         },
         "macarrao espaguete": {
           "produto": "Massa Espaguete Brandini Economico 500g",
           "marca": "BRANDINI",
           "preco": 3.88,
           "fonte_url": "https://www.hiperideal.com.br/massa-espaguete-brandini-economico-500g-129660/p",
-          "coletado_em": "2026-10-14T09:22:38.724891+00:00"
+          "coletado_em": "2026-10-12T23:11:23.871625+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado União 1Kg",
           "marca": "UNIAO",
           "preco": 8.38,
           "fonte_url": "https://www.hiperideal.com.br/acucar-refinado-uniao-1kg-108763/p",
-          "coletado_em": "2026-10-14T09:22:39.558513+00:00"
+          "coletado_em": "2026-10-12T23:11:24.702349+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado Moido Capixaba Melitta 250g",
+          "produto": "Café Torrado Moído Mellita Descafeinado 250g",
           "marca": "MELITTA",
-          "preco": 28.98,
-          "fonte_url": "https://www.hiperideal.com.br/cafe-torrado-moido-capixaba-melitta-250g-218455/p",
-          "coletado_em": "2026-10-14T09:22:39.768654+00:00"
+          "preco": 26.98,
+          "fonte_url": "https://www.hiperideal.com.br/cafe-torrado-moido-mellita-descafeinado-250g-2203637/p",
+          "coletado_em": "2026-10-12T23:11:26.916947+00:00"
         },
         "leite integral": {
           "produto": "Leite Pó Integral Betania Pacote 200g",
           "marca": "BETANIA",
           "preco": 9.98,
-          "fonte_url": "https://www.hiperideal.com.br/leite-po-integral-betania-pacote-200g-181685/p",
-          "coletado_em": "2026-10-14T09:22:40.245673+00:00"
+          "fonte_url": "https://www.hiperideal.com.br/leite-po-integral-betania-pacote-200g/p",
+          "coletado_em": "2026-10-12T23:11:27.811729+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo Soja Soya 900ml",
           "marca": "SOYA",
           "preco": 9.99,
           "fonte_url": "https://www.hiperideal.com.br/oleo-soja-soya-900ml-45919/p",
-          "coletado_em": "2026-10-14T09:22:40.592551+00:00"
+          "coletado_em": "2026-10-12T23:11:28.261343+00:00"
         },
         "manteiga": {
           "produto": "Manteiga President com Sal 200g",
           "marca": "PRESIDENT",
           "preco": 16.98,
           "fonte_url": "https://www.hiperideal.com.br/manteiga-president-com-sal-200g-205407/p",
-          "coletado_em": "2026-10-14T09:22:41.189576+00:00"
+          "coletado_em": "2026-10-12T23:11:29.512368+00:00"
         },
         "peito de frango": {
           "produto": "Peito Frango Ceratti Defumado 100g",
           "marca": "CERATTI",
           "preco": 17.98,
           "fonte_url": "https://www.hiperideal.com.br/peito-frango-ceratti-defumado-100g-193996/p",
-          "coletado_em": "2026-10-14T09:22:42.781399+00:00"
+          "coletado_em": "2026-10-12T23:11:33.021878+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Livre de Gaiolas Ovo Feliz C18",
           "marca": "AGRANOR",
           "preco": 17.99,
           "fonte_url": "https://www.hiperideal.com.br/ovos-brancos-livre-de-gaiolas-ovo-feliz-c18-2202828/p",
-          "coletado_em": "2026-10-14T09:22:43.088951+00:00"
+          "coletado_em": "2026-10-12T23:11:33.638815+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Galbani Fatiado 150g",
           "marca": "GALBANI",
           "preco": 11.98,
           "fonte_url": "https://www.hiperideal.com.br/queijo-mussarela-galbani-fatiado-150g-219052/p",
-          "coletado_em": "2026-10-14T09:22:43.497541+00:00"
+          "coletado_em": "2026-10-12T23:11:36.399173+00:00"
         },
         "sabao em po": {
           "produto": "Lava Roupas Líquido Ala Coco 1.8L",
           "marca": "ALA",
           "preco": 19.98,
           "fonte_url": "https://www.hiperideal.com.br/lava-roupas-liquido-ala-coco-1-8l-218721/p",
-          "coletado_em": "2026-10-14T09:22:44.086239+00:00"
+          "coletado_em": "2026-10-12T23:11:38.555043+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Atol Coco 500ml",
+          "produto": "Detergente Líquido Atol Neutro 500ml",
           "marca": "ATOL",
           "preco": 2.37,
-          "fonte_url": "https://www.hiperideal.com.br/detergente-liquido-atol-coco-500ml-168935/p",
-          "coletado_em": "2026-10-14T09:22:44.762627+00:00"
+          "fonte_url": "https://www.hiperideal.com.br/detergente-liquido-atol-neutro-500ml/p",
+          "coletado_em": "2026-10-12T23:11:40.022487+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Fancy Folha Dupla C4 30 Metros",
           "marca": "FANCY",
           "preco": 8.99,
           "fonte_url": "https://www.hiperideal.com.br/papel-higienico-fancy-folha-dupla-c4-30-metros-216238/p",
-          "coletado_em": "2026-10-14T09:22:45.278666+00:00"
+          "coletado_em": "2026-10-12T23:11:41.019841+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Iodado Lebre 1Kg",
           "marca": "LEBRE",
           "preco": 3.68,
           "fonte_url": "https://www.hiperideal.com.br/sal-refinado-iodado-lebre-1kg-21459/p",
-          "coletado_em": "2026-10-14T09:22:45.588636+00:00"
+          "coletado_em": "2026-10-12T23:11:42.278550+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Bauducco 165g",
           "marca": "BAUDUCCO",
           "preco": 3.99,
-          "fonte_url": "https://www.hiperideal.com.br/biscoito-cream-cracker-bauducco-165g-218911/p",
-          "coletado_em": "2026-10-14T09:22:47.574506+00:00"
+          "fonte_url": "https://www.hiperideal.com.br/biscoito-cream-cracker-bauducco-165g/p",
+          "coletado_em": "2026-10-12T23:11:43.296940+00:00"
         }
       }
     },
@@ -1386,133 +1548,133 @@
       "unidade": "GBarbosa (E-commerce Oficial BA)",
       "fonte_oficial_dominio": "https://www.gbarbosa.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 183.15,
+      "soma_itens_verificados_reais": 196.06,
       "itens": {
         "arroz": {
           "produto": "Arroz Tio João Parboilizado Tipo 1 1Kg",
           "marca": "TIO JOAO",
           "preco": 4.99,
           "fonte_url": "https://www.gbarbosa.com.br/arroz-tio-joao-parboilizado-tipo-1-1kg-1100706/p",
-          "coletado_em": "2026-10-14T09:22:48.800881+00:00"
+          "coletado_em": "2026-10-12T23:11:45.498241+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Manolinho Tipo1 1Kg",
-          "marca": "Manolinho",
-          "preco": 7.99,
-          "fonte_url": "https://www.gbarbosa.com.br/feijao-carioca-manolinho-tipo1-1kg-1129605/p",
-          "coletado_em": "2026-10-14T09:22:49.597201+00:00"
+          "produto": "Feijão Carioca Dular Tipo1 1Kg",
+          "marca": "Dular",
+          "preco": 8.9,
+          "fonte_url": "https://www.gbarbosa.com.br/feijao-carioca-dular-tipo1-1kg-1750810/p",
+          "coletado_em": "2026-10-12T23:11:46.844107+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Brandini Especial 1Kg",
           "marca": "BRANDINI",
           "preco": 4.59,
           "fonte_url": "https://www.gbarbosa.com.br/farinha-de-trigo-brandini-especial-1kg-1108818/p",
-          "coletado_em": "2026-10-14T09:22:49.958415+00:00"
+          "coletado_em": "2026-10-12T23:11:48.831896+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Pilar Espaguete Fino Pacote 400g",
           "marca": "PILAR",
           "preco": 2.59,
           "fonte_url": "https://www.gbarbosa.com.br/macarrao-pilar-espaguete-fino-pacote-400g-1819176/p",
-          "coletado_em": "2026-10-14T09:22:50.577671+00:00"
+          "coletado_em": "2026-10-12T23:11:49.558528+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado União Glaçúcar 500g",
           "marca": "UNIAO",
           "preco": 7.69,
           "fonte_url": "https://www.gbarbosa.com.br/acucar-refinado-uniao-glacucar-500g-1099717/p",
-          "coletado_em": "2026-10-14T09:22:52.548633+00:00"
+          "coletado_em": "2026-10-12T23:11:50.808682+00:00"
         },
         "cafe": {
           "produto": "Café em Pó Pilão Tradicional Torrado e Moído Almofada 250g",
           "marca": "PILAO",
           "preco": 15.49,
           "fonte_url": "https://www.gbarbosa.com.br/cafe-em-po-pilao-tradicional-torrado-e-moido-almofada-250g-1105513/p",
-          "coletado_em": "2026-10-14T09:22:53.562253+00:00"
+          "coletado_em": "2026-10-12T23:11:52.568851+00:00"
         },
         "leite integral": {
           "produto": "Creme de Leite Leitíssimo Uht 200g",
           "marca": "LEITISSIMO",
           "preco": 3.39,
           "fonte_url": "https://www.gbarbosa.com.br/creme-de-leite-leitissimo-uht-200g-1745702/p",
-          "coletado_em": "2026-10-14T09:22:54.286507+00:00"
+          "coletado_em": "2026-10-12T23:11:53.648702+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Vila Velha Pet 900ml",
           "marca": "Vila Velha",
           "preco": 7.59,
           "fonte_url": "https://www.gbarbosa.com.br/oleo-de-soja-vila-velha-pet-900ml-1330048/p",
-          "coletado_em": "2026-10-14T09:22:54.809375+00:00"
+          "coletado_em": "2026-10-12T23:11:55.432021+00:00"
         },
         "manteiga": {
-          "produto": "Margarina Becel Manteiga com Sal Pote 500g",
-          "marca": "BECEL",
-          "preco": 4.99,
-          "fonte_url": "https://www.gbarbosa.com.br/margarina-becel-manteiga-com-sal-pote-500g-1112970/p",
-          "coletado_em": "2026-10-14T09:22:55.323317+00:00"
+          "produto": "Manteiga Davaca sem Sal 200g",
+          "marca": "DAVACA",
+          "preco": 13.99,
+          "fonte_url": "https://www.gbarbosa.com.br/manteiga-davaca-sem-sal-200g-1761544/p",
+          "coletado_em": "2026-10-12T23:11:56.631742+00:00"
         },
         "carne bovina": {
           "produto": "Alcatra Bovina Moída MP",
           "marca": "FEITO POR NOS",
           "preco": 49.99,
           "fonte_url": "https://www.gbarbosa.com.br/alcatra-bovina-moida/p",
-          "coletado_em": "2026-10-14T09:22:56.106849+00:00"
+          "coletado_em": "2026-10-12T23:11:58.656261+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango Congelado",
           "marca": "SEM MARCA",
-          "preco": 13.99,
+          "preco": 17.99,
           "fonte_url": "https://www.gbarbosa.com.br/peito-de-frango-congelado-1448795/p",
-          "coletado_em": "2026-10-14T09:22:56.567826+00:00"
+          "coletado_em": "2026-10-12T23:12:00.231820+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Iana Grandes com 30 Unidades",
           "marca": "IANA",
           "preco": 27.9,
           "fonte_url": "https://www.gbarbosa.com.br/ovos-brancos-iana-grandes-com-30-unidades-1729520/p",
-          "coletado_em": "2026-10-14T09:22:57.269993+00:00"
+          "coletado_em": "2026-10-12T23:12:01.531650+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Sadia Soltiíssimo Fatiado 150g",
           "marca": "SADIA",
-          "preco": 12.99,
+          "preco": 11.99,
           "fonte_url": "https://www.gbarbosa.com.br/queijo-mussarela-sadia-soltiissimo-fatiado-150g-1844046/p",
-          "coletado_em": "2026-10-14T09:22:57.586502+00:00"
+          "coletado_em": "2026-10-12T23:12:02.060633+00:00"
         },
         "sabao em po": {
           "produto": "Sabão em Pó Tixan Ypê Maciez Sachê 400g",
           "marca": "TIXAN YPE",
           "preco": 6.45,
           "fonte_url": "https://www.gbarbosa.com.br/sabao-em-po-tixan-ype-maciez-sache-400g-1839547002/p",
-          "coletado_em": "2026-10-14T09:22:57.930829+00:00"
+          "coletado_em": "2026-10-12T23:12:03.423637+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Atol Maçã 500ml",
           "marca": "ATOL",
           "preco": 2.69,
           "fonte_url": "https://www.gbarbosa.com.br/detergente-liquido-atol-maca-500ml-1114692004/p",
-          "coletado_em": "2026-10-14T09:22:58.107744+00:00"
+          "coletado_em": "2026-10-12T23:12:04.961978+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Soft Familiar Folha Simples 30m com 4 Unidades",
           "marca": "SOFT",
           "preco": 3.65,
           "fonte_url": "https://www.gbarbosa.com.br/papel-higienico-soft-familiar-folha-simples-30m-com-4-unidades-1635965/p",
-          "coletado_em": "2026-10-14T09:22:58.832633+00:00"
+          "coletado_em": "2026-10-12T23:12:06.669989+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Cuisine&Co 1Kg",
           "marca": "CUISINE&CO",
           "preco": 1.99,
           "fonte_url": "https://www.gbarbosa.com.br/sal-refinado-cuisine-co-1kg-1873235/p",
-          "coletado_em": "2026-10-14T09:22:59.095409+00:00"
+          "coletado_em": "2026-10-12T23:12:08.811937+00:00"
         },
         "biscoito": {
           "produto": "Biscoito Cream Cracker Bauducco Tradicional 165g",
           "marca": "BAUDUCCO",
           "preco": 4.19,
           "fonte_url": "https://www.gbarbosa.com.br/biscoito-cream-cracker-bauducco-tradicional-165g-1879274001/p",
-          "coletado_em": "2026-10-14T09:22:59.558685+00:00"
+          "coletado_em": "2026-10-12T23:12:10.970107+00:00"
         }
       }
     },
@@ -1524,133 +1686,133 @@
       "unidade": "Oba Hortifruti (E-commerce Oficial DF)",
       "fonte_oficial_dominio": "https://www.obahortifruti.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 240.92,
+      "soma_itens_verificados_reais": 270.92,
       "itens": {
         "arroz": {
           "produto": "Arroz Branco Tipo 1 Prato Fino 1kg",
           "marca": "PRATO FINO",
           "preco": 6.99,
           "fonte_url": "https://www.obahortifruti.com.br/arroz-prato-fino-1-kg/p",
-          "coletado_em": "2026-10-14T09:23:00.370951+00:00"
+          "coletado_em": "2026-10-12T23:12:12.375009+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Tipo 1 Camil 1kg",
           "marca": "CAMIL",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/feijao-carioca-camil-1kg/p",
-          "coletado_em": "2026-10-14T09:23:02.387937+00:00"
+          "coletado_em": "2026-10-12T23:12:13.393040+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Tipo 1 Dia a Dia Renata 1kg",
           "marca": "RENATA",
           "preco": 6.99,
           "fonte_url": "https://www.obahortifruti.com.br/farinha-trigo-dia-a-dia-renata-1k/p",
-          "coletado_em": "2026-10-14T09:23:03.072578+00:00"
+          "coletado_em": "2026-10-12T23:12:14.476337+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Spaghetti de Grano Duro Oba Bem Querer 500g",
           "marca": "OBA BEM QUERER",
           "preco": 5.99,
           "fonte_url": "https://www.obahortifruti.com.br/macarrao-spaghetti-grano-duro-oba-bem-querer-500-g/p",
-          "coletado_em": "2026-10-14T09:23:03.779066+00:00"
+          "coletado_em": "2026-10-12T23:12:16.173691+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Especial União 1kg",
           "marca": "UNIAO",
           "preco": 5.99,
           "fonte_url": "https://www.obahortifruti.com.br/acucar-refinado-especial-uniao-1kg/p",
-          "coletado_em": "2026-10-14T09:23:04.117285+00:00"
+          "coletado_em": "2026-10-12T23:12:16.960769+00:00"
         },
         "cafe": {
           "produto": "Café Torrado e Moído Tradicional Melitta 500g",
           "marca": "MELITTA",
           "preco": 32.99,
           "fonte_url": "https://www.obahortifruti.com.br/cafe-torrado-e-moido-tradicional-melitta-500-g/p",
-          "coletado_em": "2026-10-14T09:23:05.305064+00:00"
+          "coletado_em": "2026-10-12T23:12:17.925770+00:00"
         },
         "leite integral": {
           "produto": "Leite UHT Integral Piracanjuba 1L",
           "marca": "PIRACANJUBA",
           "preco": 7.49,
           "fonte_url": "https://www.obahortifruti.com.br/leite-piracanjuba-1-l-integral/p",
-          "coletado_em": "2026-10-14T09:23:05.841969+00:00"
+          "coletado_em": "2026-10-12T23:12:19.262900+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Soya 900ml",
           "marca": "SOYA",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/oleo-de-soja-soya-900-ml/p",
-          "coletado_em": "2026-10-14T09:23:07.727745+00:00"
+          "coletado_em": "2026-10-12T23:12:20.000583+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Com Sal Scala 200g",
           "marca": "SCALA",
           "preco": 14.99,
           "fonte_url": "https://www.obahortifruti.com.br/manteiga-com-sal-scala-200g/p",
-          "coletado_em": "2026-10-14T09:23:08.749510+00:00"
+          "coletado_em": "2026-10-12T23:12:21.592379+00:00"
         },
         "carne bovina": {
-          "produto": "Alcatra Bovina em Cubos Oba Reserve 500g",
-          "marca": "OBA RESERVE",
-          "preco": 49.99,
-          "fonte_url": "https://www.obahortifruti.com.br/alcatra-bovina-em-cubos-oba-reserve-500-g/p",
-          "coletado_em": "2026-10-14T09:23:09.540390+00:00"
+          "produto": "Miolo de Alcatra Bovino Oba Kg",
+          "marca": "OBA",
+          "preco": 79.99,
+          "fonte_url": "https://www.obahortifruti.com.br/miolo-de-alcatra-bovina-kg/p",
+          "coletado_em": "2026-10-12T23:12:22.405152+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango com Osso Oba Kg",
           "marca": "OBA",
           "preco": 19.99,
           "fonte_url": "https://www.obahortifruti.com.br/peito-de-frango-com-osso-kg/p",
-          "coletado_em": "2026-10-14T09:23:10.109456+00:00"
+          "coletado_em": "2026-10-12T23:12:23.582814+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Jumbo 10 Unidades",
           "marca": "OVOS MANTIQUEIRA",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/ovo-branco-jumbo-katayama-polpa-com-10-unidades/p",
-          "coletado_em": "2026-10-14T09:23:10.643256+00:00"
+          "coletado_em": "2026-10-12T23:12:25.356485+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Muçarela Fatiado Oba Bem Querer 250g",
           "marca": "OBA BEM QUERER",
           "preco": 17.99,
           "fonte_url": "https://www.obahortifruti.com.br/queijo-mussarela-oba-bem-querer-fatiado-250g/p",
-          "coletado_em": "2026-10-14T09:23:12.119794+00:00"
+          "coletado_em": "2026-10-12T23:12:26.207632+00:00"
         },
         "sabao em po": {
           "produto": "Sabão Em Pó Concentrado Primavera Tixan Ype 800 G",
           "marca": "YPE",
           "preco": 12.99,
           "fonte_url": "https://www.obahortifruti.com.br/sabao-em-po-concentrado-primavera-tixan-ype-800-g/p",
-          "coletado_em": "2026-10-14T09:23:12.513616+00:00"
+          "coletado_em": "2026-10-12T23:12:26.654186+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Coco Ypê 500ml",
+          "produto": "Detergente Líquido Neutro Ypê 500ml",
           "marca": "YPE",
           "preco": 3.29,
-          "fonte_url": "https://www.obahortifruti.com.br/detergente-coco-ype-500-ml/p",
-          "coletado_em": "2026-10-14T09:23:13.084879+00:00"
+          "fonte_url": "https://www.obahortifruti.com.br/detergente-neutro-ype-500-ml/p",
+          "coletado_em": "2026-10-12T23:12:27.484895+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Neve Toque da Seda Folha Dupla 30m 4 Rolos",
           "marca": "NEVE",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/papel-higienico-neutro-neve-com-4-unidades/p",
-          "coletado_em": "2026-10-14T09:23:13.659638+00:00"
+          "coletado_em": "2026-10-12T23:12:28.571607+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Extra Iodado Cisne 1kg",
           "marca": "CISNE",
           "preco": 5.29,
           "fonte_url": "https://www.obahortifruti.com.br/sal-cisne-refinado-1-kg/p",
-          "coletado_em": "2026-10-14T09:23:13.964950+00:00"
+          "coletado_em": "2026-10-12T23:12:29.323533+00:00"
         },
         "biscoito": {
-          "produto": "Biscoito Cream Cracker com Gergelim Vieira de Castro 200g",
-          "marca": "VIEIRA DE CASTRO",
+          "produto": "Biscoito Cracker Golden Dux 120g",
+          "marca": "DUX",
           "preco": 9.99,
-          "fonte_url": "https://www.obahortifruti.com.br/biscoito-cream-cracker-com-gergelim-vieira-castro-200-g/p",
-          "coletado_em": "2026-10-14T09:23:14.954811+00:00"
+          "fonte_url": "https://www.obahortifruti.com.br/biscoito-cracker-golden-dux-120-g/p",
+          "coletado_em": "2026-10-12T23:12:31.005221+00:00"
         }
       }
     },
@@ -1662,135 +1824,496 @@
       "unidade": "Oba Hortifruti (E-commerce Oficial GO)",
       "fonte_oficial_dominio": "https://www.obahortifruti.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 240.92,
+      "soma_itens_verificados_reais": 270.92,
       "itens": {
         "arroz": {
           "produto": "Arroz Branco Tipo 1 Prato Fino 1kg",
           "marca": "PRATO FINO",
           "preco": 6.99,
           "fonte_url": "https://www.obahortifruti.com.br/arroz-prato-fino-1-kg/p",
-          "coletado_em": "2026-10-14T09:23:15.317417+00:00"
+          "coletado_em": "2026-10-12T23:12:31.675243+00:00"
         },
         "feijao": {
           "produto": "Feijão Carioca Tipo 1 Camil 1kg",
           "marca": "CAMIL",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/feijao-carioca-camil-1kg/p",
-          "coletado_em": "2026-10-14T09:23:15.682267+00:00"
+          "coletado_em": "2026-10-12T23:12:32.285824+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha de Trigo Tipo 1 Dia a Dia Renata 1kg",
           "marca": "RENATA",
           "preco": 6.99,
           "fonte_url": "https://www.obahortifruti.com.br/farinha-trigo-dia-a-dia-renata-1k/p",
-          "coletado_em": "2026-10-14T09:23:16.045306+00:00"
+          "coletado_em": "2026-10-12T23:12:32.904644+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Spaghetti de Grano Duro Oba Bem Querer 500g",
           "marca": "OBA BEM QUERER",
           "preco": 5.99,
           "fonte_url": "https://www.obahortifruti.com.br/macarrao-spaghetti-grano-duro-oba-bem-querer-500-g/p",
-          "coletado_em": "2026-10-14T09:23:16.117656+00:00"
+          "coletado_em": "2026-10-12T23:12:33.083293+00:00"
         },
         "acucar": {
           "produto": "Açúcar Refinado Especial União 1kg",
           "marca": "UNIAO",
           "preco": 5.99,
           "fonte_url": "https://www.obahortifruti.com.br/acucar-refinado-especial-uniao-1kg/p",
-          "coletado_em": "2026-10-14T09:23:16.146867+00:00"
+          "coletado_em": "2026-10-12T23:12:33.152670+00:00"
         },
         "cafe": {
           "produto": "Café Torrado e Moído Tradicional Melitta 500g",
           "marca": "MELITTA",
           "preco": 32.99,
           "fonte_url": "https://www.obahortifruti.com.br/cafe-torrado-e-moido-tradicional-melitta-500-g/p",
-          "coletado_em": "2026-10-14T09:23:16.276969+00:00"
+          "coletado_em": "2026-10-12T23:12:33.567981+00:00"
         },
         "leite integral": {
           "produto": "Leite UHT Integral Piracanjuba 1L",
           "marca": "PIRACANJUBA",
           "preco": 7.49,
           "fonte_url": "https://www.obahortifruti.com.br/leite-piracanjuba-1-l-integral/p",
-          "coletado_em": "2026-10-14T09:23:16.639750+00:00"
+          "coletado_em": "2026-10-12T23:12:33.889137+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Soya 900ml",
           "marca": "SOYA",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/oleo-de-soja-soya-900-ml/p",
-          "coletado_em": "2026-10-14T09:23:16.666870+00:00"
+          "coletado_em": "2026-10-12T23:12:33.941403+00:00"
         },
         "manteiga": {
           "produto": "Manteiga Com Sal Scala 200g",
           "marca": "SCALA",
           "preco": 14.99,
           "fonte_url": "https://www.obahortifruti.com.br/manteiga-com-sal-scala-200g/p",
-          "coletado_em": "2026-10-14T09:23:16.740674+00:00"
+          "coletado_em": "2026-10-12T23:12:34.295430+00:00"
         },
         "carne bovina": {
-          "produto": "Alcatra Bovina em Cubos Oba Reserve 500g",
-          "marca": "OBA RESERVE",
-          "preco": 49.99,
-          "fonte_url": "https://www.obahortifruti.com.br/alcatra-bovina-em-cubos-oba-reserve-500-g/p",
-          "coletado_em": "2026-10-14T09:23:16.932642+00:00"
+          "produto": "Miolo de Alcatra Bovino Oba Kg",
+          "marca": "OBA",
+          "preco": 79.99,
+          "fonte_url": "https://www.obahortifruti.com.br/miolo-de-alcatra-bovina-kg/p",
+          "coletado_em": "2026-10-12T23:12:34.412495+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango com Osso Oba Kg",
           "marca": "OBA",
           "preco": 19.99,
           "fonte_url": "https://www.obahortifruti.com.br/peito-de-frango-com-osso-kg/p",
-          "coletado_em": "2026-10-14T09:23:17.308811+00:00"
+          "coletado_em": "2026-10-12T23:12:34.600242+00:00"
         },
         "ovos": {
           "produto": "Ovos Brancos Jumbo 10 Unidades",
           "marca": "OVOS MANTIQUEIRA",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/ovo-branco-jumbo-katayama-polpa-com-10-unidades/p",
-          "coletado_em": "2026-10-14T09:23:17.662000+00:00"
+          "coletado_em": "2026-10-12T23:12:34.788463+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Muçarela Fatiado Oba Bem Querer 250g",
           "marca": "OBA BEM QUERER",
           "preco": 17.99,
           "fonte_url": "https://www.obahortifruti.com.br/queijo-mussarela-oba-bem-querer-fatiado-250g/p",
-          "coletado_em": "2026-10-14T09:23:17.736394+00:00"
+          "coletado_em": "2026-10-12T23:12:35.064299+00:00"
         },
         "sabao em po": {
           "produto": "Sabão Em Pó Concentrado Primavera Tixan Ype 800 G",
           "marca": "YPE",
           "preco": 12.99,
           "fonte_url": "https://www.obahortifruti.com.br/sabao-em-po-concentrado-primavera-tixan-ype-800-g/p",
-          "coletado_em": "2026-10-14T09:23:17.767281+00:00"
+          "coletado_em": "2026-10-12T23:12:35.153727+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Coco Ypê 500ml",
+          "produto": "Detergente Líquido Neutro Ypê 500ml",
           "marca": "YPE",
           "preco": 3.29,
-          "fonte_url": "https://www.obahortifruti.com.br/detergente-coco-ype-500-ml/p",
-          "coletado_em": "2026-10-14T09:23:18.130158+00:00"
+          "fonte_url": "https://www.obahortifruti.com.br/detergente-neutro-ype-500-ml/p",
+          "coletado_em": "2026-10-12T23:12:35.460237+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Neve Toque da Seda Folha Dupla 30m 4 Rolos",
           "marca": "NEVE",
           "preco": 9.99,
           "fonte_url": "https://www.obahortifruti.com.br/papel-higienico-neutro-neve-com-4-unidades/p",
-          "coletado_em": "2026-10-14T09:23:18.200694+00:00"
+          "coletado_em": "2026-10-12T23:12:36.102416+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Extra Iodado Cisne 1kg",
           "marca": "CISNE",
           "preco": 5.29,
           "fonte_url": "https://www.obahortifruti.com.br/sal-cisne-refinado-1-kg/p",
-          "coletado_em": "2026-10-14T09:23:18.230258+00:00"
+          "coletado_em": "2026-10-12T23:12:36.162083+00:00"
         },
         "biscoito": {
-          "produto": "Biscoito Cream Cracker com Gergelim Vieira de Castro 200g",
-          "marca": "VIEIRA DE CASTRO",
+          "produto": "Biscoito Cracker Golden Dux 120g",
+          "marca": "DUX",
           "preco": 9.99,
-          "fonte_url": "https://www.obahortifruti.com.br/biscoito-cream-cracker-com-gergelim-vieira-castro-200-g/p",
-          "coletado_em": "2026-10-14T09:23:18.304602+00:00"
+          "fonte_url": "https://www.obahortifruti.com.br/biscoito-cracker-golden-dux-120-g/p",
+          "coletado_em": "2026-10-12T23:12:36.402534+00:00"
+        }
+      }
+    },
+    "pe_recife_atacadao": {
+      "cidade": "Recife",
+      "uf": "PE",
+      "regiao": "Nordeste",
+      "rede": "Atacadão",
+      "unidade": "Atacadão Imbiribeira / Boa Viagem (Recife)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 16,
+      "soma_itens_verificados_reais": 133.17,
+      "itens": {
+        "arroz": {
+          "produto": "Arroz Kicaldo Agulhinha Tipo 1 5kg",
+          "marca": "Kicaldo",
+          "preco": 19.99,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "feijão": {
+          "produto": "Feijão Carioca Bulnez Tipo 1 1kg",
+          "marca": "Bulnez",
+          "preco": 7.59,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "café": {
+          "produto": "Café Torrado e Moído Almofada 250g",
+          "marca": "São Braz",
+          "preco": 13.9,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "leite": {
+          "produto": "Leite Condensado Piracanjuba Seleção Integral 395g",
+          "marca": "Piracanjuba",
+          "preco": 8.5,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "coxão": {
+          "produto": "Coxão Mole Bovino Resfriado kg",
+          "marca": "Friboi",
+          "preco": 42.9,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "açúcar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Rancheiro Maizena 300g",
+          "marca": "Rancheiro",
+          "preco": 4.59,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "molho": {
+          "produto": "Molho de Tomate Heinz Tradicional 240g",
+          "marca": "Heinz",
+          "preco": 2.99,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "milho": {
+          "produto": "Milho Verde Bulnez Lata com 170g",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "bombom": {
+          "produto": "Bombom Nestlé Especialidades 220g",
+          "marca": "Nestlé",
+          "preco": 10.9,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "creme": {
+          "produto": "Creme de Leite Casaberta 200g",
+          "marca": "Casaberta",
+          "preco": 2.19,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "chocolate": {
+          "produto": "Chocolate Snickers 40g",
+          "marca": "Snickers",
+          "preco": 4.29,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "chiclete": {
+          "produto": "Chiclete Trident Menta 8g",
+          "marca": "Trident",
+          "preco": 2.99,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "salgadinho": {
+          "produto": "Salgadinho Lucky Fofura Requeijão 60g",
+          "marca": "Lucky",
+          "preco": 1.59,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "macarrão": {
+          "produto": "Macarrão com Ovos Floriani Espaguete 500g",
+          "marca": "Floriani",
+          "preco": 1.99,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "achocolatado": {
+          "produto": "Achocolatado em Pó Apti Power 300g",
+          "marca": "Apti",
+          "preco": 2.98,
+          "fonte_url": "https://www.atacadao.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        }
+      }
+    },
+    "pe_recife_novoatacarejo": {
+      "cidade": "Recife",
+      "uf": "PE",
+      "regiao": "Nordeste",
+      "rede": "Novo Atacarejo",
+      "unidade": "Novo Atacarejo Boa Viagem (Recife)",
+      "fonte_oficial_dominio": "https://www.novoatacarejo.com.br",
+      "qtd_itens_verificados": 5,
+      "soma_itens_verificados_reais": 70.2,
+      "itens": {
+        "feijão": {
+          "produto": "Feijão Carioca Tipo 1 1kg",
+          "marca": "Kicaldo",
+          "preco": 7.98,
+          "fonte_url": "https://www.novoatacarejo.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "café": {
+          "produto": "Café Torrado e Moído Almofada 250g",
+          "marca": "São Braz",
+          "preco": 12.98,
+          "fonte_url": "https://www.novoatacarejo.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "leite": {
+          "produto": "Leite Condensado Semidesnatado 395g",
+          "marca": "Moça",
+          "preco": 5.98,
+          "fonte_url": "https://www.novoatacarejo.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "açúcar": {
+          "produto": "Açúcar Granulado 1kg",
+          "marca": "Olho D'Água",
+          "preco": 3.28,
+          "fonte_url": "https://www.novoatacarejo.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        },
+        "coxão": {
+          "produto": "Coxão Mole Bovino Resfriado kg",
+          "marca": "Friboi",
+          "preco": 39.98,
+          "fonte_url": "https://www.novoatacarejo.com.br",
+          "coletado_em": "2026-10-13T18:36:43.661068+00:00"
+        }
+      }
+    },
+    "ce_fortaleza": {
+      "cidade": "Fortaleza",
+      "uf": "CE",
+      "regiao": "Nordeste",
+      "rede": "Atacadão",
+      "unidade": "Atacadão Fortaleza (E-commerce Oficial CE)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 10,
+      "soma_itens_verificados_reais": 293.85,
+      "itens": {
+        "arroz": {
+          "produto": "Flocão de Arroz Urbano 500g",
+          "marca": "Urbano",
+          "preco": 3.29,
+          "fonte_url": "https://secure.atacadao.com.br/flocao-de-arroz-urbano-pacote-com-500g-63063/p",
+          "coletado_em": "2026-10-13T18:36:45.403618+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Tropeiro Swift 500g",
+          "marca": "Swift",
+          "preco": 31.9,
+          "fonte_url": "https://secure.atacadao.com.br/feijao-tropeiro-swift-2877/p",
+          "coletado_em": "2026-10-13T18:36:46.450045+00:00"
+        },
+        "cafe": {
+          "produto": "Café Solúvel Nescafé Tradição Vdo LEVE 200g PAGUE 190g",
+          "marca": "Nescafé",
+          "preco": 36.95,
+          "fonte_url": "https://secure.atacadao.com.br/cafe-soluvel-nescafe-tradicao-15820/p",
+          "coletado_em": "2026-10-13T18:36:46.917563+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://secure.atacadao.com.br/acucar-refinado-bulnez-14485/p",
+          "coletado_em": "2026-10-13T18:36:47.461343+00:00"
+        },
+        "leite": {
+          "produto": "Leite Semidesnatado Leite + 8g de Proteína 200ml",
+          "marca": "Leite +",
+          "preco": 1.39,
+          "fonte_url": "https://secure.atacadao.com.br/leite-semidesnatado-leite---8g-de-proteina-17250/p",
+          "coletado_em": "2026-10-13T18:36:47.921336+00:00"
+        },
+        "farinha": {
+          "produto": "Farinha de Rosca Delamarie 1kg",
+          "marca": "Delamarie",
+          "preco": 6.99,
+          "fonte_url": "https://secure.atacadao.com.br/farinha-de-rosca-delamarie-92775/p",
+          "coletado_em": "2026-10-13T18:36:48.458801+00:00"
+        },
+        "macarrao": {
+          "produto": "Vagem Macarrão 12kg",
+          "marca": "Atacadão S/A",
+          "preco": 189.0,
+          "fonte_url": "https://secure.atacadao.com.br/vagem-macarrao-caixa-com-12kg-1701/p",
+          "coletado_em": "2026-10-13T18:36:49.011715+00:00"
+        },
+        "oleo": {
+          "produto": "Óleo de Milho Veleiro 900ml",
+          "marca": "Veleiro",
+          "preco": 9.98,
+          "fonte_url": "https://secure.atacadao.com.br/oleo-de-milho-veleiro-13600/p",
+          "coletado_em": "2026-10-13T18:36:49.659041+00:00"
+        },
+        "manteiga": {
+          "produto": "Biscoito Marilan Manteiga 300g",
+          "marca": "Marilan",
+          "preco": 4.49,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-manteiga-12290/p",
+          "coletado_em": "2026-10-13T18:36:50.230034+00:00"
+        },
+        "frango": {
+          "produto": "Frango Cremoso Perdigão Congelado Arroz com Brócolis 300g",
+          "marca": "Perdigão",
+          "preco": 6.97,
+          "fonte_url": "https://secure.atacadao.com.br/frango-cremoso-perdigao-congelado-arroz-com-brocolis-3697/p",
+          "coletado_em": "2026-10-13T18:36:50.790959+00:00"
+        }
+      }
+    },
+    "sp_st_marche": {
+      "cidade": "São Paulo",
+      "uf": "SP",
+      "regiao": "Sudeste",
+      "rede": "Supermercados St. Marche",
+      "unidade": "St. Marche (E-commerce Oficial SP)",
+      "fonte_oficial_dominio": "https://www.marche.com.br",
+      "qtd_itens_verificados": 8,
+      "soma_itens_verificados_reais": 152.53,
+      "itens": {
+        "arroz": {
+          "produto": "Arroz Agulhinha Orgânico Integral KORIN 1kg",
+          "marca": "St. Marche Homologado",
+          "preco": 25.19,
+          "fonte_url": "https://www.marche.com.br/products/arroz-agulhinha-organico-integral-korin-1kg",
+          "coletado_em": "2026-10-13T18:36:51.733677+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Carioca Empório São João 1Kg",
+          "marca": "St. Marche Homologado",
+          "preco": 11.99,
+          "fonte_url": "https://www.marche.com.br/products/feijao-carioca-emporio-sao-joao-1kg",
+          "coletado_em": "2026-10-13T18:36:52.338745+00:00"
+        },
+        "cafe": {
+          "produto": "Café BAGGIO Aromas Caramelo Torrado e Moído 250g",
+          "marca": "St. Marche Homologado",
+          "preco": 44.99,
+          "fonte_url": "https://www.marche.com.br/products/cafe-baggio-aromas-caramelo-torrado-e-moido-250g",
+          "coletado_em": "2026-10-13T18:36:53.012859+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado União 1Kg",
+          "marca": "St. Marche Homologado",
+          "preco": 4.89,
+          "fonte_url": "https://www.marche.com.br/products/acucar-refinado-uniao-pacote-1kg",
+          "coletado_em": "2026-10-13T18:36:53.678003+00:00"
+        },
+        "leite": {
+          "produto": "Leite Integral UHT Zero Lactose LEITÍSSIMO 1 Litro",
+          "marca": "St. Marche Homologado",
+          "preco": 13.09,
+          "fonte_url": "https://www.marche.com.br/products/leite-integral-uht-zero-lactose-leitissimo-1-litro",
+          "coletado_em": "2026-10-13T18:36:54.010261+00:00"
+        },
+        "azeite": {
+          "produto": "Azeite de Oliva Extra Virgem Gallo Reserva 500ml",
+          "marca": "St. Marche Homologado",
+          "preco": 39.9,
+          "fonte_url": "https://www.marche.com.br/products/azeite-portugues-de-oliva-extra-virgem-reserva-gallo-vidro-500ml",
+          "coletado_em": "2026-10-13T18:36:54.672742+00:00"
+        },
+        "macarrao": {
+          "produto": "Macarrão Espaguete Adria com Ovos N°8 500g",
+          "marca": "St. Marche Homologado",
+          "preco": 4.49,
+          "fonte_url": "https://www.marche.com.br/products/macarrao-adria-com-ovos-espaguete-n-8-500g",
+          "coletado_em": "2026-10-13T18:36:55.048347+00:00"
+        },
+        "farinha": {
+          "produto": "Farinha de Trigo Premium Anaconda 1kg",
+          "marca": "St. Marche Homologado",
+          "preco": 7.99,
+          "fonte_url": "https://www.marche.com.br/products/farinha-de-trigo-premium-anaconda1kg",
+          "coletado_em": "2026-10-13T18:36:55.842448+00:00"
+        }
+      }
+    },
+    "rj_guanabara": {
+      "cidade": "Rio de Janeiro",
+      "uf": "RJ",
+      "regiao": "Sudeste",
+      "rede": "Supermercados Guanabara",
+      "unidade": "Guanabara (Prateleira Diária Oficial RJ)",
+      "fonte_oficial_dominio": "https://www.supermercadosguanabara.com.br",
+      "qtd_itens_verificados": 2,
+      "soma_itens_verificados_reais": 67.85,
+      "itens": {
+        "arroz": {
+          "produto": "Arroz Ouro Nobre 5Kg",
+          "marca": "Guanabara Oficial",
+          "preco": 19.95,
+          "fonte_url": "https://www.supermercadosguanabara.com.br/produtos/2",
+          "coletado_em": "2026-10-13T18:36:56.456747+00:00"
+        },
+        "carne": {
+          "produto": "Alcatra Bov Friboi a Vácuo Kg (peça)",
+          "marca": "Guanabara Oficial",
+          "preco": 47.9,
+          "fonte_url": "https://www.supermercadosguanabara.com.br/produtos/42",
+          "coletado_em": "2026-10-13T18:37:19.465769+00:00"
         }
       }
     }
-  }
+  },
+  "estados_cobertos": [
+    "BA",
+    "CE",
+    "DF",
+    "ES",
+    "GO",
+    "MG",
+    "PE",
+    "PR",
+    "RJ",
+    "RS",
+    "SC",
+    "SP"
+  ]
 }

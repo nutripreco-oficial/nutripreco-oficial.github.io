@@ -1,46 +1,43 @@
 {
-  "name": "NutriPreço - Comparador de Supermercados",
+  "name": "Calculadora NutriPreço - Mestre Prático",
   "short_name": "NutriPreço",
-  "id": "nutripreco-app",
-  "description": "Calculadora de supermercado e inteligência de preços em tempo real.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "A Calculadora Inteligente de Supermercados. Compare preços e economize na compra do mês em Cabo Frio, Recife e grandes cidades.",
+  "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#ffffff",
-  "theme_color": "#2e7d32",
+  "background_color": "#0b0f17",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
   "lang": "pt-BR",
-  "dir": "ltr",
-  "prefer_related_applications": false,
-  "categories": [
-    "shopping",
-    "food",
-    "utilities"
-  ],
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Cesta Básica",
+      "url": "/#product-grid",
+      "description": "Veja os menores preços da feira"
+    },
+    {
+      "name": "Mapa de Mercados",
+      "url": "/mapa.html",
+      "description": "Mercados e atacadistas no mapa"
+    },
+    {
+      "name": "Ofertas Cabo Frio",
+      "url": "/#product-grid",
+      "description": "Cotações de Cabo Frio"
+    }
+  ],
+  "categories": ["shopping", "food", "lifestyle", "finance"]
 }

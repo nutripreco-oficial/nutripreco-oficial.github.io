@@ -2370,6 +2370,18 @@
         const isWinner = idx === 0;
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.posto + ' ' + p.endereco + ' ' + p.cidade)}`;
         
+        let termoAmazonCombustivel = 'aditivo combustivel limpa bicos';
+        if (tipoCombustivel === 'gasolina_comum' || tipoCombustivel === 'gasolina_aditivada') {
+          termoAmazonCombustivel = 'aditivo gasolina koube';
+        } else if (tipoCombustivel === 'etanol') {
+          termoAmazonCombustivel = 'aditivo etanol flex';
+        } else if (tipoCombustivel === 'diesel_s10') {
+          termoAmazonCombustivel = 'aditivo diesel s10 koube';
+        } else if (tipoCombustivel === 'gnv') {
+          termoAmazonCombustivel = 'oleo motor 5w30 lubrificante';
+        }
+        const amazonCombustivelUrl = `https://www.amazon.com.br/s?k=${encodeURIComponent(termoAmazonCombustivel)}&tag=mestrepratico-20`;
+        
         html += `
           <div class="rounded-2xl sm:rounded-3xl p-4 sm:p-5 transition-all ${
             isWinner 
@@ -2403,28 +2415,52 @@
                 </div>
               </div>
 
-              <div class="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
-                <div class="text-left sm:text-right">
+              <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
+                <div class="text-left sm:text-right mr-1">
                   <div class="text-[10px] text-slate-400 font-semibold uppercase">${nomeCombustivel}</div>
                   <div class="text-2xl sm:text-3xl font-black ${isWinner ? 'text-amber-400' : 'text-slate-200'}">
                     R$ ${p[tipoCombustivel].toFixed(2).replace('.', ',')}
                   </div>
                 </div>
 
-                <!-- O BOTÃO DO MAPA / GPS OFICIAL -->
-                <a 
-                  href="${mapsUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="px-4 py-2.5 rounded-xl ${
-                    isWinner 
-                      ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/30' 
-                      : 'bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-700'
-                  } text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
-                  title="Abrir Rota e Localização do Posto no Google Maps">
-                  <span>🗺️</span>
-                  <span>Ver no Mapa</span>
-                </a>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <!-- BOTÃO FONTE OFICIAL ANP -->
+                  <a 
+                    href="https://preco.anp.gov.br" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold border border-slate-700 text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                    title="Levantamento Oficial de Precos de Combustiveis ANP">
+                    <span>📋</span>
+                    <span>Fonte ANP</span>
+                  </a>
+
+                  <!-- BOTÃO AMAZON AFILIADO -->
+                  <a 
+                    href="${amazonCombustivelUrl}" 
+                    target="_blank" 
+                    rel="sponsored nofollow" 
+                    class="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold border border-amber-500/40 text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer shadow-sm hover:shadow-amber-500/20"
+                    title="Economize na Manutencao: Acessorios e Aditivos Automotivos na Amazon">
+                    <span>📦</span>
+                    <span>Amazon</span>
+                  </a>
+
+                  <!-- BOTÃO MAPA / ROTA -->
+                  <a 
+                    href="${mapsUrl}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl ${
+                      isWinner 
+                        ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-lg shadow-amber-500/30' 
+                        : 'bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-700'
+                    } text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer"
+                    title="Abrir Rota e Localizacao do Posto no Google Maps">
+                    <span>🗺️</span>
+                    <span>Ver no Mapa</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

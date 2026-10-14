@@ -11,3 +11,6 @@ coverage/
 
 # Arquivos temporários do sandbox
 *.log
+
+*.py
+__pycache__/
