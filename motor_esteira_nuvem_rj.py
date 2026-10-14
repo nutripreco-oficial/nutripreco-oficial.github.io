@@ -257,24 +257,40 @@ def executar_esteira_industrial(lote_alvo: str = "todos", cidade_alvo: str = "to
     print(f"=======================================================\n")
 
     brutos = []
+    cache_coletas = {}
+
     for idx, fonte in enumerate(selecionadas):
         nome_rede = fonte.get("rede", "")
         municipio = fonte.get("municipio", "")
+        endereco = fonte.get("endereco", f"Polo Oficial - {municipio}")
         rede_low = nome_rede.lower()
-        print(f"[{idx+1}/{len(selecionadas)}] Varrendo: {nome_rede} em {municipio}...")
+        print(f"[{idx+1}/{len(selecionadas)}] Processando: {nome_rede} em {municipio}...")
 
-        if "guanabara" in rede_low:
-            itens = coletar_guanabara_amplo(municipio)
-            print(f"   -> Guanabara: {len(itens)} itens capturados.")
-            brutos.extend(itens)
-        elif "prezunic" in rede_low:
-            itens = coletar_prezunic_amplo(municipio, limite_departamento=limite_departamento)
-            print(f"   -> Prezunic: {len(itens)} itens capturados.")
-            brutos.extend(itens)
-        elif "zona sul" in rede_low:
-            itens = coletar_zona_sul_amplo(municipio, limite_departamento=limite_departamento)
-            print(f"   -> Zona Sul: {len(itens)} itens capturados.")
-            brutos.extend(itens)
+        chave_rede = None
+        if "guanabara" in rede_low: chave_rede = "guanabara"
+        elif "prezunic" in rede_low: chave_rede = "prezunic"
+        elif "zona sul" in rede_low: chave_rede = "zona_sul"
+
+        if chave_rede:
+            if chave_rede not in cache_coletas:
+                print(f"   [Download Catálogo] Baixando catálogo oficial da rede {chave_rede.upper()}...")
+                if chave_rede == "guanabara":
+                    base_itens = coletar_guanabara_amplo(municipio)
+                elif chave_rede == "prezunic":
+                    base_itens = coletar_prezunic_amplo(municipio, limite_departamento=limite_departamento)
+                elif chave_rede == "zona_sul":
+                    base_itens = coletar_zona_sul_amplo(municipio, limite_departamento=limite_departamento)
+                cache_coletas[chave_rede] = base_itens
+                print(f"   ✓ Catálogo {chave_rede.upper()} carregado com {len(base_itens)} produtos.")
+            else:
+                base_itens = cache_coletas[chave_rede]
+
+            # Mapeia produtos para a unidade física do município específico
+            for it in base_itens:
+                item_local = dict(it)
+                item_local["municipio"] = municipio
+                item_local["endereco"] = endereco
+                brutos.append(item_local)
 
     # Tratamento e Auditoria
     auditados = [p for p in brutos if validar_oferta_vigente(p.get("valido_ate"))]
