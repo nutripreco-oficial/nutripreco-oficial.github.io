@@ -53,14 +53,18 @@ jobs:
         run: |
           python motor_esteira_nuvem_rj.py --lote "${{ github.event.inputs.lote || 'Lote 1 - Metropolitana e Baixada' }}" --cidade "${{ github.event.inputs.cidade || 'todas' }}" --limite ${{ github.event.inputs.limite || '20' }}
 
-      - name: Versionar Base Atualizada (Git Commit & Push Automático)
+      - name: Alimentar Sites Automaticamente (NutriPreço e Mestre Prático)
+        run: |
+          python atualizar_sites_automatico.py
+
+      - name: Versionar Base e Publicar Sites Atualizados (Git Commit & Push)
         run: |
           git config --local user.name "NutriPreco Cloud Engine"
           git config --local user.email "bot@nutripreco.com.br"
-          git add catalogo_fontes_rj.json dados_coleta_nuvem_rj.json || true
+          git add catalogo_fontes_rj.json dados_coleta_nuvem_rj.json index.html busca.html || true
           if git diff --staged --quiet; then
             echo "Nenhuma alteração detectada na base."
           else
-            git commit -m "feat(pipeline): esteira em nuvem executada com sucesso [skip ci]"
+            git commit -m "feat(pipeline): atualizacao automatica da base e publicacao dos sites [skip ci]"
             git push origin main
           fi
