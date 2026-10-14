@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-10-14T01:09:21.132194+00:00",
+  "lote": "todos",
+  "cidade": "Nova Iguaçu",
+  "total_itens": 5,
+  "itens": [
+    {
+      "municipio": "Nova Iguaçu",
+      "categoria": "Arroz",
+      "produto": "Arroz Palmares Original 1Kg",
+      "marca": "PALMARES",
+      "preco": 4.59,
+      "supermercado": "Prezunic Supermercados",
+      "endereco": "Unidade Oficial - Nova Iguaçu",
+      "data_auditoria": "14/10/2026",
+      "valido_ate": "2026-10-18T23:59:59Z",
+      "fonte_url": "https://www.prezunic.com.br/arroz-palmares-original-1kg-1708577/p"
+    },
+    {
+      "municipio": "Nova Iguaçu",
+      "categoria": "Arroz",
+      "produto": "Arroz Palmares Original 5Kg",
+      "marca": "PALMARES",
+      "preco": 18.99,
+      "supermercado": "Prezunic Supermercados",
+      "endereco": "Unidade Oficial - Nova Iguaçu",
+      "data_auditoria": "14/10/2026",
+      "valido_ate": "2026-10-18T23:59:59Z",
+      "fonte_url": "https://www.prezunic.com.br/arroz-palmares-original-5kg-1708576/p"
+    },
+    {
+      "municipio": "Nova Iguaçu",
+      "categoria": "Arroz",
+      "produto": "Arroz Branco Surreal 5Kg",
+      "marca": "SURREAL",
+      "preco": 18.99,
+      "supermercado": "Prezunic Supermercados",
+      "endereco": "Unidade Oficial - Nova Iguaçu",
+      "data_auditoria": "14/10/2026",
+      "valido_ate": "2026-10-18T23:59:59Z",
+      "fonte_url": "https://www.prezunic.com.br/arroz-branco-surreal-5kg-1882863/p"
+    },
+    {
+      "municipio": "Nova Iguaçu",
+      "categoria": "Feijao",
+      "produto": "Feijão Preto Malu 1Kg",
+      "marca": "MALU",
+      "preco": 5.79,
+      "supermercado": "Prezunic Supermercados",
+      "endereco": "Unidade Oficial - Nova Iguaçu",
+      "data_auditoria": "14/10/2026",
+      "valido_ate": "2026-10-18T23:59:59Z",
+      "fonte_url": "https://www.prezunic.com.br/feijao-preto-malu-1kg-1753940/p"
+    },
+    {
+      "municipio": "Nova Iguaçu",
+      "categoria": "Feijao",
+      "produto": "Feijão Vermelho Chinezinho 500g",
+      "marca": "CHINEZINHO",
+      "preco": 9.89,
+      "supermercado": "Prezunic Supermercados",
+      "endereco": "Unidade Oficial - Nova Iguaçu",
+      "data_auditoria": "14/10/2026",
+      "valido_ate": "2026-10-18T23:59:59Z",
+      "fonte_url": "https://www.prezunic.com.br/feijao-vermelho-chinezinho-500g-1473485/p"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+name: Esteira de Produção Industrial em Nuvem - RJ (NutriPreço)
+
+on:
+  workflow_dispatch:
+    inputs:
+      cidade:
+        description: 'Cidade Alvo (ex: Nova Iguaçu, Duque de Caxias ou todas)'
+        required: true
+        default: 'todas'
+      lote:
+        description: 'Lote Regional'
+        required: true
+        default: 'Lote 1 - Metropolitana e Baixada'
+        type: choice
+        options:
+          - 'Lote 1 - Metropolitana e Baixada'
+          - 'Lote 2 - Região dos Lagos'
+          - 'Lote 3 - Região Serrana'
+          - 'Lote 4 - Norte e Noroeste'
+          - 'Lote 5 - Médio Paraíba e Costa Verde'
+          - 'todos'
+      limite:
+        description: 'Limite de produtos por rede'
+        required: true
+        default: '20'
+
+  # Execução automática semanal aos sábados às 05:00 da manhã
+  schedule:
+    - cron: '0 8 * * 6'
+
+jobs:
+  executar-esteira-nuvem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar Dependências
+        run: |
+          pip install requests beautifulsoup4 openpyxl
+
+      - name: Executar Esteira Industrial em Nuvem (0% de CPU Local)
+        run: |
+          python motor_esteira_nuvem_rj.py --lote "${{ github.event.inputs.lote || 'Lote 1 - Metropolitana e Baixada' }}" --cidade "${{ github.event.inputs.cidade || 'todas' }}" --limite ${{ github.event.inputs.limite || '20' }}
+
+      - name: Versionar Base Atualizada (Git Commit & Push Automático)
+        run: |
+          git config --local user.name "NutriPreco Cloud Engine"
+          git config --local user.email "bot@nutripreco.com.br"
+          git add catalogo_fontes_rj.json dados_coleta_nuvem_rj.json || true
+          if git diff --staged --quiet; then
+            echo "Nenhuma alteração detectada na base."
+          else
+            git commit -m "feat(pipeline): esteira em nuvem executada com sucesso [skip ci]"
+            git push origin main
+          fi
