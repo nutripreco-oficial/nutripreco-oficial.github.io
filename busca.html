@@ -168,7 +168,6 @@
     body.in-results #locationIndicatorBar,
     body.in-results #expansionCard,
     body.in-results #homeButtonsBlock,
-    body.in-results #thalitaAudioPlayerContainer,
     body.in-results #quickChipsBlock {
       display: none !important;
     }
@@ -377,31 +376,7 @@
         </button>
       </div>
 
-      <!-- BOLETIM OFICIAL DE VOZ THALITA AMIGA (OPÇÃO 3 OFICIAL) -->
-      <div id="thalitaAudioPlayerContainer" class="mt-5 flex items-center justify-center">
-        <button 
-          id="btnPlayThalitaOfficial"
-          onclick="toggleAudioThalitaOficial()" 
-          class="group flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/15 to-emerald-500/15 hover:from-emerald-500/25 hover:to-teal-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white transition-all shadow-lg shadow-emerald-500/10 cursor-pointer">
-          <div class="w-8 h-8 rounded-full bg-emerald-500/30 border border-emerald-400/50 flex items-center justify-center text-xs group-hover:scale-110 transition-transform">
-            <span id="thalitaPlayIcon">▶️</span>
-          </div>
-          <div class="flex flex-col text-left">
-            <span class="text-xs font-bold flex items-center gap-1.5">
-              <span>🎙️ Ouvir Boletim da Helena</span>
-              <span class="px-1.5 py-0.5 rounded bg-emerald-500/30 text-[10px] text-emerald-300 font-semibold uppercase">Voz Oficial Thalita</span>
-            </span>
-            <span class="text-[11px] text-slate-400" id="thalitaAudioStatus">Thalita Amiga • Dica de Economia do Dia</span>
-          </div>
-          <!-- Barrinhas de onda sonora animadas -->
-          <div id="thalitaSoundWave" class="hidden flex items-center gap-1 ml-1">
-            <span class="w-1 h-3 bg-emerald-400 rounded-full animate-pulse"></span>
-            <span class="w-1 h-5 bg-emerald-300 rounded-full animate-pulse delay-75"></span>
-            <span class="w-1 h-2 bg-emerald-400 rounded-full animate-pulse delay-150"></span>
-          </div>
-        </button>
-        <audio id="audioThalitaElement" src="audio_boletim_thalita_hoje.mp3" preload="metadata"></audio>
-      </div>
+
 
       <!-- CHIPS DE BUSCA RÁPIDA (DINÂMICOS POR MODO) -->
       <div id="quickChipsBlock" class="mt-8 flex flex-wrap items-center justify-center gap-2 max-w-xl">
@@ -2325,20 +2300,7 @@
     let activeThalitaSearchAudio = null;
 
     function pararTodosAudios() {
-      // 1. Pausa o boletim da tela inicial
-      const audioBoletim = document.getElementById('audioThalitaElement');
-      if (audioBoletim) {
-        audioBoletim.pause();
-        audioBoletim.currentTime = 0;
-      }
-      const icon = document.getElementById('thalitaPlayIcon');
-      if (icon) icon.innerText = "▶️";
-      const wave = document.getElementById('thalitaSoundWave');
-      if (wave) wave.classList.add('hidden');
-      const status = document.getElementById('thalitaAudioStatus');
-      if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
-
-      // 2. Pausa áudio de resumo da IA
+      // 1. Pausa áudio de resumo da IA
       if (activeThalitaSearchAudio) {
         activeThalitaSearchAudio.pause();
         activeThalitaSearchAudio.currentTime = 0;
@@ -2347,48 +2309,10 @@
       const btnText = document.getElementById('btnSpeakText');
       if (btnText) btnText.innerText = "Ouvir Resumo";
 
-      // 3. Cancela qualquer síntese residual do navegador
+      // 2. Cancela qualquer síntese residual do navegador
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
-    }
-
-    // PLAYER 1: BOLETIM DO DIA DA HELENA (VOZ THALITA)
-    function toggleAudioThalitaOficial() {
-      const audio = document.getElementById('audioThalitaElement');
-      const icon = document.getElementById('thalitaPlayIcon');
-      const wave = document.getElementById('thalitaSoundWave');
-      const status = document.getElementById('thalitaAudioStatus');
-
-      if (!audio) return;
-
-      if (audio.paused) {
-        // Pausa áudio de busca se estiver rodando
-        if (activeThalitaSearchAudio) {
-          activeThalitaSearchAudio.pause();
-          const btnText = document.getElementById('btnSpeakText');
-          if (btnText) btnText.innerText = "Ouvir Resumo";
-        }
-
-        audio.play().then(() => {
-          if (icon) icon.innerText = "⏸️";
-          if (wave) wave.classList.remove('hidden');
-          if (status) status.innerText = "Tocando Boletim na voz da Thalita...";
-        }).catch((err) => {
-          console.warn("Autoplay bloqueado pelo navegador:", err);
-        });
-      } else {
-        audio.pause();
-        if (icon) icon.innerText = "▶️";
-        if (wave) wave.classList.add('hidden');
-        if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
-      }
-
-      audio.onended = () => {
-        if (icon) icon.innerText = "▶️";
-        if (wave) wave.classList.add('hidden');
-        if (status) status.innerText = "Thalita Amiga • Dica de Economia do Dia";
-      };
     }
 
     // PLAYER 2: RESPOSTA DINÂMICA DA IA NA VOZ DA THALITA (ELIMINA VOZ ROBÓTICA DO NAVEGADOR)
