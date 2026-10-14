@@ -789,6 +789,7 @@
       }
     }
     carregarCombustiveisOnline('rj');
+    carregarCombustiveisOnline('sp');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -850,6 +851,42 @@
       }
     }
     carregarSupermercadosOnline();
+
+    // CARREGADOR DE DADOS REAIS DE SUPERMERCADOS DE SÃO PAULO (FÓRMULA MESTRE)
+    async function carregarSupermercadosSP() {
+      try {
+        const res = await fetch('/dados_supermercados_sp.json');
+        if (res.ok) {
+          const items = await res.json();
+          if (Array.isArray(items)) {
+            const existingKeys = new Set(DATABASE_PRODUTOS.map(p => `${p.cidade}|${p.mercado}|${p.nome}`));
+            let nextId = DATABASE_PRODUTOS.length + 1;
+            items.forEach(it => {
+              const key = `${it.cidade}|${it.mercado}|${it.nome}`;
+              if (!existingKeys.has(key)) {
+                existingKeys.add(key);
+                DATABASE_PRODUTOS.push({
+                  id: nextId++,
+                  nome: it.nome,
+                  marca: it.marca || 'Auditada',
+                  preco: it.preco,
+                  mercado: it.mercado,
+                  endereco: it.endereco,
+                  cidade: it.cidade,
+                  uf: it.uf || 'SP',
+                  data: it.data || 'Auditado via E-commerce Oficial',
+                  fonte_url: it.fonte_url || ''
+                });
+              }
+            });
+            console.log(`✓ NutriPreço: ${items.length} ofertas reais de São Paulo integradas.`);
+          }
+        }
+      } catch (e) {
+        console.warn('Uso da base local de SP:', e);
+      }
+    }
+    carregarSupermercadosSP();
 
     // =========================================================================
     // CONEXÃO VIVA AO SUPABASE (TABELA precos_cotacoes - FONTE PRIMÁRIA AUDITADA)
