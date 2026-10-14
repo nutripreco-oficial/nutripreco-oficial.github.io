@@ -11,6 +11,11 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   
+  <!-- Blindagem de Segurança (Mozilla Observatory & OWASP) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https: https://fzoyldcfyiigwyxxhosd.supabase.co https://generativelanguage.googleapis.com https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
   <!-- Manifest & Meta PWA -->
   <meta name="theme-color" content="#070B08">
   <meta name="mobile-web-app-capable" content="yes">
