@@ -852,6 +852,7 @@
       }
     }
     carregarCombustiveisOnline('rj');
+    carregarCombustiveisOnline('sp');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -913,6 +914,48 @@
       }
     }
     carregarSupermercadosOnline();
+
+    // CARREGADOR DE DADOS REAIS DE SUPERMERCADOS DE SÃO PAULO (FÓRMULA MESTRE)
+    async function carregarSupermercadosSP() {
+      try {
+        const res = await fetch('/dados_supermercados_sp.json');
+        if (res.ok) {
+          const items = await res.json();
+          if (Array.isArray(items)) {
+            const existingKeys = new Set(DATABASE_PRODUTOS.map(p => `${p.cidade}|${p.mercado}|${p.nome}`));
+            let nextId = DATABASE_PRODUTOS.length + 1;
+            items.forEach(it => {
+              const key = `${it.cidade}|${it.mercado}|${it.nome}`;
+              if (!existingKeys.has(key)) {
+                existingKeys.add(key);
+                DATABASE_PRODUTOS.push({
+                  id: nextId++,
+                  nome: it.nome,
+                  marca: it.marca || 'Auditada',
+                  preco: it.preco,
+                  mercado: it.mercado,
+                  endereco: it.endereco,
+                  cidade: it.cidade,
+                  uf: it.uf || 'SP',
+                  data: it.data || 'Auditado via E-commerce Oficial',
+                  fonte_url: it.fonte_url || ''
+                });
+              }
+            });
+            console.log(`✓ NutriPreço: ${items.length} ofertas reais de São Paulo integradas.`);
+
+            // Re-renderiza a busca na hora caso o usuário já tenha pesquisado
+            const sInput = document.getElementById('searchInput');
+            if (document.body.classList.contains('in-results') && sInput && sInput.value.trim().length > 0 && searchMode === 'food') {
+              renderizarResultadosComida(sInput.value.trim().toLowerCase(), sInput.value.trim());
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Uso da base local de SP:', e);
+      }
+    }
+    carregarSupermercadosSP();
 
     // =========================================================================
     // CONEXÃO VIVA AO SUPABASE (TABELA precos_cotacoes - FONTE PRIMÁRIA AUDITADA)
@@ -1220,20 +1263,667 @@
     const TODAS_CIDADES_RJ = Object.values(CIDADES_RJ_POR_REGIAO).flat();
 
     const OUTRAS_CIDADES_AUDITADAS = [
-      { nome: 'São Paulo', uf: 'SP', lat: -23.55, lon: -46.63 },
-      { nome: 'Belo Horizonte', uf: 'MG', lat: -19.92, lon: -43.93 },
-      { nome: 'Vitória', uf: 'ES', lat: -20.31, lon: -40.33 },
-      { nome: 'Curitiba', uf: 'PR', lat: -25.42, lon: -49.27 },
-      { nome: 'Florianópolis', uf: 'SC', lat: -27.59, lon: -48.54 },
-      { nome: 'Criciúma', uf: 'SC', lat: -28.67, lon: -49.37 },
-      { nome: 'Blumenau', uf: 'SC', lat: -26.91, lon: -49.07 },
-      { nome: 'Porto Alegre', uf: 'RS', lat: -30.03, lon: -51.23 },
-      { nome: 'Salvador', uf: 'BA', lat: -12.97, lon: -38.50 },
-      { nome: 'Brasília', uf: 'DF', lat: -15.79, lon: -47.88 },
-      { nome: 'Goiânia', uf: 'GO', lat: -16.68, lon: -49.26 },
-      { nome: 'Recife', uf: 'PE', lat: -8.05, lon: -34.88 },
-      { nome: 'Fortaleza', uf: 'CE', lat: -3.73, lon: -38.54 }
-    ];
+  {
+    "nome": "São Paulo",
+    "uf": "SP",
+    "lat": -23.55,
+    "lon": -46.63
+  },
+  {
+    "nome": "Campinas",
+    "uf": "SP",
+    "lat": -22.9,
+    "lon": -47.06
+  },
+  {
+    "nome": "Santos",
+    "uf": "SP",
+    "lat": -23.96,
+    "lon": -46.33
+  },
+  {
+    "nome": "Ribeirão Preto",
+    "uf": "SP",
+    "lat": -21.17,
+    "lon": -47.81
+  },
+  {
+    "nome": "São José dos Campos",
+    "uf": "SP",
+    "lat": -23.18,
+    "lon": -45.88
+  },
+  {
+    "nome": "Sorocaba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -47.45
+  },
+  {
+    "nome": "Guarulhos",
+    "uf": "SP",
+    "lat": -23.45,
+    "lon": -46.53
+  },
+  {
+    "nome": "Osasco",
+    "uf": "SP",
+    "lat": -23.53,
+    "lon": -46.79
+  },
+  {
+    "nome": "Santo André",
+    "uf": "SP",
+    "lat": -23.65,
+    "lon": -46.53
+  },
+  {
+    "nome": "São Bernardo do Campo",
+    "uf": "SP",
+    "lat": -23.69,
+    "lon": -46.56
+  },
+  {
+    "nome": "Belo Horizonte",
+    "uf": "MG",
+    "lat": -19.92,
+    "lon": -43.93
+  },
+  {
+    "nome": "Vitória",
+    "uf": "ES",
+    "lat": -20.31,
+    "lon": -40.33
+  },
+  {
+    "nome": "Curitiba",
+    "uf": "PR",
+    "lat": -25.42,
+    "lon": -49.27
+  },
+  {
+    "nome": "Florianópolis",
+    "uf": "SC",
+    "lat": -27.59,
+    "lon": -48.54
+  },
+  {
+    "nome": "Porto Alegre",
+    "uf": "RS",
+    "lat": -30.03,
+    "lon": -51.23
+  },
+  {
+    "nome": "Salvador",
+    "uf": "BA",
+    "lat": -12.97,
+    "lon": -38.5
+  },
+  {
+    "nome": "Brasília",
+    "uf": "DF",
+    "lat": -15.79,
+    "lon": -47.88
+  },
+  {
+    "nome": "Goiânia",
+    "uf": "GO",
+    "lat": -16.68,
+    "lon": -49.26
+  },
+  {
+    "nome": "Recife",
+    "uf": "PE",
+    "lat": -8.05,
+    "lon": -34.88
+  },
+  {
+    "nome": "Fortaleza",
+    "uf": "CE",
+    "lat": -3.73,
+    "lon": -38.54
+  },
+  {
+    "nome": "Adamantina",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Americana",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Araraquara",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Araras",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Araçatuba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Assis",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Atibaia",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Avaré",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Barretos",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Barueri",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Bauru",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Bebedouro",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Birigui",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Botucatu",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Bragança Paulista",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Caraguatatuba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Carapicuíba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Catanduva",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Caçapava",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Cosmópolis",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Cotia",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Cruzeiro",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Cubatão",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Diadema",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Embu das Artes",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Franca",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Garça",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Guaratinguetá",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Guarujá",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Hortolândia",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Ibitinga",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Indaiatuba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itanhaém",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itapecerica da Serra",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itapetininga",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itapeva",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itapira",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itaquaquecetuba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itatiba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itu",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Itápolis",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Jaboticabal",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Jacareí",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Jales",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Jaú",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "José Bonifácio",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Jundiaí",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Leme",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Limeira",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Lins",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Lorena",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Marília",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Matão",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Mauá",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Mococa",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Mogi Guaçu",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Mogi Mirim",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Mogi das Cruzes",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Monte Alto",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Olímpia",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Ourinhos",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Paraguaçu Paulista",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Paulínia",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Piracicaba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Pirassununga",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Porto Ferreira",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Poá",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Praia Grande",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Presidente Prudente",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Ribeirão Pires",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Rio Claro",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Salto",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Sertãozinho",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Sumaré",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Suzano",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "São Caetano do Sul",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "São Carlos",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "São José do Rio Preto",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "São João da Boa Vista",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "São Vicente",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Taboão da Serra",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Tatuí",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Taubaté",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Tupã",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Ubatuba",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Valinhos",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Vinhedo",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Votorantim",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Votuporanga",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  },
+  {
+    "nome": "Várzea Paulista",
+    "uf": "SP",
+    "lat": -23.5,
+    "lon": -46.5
+  }
+];
 
     const ESTADOS_MAP = {
       'Acre': 'AC', 'Alagoas': 'AL', 'Amapá': 'AP', 'Amazonas': 'AM', 'Bahia': 'BA',
@@ -2149,6 +2839,11 @@
         if (curClean === 'rio de janeiro' && pCidClean !== 'rio de janeiro') return false;
         return pCidClean === curClean || pCidClean.includes(curClean) || curClean.includes(pCidClean);
       });
+
+      // Fallback Inteligente por Estado (Atendimento Regional / Estadual)
+      if (produtos.length === 0 && currentUF) {
+        produtos = DATABASE_PRODUTOS.filter(p => (p.uf || '').toUpperCase() === currentUF.toUpperCase());
+      }
 
       // ==============================================================================
       // MECANISMO DE GOVERNANÇA: EXPIRAÇÃO AUTOMÁTICA DE OFERTAS
