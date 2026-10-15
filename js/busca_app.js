@@ -136,6 +136,11 @@
               'mt_rondonopolis': ['Rondonópolis', 'MT'],
               'mt_sinop': ['Sinop', 'MT'],
               'mt_caceres': ['Cáceres', 'MT'],
+              'pb_joao_pessoa': ['João Pessoa', 'PB'],
+              'pb_campina_grande': ['Campina Grande', 'PB'],
+              'pb_patos': ['Patos', 'PB'],
+              'pb_cabedelo': ['Cabedelo', 'PB'],
+              'pb_bayeux': ['Bayeux', 'PB'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -921,6 +926,32 @@
 
     const TODAS_CIDADES_MT = Object.values(CIDADES_MT_POR_REGIAO).flat();
 
+    const CIDADES_PB_POR_REGIAO = {
+      "João Pessoa & Região Metropolitana": [
+        "João Pessoa", "Santa Rita", "Bayeux", "Cabedelo", "Conde",
+        "Alhandra", "Pitimbu", "Caaporã", "Lucena", "Rio Tinto"
+      ],
+      "Campina Grande & Borborema": [
+        "Campina Grande", "Queimadas", "Lagoa Seca", "Esperança",
+        "Remígio", "Pocinhos", "Boqueirão", "Soledade", "Fagundes", "Alagoa Nova"
+      ],
+      "Sertão & Alto Piranhas": [
+        "Patos", "Sousa", "Cajazeiras", "Pombal", "Piancó",
+        "Itaporanga", "Catolé do Rocha", "São Bento", "Princesa Isabel", "Teixeira"
+      ],
+      "Agreste & Brejo Paraibano": [
+        "Guarabira", "Solânea", "Bananeiras", "Areia", "Mamanguape",
+        "Sapé", "Itabaiana", "Mari", "Araruna", "Belém"
+      ],
+      "Cariri & Curimataú": [
+        "Monteiro", "Serra Branca", "Sumé", "Picuí", "Cuité",
+        "Juazeirinho", "Taperoá", "Barra de Santana"
+      ]
+    };
+
+    const TODAS_CIDADES_PB = Object.values(CIDADES_PB_POR_REGIAO).flat();
+
+
 
 
 
@@ -1102,12 +1133,14 @@
 
         let regiaoMsAtiva = 'Todas';
         regiaoMtAtiva = 'Todas';
+        regiaoPbAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
       abaModalAtual = 'ms';
       regiaoMsAtiva = 'Todas';
         regiaoMtAtiva = 'Todas';
+        regiaoPbAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1311,6 +1344,7 @@
       filtroGoTexto = '';
       filtroMsTexto = '';
       filtroMtTexto = '';
+      filtroPbTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2624,6 +2658,92 @@
       }
 
 
+            // 16. MODO ABA PARAÍBA (52 MUNICÍPIOS)
+      if (abaModalAtual === 'pb') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado da Paraíba (52 Cidades)';
+
+        let cidadesExibir = regiaoPbAtiva === 'Todas' ? TODAS_CIDADES_PB : (CIDADES_PB_POR_REGIAO[regiaoPbAtiva] || []);
+
+        if (filtroPbTexto.trim()) {
+          const fClean = filtroPbTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "João Pessoa & Região Metropolitana", "Campina Grande & Borborema", "Sertão & Alto Piranhas", "Agreste & Brejo Paraibano", "Cariri & Curimataú"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoPbAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-rose-500 text-slate-950 font-bold border-rose-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '52' : (CIDADES_PB_POR_REGIAO[reg] ? CIDADES_PB_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoPb('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-rose-500/20 border-rose-500/50 text-white font-bold shadow-[0_0_10px_rgba(244,63,94,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'PB', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-rose-950/80 text-rose-400 border border-rose-800/60 font-mono">PB</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-rose-400 font-bold font-mono">PB • 52 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Paraíba (Todo o Estado)', 'PB', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">☀️</span>
+                <span>Buscar em Todo o Estado da Paraíba (Cotações & Postos de Todos os 52 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40">52 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroPb" 
+              value="${filtroPbTexto}" 
+              oninput="filtrarCidadesPb(this.value)" 
+              placeholder="Filtrar município da PB (ex: João Pessoa, Campina Grande, Patos, Cabedelo, Sousa, Cajazeiras)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-rose-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município paraibano encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -2894,6 +3014,27 @@
             </div>
             <button type="button" onclick="abrirAbaMatoGrossoDoSul()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 54 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardParaiba = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-rose-950/70 via-slate-900 to-slate-900 border border-rose-500/40 hover:border-rose-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-rose-500/15 border border-rose-500/25">☀️</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Paraíba (Estado PB)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-rose-500/25 text-rose-300 font-bold border border-rose-500/40">52 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">João Pessoa, Campina Grande, Patos, Cabedelo, Bayeux, Santa Rita e Sousa</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaParaiba()" class="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 52 Cidades</span>
               <span>➔</span>
             </button>
           </div>
