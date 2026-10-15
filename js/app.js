@@ -6235,6 +6235,33 @@ const headerOutros = `
       detectarLocalizacaoAutomatica();
     }
 
+    // PROCESSAMENTO AUTOMÁTICO DE PARÂMETROS DA URL (?q=...&cidade=...&uf=...)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlQ = urlParams.get('q');
+      const urlUf = urlParams.get('uf');
+      const urlCidade = urlParams.get('cidade');
+
+      if (urlCidade && urlUf && typeof selecionarCidade === 'function') {
+        selecionarCidade(urlCidade, urlUf.toUpperCase(), 'URL');
+      } else if (urlUf && !urlCidade && typeof selecionarCidade === 'function') {
+        const estadoUf = urlUf.toUpperCase();
+        selecionarCidade(`${estadoUf} (Todo o Estado)`, estadoUf, 'URL');
+      }
+
+      if (urlQ && urlQ.trim().length > 0) {
+        const sInp = document.getElementById('searchInput') || document.getElementById('inputBuscaPrincipal');
+        if (sInp) {
+          sInp.value = urlQ.trim();
+          setTimeout(() => {
+            if (typeof executarBusca === 'function') executarBusca();
+          }, 400);
+        }
+      }
+    } catch (e) {
+      console.warn('Erro ao processar parâmetros da URL:', e);
+    }
+
     // Inicia Telemetria Real Supabase
     enviarPingTelemetria('pageview');
     atualizarContadorAoVivo();
