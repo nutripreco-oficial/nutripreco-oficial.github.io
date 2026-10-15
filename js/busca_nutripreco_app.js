@@ -123,6 +123,9 @@
               'df_ceilandia': ['Ceilândia', 'DF'],
               'df_aguas_claras': ['Águas Claras', 'DF'],
               'go_goiania': ['Goiânia', 'GO'],
+              'go_aparecida_de_goiania': ['Aparecida de Goiânia', 'GO'],
+              'go_anapolis': ['Anápolis', 'GO'],
+              'go_rio_verde': ['Rio Verde', 'GO'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -837,6 +840,34 @@
 
     const TODAS_CIDADES_DF = Object.values(CIDADES_DF_POR_REGIAO).flat();
 
+    const CIDADES_GO_POR_REGIAO = {
+      "Goiânia & Região Metropolitana": [
+        "Goiânia", "Aparecida de Goiânia", "Senador Canedo", "Trindade", "Goianira",
+        "Inhumas", "Bela Vista de Goiás", "Nerópolis", "Guapó", "Hidrolândia",
+        "Bonfinópolis", "Goianápolis"
+      ],
+      "Centro & Eixo Anápolis": [
+        "Anápolis", "Jaraguá", "Pirenópolis", "Corumbá de Goiás", "Goianésia",
+        "Ceres", "Rialma", "Itapuranga", "Crixás", "Uruaçu"
+      ],
+      "Sul Goiano & Região das Águas": [
+        "Itumbiara", "Rio Verde", "Jataí", "Catalão", "Caldas Novas",
+        "Morrinhos", "Goiatuba", "Mineiros", "Quirinópolis", "Piracanjuba",
+        "Santa Helena de Goiás", "Ipameri", "Pires do Rio"
+      ],
+      "Entorno do DF & Leste": [
+        "Luziânia", "Valparaíso de Goiás", "Águas Lindas de Goiás", "Novo Gama", "Cidade Ocidental",
+        "Formosa", "Planaltina de Goiás", "Cristalina", "Santo Antônio do Descoberto", "Posse"
+      ],
+      "Norte & Noroeste": [
+        "Porangatu", "São Miguel do Araguaia", "Minaçu", "Niquelândia", "Mara Rosa",
+        "Goiás", "Iporá", "São Luís de Montes Belos", "Aragarças", "Mozarlândia"
+      ]
+    };
+
+    const TODAS_CIDADES_GO = Object.values(CIDADES_GO_POR_REGIAO).flat();
+
+
 
 
 
@@ -1010,6 +1041,28 @@
         let regiaoDfAtiva = 'Todas';
     let filtroDfTexto = '';
 
+        let regiaoGoAtiva = 'Todas';
+    let filtroGoTexto = '';
+
+    function abrirAbaGoias() {
+      abaModalAtual = 'go';
+      regiaoGoAtiva = 'Todas';
+      filtroGoTexto = '';
+      const inputTop = document.getElementById('inputBuscaCidadeModal');
+      if (inputTop) inputTop.value = '';
+      renderizarCidadesModal();
+    }
+
+    function selecionarRegiaoGo(regiao) {
+      regiaoGoAtiva = regiao;
+      renderizarCidadesModal();
+    }
+
+    function filtrarCidadesGo(txt) {
+      filtroGoTexto = txt || '';
+      renderizarCidadesModal();
+    }
+
     function abrirAbaDistritoFederal() {
       abaModalAtual = 'df';
       regiaoDfAtiva = 'Todas';
@@ -1175,6 +1228,7 @@
       filtroPeTexto = '';
       filtroCeTexto = '';
       filtroDfTexto = '';
+      filtroGoTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2230,6 +2284,92 @@
       }
 
 
+            // 13. MODO ABA GOIÁS (55 MUNICÍPIOS)
+      if (abaModalAtual === 'go') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado de Goiás (55 Cidades)';
+
+        let cidadesExibir = regiaoGoAtiva === 'Todas' ? TODAS_CIDADES_GO : (CIDADES_GO_POR_REGIAO[regiaoGoAtiva] || []);
+
+        if (filtroGoTexto.trim()) {
+          const fClean = filtroGoTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Goiânia & Região Metropolitana", "Centro & Eixo Anápolis", "Sul Goiano & Região das Águas", "Entorno do DF & Leste", "Norte & Noroeste"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoGoAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-yellow-500 text-slate-950 font-bold border-yellow-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '55' : (CIDADES_GO_POR_REGIAO[reg] ? CIDADES_GO_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoGo('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-yellow-500/20 border-yellow-500/50 text-white font-bold shadow-[0_0_10px_rgba(234,179,8,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'GO', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-yellow-950/80 text-yellow-400 border border-yellow-800/60 font-mono">GO</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-yellow-400 font-bold font-mono">GO • 55 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Goiás (Todo o Estado)', 'GO', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-yellow-500/15 hover:bg-yellow-500/25 border border-yellow-500/40 text-yellow-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌾</span>
+                <span>Buscar em Todo o Estado de Goiás (Cotações & Postos de Todos os 55 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-300 border border-yellow-500/40">55 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroGo" 
+              value="${filtroGoTexto}" 
+              oninput="filtrarCidadesGo(this.value)" 
+              placeholder="Filtrar município de GO (ex: Goiânia, Aparecida de Goiânia, Anápolis, Rio Verde, Luziânia, Itumbiara)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-yellow-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município goiano encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -2464,6 +2604,27 @@
         </div>
       `;
 
+      const cardGoias = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-yellow-950/70 via-slate-900 to-slate-900 border border-yellow-500/40 hover:border-yellow-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-yellow-500/15 border border-yellow-500/25">🌾</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Goiás (Estado GO)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-yellow-500/25 text-yellow-300 font-bold border border-yellow-500/40">55 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Goiânia & RMG, Anápolis, Rio Verde, Itumbiara, Catalão e Jataí</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaGoias()" class="px-3 py-1.5 rounded-xl bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 55 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
 const headerOutros = `
         <div class="col-span-1 sm:col-span-2 pt-1 pb-1">
           <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Demais Estados e Capitais Integradas</span>
@@ -2486,7 +2647,7 @@ const headerOutros = `
         `;
       }).join('');
 
-      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + cardDistritoFederal + headerOutros + cardsOutrosEstados;
+      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + cardDistritoFederal + cardGoias + headerOutros + cardsOutrosEstados;
     }
 
     function filtrarCidadesModal() {
