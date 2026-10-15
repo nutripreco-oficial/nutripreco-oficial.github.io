@@ -181,6 +181,11 @@
               'ro_ariquemes': ['Ariquemes', 'RO'],
               'ro_cacoal': ['Cacoal', 'RO'],
               'ro_vilhena': ['Vilhena', 'RO'],
+              'to_palmas': ['Palmas', 'TO'],
+              'to_araguaina': ['Araguaína', 'TO'],
+              'to_gurupi': ['Gurupi', 'TO'],
+              'to_porto_nacional': ['Porto Nacional', 'TO'],
+              'to_paraiso': ['Paraíso do Tocantins', 'TO'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1202,6 +1207,32 @@
 
     const TODAS_CIDADES_RO = Object.values(CIDADES_RO_POR_REGIAO).flat();
 
+    const CIDADES_TO_POR_REGIAO = {
+      "Palmas & Região Central": [
+        "Palmas", "Porto Nacional", "Paraíso do Tocantins", "Miracema do Tocantins", "Miranorte",
+        "Lajeado", "Monte do Carmo", "Brejinho de Nazaré", "Fátima", "Barrolândia"
+      ],
+      "Araguaína & Bico do Papagaio": [
+        "Araguaína", "Augustinópolis", "Tocantinópolis", "Araguatins", "Esperantina",
+        "São Bento do Tocantins", "Ananás", "Xambioá", "Babaçulândia", "Wanderlândia", "Nova Olinda", "Filadélfia"
+      ],
+      "Gurupi & Sul do Tocantins": [
+        "Gurupi", "Alvorada", "Formoso do Araguaia", "Peixe", "Figueirópolis",
+        "Dianópolis", "Taguatinga", "Arraias", "Paranã", "Palmeirópolis", "Natividade", "Almas"
+      ],
+      "Vale do Araguaia & Cantão": [
+        "Cristalândia", "Lagoa da Confusão", "Pium", "Marianópolis do Tocantins",
+        "Caseara", "Divinópolis do Tocantins", "Abreulândia", "Araguacema"
+      ],
+      "Jalapão & Leste": [
+        "Ponte Alta do Tocantins", "Mateiros", "São Félix do Tocantins", "Novo Acordo",
+        "Aparecida do Rio Negro", "Santa Tereza do Tocantins", "Rio Sono", "Lizarda"
+      ]
+    };
+
+    const TODAS_CIDADES_TO = Object.values(CIDADES_TO_POR_REGIAO).flat();
+
+
 
 
 
@@ -1401,6 +1432,7 @@
         regiaoPaAtiva = 'Todas';
         regiaoAmAtiva = 'Todas';
         regiaoRoAtiva = 'Todas';
+        regiaoToAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1416,6 +1448,7 @@
         regiaoPaAtiva = 'Todas';
         regiaoAmAtiva = 'Todas';
         regiaoRoAtiva = 'Todas';
+        regiaoToAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1628,6 +1661,7 @@
       filtroPaTexto = '';
       filtroAmTexto = '';
       filtroRoTexto = '';
+      filtroToTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3715,6 +3749,92 @@
       }
 
 
+            // 25. MODO ABA TOCANTINS (50 MUNICÍPIOS)
+      if (abaModalAtual === 'to') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Tocantins (50 Cidades)';
+
+        let cidadesExibir = regiaoToAtiva === 'Todas' ? TODAS_CIDADES_TO : (CIDADES_TO_POR_REGIAO[regiaoToAtiva] || []);
+
+        if (filtroToTexto.trim()) {
+          const fClean = filtroToTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Palmas & Região Central", "Araguaína & Bico do Papagaio", "Gurupi & Sul do Tocantins", "Vale do Araguaia & Cantão", "Jalapão & Leste"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoToAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-amber-500 text-slate-950 font-bold border-amber-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '50' : (CIDADES_TO_POR_REGIAO[reg] ? CIDADES_TO_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoTo('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-amber-500/20 border-amber-500/50 text-white font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'TO', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-400 border border-amber-800/60 font-mono">TO</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-amber-400 font-bold font-mono">TO • 50 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Tocantins (Todo o Estado)', 'TO', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌻</span>
+                <span>Buscar em Todo o Estado do Tocantins (Cotações & Postos de Todos os 50 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">50 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroTo" 
+              value="${filtroToTexto}" 
+              oninput="filtrarCidadesTo(this.value)" 
+              placeholder="Filtrar município de TO (ex: Palmas, Araguaína, Gurupi, Porto Nacional, Paraíso)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município tocantinense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -4153,6 +4273,27 @@
             </div>
             <button type="button" onclick="abrirAbaRondonia()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 51 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardTocantins = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-amber-950/70 via-slate-900 to-slate-900 border border-amber-500/40 hover:border-amber-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-amber-500/15 border border-amber-500/25">🌻</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Tocantins (Estado TO)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-amber-500/25 text-amber-300 font-bold border border-amber-500/40">50 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Palmas, Araguaína, Gurupi, Porto Nacional, Paraíso do Tocantins e Dianópolis</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaTocantins()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 50 Cidades</span>
               <span>➔</span>
             </button>
           </div>
