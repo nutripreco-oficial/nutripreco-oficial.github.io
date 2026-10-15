@@ -4925,6 +4925,13 @@ const headerOutros = `
     }
 
     async function detectarLocalizacaoAutomatica() {
+      // Prioridade Soberana da URL: se o usurio veio de um link com ?uf= ou ?cidade=, preserva e no sobrepe via IP/GPS
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('uf') || urlParams.get('cidade')) {
+          return;
+        }
+      } catch (e) {}
       const salva = localStorage.getItem('nutri_user_location');
       if (salva) {
         try {
@@ -4992,6 +4999,9 @@ const headerOutros = `
     }
 
     function selecionarCidade(cidade, uf, metodo = 'Manual') {
+      if ((metodo === 'IP' || metodo === 'GPS') && locationMethod === 'URL') {
+        return; // Nunca sobrescrever escolha explcita via URL
+      }
       currentCity = cidade;
       currentUF = uf;
       locationMethod = metodo;

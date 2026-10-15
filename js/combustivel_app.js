@@ -1533,7 +1533,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const seoQtd = body.dataset.qtd || '';
 
   const selEstado = document.getElementById('selectEstado');
-  if (selEstado) selEstado.value = seoUf;
+  if (selEstado) { selEstado.value = seoUf; selEstado.addEventListener('change', trocarEstado); }
   ESTADO_ATUAL = seoUf;
 
   if (typeof CONFIG_ESTADOS !== 'undefined' && CONFIG_ESTADOS[seoUf]) {
