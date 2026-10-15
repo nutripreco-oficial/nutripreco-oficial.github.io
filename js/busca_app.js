@@ -176,6 +176,11 @@
               'am_itacoatiara': ['Itacoatiara', 'AM'],
               'am_manacapuru': ['Manacapuru', 'AM'],
               'am_coari': ['Coari', 'AM'],
+              'ro_porto_velho': ['Porto Velho', 'RO'],
+              'ro_ji_parana': ['Ji-Paraná', 'RO'],
+              'ro_ariquemes': ['Ariquemes', 'RO'],
+              'ro_cacoal': ['Cacoal', 'RO'],
+              'ro_vilhena': ['Vilhena', 'RO'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1161,6 +1166,34 @@
 
     const TODAS_CIDADES_AM = Object.values(CIDADES_AM_POR_REGIAO).flat();
 
+    const CIDADES_RO_POR_REGIAO = {
+      "Porto Velho & Madeira-Mamoré": [
+        "Porto Velho", "Guajará-Mirim", "Candeias do Jamari", "Itapuã do Oeste", "Nova Mamoré"
+      ],
+      "Região Central & Vale do Jamari": [
+        "Ariquemes", "Jaru", "Ouro Preto do Oeste", "Alto Paraíso", "Buritis",
+        "Cacaulândia", "Campo Novo de Rondônia", "Cujubim", "Governador Jorge Teixeira",
+        "Theobroma", "Vale do Anari", "Machadinho d'Oeste", "Rio Crespo", "Monte Negro"
+      ],
+      "Ji-Paraná & Polo Central": [
+        "Ji-Paraná", "Presidente Médici", "Alvorada d'Oeste", "Urupá", "Castanheiras",
+        "Ministro Andreazza", "Vale do Paraíso", "Mirante da Serra", "Nova União", "Teixeirópolis"
+      ],
+      "Cacoal & Vale do Guaporé": [
+        "Cacoal", "Pimenta Bueno", "Espigão d'Oeste", "Rolim de Moura", "São Miguel do Guaporé",
+        "Alta Floresta d'Oeste", "Alto Alegre dos Parecis", "Nova Brasilândia d'Oeste",
+        "Santa Luzia d'Oeste", "São Francisco do Guaporé", "Costa Marques", "Seringueiras",
+        "Primavera de Rondônia", "São Felipe d'Oeste", "Parecis"
+      ],
+      "Cone Sul de Rondônia": [
+        "Vilhena", "Colorado do Oeste", "Cerejeiras", "Cabixi", "Corumbiara",
+        "Chupinguaia", "Pimenteiras do Oeste"
+      ]
+    };
+
+    const TODAS_CIDADES_RO = Object.values(CIDADES_RO_POR_REGIAO).flat();
+
+
 
 
 
@@ -1358,6 +1391,7 @@
         regiaoPiAtiva = 'Todas';
         regiaoPaAtiva = 'Todas';
         regiaoAmAtiva = 'Todas';
+        regiaoRoAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1372,6 +1406,7 @@
         regiaoPiAtiva = 'Todas';
         regiaoPaAtiva = 'Todas';
         regiaoAmAtiva = 'Todas';
+        regiaoRoAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1583,6 +1618,7 @@
       filtroPiTexto = '';
       filtroPaTexto = '';
       filtroAmTexto = '';
+      filtroRoTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3584,6 +3620,92 @@
       }
 
 
+            // 24. MODO ABA RONDÔNIA (51 MUNICÍPIOS)
+      if (abaModalAtual === 'ro') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado de Rondônia (51 Cidades)';
+
+        let cidadesExibir = regiaoRoAtiva === 'Todas' ? TODAS_CIDADES_RO : (CIDADES_RO_POR_REGIAO[regiaoRoAtiva] || []);
+
+        if (filtroRoTexto.trim()) {
+          const fClean = filtroRoTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Porto Velho & Madeira-Mamoré", "Região Central & Vale do Jamari", "Ji-Paraná & Polo Central", "Cacoal & Vale do Guaporé", "Cone Sul de Rondônia"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoRoAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '51' : (CIDADES_RO_POR_REGIAO[reg] ? CIDADES_RO_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoRo('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-emerald-500/20 border-emerald-500/50 text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'RO', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-mono">RO</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-emerald-400 font-bold font-mono">RO • 51 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Rondônia (Todo o Estado)', 'RO', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🪵</span>
+                <span>Buscar em Todo o Estado de Rondônia (Cotações & Postos de Todos os 51 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">51 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroRo" 
+              value="${filtroRoTexto}" 
+              oninput="filtrarCidadesRo(this.value)" 
+              placeholder="Filtrar município de RO (ex: Porto Velho, Ji-Paraná, Ariquemes, Cacoal, Vilhena, Jaru)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-emerald-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município rondoniense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -4001,6 +4123,27 @@
             </div>
             <button type="button" onclick="abrirAbaAmazonas()" class="px-3 py-1.5 rounded-xl bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 49 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardRondonia = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-900 border border-emerald-500/40 hover:border-emerald-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25">🪵</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Rondônia (Estado RO)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300 font-bold border border-emerald-500/40">51 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Porto Velho, Ji-Paraná, Ariquemes, Cacoal, Vilhena, Jaru e Rolim de Moura</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaRondonia()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 51 Cidades</span>
               <span>➔</span>
             </button>
           </div>
