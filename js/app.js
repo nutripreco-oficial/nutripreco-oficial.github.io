@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('se');
     carregarCombustiveisOnline('ma');
     carregarCombustiveisOnline('pi');
+    carregarCombustiveisOnline('pa');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -225,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('se');
     carregarCombustiveisOnline('ma');
     carregarCombustiveisOnline('pi');
+    carregarCombustiveisOnline('pa');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -300,6 +302,11 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'pi_picos': ['Picos', 'PI'],
               'pi_piripiri': ['Piripiri', 'PI'],
               'pi_floriano': ['Floriano', 'PI'],
+              'pa_belem': ['Belém', 'PA'],
+              'pa_ananindeua': ['Ananindeua', 'PA'],
+              'pa_santarem': ['Santarém', 'PA'],
+              'pa_maraba': ['Marabá', 'PA'],
+              'pa_parauapebas': ['Parauapebas', 'PA'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1207,6 +1214,32 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_PI = Object.values(CIDADES_PI_POR_REGIAO).flat();
 
+    const CIDADES_PA_POR_REGIAO = {
+      "Região Metropolitana de Belém & Marajó": [
+        "Belém", "Ananindeua", "Marituba", "Benevides", "Santa Izabel do Pará",
+        "Barcarena", "Abaetetuba", "Soure", "Salvaterra", "Breves"
+      ],
+      "Baixo Amazonas & Tapajós": [
+        "Santarém", "Itaituba", "Oriximiná", "Óbidos", "Alenquer",
+        "Monte Alegre", "Juruti", "Prainha", "Rurópolis", "Belterra"
+      ],
+      "Sudeste Paraense & Carajás": [
+        "Marabá", "Parauapebas", "Canaã dos Carajás", "Tucuruí", "Curionópolis",
+        "Eldorado do Carajás", "São Félix do Xingu", "Redenção", "Xinguara", "Conceição do Araguaia"
+      ],
+      "Nordeste Paraense & Salgado": [
+        "Castanhal", "Bragança", "Capanema", "Salinópolis", "Vigia",
+        "Cametá", "Tomé-Açu", "Paragominas", "Capitão Poço", "Tailândia"
+      ],
+      "Xingu & Transamazônica": [
+        "Altamira", "Brasil Novo", "Medicilândia", "Uruará", "Pacajá",
+        "Anapu", "Vitória do Xingu", "Senador José Porfírio", "Porto de Moz", "Novo Repartimento"
+      ]
+    };
+
+    const TODAS_CIDADES_PA = Object.values(CIDADES_PA_POR_REGIAO).flat();
+
+
 
 
 
@@ -1292,6 +1325,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_SE !== 'undefined' && TODAS_CIDADES_SE.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_MA !== 'undefined' && TODAS_CIDADES_MA.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_PI !== 'undefined' && TODAS_CIDADES_PI.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_PA !== 'undefined' && TODAS_CIDADES_PA.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1417,6 +1451,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoSeAtiva = 'Todas';
         regiaoMaAtiva = 'Todas';
         regiaoPiAtiva = 'Todas';
+        regiaoPaAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1429,6 +1464,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoSeAtiva = 'Todas';
         regiaoMaAtiva = 'Todas';
         regiaoPiAtiva = 'Todas';
+        regiaoPaAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1638,6 +1674,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroSeTexto = '';
       filtroMaTexto = '';
       filtroPiTexto = '';
+      filtroPaTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3461,6 +3498,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
           <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
             ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município piauiense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
+            // 22. MODO ABA PARÁ (50 MUNICÍPIOS)
+      if (abaModalAtual === 'pa') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Pará (50 Cidades)';
+
+        let cidadesExibir = regiaoPaAtiva === 'Todas' ? TODAS_CIDADES_PA : (CIDADES_PA_POR_REGIAO[regiaoPaAtiva] || []);
+
+        if (filtroPaTexto.trim()) {
+          const fClean = filtroPaTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Região Metropolitana de Belém & Marajó", "Baixo Amazonas & Tapajós", "Sudeste Paraense & Carajás", "Nordeste Paraense & Salgado", "Xingu & Transamazônica"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoPaAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-red-500 text-slate-950 font-bold border-red-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '50' : (CIDADES_PA_POR_REGIAO[reg] ? CIDADES_PA_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoPa('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-red-500/20 border-red-500/50 text-white font-bold shadow-[0_0_10px_rgba(239,68,68,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'PA', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-red-950/80 text-red-400 border border-red-800/60 font-mono">PA</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-red-400 font-bold font-mono">PA • 50 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Pará (Todo o Estado)', 'PA', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🥭</span>
+                <span>Buscar em Todo o Estado do Pará (Cotações & Postos de Todos os 50 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/40">50 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroPa" 
+              value="${filtroPaTexto}" 
+              oninput="filtrarCidadesPa(this.value)" 
+              placeholder="Filtrar município do PA (ex: Belém, Ananindeua, Santarém, Marabá, Parauapebas, Castanhal)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-red-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município paraense encontrado com este filtro.</p>'}
           </div>
         `;
         return;

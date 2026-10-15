@@ -5685,6 +5685,254 @@
           "coletado_em": "2026-10-15T13:25:20.495638+00:00"
         }
       }
+    },
+    "pa_belem_atacadao": {
+      "cidade": "Belém",
+      "uf": "PA",
+      "regiao": "Norte",
+      "rede": "Atacadão",
+      "unidade": "Atacadão (Belém - PA)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 16,
+      "soma_itens_verificados_reais": 124.32,
+      "itens": {
+        "arroz": {
+          "produto": "Flocão de Arroz Urbano 500g",
+          "marca": "Urbano",
+          "preco": 3.29,
+          "fonte_url": "https://secure.atacadao.com.br/flocao-de-arroz-urbano-pacote-com-500g-63063/p",
+          "coletado_em": "2026-10-15T13:28:15.167659+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Preto Bulnez Tipo 1 1kg",
+          "marca": "Bulnez",
+          "preco": 6.79,
+          "fonte_url": "https://secure.atacadao.com.br/feijao-preto-bulnez-tipo-1-15281/p",
+          "coletado_em": "2026-10-15T13:28:15.928329+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Nita Para Pizza 5kg",
+          "marca": "Nita",
+          "preco": 13.99,
+          "fonte_url": "https://secure.atacadao.com.br/farinha-de-trigo-nita-para-pizza-pacote-com-5kg-26744/p",
+          "coletado_em": "2026-10-15T13:28:16.964769+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:28:17.738627+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://secure.atacadao.com.br/acucar-refinado-bulnez-14485/p",
+          "coletado_em": "2026-10-15T13:28:19.344777+00:00"
+        },
+        "cafe": {
+          "produto": "Café Cappuccino Melitta Doce de leite 200g",
+          "marca": "Melitta",
+          "preco": 9.9,
+          "fonte_url": "https://secure.atacadao.com.br/cafe-cappuccino-melitta-doce-de-leite-94715/p",
+          "coletado_em": "2026-10-15T13:28:20.201196+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Pasteurizado Serramar Integral 1L",
+          "marca": "Serramar",
+          "preco": 6.9,
+          "fonte_url": "https://secure.atacadao.com.br/leite-pasteurizado-serramar-integral-89516/p",
+          "coletado_em": "2026-10-15T13:28:20.713537+00:00"
+        },
+        "manteiga": {
+          "produto": "Biscoito Marilan Manteiga 300g",
+          "marca": "Marilan",
+          "preco": 4.49,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-manteiga-12290/p",
+          "coletado_em": "2026-10-15T13:28:22.485842+00:00"
+        },
+        "carne bovina": {
+          "produto": "Carne Bovina Moída Rkótima Congelada 500g",
+          "marca": "Rkótima",
+          "preco": 8.99,
+          "fonte_url": "https://secure.atacadao.com.br/carne-bovina-moida-rkotima-congelada-89511/p",
+          "coletado_em": "2026-10-15T13:28:23.682204+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango com Osso Resfriado Preço por quilo",
+          "marca": "Atacadão S/A",
+          "preco": 14.59,
+          "fonte_url": "https://secure.atacadao.com.br/peito-de-frango-com-osso-resfriado-85341/p",
+          "coletado_em": "2026-10-15T13:28:24.462736+00:00"
+        },
+        "ovos": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:28:25.447321+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Goiabal Fatiado 400g",
+          "marca": "Goiabal",
+          "preco": 23.2,
+          "fonte_url": "https://secure.atacadao.com.br/queijo-mussarela-goiabal-fatiado-3946/p",
+          "coletado_em": "2026-10-15T13:28:26.330554+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Marilan Maizena 140g",
+          "marca": "Marilan",
+          "preco": 3.39,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-maizena-12291/p",
+          "coletado_em": "2026-10-15T13:28:26.997360+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Tixan Ypê Primavera 400g",
+          "marca": "Tixan",
+          "preco": 5.28,
+          "fonte_url": "https://secure.atacadao.com.br/lava-roupas-em-po-tixan-primavera-3155/p",
+          "coletado_em": "2026-10-15T13:28:27.734095+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Bulnez Neutro 500ml",
+          "marca": "Bulnez",
+          "preco": 1.95,
+          "fonte_url": "https://secure.atacadao.com.br/detergente-liquido-bulnez-neutro-15207/p",
+          "coletado_em": "2026-10-15T13:28:28.446747+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Neve Folha Dupla 40m 6 rolos",
+          "marca": "Neve",
+          "preco": 14.69,
+          "fonte_url": "https://secure.atacadao.com.br/papel-higienico-neve-folha-dupla-40m-18778/p",
+          "coletado_em": "2026-10-15T13:28:29.286708+00:00"
+        }
+      }
+    },
+    "pa_santarem_atacadao": {
+      "cidade": "Santarém",
+      "uf": "PA",
+      "regiao": "Norte",
+      "rede": "Atacadão",
+      "unidade": "Atacadão (Santarém - PA)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 16,
+      "soma_itens_verificados_reais": 124.32,
+      "itens": {
+        "arroz": {
+          "produto": "Flocão de Arroz Urbano 500g",
+          "marca": "Urbano",
+          "preco": 3.29,
+          "fonte_url": "https://secure.atacadao.com.br/flocao-de-arroz-urbano-pacote-com-500g-63063/p",
+          "coletado_em": "2026-10-15T13:28:30.619988+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Preto Bulnez Tipo 1 1kg",
+          "marca": "Bulnez",
+          "preco": 6.79,
+          "fonte_url": "https://secure.atacadao.com.br/feijao-preto-bulnez-tipo-1-15281/p",
+          "coletado_em": "2026-10-15T13:28:31.074667+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Nita Para Pizza 5kg",
+          "marca": "Nita",
+          "preco": 13.99,
+          "fonte_url": "https://secure.atacadao.com.br/farinha-de-trigo-nita-para-pizza-pacote-com-5kg-26744/p",
+          "coletado_em": "2026-10-15T13:28:31.708221+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:28:32.232831+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://secure.atacadao.com.br/acucar-refinado-bulnez-14485/p",
+          "coletado_em": "2026-10-15T13:28:32.688404+00:00"
+        },
+        "cafe": {
+          "produto": "Café Cappuccino Melitta Doce de leite 200g",
+          "marca": "Melitta",
+          "preco": 9.9,
+          "fonte_url": "https://secure.atacadao.com.br/cafe-cappuccino-melitta-doce-de-leite-94715/p",
+          "coletado_em": "2026-10-15T13:28:33.347327+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Pasteurizado Serramar Integral 1L",
+          "marca": "Serramar",
+          "preco": 6.9,
+          "fonte_url": "https://secure.atacadao.com.br/leite-pasteurizado-serramar-integral-89516/p",
+          "coletado_em": "2026-10-15T13:28:33.814102+00:00"
+        },
+        "manteiga": {
+          "produto": "Biscoito Marilan Manteiga 300g",
+          "marca": "Marilan",
+          "preco": 4.49,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-manteiga-12290/p",
+          "coletado_em": "2026-10-15T13:28:34.784202+00:00"
+        },
+        "carne bovina": {
+          "produto": "Carne Bovina Moída Rkótima Congelada 500g",
+          "marca": "Rkótima",
+          "preco": 8.99,
+          "fonte_url": "https://secure.atacadao.com.br/carne-bovina-moida-rkotima-congelada-89511/p",
+          "coletado_em": "2026-10-15T13:28:35.238036+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango com Osso Resfriado Preço por quilo",
+          "marca": "Atacadão S/A",
+          "preco": 14.59,
+          "fonte_url": "https://secure.atacadao.com.br/peito-de-frango-com-osso-resfriado-85341/p",
+          "coletado_em": "2026-10-15T13:28:35.713057+00:00"
+        },
+        "ovos": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:28:36.136249+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Goiabal Fatiado 400g",
+          "marca": "Goiabal",
+          "preco": 23.2,
+          "fonte_url": "https://secure.atacadao.com.br/queijo-mussarela-goiabal-fatiado-3946/p",
+          "coletado_em": "2026-10-15T13:28:36.854738+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Marilan Maizena 140g",
+          "marca": "Marilan",
+          "preco": 3.39,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-maizena-12291/p",
+          "coletado_em": "2026-10-15T13:28:37.463872+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Tixan Ypê Primavera 400g",
+          "marca": "Tixan",
+          "preco": 5.28,
+          "fonte_url": "https://secure.atacadao.com.br/lava-roupas-em-po-tixan-primavera-3155/p",
+          "coletado_em": "2026-10-15T13:28:37.959701+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Bulnez Neutro 500ml",
+          "marca": "Bulnez",
+          "preco": 1.95,
+          "fonte_url": "https://secure.atacadao.com.br/detergente-liquido-bulnez-neutro-15207/p",
+          "coletado_em": "2026-10-15T13:28:38.414523+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Neve Folha Dupla 40m 6 rolos",
+          "marca": "Neve",
+          "preco": 14.69,
+          "fonte_url": "https://secure.atacadao.com.br/papel-higienico-neve-folha-dupla-40m-18778/p",
+          "coletado_em": "2026-10-15T13:28:38.847534+00:00"
+        }
+      }
     }
   },
   "estados_cobertos": [
@@ -5707,6 +5955,7 @@
     "AL",
     "SE",
     "MA",
-    "PI"
+    "PI",
+    "PA"
   ]
 }
