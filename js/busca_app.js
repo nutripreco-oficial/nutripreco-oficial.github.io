@@ -146,6 +146,11 @@
               'rn_parnamirim': ['Parnamirim', 'RN'],
               'rn_caico': ['Caicó', 'RN'],
               'rn_assu': ['Assú', 'RN'],
+              'al_maceio': ['Maceió', 'AL'],
+              'al_arapiraca': ['Arapiraca', 'AL'],
+              'al_rio_largo': ['Rio Largo', 'AL'],
+              'al_palmeira_dos_indios': ['Palmeira dos Índios', 'AL'],
+              'al_maragogi': ['Maragogi', 'AL'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -981,6 +986,32 @@
 
     const TODAS_CIDADES_RN = Object.values(CIDADES_RN_POR_REGIAO).flat();
 
+    const CIDADES_AL_POR_REGIAO = {
+      "Maceió & Região Metropolitana": [
+        "Maceió", "Rio Largo", "Marechal Deodoro", "Pilar", "Paripueira",
+        "Barra de Santo Antônio", "Satuba", "Santa Luzia do Norte", "Coqueiro Seco", "Messias"
+      ],
+      "Agreste & Arapiraca": [
+        "Arapiraca", "Palmeira dos Índios", "São Sebastião", "Lagoa da Canoa", "Feira Grande",
+        "Igaci", "Craíbas", "Taquarana", "Limoeiro de Anadia", "Girau do Ponciano"
+      ],
+      "Litoral & Costa dos Corais": [
+        "Maragogi", "Japaratinga", "Porto de Pedras", "São Miguel dos Milagres", "Passo de Camaragibe",
+        "Penedo", "Coruripe", "Piaçabuçu", "Feliz Deserto", "Jequiá da Praia"
+      ],
+      "Zona da Mata & Vale do Mundaú": [
+        "União dos Palmares", "São José da Laje", "Murici", "Viçosa", "Atalaia",
+        "Capela", "Branquinha", "Ibateguara", "Chã Preta", "Cajueiro"
+      ],
+      "Sertão Alagoano": [
+        "Delmiro Gouveia", "Santana do Ipanema", "Piranhas", "Batalha", "Pão de Açúcar",
+        "Olho d'Água das Flores", "São José da Tapera", "Mata Grande", "Água Branca", "Major Isidoro"
+      ]
+    };
+
+    const TODAS_CIDADES_AL = Object.values(CIDADES_AL_POR_REGIAO).flat();
+
+
 
 
 
@@ -1166,6 +1197,7 @@
         regiaoMtAtiva = 'Todas';
         regiaoPbAtiva = 'Todas';
         regiaoRnAtiva = 'Todas';
+        regiaoAlAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1174,6 +1206,7 @@
         regiaoMtAtiva = 'Todas';
         regiaoPbAtiva = 'Todas';
         regiaoRnAtiva = 'Todas';
+        regiaoAlAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1379,6 +1412,7 @@
       filtroMtTexto = '';
       filtroPbTexto = '';
       filtroRnTexto = '';
+      filtroAlTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2864,6 +2898,92 @@
       }
 
 
+            // 18. MODO ABA ALAGOAS (50 MUNICÍPIOS)
+      if (abaModalAtual === 'al') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado de Alagoas (50 Cidades)';
+
+        let cidadesExibir = regiaoAlAtiva === 'Todas' ? TODAS_CIDADES_AL : (CIDADES_AL_POR_REGIAO[regiaoAlAtiva] || []);
+
+        if (filtroAlTexto.trim()) {
+          const fClean = filtroAlTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Maceió & Região Metropolitana", "Agreste & Arapiraca", "Litoral & Costa dos Corais", "Zona da Mata & Vale do Mundaú", "Sertão Alagoano"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoAlAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-teal-500 text-slate-950 font-bold border-teal-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '50' : (CIDADES_AL_POR_REGIAO[reg] ? CIDADES_AL_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoAl('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-teal-500/20 border-teal-500/50 text-white font-bold shadow-[0_0_10px_rgba(20,184,166,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'AL', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-teal-950/80 text-teal-400 border border-teal-800/60 font-mono">AL</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-teal-400 font-bold font-mono">AL • 50 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Alagoas (Todo o Estado)', 'AL', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/40 text-teal-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌴</span>
+                <span>Buscar em Todo o Estado de Alagoas (Cotações & Postos de Todos os 50 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/40">50 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroAl" 
+              value="${filtroAlTexto}" 
+              oninput="filtrarCidadesAl(this.value)" 
+              placeholder="Filtrar município de AL (ex: Maceió, Arapiraca, Palmeira dos Índios, Rio Largo, Maragogi, Penedo)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-teal-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município alagoano encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -3175,6 +3295,27 @@
               </div>
             </div>
             <button type="button" onclick="abrirAbaRioGrandeDoNorte()" class="px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 50 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardAlagoas = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-teal-950/70 via-slate-900 to-slate-900 border border-teal-500/40 hover:border-teal-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-teal-500/15 border border-teal-500/25">🌴</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Alagoas (Estado AL)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-teal-500/25 text-teal-300 font-bold border border-teal-500/40">50 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Maceió, Arapiraca, Rio Largo, Palmeira dos Índios, Maragogi e Penedo</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaAlagoas()" class="px-3 py-1.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 50 Cidades</span>
               <span>➔</span>
             </button>
