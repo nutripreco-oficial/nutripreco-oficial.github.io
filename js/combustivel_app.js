@@ -207,6 +207,141 @@ let ESTADO_ATUAL = 'rj';
         subtitulo: "Preços dos Dados Abertos da ANP em Goiânia, Aparecida de Goiânia, Anápolis, Rio Verde e polos goianos:",
         capital: "Goiânia",
         destaque: "Aparecida de Goiânia"
+      },
+      ms: {
+        sigla: "MS",
+        nome: "Mato Grosso do Sul",
+        badge: "67 Postos Reais ANP • MS",
+        titulo: "Onde abastecer mais barato em Mato Grosso do Sul?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Campo Grande, Dourados, Três Lagoas e polos sul-mato-grossenses:",
+        capital: "Campo Grande",
+        destaque: "Dourados"
+      },
+      mt: {
+        sigla: "MT",
+        nome: "Mato Grosso",
+        badge: "124 Postos Reais ANP • MT",
+        titulo: "Onde abastecer mais barato em Mato Grosso?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Cuiabá, Várzea Grande, Rondonópolis, Sinop e polos mato-grossenses:",
+        capital: "Cuiabá",
+        destaque: "Rondonópolis"
+      },
+      pb: {
+        sigla: "PB",
+        nome: "Paraíba",
+        badge: "70 Postos Reais ANP • PB",
+        titulo: "Onde abastecer mais barato na Paraíba?",
+        subtitulo: "Preços dos Dados Abertos da ANP em João Pessoa, Campina Grande, Patos e polos paraibanos:",
+        capital: "João Pessoa",
+        destaque: "Campina Grande"
+      },
+      rn: {
+        sigla: "RN",
+        nome: "Rio Grande do Norte",
+        badge: "63 Postos Reais ANP • RN",
+        titulo: "Onde abastecer mais barato no Rio Grande do Norte?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Natal, Mossoró, Parnamirim e polos potiguares:",
+        capital: "Natal",
+        destaque: "Mossoró"
+      },
+      al: {
+        sigla: "AL",
+        nome: "Alagoas",
+        badge: "77 Postos Reais ANP • AL",
+        titulo: "Onde abastecer mais barato em Alagoas?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Maceió, Arapiraca, Rio Largo e polos alagoanos:",
+        capital: "Maceió",
+        destaque: "Arapiraca"
+      },
+      se: {
+        sigla: "SE",
+        nome: "Sergipe",
+        badge: "41 Postos Reais ANP • SE",
+        titulo: "Onde abastecer mais barato em Sergipe?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Aracaju, Nossa Senhora do Socorro, Lagarto e polos sergipanos:",
+        capital: "Aracaju",
+        destaque: "Nossa Senhora do Socorro"
+      },
+      ma: {
+        sigla: "MA",
+        nome: "Maranhão",
+        badge: "156 Postos Reais ANP • MA",
+        titulo: "Onde abastecer mais barato no Maranhão?",
+        subtitulo: "Preços dos Dados Abertos da ANP em São Luís, Imperatriz, Caxias, Timon e polos maranhenses:",
+        capital: "São Luís",
+        destaque: "Imperatriz"
+      },
+      pi: {
+        sigla: "PI",
+        nome: "Piauí",
+        badge: "71 Postos Reais ANP • PI",
+        titulo: "Onde abastecer mais barato no Piauí?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Teresina, Parnaíba, Picos, Floriano e polos piauienses:",
+        capital: "Teresina",
+        destaque: "Parnaíba"
+      },
+      pa: {
+        sigla: "PA",
+        nome: "Pará",
+        badge: "119 Postos Reais ANP • PA",
+        titulo: "Onde abastecer mais barato no Pará?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Belém, Ananindeua, Santarém, Marabá e polos paraenses:",
+        capital: "Belém",
+        destaque: "Santarém"
+      },
+      am: {
+        sigla: "AM",
+        nome: "Amazonas",
+        badge: "59 Postos Reais ANP • AM",
+        titulo: "Onde abastecer mais barato no Amazonas?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Manaus, Parintins, Manacapuru e polos amazonenses:",
+        capital: "Manaus",
+        destaque: "Parintins"
+      },
+      ro: {
+        sigla: "RO",
+        nome: "Rondônia",
+        badge: "57 Postos Reais ANP • RO",
+        titulo: "Onde abastecer mais barato em Rondônia?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Porto Velho, Ji-Paraná, Ariquemes, Cacoal e polos rondonienses:",
+        capital: "Porto Velho",
+        destaque: "Ji-Paraná"
+      },
+      to: {
+        sigla: "TO",
+        nome: "Tocantins",
+        badge: "67 Postos Reais ANP • TO",
+        titulo: "Onde abastecer mais barato no Tocantins?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Palmas, Araguaína, Gurupi, Porto Nacional e polos tocantinenses:",
+        capital: "Palmas",
+        destaque: "Araguaína"
+      },
+      ac: {
+        sigla: "AC",
+        nome: "Acre",
+        badge: "12 Postos Reais ANP • AC",
+        titulo: "Onde abastecer mais barato no Acre?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Rio Branco e polos acreanos:",
+        capital: "Rio Branco",
+        destaque: "Cruzeiro do Sul"
+      },
+      ap: {
+        sigla: "AP",
+        nome: "Amapá",
+        badge: "24 Postos Reais ANP • AP",
+        titulo: "Onde abastecer mais barato no Amapá?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Macapá, Santana e polos amapaenses:",
+        capital: "Macapá",
+        destaque: "Santana"
+      },
+      rr: {
+        sigla: "RR",
+        nome: "Roraima",
+        badge: "15 Postos Reais ANP • RR",
+        titulo: "Onde abastecer mais barato em Roraima?",
+        subtitulo: "Preços dos Dados Abertos da ANP em Boa Vista e polos roraimenses:",
+        capital: "Boa Vista",
+        destaque: "Rorainópolis"
       }
     };
 
