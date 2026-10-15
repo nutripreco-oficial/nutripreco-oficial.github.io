@@ -2438,6 +2438,144 @@
           "coletado_em": "2026-10-15T08:33:07.543501+00:00"
         }
       }
+    },
+    "pr_curitiba_festval": {
+      "cidade": "Curitiba",
+      "uf": "PR",
+      "regiao": "Curitiba & RMC",
+      "rede": "Supermercados Festval",
+      "unidade": "Festval Batel / Mercês / Barigui",
+      "fonte_oficial_dominio": "festval.com",
+      "qtd_itens_verificados": 18,
+      "soma_itens_verificados_reais": 503.08,
+      "itens": {
+        "arroz": {
+          "produto": "Arroz Arbóreo Italiano Mamma Bia 500g",
+          "marca": "Mamma Bia",
+          "preco": 14.98,
+          "fonte_url": "https://www.festval.com/arroz-italiano-mamma-bia-arborio-500g/p",
+          "coletado_em": "2026-10-15T08:53:00.528956+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Branco em Conserva Bonduelle 250g",
+          "marca": "Bonduelle",
+          "preco": 15.9,
+          "fonte_url": "https://www.festval.com/feijao_branco_em_conserva_bonduelle_250g/p",
+          "coletado_em": "2026-10-15T08:53:01.344805+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Integral Anaconda 1kg",
+          "marca": "Anaconda",
+          "preco": 6.99,
+          "fonte_url": "https://www.festval.com/farinha-de-trigo-integral-anaconda-pacote-1kg/p",
+          "coletado_em": "2026-10-15T08:53:02.016025+00:00"
+        },
+        "macarrao": {
+          "produto": "Macarrão Italiano Mamma Bia Farfalle 500g",
+          "marca": "Mamma Bia",
+          "preco": 9.9,
+          "fonte_url": "https://www.festval.com/macarrao-italiano-mamma-bia-farfalle-500g/p",
+          "coletado_em": "2026-10-15T08:53:02.868027+00:00"
+        },
+        "acucar": {
+          "produto": "Suco de Laranja Festval 900ml",
+          "marca": "Festval",
+          "preco": 14.99,
+          "fonte_url": "https://www.festval.com/suco-festval-laranja-900ml/p",
+          "coletado_em": "2026-10-15T08:53:03.101344+00:00"
+        },
+        "cafe": {
+          "produto": "Pão Francês Festval 80g/Un",
+          "marca": "Festval",
+          "preco": 14.99,
+          "fonte_url": "https://www.festval.com/pao-frances-kg-/p",
+          "coletado_em": "2026-10-15T08:53:03.257114+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite UHT Integral com Tampa Batavo 1L",
+          "marca": "Batavo",
+          "preco": 5.99,
+          "fonte_url": "https://www.festval.com/leite-uht-integral-batavo-caixa-com-tampa-1l/p",
+          "coletado_em": "2026-10-15T08:53:03.642669+00:00"
+        },
+        "oleo de soja": {
+          "produto": "Óleo De Soja Suavit  900ML",
+          "marca": "Suavit",
+          "preco": 7.99,
+          "fonte_url": "https://www.festval.com/oleo-de-soja-suavit-900ml/p",
+          "coletado_em": "2026-10-15T08:53:03.683879+00:00"
+        },
+        "manteiga": {
+          "produto": "Croissant Manteiga Festval 4 Unidades Aproximadamente 300g/Bandeja",
+          "marca": "Festval",
+          "preco": 72.9,
+          "fonte_url": "https://www.festval.com/croissant-manteiga-festval-kg/p",
+          "coletado_em": "2026-10-15T08:53:04.339074+00:00"
+        },
+        "carne": {
+          "produto": "Quiche de Carne Seca Cremosa Festval 600g",
+          "marca": "Festval",
+          "preco": 45.9,
+          "fonte_url": "https://www.festval.com/quiche-de-carne-seca-festval-600g/p",
+          "coletado_em": "2026-10-15T08:53:04.875199+00:00"
+        },
+        "frango": {
+          "produto": "Coxinha de Frango Festval Aproximadamente 28g/un",
+          "marca": "Festval",
+          "preco": 54.9,
+          "fonte_url": "https://www.festval.com/coxinha-de-frango-festval-kg/p",
+          "coletado_em": "2026-10-15T08:53:05.456806+00:00"
+        },
+        "ovos": {
+          "produto": "Ovos Caipira Label Rouge 10 Unidades",
+          "marca": "Label Rouge",
+          "preco": 17.98,
+          "fonte_url": "https://www.festval.com/ovos-caipira-label-rouge-10-unidades/p",
+          "coletado_em": "2026-10-15T08:53:05.980228+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Ralado Argentino Aproximadamente 250g",
+          "marca": "Festval",
+          "preco": 54.9,
+          "fonte_url": "https://www.festval.com/queijo-argentino-mussarela-ralado-kg/p",
+          "coletado_em": "2026-10-15T08:53:06.140820+00:00"
+        },
+        "biscoito": {
+          "produto": "Barra ChocoCookies Coberta com Chocolate Nestlé 120g",
+          "marca": "Nestlé",
+          "preco": 7.99,
+          "fonte_url": "https://www.festval.com/chococookies-nestle-coberto-com-chocolate-120g/p",
+          "coletado_em": "2026-10-15T08:53:06.291812+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Omo Lavagem Perfeita 4kg",
+          "marca": "OMO",
+          "preco": 48.9,
+          "fonte_url": "https://www.festval.com/lava-roupas-po-omo-lavagem-perfeita-pacote-4kg-tamanho-familia/p",
+          "coletado_em": "2026-10-15T08:53:06.781896+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente para Lava Louças em Tablete Finish 13 unidades",
+          "marca": "Finish",
+          "preco": 29.99,
+          "fonte_url": "https://www.festval.com/detergente-para-lava-loucas-em-tablete-finish-13-unidades/p",
+          "coletado_em": "2026-10-15T08:53:06.949142+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Mili Prime Comfort Folha Tripla com 32 unidades 20m",
+          "marca": "Mili",
+          "preco": 62.9,
+          "fonte_url": "https://www.festval.com/papel-higienico-mili-prime-comfort-folha-tripla-com-32-unidades-20m/p",
+          "coletado_em": "2026-10-15T08:53:07.432091+00:00"
+        },
+        "sal": {
+          "produto": "Pão Francês Festval 80g/Un",
+          "marca": "Festval",
+          "preco": 14.99,
+          "fonte_url": "https://www.festval.com/pao-frances-kg-/p",
+          "coletado_em": "2026-10-15T08:53:08.233954+00:00"
+        }
+      }
     }
   },
   "estados_cobertos": [
