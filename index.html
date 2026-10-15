@@ -2,10 +2,12 @@
 <html lang="pt-BR">
 <head>
   <link rel="canonical" href="https://nutripreco.com.br/">
+  
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriPreço • O Motor de Busca de Supermercados e Economia Real no Brasil</title>
-  <meta name="description" content="NutriPreço: Encontre o menor preço em supermercados, cesta básica, arroz, carnes e alimentos de prateleira com dados auditados da SEFAZ (NFC-e). Inteligência artificial Helena IA e economia real.">
+  <title>NutriPreço • O Motor de Busca de Supermercados e Cesta Básica no Brasil</title>
+  <meta name="description" content="NutriPreço: Encontre o menor preço em supermercados, cesta básica, arroz, carnes, leite e alimentos com dados auditados da SEFAZ (NFC-e). Inteligência artificial e economia real para sua família.">
   
   
   <!-- Schema.org JSON-LD para o Googlebot (Entidade & SearchAction) -->
@@ -279,39 +281,34 @@
 
   <!-- Bloco Semântico Oficial para Indexação Orgânica (Googlebot & Acessibilidade) -->
   <section class="sr-only" aria-hidden="false">
-    <h2>Auditoria Oficial de Preços de Supermercados e Combustíveis no Brasil</h2>
-    <p>O ecossistema oficial da Holding Arthur Luis Vieira dos Santos monitora a economia real brasileira através de fontes primárias e públicas auditadas. Para combustíveis (gasolina, etanol, diesel e GNV), os dados decorrem de coletas oficiais registradas na Agência Nacional do Petróleo (ANP). Para itens da cesta básica em supermercados, os preços são auditados via plataformas oficiais de notas fiscais da SEFAZ (NFC-e) e catálogos primários abertos de prateleira. Zero dados simulados ou estimativas sintéticas, em estrito cumprimento aos Artigos 30 e 31 do Código de Defesa do Consumidor.</p>
+    <h2>Auditoria Oficial de Preços de Supermercados no Brasil</h2>
+    <p>O portal oficial NutriPreço, mantido pela Holding Arthur Luis Vieira dos Santos, monitora a economia de alimentos e a cesta básica brasileira através de fontes primárias e públicas auditadas. Os preços são coletados diretamente via plataformas oficiais de notas fiscais da SEFAZ (NFC-e) e catálogos primários abertos de prateleira das principais redes do país (Carrefour, Pão de Açúcar, Assaí, Guanabara, Mundial, Super Nosso, Carone e redes regionais). Zero dados simulados ou estimativas sintéticas, em estrito cumprimento aos Artigos 30 e 31 do Código de Defesa do Consumidor.</p>
   </section>
+
+  
+
+  
+
+  
 
   <!-- TOPO INSTITUCIONAL / SELETOR DE MODO / INSTALAR APP -->
   <header class="w-full px-4 sm:px-8 py-3.5 flex items-center justify-between text-xs border-b border-slate-800/40 relative z-20">
     
     <!-- LADO ESQUERDO: OS CARDZINHOS/BOTÕES BONITINHOS DE NAVEGAÇÃO -->
     <div class="flex items-center gap-2 sm:gap-3">
-      
-      <!-- BOTÃO 1: NUTRIPREÇO (SUPERMERCADOS) -->
-      <button 
-        id="btnModeFood" 
-        onclick="setSearchMode('food')" 
-        class="group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-emerald-500/15 border-emerald-500/50 text-white shadow-[0_0_15px_rgba(0,230,118,0.2)]">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 group-hover:scale-125 transition-transform"></span>
+      <!-- IDENTIDADE SOBERANA: NUTRIPREÇO -->
+      <div class="flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border bg-emerald-500/15 border-emerald-500/50 text-white shadow-[0_0_15px_rgba(0,230,118,0.2)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
         <span class="font-bold text-xs">🌿 NutriPreço</span>
-        <span class="text-[10px] text-emerald-300 font-semibold hidden md:inline">Supermercados</span>
-      </button>
+        <span class="text-[10px] text-emerald-300 font-semibold hidden md:inline">Alimentos & Cesta Básica</span>
+      </div>
 
-      <!-- BOTÃO 2: NUTRICOMBUST (POSTOS) — O CARDZINHO COM DETALHE BONITINHO OFICIAL -->
-      <button 
-        id="btnModeFuel" 
-        onclick="setSearchMode('fuel')" 
-        class="group flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer bg-slate-900/80 border-slate-700/80 hover:border-amber-500/60 text-slate-300 hover:text-amber-300">
-        <span class="w-2 h-2 rounded-full bg-amber-400 group-hover:scale-125 transition-transform"></span>
-        <span class="font-bold text-xs flex items-center gap-1">
-          <span>⛽</span>
-          <span>NutriCombust</span>
-        </span>
-        <span class="text-[10px] text-amber-400/80 font-semibold hidden md:inline">Postos ANP</span>
-      </button>
-
+      <!-- LINK EXTERNO PARA COMBUSTÍVEIS -->
+      <a href="https://mestrepratico.com.br" target="_blank" class="group flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700/80 bg-slate-900/80 hover:border-amber-500/60 text-slate-400 hover:text-amber-300 transition-all text-xs" title="Procurando preços de combustíveis e postos ANP? Acesse o Mestre Prático">
+        <span>⛽</span>
+        <span class="font-medium">Combustíveis?</span>
+        <span class="text-amber-400 font-semibold hidden sm:inline">Mestre Prático ↗</span>
+      </a>
     </div>
 
     <!-- LADO DIREITO: STATUS AUDITADO E TELEMETRIA AO VIVO -->
@@ -335,7 +332,7 @@
       <!-- Indicador Base Auditada -->
       <div class="hidden lg:flex items-center gap-1.5 text-slate-400">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & ANP Verificados</span>
+        <span class="text-[11px] font-medium" id="headerAuditText">SEFAZ & NFC-e Auditados</span>
       </div>
 
       <a href="https://mestrepratico.com.br" target="_blank" class="text-slate-500 hover:text-white transition-colors hidden sm:inline text-[11px]">
@@ -366,12 +363,8 @@
 
         <!-- Textos da Marca -->
         <div class="flex flex-col">
-          <h1 id="brandNameText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5 transition-all">
-            Mestre Prático
-          </h1>
-          <p id="homeTagline" class="text-xs font-semibold text-amber-400 tracking-wider uppercase pl-0.5 transition-colors">
-            Radar de Combustíveis e Economia Popular no Brasil
-          </p>
+          <h1 id="brandNameText" class="text-4xl sm:text-5xl font-black text-white tracking-tight flex items-center gap-1.5 transition-all">NutriPreço</h1>
+          <p id="homeTagline" class="text-xs font-semibold text-emerald-400 tracking-wider uppercase pl-0.5 transition-colors">O Motor de Busca de Supermercados e Economia Real no Brasil</p>
         </div>
       </div>
 
@@ -390,7 +383,7 @@
               type="text" 
               id="searchInput" 
               class="w-full bg-transparent text-white placeholder-slate-400 text-sm sm:text-base outline-none font-medium"
-              placeholder="Digite o que procura ou fale no microfone..."
+              placeholder="Pesquise arroz, feijão, café, leite, carne, óleo ou supermercado..."
               autocomplete="off"
             />
 
@@ -457,12 +450,7 @@
 
       <!-- BOTÕES ESTILO GOOGLE (ESTADO INICIAL) -->
       <div id="homeButtonsBlock" class="flex flex-wrap items-center justify-center gap-3 mt-6">
-        <button 
-          id="btnSearchPrimary" 
-          onclick="executarBusca()" 
-          class="px-5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 hover:text-white transition-all shadow-sm">
-          🔍 Pesquisar Menor Preço
-        </button>
+        <button id="btnSearchPrimary" onclick="executarBusca()" class="px-5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 hover:text-white transition-all shadow-sm">🔍 Pesquisar Menor Preço</button>
         <button 
           id="btnSearchAi" 
           onclick="perguntarHelenaIA()" 
@@ -1097,47 +1085,36 @@
     }
 
     // RENDERIZADOR DE CHIPS RÁPIDOS CONFORME O MODO
-    function renderChips() {
+                function renderChips() {
       const container = document.getElementById('quickChipsBlock');
-      if (searchMode === 'fuel') {
-        container.innerHTML = `
-          <span class="text-xs text-slate-500 font-semibold mr-1">Combustíveis:</span>
-          <button onclick="buscarTermo('Gasolina Comum')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
-            ⛽ Gasolina Comum
-          </button>
-          <button onclick="buscarTermo('Etanol')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
-            ⚡ Etanol Hidratado
-          </button>
-          <button onclick="buscarTermo('Diesel S10')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
-            🛢️ Diesel S10
-          </button>
-          <button onclick="buscarTermo('GNV')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-amber-400 transition-colors">
-            💨 GNV
-          </button>
-          <button onclick="buscarTermo('Gasolina Aditivada')" class="px-3 py-1.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs text-amber-400 font-bold transition-colors">
-            ⭐ Gasolina Aditivada
-          </button>
-        `;
-      } else {
-        container.innerHTML = `
-          <span class="text-xs text-slate-500 font-semibold mr-1">Mais buscados:</span>
-          <button onclick="buscarTermo('Arroz 5kg')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            🍚 Arroz 5kg
-          </button>
-          <button onclick="buscarTermo('Feijão Preto')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            🫘 Feijão Preto 1kg
-          </button>
-          <button onclick="buscarTermo('Leite Integral')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            🥛 Leite 1L
-          </button>
-          <button onclick="buscarTermo('Café 500g')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            ☕ Café 500g
-          </button>
-          <button onclick="buscarTermo('Cesta Básica')" class="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs text-emerald-400 font-bold transition-colors">
-            🧺 Cesta Básica
-          </button>
-        `;
-      }
+      if (!container) return;
+      container.innerHTML = `
+        <span class="text-xs text-slate-500 font-semibold mr-1">Cesta Básica:</span>
+        <button onclick="buscarTermo('Arroz 5kg')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🌾 Arroz 5kg
+        </button>
+        <button onclick="buscarTermo('Feijão Preto')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🫘 Feijão Preto
+        </button>
+        <button onclick="buscarTermo('Café')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          ☕ Café
+        </button>
+        <button onclick="buscarTermo('Leite Integral')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🥛 Leite Integral
+        </button>
+        <button onclick="buscarTermo('Óleo de Soja')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🛢️ Óleo de Soja
+        </button>
+        <button onclick="buscarTermo('Açúcar Refinado')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🍞 Açúcar
+        </button>
+        <button onclick="buscarTermo('Carnes')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🥩 Carnes
+        </button>
+        <button onclick="buscarTermo('Frango')" class="px-3 py-1.5 rounded-full bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-xs text-slate-300 hover:text-emerald-400 transition-colors">
+          🍗 Frango
+        </button>
+      `;
     }
 
     // EFEITO TYPEWRITER AUTOMÁTICO NO PLACEHOLDER
