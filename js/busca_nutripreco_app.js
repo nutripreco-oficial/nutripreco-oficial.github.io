@@ -5643,7 +5643,7 @@ const headerOutros = `
                     <span>Fonte</span>
                   </a>` : ''}
                   <a 
-                    href="https://www.amazon.com.br/s?k=${encodeURIComponent(prod.nome)}&tag=mestrepratico-20" 
+                    href="https://www.amazon.com.br/s?k=${encodeURIComponent(prod.nome)}&tag=nutripreco-20" 
                     target="_blank" 
                     rel="sponsored nofollow" 
                     class="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold border border-amber-500/40 text-xs flex items-center gap-1.5 transition-all shrink-0 cursor-pointer shadow-sm hover:shadow-amber-500/20"
@@ -5775,7 +5775,7 @@ const headerOutros = `
         } else if (tipoCombustivel === 'gnv') {
           termoAmazonCombustivel = 'oleo motor 5w30 lubrificante';
         }
-        const amazonCombustivelUrl = `https://www.amazon.com.br/s?k=${encodeURIComponent(termoAmazonCombustivel)}&tag=mestrepratico-20`;
+        const amazonCombustivelUrl = `https://www.amazon.com.br/s?k=${encodeURIComponent(termoAmazonCombustivel)}&tag=nutripreco-20`;
         
         html += `
           <div class="rounded-2xl sm:rounded-3xl p-4 sm:p-5 transition-all ${
