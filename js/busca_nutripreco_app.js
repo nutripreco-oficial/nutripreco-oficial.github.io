@@ -186,6 +186,11 @@
               'to_gurupi': ['Gurupi', 'TO'],
               'to_porto_nacional': ['Porto Nacional', 'TO'],
               'to_paraiso': ['Paraíso do Tocantins', 'TO'],
+              'ac_rio_branco': ['Rio Branco', 'AC'],
+              'ac_cruzeiro_do_sul': ['Cruzeiro do Sul', 'AC'],
+              'ac_sena_madureira': ['Sena Madureira', 'AC'],
+              'ac_tarauaca': ['Tarauacá', 'AC'],
+              'ac_brasileia': ['Brasiléia', 'AC'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1232,6 +1237,24 @@
 
     const TODAS_CIDADES_TO = Object.values(CIDADES_TO_POR_REGIAO).flat();
 
+    const CIDADES_AC_POR_REGIAO = {
+      "Rio Branco & Baixo Acre": [
+        "Rio Branco", "Senador Guiomard", "Bujari", "Porto Acre", "Acrelândia", "Plácido de Castro", "Capixaba"
+      ],
+      "Cruzeiro do Sul & Vale do Juruá": [
+        "Cruzeiro do Sul", "Mâncio Lima", "Rodrigues Alves", "Marechal Thaumaturgo", "Porto Walter"
+      ],
+      "Vale do Purus & Tarauacá-Envira": [
+        "Sena Madureira", "Manoel Urbano", "Santa Rosa do Purus", "Tarauacá", "Feijó", "Jordão"
+      ],
+      "Alto Acre & Fronteira": [
+        "Brasiléia", "Epitaciolândia", "Xapuri", "Assis Brasil"
+      ]
+    };
+
+    const TODAS_CIDADES_AC = Object.values(CIDADES_AC_POR_REGIAO).flat();
+
+
 
 
 
@@ -1433,6 +1456,7 @@
         regiaoAmAtiva = 'Todas';
         regiaoRoAtiva = 'Todas';
         regiaoToAtiva = 'Todas';
+        regiaoAcAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1449,6 +1473,7 @@
         regiaoAmAtiva = 'Todas';
         regiaoRoAtiva = 'Todas';
         regiaoToAtiva = 'Todas';
+        regiaoAcAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1662,6 +1687,7 @@
       filtroAmTexto = '';
       filtroRoTexto = '';
       filtroToTexto = '';
+      filtroAcTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3835,6 +3861,92 @@
       }
 
 
+            // 26. MODO ABA ACRE (22 MUNICÍPIOS)
+      if (abaModalAtual === 'ac') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Acre (22 Cidades - 100% do Estado)';
+
+        let cidadesExibir = regiaoAcAtiva === 'Todas' ? TODAS_CIDADES_AC : (CIDADES_AC_POR_REGIAO[regiaoAcAtiva] || []);
+
+        if (filtroAcTexto.trim()) {
+          const fClean = filtroAcTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Rio Branco & Baixo Acre", "Cruzeiro do Sul & Vale do Juruá", "Vale do Purus & Tarauacá-Envira", "Alto Acre & Fronteira"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoAcAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-teal-500 text-slate-950 font-bold border-teal-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '22' : (CIDADES_AC_POR_REGIAO[reg] ? CIDADES_AC_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoAc('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-teal-500/20 border-teal-500/50 text-white font-bold shadow-[0_0_10px_rgba(20,184,166,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'AC', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-teal-950/80 text-teal-400 border border-teal-800/60 font-mono">AC</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-teal-400 font-bold font-mono">AC • 22 Cidades (100% Coberto)</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Acre (Todo o Estado)', 'AC', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/40 text-teal-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌿</span>
+                <span>Buscar em Todo o Estado do Acre (Cotações & Postos de Todos os 22 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/40">22 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroAc" 
+              value="${filtroAcTexto}" 
+              oninput="filtrarCidadesAc(this.value)" 
+              placeholder="Filtrar município do AC (ex: Rio Branco, Cruzeiro do Sul, Sena Madureira, Tarauacá)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-teal-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município acreano encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -4294,6 +4406,27 @@
             </div>
             <button type="button" onclick="abrirAbaTocantins()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 50 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardAcre = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-teal-950/70 via-slate-900 to-slate-900 border border-teal-500/40 hover:border-teal-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-teal-500/15 border border-teal-500/25">🌿</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Acre (Estado AC)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-teal-500/25 text-teal-300 font-bold border border-teal-500/40">22 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Rio Branco, Cruzeiro do Sul, Sena Madureira, Tarauacá, Feijó e Brasiléia</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaAcre()" class="px-3 py-1.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 22 Cidades</span>
               <span>➔</span>
             </button>
           </div>
