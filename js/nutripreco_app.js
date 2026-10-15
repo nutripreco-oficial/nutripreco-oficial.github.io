@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ba');
     carregarCombustiveisOnline('pe');
     carregarCombustiveisOnline('ce');
+    carregarCombustiveisOnline('df');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -205,6 +206,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ba');
     carregarCombustiveisOnline('pe');
     carregarCombustiveisOnline('ce');
+    carregarCombustiveisOnline('df');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -233,6 +235,9 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'ba_feira_de_santana': ['Feira de Santana', 'BA'],
               'ba_hiperideal': ['Salvador', 'BA'],
               'df_brasilia': ['Brasília', 'DF'],
+              'df_taguatinga': ['Taguatinga', 'DF'],
+              'df_ceilandia': ['Ceilândia', 'DF'],
+              'df_aguas_claras': ['Águas Claras', 'DF'],
               'go_goiania': ['Goiânia', 'GO'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
@@ -892,6 +897,32 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_CE = Object.values(CIDADES_CE_POR_REGIAO).flat();
 
+    const CIDADES_DF_POR_REGIAO = {
+      "Plano Piloto & Central": [
+        "Brasília (Plano Piloto)", "Asa Sul", "Asa Norte", "Sudoeste / Octogonal", "Cruzeiro",
+        "Lago Sul", "Lago Norte", "Candangolândia", "Núcleo Bandeirante", "Vila Planalto"
+      ],
+      "Oeste (Taguatinga & Ceilândia)": [
+        "Taguatinga", "Ceilândia", "Vicente Pires", "Arniqueira", "Sol Nascente / Pôr do Sol",
+        "Brazlândia", "Samambaia"
+      ],
+      "Sudoeste & Sul (Águas Claras & Gama)": [
+        "Águas Claras", "Guará", "Guará II", "Gama", "Santa Maria",
+        "Recanto das Emas", "Riacho Fundo", "Riacho Fundo II", "Park Way"
+      ],
+      "Norte & Leste (Sobradinho & Planaltina)": [
+        "Sobradinho", "Sobradinho II", "Planaltina", "Paranoá", "Itapoã",
+        "São Sebastião", "Jardim Botânico", "Varjão", "Fercal"
+      ],
+      "Entorno Metropolitano": [
+        "Valparaíso de Goiás", "Águas Lindas de Goiás", "Luziânia", "Novo Gama", "Cidade Ocidental",
+        "Formosa", "Planaltina de Goiás"
+      ]
+    };
+
+    const TODAS_CIDADES_DF = Object.values(CIDADES_DF_POR_REGIAO).flat();
+
+
 
 
 
@@ -957,6 +988,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_BA !== 'undefined' && TODAS_CIDADES_BA.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_PE !== 'undefined' && TODAS_CIDADES_PE.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_CE !== 'undefined' && TODAS_CIDADES_CE.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_DF !== 'undefined' && TODAS_CIDADES_DF.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1067,6 +1099,28 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
         let regiaoCeAtiva = 'Todas';
     let filtroCeTexto = '';
+
+        let regiaoDfAtiva = 'Todas';
+    let filtroDfTexto = '';
+
+    function abrirAbaDistritoFederal() {
+      abaModalAtual = 'df';
+      regiaoDfAtiva = 'Todas';
+      filtroDfTexto = '';
+      const inputTop = document.getElementById('inputBuscaCidadeModal');
+      if (inputTop) inputTop.value = '';
+      renderizarCidadesModal();
+    }
+
+    function selecionarRegiaoDf(regiao) {
+      regiaoDfAtiva = regiao;
+      renderizarCidadesModal();
+    }
+
+    function filtrarCidadesDf(txt) {
+      filtroDfTexto = txt || '';
+      renderizarCidadesModal();
+    }
 
     function abrirAbaCeara() {
       abaModalAtual = 'ce';
@@ -1213,6 +1267,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroBaTexto = '';
       filtroPeTexto = '';
       filtroCeTexto = '';
+      filtroDfTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2182,6 +2237,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       }
 
 
+            // 12. MODO ABA DISTRITO FEDERAL (40 REGIÕES E CIDADES)
+      if (abaModalAtual === 'df') {
+        if (headerLabel) headerLabel.innerText = 'Regiões Administrativas do Distrito Federal (40 Regiões)';
+
+        let cidadesExibir = regiaoDfAtiva === 'Todas' ? TODAS_CIDADES_DF : (CIDADES_DF_POR_REGIAO[regiaoDfAtiva] || []);
+
+        if (filtroDfTexto.trim()) {
+          const fClean = filtroDfTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Plano Piloto & Central", "Oeste (Taguatinga & Ceilândia)", "Sudoeste & Sul (Águas Claras & Gama)", "Norte & Leste (Sobradinho & Planaltina)", "Entorno Metropolitano"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoDfAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-indigo-500 text-slate-950 font-bold border-indigo-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '40' : (CIDADES_DF_POR_REGIAO[reg] ? CIDADES_DF_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoDf('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-indigo-500/20 border-indigo-500/50 text-white font-bold shadow-[0_0_10px_rgba(99,102,241,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'DF', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-400 border border-indigo-800/60 font-mono">DF</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-indigo-400 font-bold font-mono">DF • 40 Regiões</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Distrito Federal (Todo o DF)', 'DF', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/40 text-indigo-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🏛️</span>
+                <span>Buscar em Todo o Distrito Federal (Cotações & Postos de Todas as 40 Regiões)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">40 REGIÕES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroDf" 
+              value="${filtroDfTexto}" 
+              oninput="filtrarCidadesDf(this.value)" 
+              placeholder="Filtrar região do DF (ex: Brasília, Taguatinga, Ceilândia, Águas Claras, Guará, Asa Sul, Asa Norte)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-indigo-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhuma região encontrada com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -2395,6 +2536,27 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         </div>
       `;
 
+      const cardDistritoFederal = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-indigo-950/70 via-slate-900 to-slate-900 border border-indigo-500/40 hover:border-indigo-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-indigo-500/15 border border-indigo-500/25">🏛️</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Distrito Federal (Estado DF)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-indigo-500/25 text-indigo-300 font-bold border border-indigo-500/40">40 Regiões</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Brasília (Plano Piloto), Taguatinga, Ceilândia, Águas Claras, Guará e Entorno</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaDistritoFederal()" class="px-3 py-1.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 40 Regiões</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
 const headerOutros = `
         <div class="col-span-1 sm:col-span-2 pt-1 pb-1">
           <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Demais Estados e Capitais Integradas</span>
@@ -2417,7 +2579,7 @@ const headerOutros = `
         `;
       }).join('');
 
-      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + headerOutros + cardsOutrosEstados;
+      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + cardDistritoFederal + headerOutros + cardsOutrosEstados;
     }
 
     function filtrarCidadesModal() {

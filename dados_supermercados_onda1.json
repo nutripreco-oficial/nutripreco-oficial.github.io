@@ -3135,6 +3135,268 @@
           "coletado_em": "2026-10-15T09:59:47.545347+00:00"
         }
       }
+    },
+    "df_brasilia_oba": {
+      "cidade": "Brasília",
+      "uf": "DF",
+      "regiao": "Centro-Oeste",
+      "rede": "Oba Hortifruti",
+      "unidade": "Oba Hortifruti (E-commerce Oficial Brasília - DF)",
+      "fonte_oficial_dominio": "https://www.obahortifruti.com.br",
+      "qtd_itens_verificados": 18,
+      "soma_itens_verificados_reais": 202.82,
+      "itens": {
+        "arroz": {
+          "produto": "Flocos de Arroz Caramelizado Okoshi 100g",
+          "marca": "OKOSHI",
+          "preco": 8.99,
+          "fonte_url": "https://www.obahortifruti.com.br/flocos-de-arroz-caramelizado-okoshi-100-g/p",
+          "coletado_em": "2026-10-15T12:19:56.263164+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão-Fradinho Camil 500g",
+          "marca": "CAMIL",
+          "preco": 6.49,
+          "fonte_url": "https://www.obahortifruti.com.br/feijao-fradinho-camil-500g/p",
+          "coletado_em": "2026-10-15T12:19:57.387687+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Tipo 1 Dia a Dia Renata 1kg",
+          "marca": "RENATA",
+          "preco": 6.99,
+          "fonte_url": "https://www.obahortifruti.com.br/farinha-trigo-dia-a-dia-renata-1k/p",
+          "coletado_em": "2026-10-15T12:19:58.490340+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão Spaghetti de Grano Duro Oba Bem Querer 500g",
+          "marca": "OBA BEM QUERER",
+          "preco": 5.99,
+          "fonte_url": "https://www.obahortifruti.com.br/macarrao-spaghetti-grano-duro-oba-bem-querer-500-g/p",
+          "coletado_em": "2026-10-15T12:19:59.546917+00:00"
+        },
+        "acucar": {
+          "produto": "Refrigerante Coca-Cola Sem Açúcar 250ml",
+          "marca": "OBA",
+          "preco": 4.99,
+          "fonte_url": "https://www.obahortifruti.com.br/refrigerante-coca-cola-zero-250-ml/p",
+          "coletado_em": "2026-10-15T12:20:01.139883+00:00"
+        },
+        "cafe": {
+          "produto": "Café em Grãos Intenso Coffee Mais 250g",
+          "marca": "OBA",
+          "preco": 27.99,
+          "fonte_url": "https://www.obahortifruti.com.br/cafe-coffee-mais-intenso-graos-tor-250g/p",
+          "coletado_em": "2026-10-15T12:20:01.959804+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite UHT Integral Piracanjuba 1L",
+          "marca": "PIRACANJUBA",
+          "preco": 7.49,
+          "fonte_url": "https://www.obahortifruti.com.br/leite-piracanjuba-1-l-integral/p",
+          "coletado_em": "2026-10-15T12:20:03.051677+00:00"
+        },
+        "oleo de soja": {
+          "produto": "Óleo de Soja Soya 900ml",
+          "marca": "SOYA",
+          "preco": 9.99,
+          "fonte_url": "https://www.obahortifruti.com.br/oleo-de-soja-soya-900-ml/p",
+          "coletado_em": "2026-10-15T12:20:03.309704+00:00"
+        },
+        "manteiga": {
+          "produto": "Iogurte Natural Desnatado Nestlé 160g",
+          "marca": "NESTLE",
+          "preco": 4.99,
+          "fonte_url": "https://www.obahortifruti.com.br/iogurte-natural-desnatado-nestle-160g/p",
+          "coletado_em": "2026-10-15T12:20:03.908052+00:00"
+        },
+        "carne bovina": {
+          "produto": "Guioza de Carne Bovina Long Way 240g",
+          "marca": "LONGWAY",
+          "preco": 22.99,
+          "fonte_url": "https://www.obahortifruti.com.br/guioza-carne-bovina-long-way-240g/p",
+          "coletado_em": "2026-10-15T12:20:04.812118+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango com Osso Oba Kg",
+          "marca": "OBA",
+          "preco": 19.99,
+          "fonte_url": "https://www.obahortifruti.com.br/peito-de-frango-com-osso-kg/p",
+          "coletado_em": "2026-10-15T12:20:05.931844+00:00"
+        },
+        "ovos": {
+          "produto": "Ovos Brancos Jumbo 10 Unidades",
+          "marca": "OVOS MANTIQUEIRA",
+          "preco": 9.99,
+          "fonte_url": "https://www.obahortifruti.com.br/ovo-branco-jumbo-katayama-polpa-com-10-unidades/p",
+          "coletado_em": "2026-10-15T12:20:07.592364+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Ralado Oba Bem Querer 200g",
+          "marca": "OBA BEM QUERER",
+          "preco": 24.99,
+          "fonte_url": "https://www.obahortifruti.com.br/queijo-mussarela-ralado-oba-bem-querer-200-g/p",
+          "coletado_em": "2026-10-15T12:20:08.607242+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Maisena Tostines 200g",
+          "marca": "TOSTINES",
+          "preco": 6.39,
+          "fonte_url": "https://www.obahortifruti.com.br/biscoito-de-maizena-tostines-200-g/p",
+          "coletado_em": "2026-10-15T12:20:10.026026+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão Em Pó Concentrado Primavera Tixan Ype 800 G",
+          "marca": "YPE",
+          "preco": 12.99,
+          "fonte_url": "https://www.obahortifruti.com.br/sabao-em-po-concentrado-primavera-tixan-ype-800-g/p",
+          "coletado_em": "2026-10-15T12:20:10.982531+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Coco Ypê 500ml",
+          "marca": "YPE",
+          "preco": 3.29,
+          "fonte_url": "https://www.obahortifruti.com.br/detergente-coco-ype-500-ml/p",
+          "coletado_em": "2026-10-15T12:20:12.210289+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Neve Supreme Folha Tripla 4 Rolos 20m",
+          "marca": "NEVE",
+          "preco": 12.99,
+          "fonte_url": "https://www.obahortifruti.com.br/papel-higienico-supreme-folha-tripla-neve-4-unidades/p",
+          "coletado_em": "2026-10-15T12:20:13.102055+00:00"
+        },
+        "sal refinado": {
+          "produto": "Sal Refinado Extra Iodado Cisne 1kg",
+          "marca": "CISNE",
+          "preco": 5.29,
+          "fonte_url": "https://www.obahortifruti.com.br/sal-cisne-refinado-1-kg/p",
+          "coletado_em": "2026-10-15T12:20:13.740945+00:00"
+        }
+      }
+    },
+    "df_brasilia_atacadao": {
+      "cidade": "Brasília",
+      "uf": "DF",
+      "regiao": "Centro-Oeste",
+      "rede": "Atacadão",
+      "unidade": "Atacadão (E-commerce Oficial DF)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 16,
+      "soma_itens_verificados_reais": 129.32,
+      "itens": {
+        "arroz": {
+          "produto": "Flocão de Arroz Urbano 500g",
+          "marca": "Urbano",
+          "preco": 3.29,
+          "fonte_url": "https://secure.atacadao.com.br/flocao-de-arroz-urbano-pacote-com-500g-63063/p",
+          "coletado_em": "2026-10-15T12:20:14.607484+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Preto Bulnez Tipo 1 1kg",
+          "marca": "Bulnez",
+          "preco": 6.79,
+          "fonte_url": "https://secure.atacadao.com.br/feijao-preto-bulnez-tipo-1-15281/p",
+          "coletado_em": "2026-10-15T12:20:15.084241+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Nita Para Pizza 5kg",
+          "marca": "Nita",
+          "preco": 13.99,
+          "fonte_url": "https://secure.atacadao.com.br/farinha-de-trigo-nita-para-pizza-pacote-com-5kg-26744/p",
+          "coletado_em": "2026-10-15T12:20:16.460860+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T12:20:17.198849+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://secure.atacadao.com.br/acucar-refinado-bulnez-14485/p",
+          "coletado_em": "2026-10-15T12:20:17.730714+00:00"
+        },
+        "cafe": {
+          "produto": "Café em Cápsulas 3 Corações Máximo Intensidade 10x5,6g",
+          "marca": "3 Corações",
+          "preco": 14.9,
+          "fonte_url": "https://secure.atacadao.com.br/cafe-em-capsulas-3-coracoes-maximo-intensidade-4493/p",
+          "coletado_em": "2026-10-15T12:20:18.381852+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Pasteurizado Serramar Integral 1L",
+          "marca": "Serramar",
+          "preco": 6.9,
+          "fonte_url": "https://secure.atacadao.com.br/leite-pasteurizado-serramar-integral-89516/p",
+          "coletado_em": "2026-10-15T12:20:18.897804+00:00"
+        },
+        "manteiga": {
+          "produto": "Biscoito Marilan Manteiga 300g",
+          "marca": "Marilan",
+          "preco": 4.49,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-manteiga-12290/p",
+          "coletado_em": "2026-10-15T12:20:20.587196+00:00"
+        },
+        "carne bovina": {
+          "produto": "Carne Bovina Moída Rkótima Congelada 500g",
+          "marca": "Rkótima",
+          "preco": 8.99,
+          "fonte_url": "https://secure.atacadao.com.br/carne-bovina-moida-rkotima-congelada-89511/p",
+          "coletado_em": "2026-10-15T12:20:21.363726+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango com Osso Resfriado Preço por quilo",
+          "marca": "Atacadão S/A",
+          "preco": 14.59,
+          "fonte_url": "https://secure.atacadao.com.br/peito-de-frango-com-osso-resfriado-85341/p",
+          "coletado_em": "2026-10-15T12:20:22.171149+00:00"
+        },
+        "ovos": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T12:20:23.363450+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Goiabal Fatiado 400g",
+          "marca": "Goiabal",
+          "preco": 23.2,
+          "fonte_url": "https://secure.atacadao.com.br/queijo-mussarela-goiabal-fatiado-3946/p",
+          "coletado_em": "2026-10-15T12:20:23.933854+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Marilan Maizena 140g",
+          "marca": "Marilan",
+          "preco": 3.39,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-maizena-12291/p",
+          "coletado_em": "2026-10-15T12:20:24.854762+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Tixan Ypê Primavera 400g",
+          "marca": "Tixan",
+          "preco": 5.28,
+          "fonte_url": "https://secure.atacadao.com.br/lava-roupas-em-po-tixan-primavera-3155/p",
+          "coletado_em": "2026-10-15T12:20:25.550790+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Bulnez Coco 500ml",
+          "marca": "Bulnez",
+          "preco": 1.95,
+          "fonte_url": "https://secure.atacadao.com.br/detergente-liquido-bulnez-coco-15209/p",
+          "coletado_em": "2026-10-15T12:20:26.057388+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Neve Folha Dupla 40m 6 rolos",
+          "marca": "Neve",
+          "preco": 14.69,
+          "fonte_url": "https://secure.atacadao.com.br/papel-higienico-neve-folha-dupla-40m-18778/p",
+          "coletado_em": "2026-10-15T12:20:26.907009+00:00"
+        }
+      }
     }
   },
   "estados_cobertos": [
