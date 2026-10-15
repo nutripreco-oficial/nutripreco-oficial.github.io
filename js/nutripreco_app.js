@@ -200,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('df');
     carregarCombustiveisOnline('go');
     carregarCombustiveisOnline('ms');
+    carregarCombustiveisOnline('mt');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -211,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('df');
     carregarCombustiveisOnline('go');
     carregarCombustiveisOnline('ms');
+    carregarCombustiveisOnline('mt');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -251,6 +253,11 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'ms_tres_lagoas': ['Três Lagoas', 'MS'],
               'ms_corumba': ['Corumbá', 'MS'],
               'ms_ponta_pora': ['Ponta Porã', 'MS'],
+              'mt_cuiaba': ['Cuiabá', 'MT'],
+              'mt_varzea_grande': ['Várzea Grande', 'MT'],
+              'mt_rondonopolis': ['Rondonópolis', 'MT'],
+              'mt_sinop': ['Sinop', 'MT'],
+              'mt_caceres': ['Cáceres', 'MT'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -988,6 +995,33 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_MS = Object.values(CIDADES_MS_POR_REGIAO).flat();
 
+    const CIDADES_MT_POR_REGIAO = {
+      "Cuiabá & Região Metropolitana": [
+        "Cuiabá", "Várzea Grande", "Santo Antônio de Leverger", "Chapada dos Guimarães",
+        "Nossa Senhora do Livramento", "Poconé", "Barão de Melgaço", "Acorizal", "Jangada"
+      ],
+      "Sul & Rondonópolis": [
+        "Rondonópolis", "Jaciara", "Primavera do Leste", "Campo Verde",
+        "Paranatinga", "Juscimeira", "Pedra Preta", "Itiquira",
+        "Alto Araguaia", "Alto Garças", "Guiratinga", "Dom Aquino"
+      ],
+      "Médio-Norte & Eixo Agro": [
+        "Sinop", "Sorriso", "Lucas do Rio Verde", "Nova Mutum",
+        "Tapurah", "Santa Rita do Trivelato", "Ipiranga do Norte", "Vera", "Cláudia", "Feliz Natal"
+      ],
+      "Sudoeste & Vale do Guaporé": [
+        "Cáceres", "Tangará da Serra", "Barra do Bugres", "Mirassol d'Oeste",
+        "São José dos Quatro Marcos", "Pontes e Lacerda", "Comodoro", "Araputanga", "Nova Olímpia", "Jauru"
+      ],
+      "Norte & Araguaia": [
+        "Alta Floresta", "Colíder", "Guarantã do Norte", "Peixoto de Azevedo",
+        "Juína", "Juara", "Barra do Garças", "Água Boa", "Canarana", "Confresa", "Vila Rica"
+      ]
+    };
+
+    const TODAS_CIDADES_MT = Object.values(CIDADES_MT_POR_REGIAO).flat();
+
+
 
 
 
@@ -1059,6 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_DF !== 'undefined' && TODAS_CIDADES_DF.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_GO !== 'undefined' && TODAS_CIDADES_GO.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_MS !== 'undefined' && TODAS_CIDADES_MS.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_MT !== 'undefined' && TODAS_CIDADES_MT.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1177,11 +1212,13 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     let filtroGoTexto = '';
 
         let regiaoMsAtiva = 'Todas';
+        regiaoMtAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
       abaModalAtual = 'ms';
       regiaoMsAtiva = 'Todas';
+        regiaoMtAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1384,6 +1421,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroDfTexto = '';
       filtroGoTexto = '';
       filtroMsTexto = '';
+      filtroMtTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2605,6 +2643,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
           <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
             ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município sul-mato-grossense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
+            // 15. MODO ABA MATO GROSSO (53 MUNICÍPIOS)
+      if (abaModalAtual === 'mt') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Mato Grosso (53 Cidades)';
+
+        let cidadesExibir = regiaoMtAtiva === 'Todas' ? TODAS_CIDADES_MT : (CIDADES_MT_POR_REGIAO[regiaoMtAtiva] || []);
+
+        if (filtroMtTexto.trim()) {
+          const fClean = filtroMtTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Cuiabá & Região Metropolitana", "Sul & Rondonópolis", "Médio-Norte & Eixo Agro", "Sudoeste & Vale do Guaporé", "Norte & Araguaia"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoMtAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-amber-500 text-slate-950 font-bold border-amber-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '53' : (CIDADES_MT_POR_REGIAO[reg] ? CIDADES_MT_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoMt('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-amber-500/20 border-amber-500/50 text-white font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'MT', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-400 border border-amber-800/60 font-mono">MT</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-amber-400 font-bold font-mono">MT • 53 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Mato Grosso (Todo o Estado)', 'MT', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌿</span>
+                <span>Buscar em Todo o Estado de MT (Cotações & Postos de Todos os 53 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">53 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroMt" 
+              value="${filtroMtTexto}" 
+              oninput="filtrarCidadesMt(this.value)" 
+              placeholder="Filtrar município de MT (ex: Cuiabá, Várzea Grande, Rondonópolis, Sinop, Sorriso, Cáceres)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município mato-grossense encontrado com este filtro.</p>'}
           </div>
         `;
         return;
