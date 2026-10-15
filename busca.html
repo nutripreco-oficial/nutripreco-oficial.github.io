@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <link rel="canonical" href="https://nutripreco.com.br/busca">
+  <link rel="canonical" href="https://mestrepratico.com.br/busca">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NutriPreço & NutriCombust — O Motor de Busca da Economia Popular</title>
+  <title>Pesquisar Menor Preço em Supermercados • NutriPreço</title>
   <meta name="description" content="O Google da Economia Popular: Menor preço de supermercados e postos de combustíveis no Brasil com Inteligência Artificial e rotas no mapa.">
   
   <!-- Prevenção de Cache Residual do Navegador -->
@@ -196,7 +198,7 @@
   <meta name="twitter:image" content="https://nutripreco.com.br/icon-512.png">
 
   <!-- Canônica Dinâmica Resolvida por Domínio (Previne Canibalização de SEO) -->
-  <link rel="canonical" id="canonicalTag" href="https://nutripreco.com.br/busca">
+  
   <script>
     (function() {
       try {
@@ -254,6 +256,12 @@
   </script>
 </head>
 <body class="flex flex-col min-h-screen">
+
+  <!-- Bloco Semântico Oficial para Indexação Orgânica (Googlebot & Acessibilidade) -->
+  <section class="sr-only" aria-hidden="false">
+    <h2>Auditoria Oficial de Preços de Supermercados e Combustíveis no Brasil</h2>
+    <p>O ecossistema oficial da Holding Arthur Luis Vieira dos Santos monitora a economia real brasileira através de fontes primárias e públicas auditadas. Para combustíveis (gasolina, etanol, diesel e GNV), os dados decorrem de coletas oficiais registradas na Agência Nacional do Petróleo (ANP). Para itens da cesta básica em supermercados, os preços são auditados via plataformas oficiais de notas fiscais da SEFAZ (NFC-e) e catálogos primários abertos de prateleira. Zero dados simulados ou estimativas sintéticas, em estrito cumprimento aos Artigos 30 e 31 do Código de Defesa do Consumidor.</p>
+  </section>
 
   <!-- TOPO INSTITUCIONAL / SELETOR DE MODO / INSTALAR APP -->
   <header class="w-full px-4 sm:px-8 py-3.5 flex items-center justify-between text-xs border-b border-slate-800/40 relative z-20">
@@ -402,16 +410,16 @@
           </div>
         </form>
         <!-- Indicador Discreto e Elegante de Localização Automática (GPS/IP) -->
-        <div id="locationIndicatorBar" class="mt-3.5 flex items-center justify-center gap-1.5 text-xs text-slate-400">
+        <div id="locationIndicatorBar" data-nosnippet class="mt-3.5 flex items-center justify-center gap-1.5 text-xs text-slate-400">
           <span class="text-emerald-400 transition-colors" id="locationIndicatorPin">📍</span>
-          <span>Ofertas para: <strong id="detectedCityText" class="text-slate-200 font-semibold">Detectando localização...</strong></span>
-          <span id="detectedMethodBadge" class="text-[10px] text-slate-500 font-normal">(Detectado via GPS/IP)</span>
+          <span data-nosnippet>Ofertas para: <strong id="detectedCityText" class="text-slate-200 font-semibold">Detectando localização...</strong></span>
+          <span id="detectedMethodBadge" data-nosnippet class="text-[10px] text-slate-500 font-normal">(Detectado via GPS/IP)</span>
           <span class="text-slate-600">•</span>
           <button type="button" id="btnCitySelect" onclick="abrirModalTrocarCidade()" class="text-emerald-400 hover:text-emerald-300 underline font-medium cursor-pointer transition-colors" title="Alterar Cidade Ativa">Alterar</button>
         </div>
 
         <!-- Card de Expansão Territorial Ativa (Exibido se a cidade detectada não tiver mercados mapeados) -->
-        <div id="expansionCard" class="hidden w-full max-w-xl mx-auto mt-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs shadow-lg backdrop-blur-sm">
+        <div id="expansionCard" data-nosnippet class="hidden w-full max-w-xl mx-auto mt-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs shadow-lg backdrop-blur-sm">
           <div class="flex items-start gap-3">
             <span class="text-2xl shrink-0">🚧</span>
             <div class="flex-1">
@@ -421,7 +429,7 @@
                 <input type="text" id="inputSugestaoMercado" placeholder="Nome do mercado e bairro (ex: Supermercado Guanabara, Centro)..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-amber-400" required />
                 <button type="submit" id="btnSugestaoMercado" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors shrink-0 cursor-pointer">Indicar Mercado</button>
               </form>
-              <div id="sugestaoFeedback" class="hidden mt-2 text-[11px] text-emerald-400 font-semibold">✓ Sugestão recebida com sucesso! Nossa equipe irá auditar esta praça.</div>
+              <div id="sugestaoFeedback" data-nosnippet class="hidden mt-2 text-[11px] text-emerald-400 font-semibold"></div>
             </div>
           </div>
       </div>
