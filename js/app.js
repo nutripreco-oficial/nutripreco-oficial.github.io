@@ -204,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('pb');
     carregarCombustiveisOnline('rn');
     carregarCombustiveisOnline('al');
+    carregarCombustiveisOnline('se');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -219,6 +220,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('pb');
     carregarCombustiveisOnline('rn');
     carregarCombustiveisOnline('al');
+    carregarCombustiveisOnline('se');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -279,6 +281,11 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'al_rio_largo': ['Rio Largo', 'AL'],
               'al_palmeira_dos_indios': ['Palmeira dos Índios', 'AL'],
               'al_maragogi': ['Maragogi', 'AL'],
+              'se_aracaju': ['Aracaju', 'SE'],
+              'se_nossa_senhora_do_socorro': ['Nossa Senhora do Socorro', 'SE'],
+              'se_itabaiana': ['Itabaiana', 'SE'],
+              'se_lagarto': ['Lagarto', 'SE'],
+              'se_estancia': ['Estância', 'SE'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1111,6 +1118,32 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_AL = Object.values(CIDADES_AL_POR_REGIAO).flat();
 
+    const CIDADES_SE_POR_REGIAO = {
+      "Grande Aracaju & Litoral": [
+        "Aracaju", "Nossa Senhora do Socorro", "São Cristóvão", "Barra dos Coqueiros",
+        "Laranjeiras", "Itaporanga d'Ajuda", "Maruim", "Santo Amaro das Brotas"
+      ],
+      "Agreste Central & Itabaiana": [
+        "Itabaiana", "Lagarto", "Simão Dias", "Campo do Brito", "Ribeirópolis",
+        "Moita Bonita", "Areia Branca", "Macambira", "São Domingos", "Malhador"
+      ],
+      "Sul Sergipano & Litoral Sul": [
+        "Estância", "Itabaianinha", "Tobias Barreto", "Umbaúba", "Boquim",
+        "Cristinápolis", "Santa Luzia do Itanhy", "Indiaroba", "Arauá", "Pedrinhas"
+      ],
+      "Alto Sertão & Baixo São Francisco": [
+        "Nossa Senhora da Glória", "Canindé de São Francisco", "Poço Redondo", "Porto da Folha",
+        "Monte Alegre de Sergipe", "Propriá", "Neópolis", "Santana do São Francisco", "Ilha das Flores", "Gararu"
+      ],
+      "Médio Sertão & Cotinguiba": [
+        "Capela", "Japaratuba", "Carmópolis", "Rosário do Catete",
+        "Aquidabã", "Nossa Senhora das Dores", "Siriri", "Muribeca", "Pirambu"
+      ]
+    };
+
+    const TODAS_CIDADES_SE = Object.values(CIDADES_SE_POR_REGIAO).flat();
+
+
 
 
 
@@ -1190,6 +1223,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_PB !== 'undefined' && TODAS_CIDADES_PB.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_RN !== 'undefined' && TODAS_CIDADES_RN.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_AL !== 'undefined' && TODAS_CIDADES_AL.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_SE !== 'undefined' && TODAS_CIDADES_SE.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1312,6 +1346,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoPbAtiva = 'Todas';
         regiaoRnAtiva = 'Todas';
         regiaoAlAtiva = 'Todas';
+        regiaoSeAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1321,6 +1356,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoPbAtiva = 'Todas';
         regiaoRnAtiva = 'Todas';
         regiaoAlAtiva = 'Todas';
+        regiaoSeAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1527,6 +1563,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroPbTexto = '';
       filtroRnTexto = '';
       filtroAlTexto = '';
+      filtroSeTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3098,6 +3135,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       }
 
 
+            // 19. MODO ABA SERGIPE (47 MUNICÍPIOS)
+      if (abaModalAtual === 'se') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado de Sergipe (47 Cidades)';
+
+        let cidadesExibir = regiaoSeAtiva === 'Todas' ? TODAS_CIDADES_SE : (CIDADES_SE_POR_REGIAO[regiaoSeAtiva] || []);
+
+        if (filtroSeTexto.trim()) {
+          const fClean = filtroSeTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Grande Aracaju & Litoral", "Agreste Central & Itabaiana", "Sul Sergipano & Litoral Sul", "Alto Sertão & Baixo São Francisco", "Médio Sertão & Cotinguiba"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoSeAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-sky-500 text-slate-950 font-bold border-sky-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '47' : (CIDADES_SE_POR_REGIAO[reg] ? CIDADES_SE_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoSe('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-sky-500/20 border-sky-500/50 text-white font-bold shadow-[0_0_10px_rgba(14,165,233,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'SE', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-400 border border-sky-800/60 font-mono">SE</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-sky-400 font-bold font-mono">SE • 47 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Sergipe (Todo o Estado)', 'SE', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-sky-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🦀</span>
+                <span>Buscar em Todo o Estado de Sergipe (Cotações & Postos de Todos os 47 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40">47 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroSe" 
+              value="${filtroSeTexto}" 
+              oninput="filtrarCidadesSe(this.value)" 
+              placeholder="Filtrar município de SE (ex: Aracaju, Nossa Senhora do Socorro, Itabaiana, Lagarto, Estância)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-sky-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município sergipano encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -3431,6 +3554,27 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
             </div>
             <button type="button" onclick="abrirAbaAlagoas()" class="px-3 py-1.5 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 50 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardSergipe = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-sky-950/70 via-slate-900 to-slate-900 border border-sky-500/40 hover:border-sky-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-sky-500/15 border border-sky-500/25">🦀</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Sergipe (Estado SE)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-sky-500/25 text-sky-300 font-bold border border-sky-500/40">47 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Aracaju, Socorro, Itabaiana, Lagarto, Estância e São Cristóvão</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaSergipe()" class="px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 47 Cidades</span>
               <span>➔</span>
             </button>
           </div>
