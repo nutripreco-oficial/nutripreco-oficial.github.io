@@ -1416,265 +1416,251 @@
       "rede": "Hiperideal Supermercados",
       "unidade": "Hiperideal (E-commerce Oficial Salvador)",
       "fonte_oficial_dominio": "https://www.hiperideal.com.br",
-      "qtd_itens_verificados": 17,
-      "soma_itens_verificados_reais": 183.39,
+      "qtd_itens_verificados": 15,
+      "soma_itens_verificados_reais": 137.62,
       "itens": {
         "arroz": {
-          "produto": "Arroz Integral Parboilizado Emoções Tipo1 1Kg",
-          "marca": "EMOCOES",
-          "preco": 5.98,
-          "fonte_url": "https://www.hiperideal.com.br/arroz-integral-parboilizado-emocoes-tipo1-1kg-150136/p",
-          "coletado_em": "2026-10-12T23:11:20.232328+00:00"
+          "produto": "Arroz Parboilizado Kikaldo Tp1 1Kg",
+          "marca": "KIKALDO",
+          "preco": 4.88,
+          "fonte_url": "https://www.hiperideal.com.br/arroz-parboilizado-kikaldo-tp1-1kg-2203399/p",
+          "coletado_em": "2026-10-15T09:43:19.199507+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Tio Mingote 1Kg",
-          "marca": "TIO MINGOTE",
-          "preco": 9.28,
-          "fonte_url": "https://www.hiperideal.com.br/feijao-carioca-tio-mingote-1kg-209301/p",
-          "coletado_em": "2026-10-12T23:11:20.842278+00:00"
+          "produto": "Feijão Fradinho Alimenta 500g",
+          "marca": "ALIMENTA",
+          "preco": 3.79,
+          "fonte_url": "https://www.hiperideal.com.br/feijao-fradinho-alimenta-500g-209271/p",
+          "coletado_em": "2026-10-15T09:43:21.143468+00:00"
         },
         "farinha de trigo": {
           "produto": "Farinha Trigo Finna Tradicional 1Kg",
           "marca": "FINNA",
           "preco": 4.98,
           "fonte_url": "https://www.hiperideal.com.br/farinha-trigo-finna-tradicional-1kg-154526/p",
-          "coletado_em": "2026-10-12T23:11:22.044480+00:00"
-        },
-        "macarrao espaguete": {
-          "produto": "Massa Espaguete Brandini Economico 500g",
-          "marca": "BRANDINI",
-          "preco": 3.88,
-          "fonte_url": "https://www.hiperideal.com.br/massa-espaguete-brandini-economico-500g-129660/p",
-          "coletado_em": "2026-10-12T23:11:23.871625+00:00"
+          "coletado_em": "2026-10-15T09:43:22.980249+00:00"
         },
         "acucar": {
-          "produto": "Açúcar Refinado União 1Kg",
-          "marca": "UNIAO",
-          "preco": 8.38,
-          "fonte_url": "https://www.hiperideal.com.br/acucar-refinado-uniao-1kg-108763/p",
-          "coletado_em": "2026-10-12T23:11:24.702349+00:00"
+          "produto": "Açúcar Cristal Caete 1Kg",
+          "marca": "CAETE",
+          "preco": 3.88,
+          "fonte_url": "https://www.hiperideal.com.br/acucar-cristal-caete-1kg-158372/p",
+          "coletado_em": "2026-10-15T09:43:24.430415+00:00"
         },
         "cafe": {
-          "produto": "Café Torrado Moído Mellita Descafeinado 250g",
-          "marca": "MELITTA",
-          "preco": 26.98,
-          "fonte_url": "https://www.hiperideal.com.br/cafe-torrado-moido-mellita-descafeinado-250g-2203637/p",
-          "coletado_em": "2026-10-12T23:11:26.916947+00:00"
+          "produto": "Café 3 Corações Tradicional Vácuo 250g",
+          "marca": "3 CORACOES",
+          "preco": 18.38,
+          "fonte_url": "https://www.hiperideal.com.br/cafe-3-coracoes-tradicional-vacuo-250g-185146/p",
+          "coletado_em": "2026-10-15T09:43:25.676871+00:00"
         },
         "leite integral": {
-          "produto": "Leite Pó Integral Betania Pacote 200g",
-          "marca": "BETANIA",
-          "preco": 9.98,
-          "fonte_url": "https://www.hiperideal.com.br/leite-po-integral-betania-pacote-200g/p",
-          "coletado_em": "2026-10-12T23:11:27.811729+00:00"
+          "produto": "Leite Pó Integral Itambé Pacote 200g",
+          "marca": "ITAMBE",
+          "preco": 8.58,
+          "fonte_url": "https://www.hiperideal.com.br/leite-po-integral-itambe-pacote-200g-128797/p",
+          "coletado_em": "2026-10-15T09:43:26.630404+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo Soja Soya 900ml",
           "marca": "SOYA",
           "preco": 9.99,
           "fonte_url": "https://www.hiperideal.com.br/oleo-soja-soya-900ml-45919/p",
-          "coletado_em": "2026-10-12T23:11:28.261343+00:00"
+          "coletado_em": "2026-10-15T09:43:28.149567+00:00"
         },
         "manteiga": {
-          "produto": "Manteiga President com Sal 200g",
-          "marca": "PRESIDENT",
-          "preco": 16.98,
-          "fonte_url": "https://www.hiperideal.com.br/manteiga-president-com-sal-200g-205407/p",
-          "coletado_em": "2026-10-12T23:11:29.512368+00:00"
+          "produto": "Tempero Pó Maggi Manteiga 110g",
+          "marca": "NESTLE",
+          "preco": 15.18,
+          "fonte_url": "https://www.hiperideal.com.br/tempero-po-maggi-manteiga-110g-2204929/p",
+          "coletado_em": "2026-10-15T09:43:29.287509+00:00"
         },
         "peito de frango": {
           "produto": "Peito Frango Ceratti Defumado 100g",
           "marca": "CERATTI",
           "preco": 17.98,
           "fonte_url": "https://www.hiperideal.com.br/peito-frango-ceratti-defumado-100g-193996/p",
-          "coletado_em": "2026-10-12T23:11:33.021878+00:00"
+          "coletado_em": "2026-10-15T09:43:30.857108+00:00"
         },
         "ovos": {
-          "produto": "Ovos Brancos Livre de Gaiolas Ovo Feliz C18",
-          "marca": "AGRANOR",
-          "preco": 17.99,
-          "fonte_url": "https://www.hiperideal.com.br/ovos-brancos-livre-de-gaiolas-ovo-feliz-c18-2202828/p",
-          "coletado_em": "2026-10-12T23:11:33.638815+00:00"
+          "produto": "Ovos Codorna Ovos com 30",
+          "marca": "HORTIFRUTI",
+          "preco": 7.98,
+          "fonte_url": "https://www.hiperideal.com.br/ovos-codorna-ovos-com-30-170193/p",
+          "coletado_em": "2026-10-15T09:43:31.883041+00:00"
         },
         "queijo mussarela": {
           "produto": "Queijo Mussarela Galbani Fatiado 150g",
           "marca": "GALBANI",
           "preco": 11.98,
           "fonte_url": "https://www.hiperideal.com.br/queijo-mussarela-galbani-fatiado-150g-219052/p",
-          "coletado_em": "2026-10-12T23:11:36.399173+00:00"
+          "coletado_em": "2026-10-15T09:43:33.437211+00:00"
         },
-        "sabao em po": {
-          "produto": "Lava Roupas Líquido Ala Coco 1.8L",
-          "marca": "ALA",
-          "preco": 19.98,
-          "fonte_url": "https://www.hiperideal.com.br/lava-roupas-liquido-ala-coco-1-8l-218721/p",
-          "coletado_em": "2026-10-12T23:11:38.555043+00:00"
+        "biscoito": {
+          "produto": "Biscoito Recheado Bono Chocolate 90g",
+          "marca": "NESTLE",
+          "preco": 3.98,
+          "fonte_url": "https://www.hiperideal.com.br/biscoito-recheado-bono-chocolate-90g-215057/p",
+          "coletado_em": "2026-10-15T09:43:34.132232+00:00"
         },
         "detergente": {
           "produto": "Detergente Líquido Atol Neutro 500ml",
           "marca": "ATOL",
           "preco": 2.37,
-          "fonte_url": "https://www.hiperideal.com.br/detergente-liquido-atol-neutro-500ml/p",
-          "coletado_em": "2026-10-12T23:11:40.022487+00:00"
+          "fonte_url": "https://www.hiperideal.com.br/detergente-liquido-atol-neutro-500ml-58406/p",
+          "coletado_em": "2026-10-15T09:43:35.760985+00:00"
         },
         "papel higienico": {
-          "produto": "Papel Higiênico Fancy Folha Dupla C4 30 Metros",
-          "marca": "FANCY",
-          "preco": 8.99,
-          "fonte_url": "https://www.hiperideal.com.br/papel-higienico-fancy-folha-dupla-c4-30-metros-216238/p",
-          "coletado_em": "2026-10-12T23:11:41.019841+00:00"
+          "produto": "Papel Higiênico Hyris Folha Dupla C12 20 Metros",
+          "marca": "HYRIS",
+          "preco": 19.99,
+          "fonte_url": "https://www.hiperideal.com.br/papel-higienico-hyris-folha-dupla-c12-20-metros-209556/p",
+          "coletado_em": "2026-10-15T09:43:36.904310+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Iodado Lebre 1Kg",
           "marca": "LEBRE",
           "preco": 3.68,
           "fonte_url": "https://www.hiperideal.com.br/sal-refinado-iodado-lebre-1kg-21459/p",
-          "coletado_em": "2026-10-12T23:11:42.278550+00:00"
-        },
-        "biscoito": {
-          "produto": "Biscoito Cream Cracker Bauducco 165g",
-          "marca": "BAUDUCCO",
-          "preco": 3.99,
-          "fonte_url": "https://www.hiperideal.com.br/biscoito-cream-cracker-bauducco-165g/p",
-          "coletado_em": "2026-10-12T23:11:43.296940+00:00"
+          "coletado_em": "2026-10-15T09:43:38.028822+00:00"
         }
       }
     },
     "ba_gbarbosa": {
-      "cidade": "Salvador / Feira de Santana",
+      "cidade": "Salvador",
       "uf": "BA",
       "regiao": "Nordeste",
       "rede": "GBarbosa",
       "unidade": "GBarbosa (E-commerce Oficial BA)",
       "fonte_oficial_dominio": "https://www.gbarbosa.com.br",
       "qtd_itens_verificados": 18,
-      "soma_itens_verificados_reais": 196.06,
+      "soma_itens_verificados_reais": 129.84,
       "itens": {
         "arroz": {
-          "produto": "Arroz Tio João Parboilizado Tipo 1 1Kg",
-          "marca": "TIO JOAO",
-          "preco": 4.99,
-          "fonte_url": "https://www.gbarbosa.com.br/arroz-tio-joao-parboilizado-tipo-1-1kg-1100706/p",
-          "coletado_em": "2026-10-12T23:11:45.498241+00:00"
+          "produto": "Arroz Parboilizado Sepé 1Kg",
+          "marca": "SEPE",
+          "preco": 4.49,
+          "fonte_url": "https://www.gbarbosa.com.br/arroz-parboilizado-sepe-1kg-1677043/p",
+          "coletado_em": "2026-10-15T09:43:38.840386+00:00"
         },
         "feijao": {
-          "produto": "Feijão Carioca Dular Tipo1 1Kg",
+          "produto": "Feijão Fradinho Dular 1Kg",
           "marca": "Dular",
-          "preco": 8.9,
-          "fonte_url": "https://www.gbarbosa.com.br/feijao-carioca-dular-tipo1-1kg-1750810/p",
-          "coletado_em": "2026-10-12T23:11:46.844107+00:00"
+          "preco": 7.49,
+          "fonte_url": "https://www.gbarbosa.com.br/feijao-fradinho-dular-1kg-1758397/p",
+          "coletado_em": "2026-10-15T09:43:40.008697+00:00"
         },
         "farinha de trigo": {
-          "produto": "Farinha de Trigo Brandini Especial 1Kg",
-          "marca": "BRANDINI",
-          "preco": 4.59,
-          "fonte_url": "https://www.gbarbosa.com.br/farinha-de-trigo-brandini-especial-1kg-1108818/p",
-          "coletado_em": "2026-10-12T23:11:48.831896+00:00"
+          "produto": "Farinha de Trigo Dona Benta Especial 1Kg",
+          "marca": "Dona Benta",
+          "preco": 4.39,
+          "fonte_url": "https://www.gbarbosa.com.br/farinha-de-trigo-dona-benta-especial-1kg-1099407/p",
+          "coletado_em": "2026-10-15T09:43:41.250028+00:00"
         },
         "macarrao espaguete": {
           "produto": "Macarrão Pilar Espaguete Fino Pacote 400g",
           "marca": "PILAR",
           "preco": 2.59,
           "fonte_url": "https://www.gbarbosa.com.br/macarrao-pilar-espaguete-fino-pacote-400g-1819176/p",
-          "coletado_em": "2026-10-12T23:11:49.558528+00:00"
+          "coletado_em": "2026-10-15T09:43:42.153934+00:00"
         },
         "acucar": {
-          "produto": "Açúcar Refinado União Glaçúcar 500g",
-          "marca": "UNIAO",
-          "preco": 7.69,
-          "fonte_url": "https://www.gbarbosa.com.br/acucar-refinado-uniao-glacucar-500g-1099717/p",
-          "coletado_em": "2026-10-12T23:11:50.808682+00:00"
+          "produto": "Açúcar Cristal Agrovale 1Kg",
+          "marca": "AGROVALE",
+          "preco": 2.99,
+          "fonte_url": "https://www.gbarbosa.com.br/acucar-cristal-agrovale-1kg-1132077/p",
+          "coletado_em": "2026-10-15T09:43:43.480534+00:00"
         },
         "cafe": {
-          "produto": "Café em Pó Pilão Tradicional Torrado e Moído Almofada 250g",
-          "marca": "PILAO",
-          "preco": 15.49,
-          "fonte_url": "https://www.gbarbosa.com.br/cafe-em-po-pilao-tradicional-torrado-e-moido-almofada-250g-1105513/p",
-          "coletado_em": "2026-10-12T23:11:52.568851+00:00"
+          "produto": "Coador de Café Anadri Tecido",
+          "marca": "ANADRI",
+          "preco": 4.19,
+          "fonte_url": "https://www.gbarbosa.com.br/coador-de-cafe-anadri-tecido-1109821/p",
+          "coletado_em": "2026-10-15T09:43:44.865615+00:00"
         },
         "leite integral": {
-          "produto": "Creme de Leite Leitíssimo Uht 200g",
-          "marca": "LEITISSIMO",
-          "preco": 3.39,
-          "fonte_url": "https://www.gbarbosa.com.br/creme-de-leite-leitissimo-uht-200g-1745702/p",
-          "coletado_em": "2026-10-12T23:11:53.648702+00:00"
+          "produto": "Leite Líquido Natville Integral 1l",
+          "marca": "NATVILLE",
+          "preco": 6.49,
+          "fonte_url": "https://www.gbarbosa.com.br/leite-liquido-natville-integral-1l-1798180/p",
+          "coletado_em": "2026-10-15T09:43:45.732037+00:00"
         },
         "oleo de soja": {
           "produto": "Óleo de Soja Vila Velha Pet 900ml",
           "marca": "Vila Velha",
           "preco": 7.59,
           "fonte_url": "https://www.gbarbosa.com.br/oleo-de-soja-vila-velha-pet-900ml-1330048/p",
-          "coletado_em": "2026-10-12T23:11:55.432021+00:00"
+          "coletado_em": "2026-10-15T09:43:46.900248+00:00"
         },
         "manteiga": {
-          "produto": "Manteiga Davaca sem Sal 200g",
-          "marca": "DAVACA",
-          "preco": 13.99,
-          "fonte_url": "https://www.gbarbosa.com.br/manteiga-davaca-sem-sal-200g-1761544/p",
-          "coletado_em": "2026-10-12T23:11:56.631742+00:00"
+          "produto": "Margarina Claybom Sabor Manteiga 250g",
+          "marca": "CLAYBOM",
+          "preco": 4.49,
+          "fonte_url": "https://www.gbarbosa.com.br/margarina-claybom-sabor-manteiga-250g-1759931/p",
+          "coletado_em": "2026-10-15T09:43:49.161116+00:00"
         },
         "carne bovina": {
-          "produto": "Alcatra Bovina Moída MP",
-          "marca": "FEITO POR NOS",
-          "preco": 49.99,
-          "fonte_url": "https://www.gbarbosa.com.br/alcatra-bovina-moida/p",
-          "coletado_em": "2026-10-12T23:11:58.656261+00:00"
+          "produto": "Mini Hambúrguer Seara Churrasco de Carne Bovina e Suína 300g com 6 Unidades",
+          "marca": "Seara",
+          "preco": 19.99,
+          "fonte_url": "https://www.gbarbosa.com.br/mini-hamburguer-seara-churrasco-de-carne-bovina-e-suina-300g-com-6-unidades-1892728/p",
+          "coletado_em": "2026-10-15T09:43:49.945082+00:00"
         },
         "peito de frango": {
           "produto": "Peito de Frango Congelado",
           "marca": "SEM MARCA",
-          "preco": 17.99,
+          "preco": 13.99,
           "fonte_url": "https://www.gbarbosa.com.br/peito-de-frango-congelado-1448795/p",
-          "coletado_em": "2026-10-12T23:12:00.231820+00:00"
+          "coletado_em": "2026-10-15T09:43:51.077547+00:00"
         },
         "ovos": {
-          "produto": "Ovos Brancos Iana Grandes com 30 Unidades",
-          "marca": "IANA",
-          "preco": 27.9,
-          "fonte_url": "https://www.gbarbosa.com.br/ovos-brancos-iana-grandes-com-30-unidades-1729520/p",
-          "coletado_em": "2026-10-12T23:12:01.531650+00:00"
+          "produto": "Chicle Fini Ovos de Dinossauro 80g",
+          "marca": "FINI",
+          "preco": 9.69,
+          "fonte_url": "https://www.gbarbosa.com.br/chicle-fini-ovos-de-dinossauro-80g-1271580/p",
+          "coletado_em": "2026-10-15T09:43:51.999359+00:00"
         },
         "queijo mussarela": {
-          "produto": "Queijo Mussarela Sadia Soltiíssimo Fatiado 150g",
-          "marca": "SADIA",
-          "preco": 11.99,
-          "fonte_url": "https://www.gbarbosa.com.br/queijo-mussarela-sadia-soltiissimo-fatiado-150g-1844046/p",
-          "coletado_em": "2026-10-12T23:12:02.060633+00:00"
+          "produto": "Queijo Mussarela Président Fatiado 300g",
+          "marca": "PRESIDENT",
+          "preco": 23.49,
+          "fonte_url": "https://www.gbarbosa.com.br/queijo-mussarela-president-fatiado-300g-1819963/p",
+          "coletado_em": "2026-10-15T09:43:53.397027+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Passatempo Alpino 90g",
+          "marca": "PASSATEMPO",
+          "preco": 3.69,
+          "fonte_url": "https://www.gbarbosa.com.br/biscoito-passatempo-alpino-90g-1890467002/p",
+          "coletado_em": "2026-10-15T09:43:54.271608+00:00"
         },
         "sabao em po": {
-          "produto": "Sabão em Pó Tixan Ypê Maciez Sachê 400g",
+          "produto": "Sabão em Pó Tixan Ypê Primavera Sachê 400g",
           "marca": "TIXAN YPE",
           "preco": 6.45,
-          "fonte_url": "https://www.gbarbosa.com.br/sabao-em-po-tixan-ype-maciez-sache-400g-1839547002/p",
-          "coletado_em": "2026-10-12T23:12:03.423637+00:00"
+          "fonte_url": "https://www.gbarbosa.com.br/sabao-em-po-tixan-ype-primavera-sache-400g-1839547001/p",
+          "coletado_em": "2026-10-15T09:43:55.490598+00:00"
         },
         "detergente": {
-          "produto": "Detergente Líquido Atol Maçã 500ml",
-          "marca": "ATOL",
-          "preco": 2.69,
-          "fonte_url": "https://www.gbarbosa.com.br/detergente-liquido-atol-maca-500ml-1114692004/p",
-          "coletado_em": "2026-10-12T23:12:04.961978+00:00"
+          "produto": "Detergente Brilux Coco 500ml",
+          "marca": "Brilux",
+          "preco": 2.19,
+          "fonte_url": "https://www.gbarbosa.com.br/detergente-brilux-coco-500ml-1114707002/p",
+          "coletado_em": "2026-10-15T09:43:56.347306+00:00"
         },
         "papel higienico": {
           "produto": "Papel Higiênico Soft Familiar Folha Simples 30m com 4 Unidades",
           "marca": "SOFT",
           "preco": 3.65,
           "fonte_url": "https://www.gbarbosa.com.br/papel-higienico-soft-familiar-folha-simples-30m-com-4-unidades-1635965/p",
-          "coletado_em": "2026-10-12T23:12:06.669989+00:00"
+          "coletado_em": "2026-10-15T09:43:57.286800+00:00"
         },
         "sal refinado": {
           "produto": "Sal Refinado Cuisine&Co 1Kg",
           "marca": "CUISINE&CO",
           "preco": 1.99,
           "fonte_url": "https://www.gbarbosa.com.br/sal-refinado-cuisine-co-1kg-1873235/p",
-          "coletado_em": "2026-10-12T23:12:08.811937+00:00"
-        },
-        "biscoito": {
-          "produto": "Biscoito Cream Cracker Bauducco Tradicional 165g",
-          "marca": "BAUDUCCO",
-          "preco": 4.19,
-          "fonte_url": "https://www.gbarbosa.com.br/biscoito-cream-cracker-bauducco-tradicional-165g-1879274001/p",
-          "coletado_em": "2026-10-12T23:12:10.970107+00:00"
+          "coletado_em": "2026-10-15T09:43:59.001860+00:00"
         }
       }
     },
