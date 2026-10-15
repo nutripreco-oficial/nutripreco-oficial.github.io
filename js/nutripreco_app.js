@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ma');
     carregarCombustiveisOnline('pi');
     carregarCombustiveisOnline('pa');
+    carregarCombustiveisOnline('am');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -227,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ma');
     carregarCombustiveisOnline('pi');
     carregarCombustiveisOnline('pa');
+    carregarCombustiveisOnline('am');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -307,6 +309,11 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'pa_santarem': ['Santarém', 'PA'],
               'pa_maraba': ['Marabá', 'PA'],
               'pa_parauapebas': ['Parauapebas', 'PA'],
+              'am_manaus': ['Manaus', 'AM'],
+              'am_parintins': ['Parintins', 'AM'],
+              'am_itacoatiara': ['Itacoatiara', 'AM'],
+              'am_manacapuru': ['Manacapuru', 'AM'],
+              'am_coari': ['Coari', 'AM'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -1245,6 +1252,32 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_PA = Object.values(CIDADES_PA_POR_REGIAO).flat();
 
+    const CIDADES_AM_POR_REGIAO = {
+      "Região Metropolitana de Manaus & Rio Negro": [
+        "Manaus", "Iranduba", "Manacapuru", "Novo Airão", "Careiro",
+        "Careiro da Várzea", "Rio Preto da Eva", "Presidente Figueiredo", "Itacoatiara", "Silves"
+      ],
+      "Médio & Baixo Amazonas": [
+        "Parintins", "Maués", "Itapiranga", "Urucará", "São Sebastião do Uatumã",
+        "Nhamundá", "Barreirinha", "Boa Vista do Ramos", "Autazes", "Borba"
+      ],
+      "Alto Solimões & Tríplice Fronteira": [
+        "Tabatinga", "Benjamin Constant", "Atalaia do Norte", "São Paulo de Olivença",
+        "Amaturá", "Santo Antônio do Içá", "Tonantins", "Fonte Boa", "Jutaí"
+      ],
+      "Médio Solimões & Juruá": [
+        "Tefé", "Coari", "Alvarães", "Uarini", "Carauari",
+        "Eirunepé", "Envira", "Ipixuna", "Guajará", "Itamarati"
+      ],
+      "Calha do Madeira & Purus": [
+        "São Gabriel da Cachoeira", "Barcelos", "Santa Isabel do Rio Negro", "Lábrea",
+        "Humaitá", "Manicoré", "Apuí", "Boca do Acre", "Canutama", "Tapauá"
+      ]
+    };
+
+    const TODAS_CIDADES_AM = Object.values(CIDADES_AM_POR_REGIAO).flat();
+
+
 
 
 
@@ -1332,6 +1365,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_MA !== 'undefined' && TODAS_CIDADES_MA.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_PI !== 'undefined' && TODAS_CIDADES_PI.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_PA !== 'undefined' && TODAS_CIDADES_PA.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_AM !== 'undefined' && TODAS_CIDADES_AM.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1458,6 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoMaAtiva = 'Todas';
         regiaoPiAtiva = 'Todas';
         regiaoPaAtiva = 'Todas';
+        regiaoAmAtiva = 'Todas';
     let filtroMsTexto = '';
 
     function abrirAbaMatoGrossoDoSul() {
@@ -1471,6 +1506,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         regiaoMaAtiva = 'Todas';
         regiaoPiAtiva = 'Todas';
         regiaoPaAtiva = 'Todas';
+        regiaoAmAtiva = 'Todas';
       filtroMsTexto = '';
       const inputTop = document.getElementById('inputBuscaCidadeModal');
       if (inputTop) inputTop.value = '';
@@ -1681,6 +1717,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroMaTexto = '';
       filtroPiTexto = '';
       filtroPaTexto = '';
+      filtroAmTexto = '';
       renderizarCidadesModal();
     }
 
@@ -3596,6 +3633,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       }
 
 
+            // 23. MODO ABA AMAZONAS (49 MUNICÍPIOS)
+      if (abaModalAtual === 'am') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Amazonas (49 Cidades)';
+
+        let cidadesExibir = regiaoAmAtiva === 'Todas' ? TODAS_CIDADES_AM : (CIDADES_AM_POR_REGIAO[regiaoAmAtiva] || []);
+
+        if (filtroAmTexto.trim()) {
+          const fClean = filtroAmTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Região Metropolitana de Manaus & Rio Negro", "Médio & Baixo Amazonas", "Alto Solimões & Tríplice Fronteira", "Médio Solimões & Juruá", "Calha do Madeira & Purus"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoAmAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-green-500 text-slate-950 font-bold border-green-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '49' : (CIDADES_AM_POR_REGIAO[reg] ? CIDADES_AM_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoAm('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-green-500/20 border-green-500/50 text-white font-bold shadow-[0_0_10px_rgba(34,197,94,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'AM', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-green-950/80 text-green-400 border border-green-800/60 font-mono">AM</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-green-400 font-bold font-mono">AM • 49 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Amazonas (Todo o Estado)', 'AM', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-green-500/15 hover:bg-green-500/25 border border-green-500/40 text-green-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌳</span>
+                <span>Buscar em Todo o Estado do Amazonas (Cotações & Postos de Todos os 49 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-green-500/20 text-green-300 border border-green-500/40">49 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroAm" 
+              value="${filtroAmTexto}" 
+              oninput="filtrarCidadesAm(this.value)" 
+              placeholder="Filtrar município do AM (ex: Manaus, Parintins, Itacoatiara, Manacapuru, Coari, Tefé)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-green-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município amazonense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -3992,6 +4115,27 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
             </div>
             <button type="button" onclick="abrirAbaPiaui()" class="px-3 py-1.5 rounded-xl bg-lime-500 hover:bg-lime-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
               <span>Abrir 50 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+      const cardAmazonas = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-green-950/70 via-slate-900 to-slate-900 border border-green-500/40 hover:border-green-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-green-500/15 border border-green-500/25">🌳</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Amazonas (Estado AM)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-green-500/25 text-green-300 font-bold border border-green-500/40">49 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Manaus, Parintins, Itacoatiara, Manacapuru, Coari, Tefé e Tabatinga</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaAmazonas()" class="px-3 py-1.5 rounded-xl bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 49 Cidades</span>
               <span>➔</span>
             </button>
           </div>
