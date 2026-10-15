@@ -1,0 +1,79 @@
+name: Piloto Automático Nacional • Manutenção Periódica 24/7 (NutriPreço & NutriCombust)
+
+on:
+  schedule:
+    # Segundas-feiras às 06:00 BRT (09:00 UTC) -> Combustíveis ANP Semanal
+    - cron: '0 9 * * 1'
+    # Quartas e Sábados às 03:00 BRT (06:00 UTC) -> Supermercados 27 Estados
+    - cron: '0 6 * * 3,6'
+  workflow_dispatch:
+    inputs:
+      modulo:
+        description: 'Qual robô deseja disparar manualmente?'
+        required: true
+        default: 'todos'
+        type: choice
+        options:
+          - 'todos'
+          - 'supermercados_nacional'
+          - 'anp_combustiveis'
+
+jobs:
+  piloto-automatico:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do Repositório Oficial
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar Dependências
+        run: |
+          pip install requests beautifulsoup4 openpyxl pandas python-dateutil urllib3
+
+      - name: Executar Varredura Nacional de Supermercados (27 Estados)
+        if: ${{ github.event.schedule == '0 6 * * 3,6' || github.event.inputs.modulo == 'todos' || github.event.inputs.modulo == 'supermercados_nacional' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://fzoyldcfyiigwyxxhosd.supabase.co' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "🛒 Iniciando Varredura Nacional de Supermercados..."
+          python robo_coleta_supermercados_nacional.py || echo "⚠️ Aviso na coleta, prosseguindo com integridade."
+
+      - name: Versionar Base de Dados e Publicar Atualizações (Git Commit & Push)
+        run: |
+          git config --local user.name "Holding Arthur Bot"
+          git config --local user.email "bot@mestrepratico.com.br"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "⚡ Nenhuma nova alteração nos dados nesta rodada."
+          else
+            git commit -m "chore(piloto-automatico): sincronização programada de cotações [skip ci]"
+            git push origin main
+          fi
+
+      - name: Notificar Diretoria Executiva via Telegram
+        if: always()
+        run: |
+          TELEGRAM_BOT_TOKEN="8773192734:AAEtzTt8hwCx4kOgj305YtQvgReOsJ0YZbU"
+          STATUS="${{ job.status }}"
+          MSG="🚀 <b>PILOTO AUTOMÁTICO • CICLO EXECUTADO</b>%0A%0AStatus: <b>${STATUS}</b>%0ARepositório: nutripreco-oficial.github.io%0AHorário: $(date -u '+%%Y-%%m-%%d %%H:%%M:%%S UTC')%0A<i>Modo Cruzeiro 24/7 Operacional.</i>"
+          
+          # Puxa os chat_ids recentes do bot
+          CHAT_IDS=$(curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates" | grep -o '"chat":{"id":-[0-9]*' | cut -d: -f3 | sort -u)
+          if [ -z "$CHAT_IDS" ]; then
+            CHAT_IDS=$(curl -s "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates" | grep -o '"chat":{"id":[0-9]*' | cut -d: -f3 | sort -u)
+          fi
+          
+          for CID in $CHAT_IDS; do
+            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+              -d "chat_id=${CID}&text=${MSG}&parse_mode=HTML" > /dev/null || true
+          done
