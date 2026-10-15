@@ -1,200 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://{DOMAIN}/combustivel?uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=ararangu&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/ararangua-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=ararangu&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/blumenau-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=blumenau&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/brusque-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=blumenau&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cacador-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=brusque&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/chapeco-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=brusque&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/concordia-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=ca-ador&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/criciuma-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=ca-ador&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/florianopolis-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=chapec&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/itajai-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=chapec&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/joinville-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=conc-rdia&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/laguna-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=conc-rdia&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/mafra-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=crici-ma&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sao-jose-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=crici-ma&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/tubarao-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=florian-polis&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/videira-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=florian-polis&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/xanxere-sc.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=itaja&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/blumenau.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=itaja&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/criciuma.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=joinville&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/florianopolis.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=joinville&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=laguna&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=laguna&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=mafra&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=mafra&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=s-o-jos&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=s-o-jos&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=tubar-o&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=tubar-o&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=videira&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=videira&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=xanxer&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=xanxer&amp;uf=sc</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/joinville.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>

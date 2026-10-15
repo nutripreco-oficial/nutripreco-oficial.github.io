@@ -1,428 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://{DOMAIN}/combustivel?uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=alegrete&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/alegrete-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=alegrete&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/alvorada-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=alvorada&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/bage-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=alvorada&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/bento-goncalves-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=bag&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cachoeira-do-sul-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=bag&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cachoeirinha-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=bento-gon-alves&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/canoas-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=bento-gon-alves&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/caxias-do-sul-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=cachoeira-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cruz-alta-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=cachoeira-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/erechim-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=cachoeirinha&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/esteio-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=cachoeirinha&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/gramado-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=canoas&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/gravatai-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=canoas&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/guaiba-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=caxias-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/ijui-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=caxias-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/lajeado-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=cruz-alta&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/novo-hamburgo-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=cruz-alta&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/osorio-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=erechim&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/passo-fundo-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=erechim&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/pelotas-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=esteio&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/porto-alegre-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=esteio&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/santa-cruz-do-sul-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=gramado&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/santa-maria-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=gramado&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/santa-rosa-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=gravata&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/santana-do-livramento-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=gravata&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/santo-angelo-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=gua-ba&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sao-gabriel-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=gua-ba&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sao-leopoldo-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=iju&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sao-luiz-gonzaga-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=iju&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sapiranga-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=lajeado&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sapucaia-do-sul-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=lajeado&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/torres-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=novo-hamburgo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/uruguaiana-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=novo-hamburgo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/vacaria-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=os-rio&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/viamao-rs.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=os-rio&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=passo-fundo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=passo-fundo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=pelotas&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=pelotas&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=porto-alegre&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=porto-alegre&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=santa-cruz-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=santa-cruz-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=santa-maria&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=santa-maria&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=santa-rosa&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=santa-rosa&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=santana-do-livramento&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=santana-do-livramento&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=santo-ngelo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=santo-ngelo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=sapiranga&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=sapiranga&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=sapucaia-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=sapucaia-do-sul&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=s-o-gabriel&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=s-o-gabriel&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=s-o-leopoldo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=s-o-leopoldo&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=s-o-luiz-gonzaga&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=s-o-luiz-gonzaga&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=torres&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=torres&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=uruguaiana&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=uruguaiana&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=vacaria&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=vacaria&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=viam-o&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=viam-o&amp;uf=rs</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/porto-alegre.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>

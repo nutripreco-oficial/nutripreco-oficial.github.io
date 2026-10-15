@@ -1,128 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://{DOMAIN}/combustivel?uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=aracruz&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cachoeiro-de-itapemirim-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=aracruz&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/cariacica-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=cachoeiro-de-itapemirim&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/colatina-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=cachoeiro-de-itapemirim&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/guarapari-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=cariacica&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/linhares-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=cariacica&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/sao-mateus-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=colatina&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/serra-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=colatina&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/vila-velha-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=guarapari&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/vitoria-es.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=guarapari&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=linhares&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=linhares&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=serra&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=serra&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=s-o-mateus&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=s-o-mateus&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=vila-velha&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=vila-velha&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=vit-ria&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://{DOMAIN}/busca?cidade=vit-ria&amp;uf=es</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/vitoria.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>

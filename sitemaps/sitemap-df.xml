@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://{DOMAIN}/combustivel?uf=df</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/combustivel?cidade=bras-lia&amp;uf=df</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/combustivel/brasilia-df.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://{DOMAIN}/busca?cidade=bras-lia&amp;uf=df</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://nutripreco.com.br/supermercados/brasilia.html</loc>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
