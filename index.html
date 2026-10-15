@@ -1334,6 +1334,37 @@
 
     const TODAS_CIDADES_MG = Object.values(CIDADES_MG_POR_REGIAO).flat();
 
+    const CIDADES_ES_POR_REGIAO = {
+      "Grande Vitória & Central": [
+        "Vitória", "Vila Velha", "Serra", "Cariacica", "Viana", "Guarapari", "Fundão"
+      ],
+      "Norte, Noroeste & Rio Doce": [
+        "Linhares", "Colatina", "São Mateus", "Aracruz", "Baixo Guandu", "Marilândia",
+        "Pancas", "São Gabriel da Palha", "Nova Venécia", "Barra de São Francisco",
+        "Pinheiros", "Montanha", "Conceição da Barra", "Jaguaré", "Sooretama",
+        "João Neiva", "Ibiraçu", "Pedro Canário", "Boa Esperança", "Ecoporanga",
+        "Água Doce do Norte", "Águia Branca", "Mantenópolis", "São Domingos do Norte",
+        "Alto Rio Novo", "Governador Lindenberg", "Vila Valério", "Vila Pavão",
+        "São Roque do Canaã", "Mucurici", "Ponto Belo", "Rio Bananal"
+      ],
+      "Sul & Litoral Sul": [
+        "Cachoeiro de Itapemirim", "Castelo", "Alegre", "Guaçuí", "Iúna",
+        "Anchieta", "Piúma", "Itapemirim", "Marataízes", "Presidente Kennedy",
+        "Iconha", "Rio Novo do Sul", "Alfredo Chaves", "Jerônimo Monteiro",
+        "Muqui", "Mimoso do Sul", "Atílio Vivacqua", "Vargem Alta",
+        "Apiacá", "Bom Jesus do Norte", "São José do Calçado",
+        "Dores do Rio Preto", "Divino de São Lourenço"
+      ],
+      "Região Serrana & Caparaó": [
+        "Domingos Martins", "Marechal Floriano", "Santa Teresa", "Santa Maria de Jetibá",
+        "Santa Leopoldina", "Afonso Cláudio", "Venda Nova do Imigrante", "Brejetuba",
+        "Conceição do Castelo", "Laranja da Terra", "Itarana", "Itaguaçu",
+        "Ibatiba", "Irupi", "Ibitirama", "Muniz Freire"
+      ]
+    };
+
+    const TODAS_CIDADES_ES = Object.values(CIDADES_ES_POR_REGIAO).flat();
+
     const OUTRAS_CIDADES_AUDITADAS = [
       { "nome": "Vitória", "uf": "ES", "lat": -20.31, "lon": -40.33 },
       { "nome": "Curitiba", "uf": "PR", "lat": -25.42, "lon": -49.27 },
@@ -1366,6 +1397,8 @@
     let filtroSpTexto = '';
     let regiaoMgAtiva = 'Todas';
     let filtroMgTexto = '';
+    let regiaoEsAtiva = 'Todas';
+    let filtroEsTexto = '';
 
     function calcularDistanciaKm(lat1, lon1, lat2, lon2) {
       const R = 6371;
@@ -1477,6 +1510,25 @@
       renderizarCidadesModal();
     }
 
+    function abrirAbaEspiritoSanto() {
+      abaModalAtual = 'es';
+      regiaoEsAtiva = 'Todas';
+      filtroEsTexto = '';
+      const inputTop = document.getElementById('inputBuscaCidadeModal');
+      if (inputTop) inputTop.value = '';
+      renderizarCidadesModal();
+    }
+
+    function selecionarRegiaoEs(regiao) {
+      regiaoEsAtiva = regiao;
+      renderizarCidadesModal();
+    }
+
+    function filtrarCidadesEs(txt) {
+      filtroEsTexto = txt || '';
+      renderizarCidadesModal();
+    }
+
     function voltarParaEstadosModal() {
       abaModalAtual = 'estados';
       filtroRjTexto = '';
@@ -1542,12 +1594,17 @@
           return cClean.includes(filtroTopClean);
         }).map(nome => ({ nome, uf: 'MG' }));
 
+        const esMatch = TODAS_CIDADES_ES.filter(nome => {
+          const cClean = nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+          return cClean.includes(filtroTopClean);
+        }).map(nome => ({ nome, uf: 'ES' }));
+
         const outrosMatch = OUTRAS_CIDADES_AUDITADAS.filter(c => {
           const cClean = c.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
           return cClean.includes(filtroTopClean) || c.uf.toLowerCase().includes(filtroTopClean);
         });
 
-        const totalEncontrado = [...rjMatch, ...spMatch, ...mgMatch, ...outrosMatch];
+        const totalEncontrado = [...rjMatch, ...spMatch, ...mgMatch, ...esMatch, ...outrosMatch];
 
         if (totalEncontrado.length === 0) {
           container.innerHTML = `
@@ -1570,6 +1627,7 @@
           let badgeColor = 'bg-slate-900 text-slate-400';
           if (c.uf === 'SP') badgeColor = 'bg-cyan-950 text-cyan-400 border border-cyan-800';
           if (c.uf === 'MG') badgeColor = 'bg-amber-950 text-amber-400 border border-amber-800';
+          if (c.uf === 'ES') badgeColor = 'bg-emerald-950 text-teal-400 border border-teal-800';
 
           return `
             <button type="button" onclick="selecionarCidade('${c.nome}', '${c.uf}', 'Manual'); fecharModalTrocarCidade();" class="p-2.5 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
@@ -1839,6 +1897,91 @@
 
           <div class="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-52 overflow-y-auto custom-scrollbar p-0.5">
             ${gridCidadesHtml || '<div class="col-span-2 p-3 text-center text-xs text-slate-400">Nenhum município encontrado com este nome.</div>'}
+          </div>
+        `;
+        return;
+      }
+
+      // 5. MODO ABA ESPÍRITO SANTO (78 MUNICÍPIOS)
+      if (abaModalAtual === 'es') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Espírito Santo (78 Cidades)';
+
+        let cidadesExibir = regiaoEsAtiva === 'Todas' ? TODAS_CIDADES_ES : (CIDADES_ES_POR_REGIAO[regiaoEsAtiva] || []);
+
+        if (filtroEsTexto.trim()) {
+          const fClean = filtroEsTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Grande Vitória & Central", "Norte, Noroeste & Rio Doce", "Sul & Litoral Sul", "Região Serrana & Caparaó"];
+
+        const pílulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoEsAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-teal-500 text-slate-950 font-bold border-teal-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '78' : (CIDADES_ES_POR_REGIAO[reg] ? CIDADES_ES_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoEs('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-teal-500/20 border-teal-500/50 text-white font-bold shadow-[0_0_10px_rgba(20,184,166,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'ES', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-teal-950/80 text-teal-400 border border-teal-800/60 font-mono">ES</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-teal-400 font-bold font-mono">ES • 78 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Espírito Santo (Todo o Estado)', 'ES', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/40 text-teal-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🌊</span>
+                <span>Buscar em Todo o Espírito Santo (Cotações & Postos de Todos os 78 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/40">78 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroEs" 
+              value="${filtroEsTexto}" 
+              oninput="filtrarCidadesEs(this.value)" 
+              placeholder="Filtrar município do ES (ex: Vitória, Vila Velha, Linhares, Colatina)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-teal-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pílulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município capixaba encontrado com este filtro.</p>'}
           </div>
         `;
         return;
