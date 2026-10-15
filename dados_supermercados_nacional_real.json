@@ -1,0 +1,55 @@
+{
+  "versao": "2.0-coleta-real-4-blocos",
+  "gerado_em": "2026-10-12T22:46:09.367625+00:00",
+  "total_cotacoes_reais_coletadas": 3,
+  "blocos": {
+    "sudeste": 1,
+    "sul": 0,
+    "nordeste": 2,
+    "centro_oeste": 0
+  },
+  "cotacoes": [
+    {
+      "termo": "oleo de soja",
+      "categoria": "Óleo de Soja",
+      "produto": "Óleo de Soja Soya 900ml",
+      "marca": "Soya",
+      "preco": 7.99,
+      "preco_regular": 9.89,
+      "estoque": 100,
+      "fonte_url": "https://www.mambo.com.br/oleo-de-soja-soya-900ml/p",
+      "rede": "Supermercados Mambo",
+      "cidade": "São Paulo",
+      "uf": "SP",
+      "coletado_em": "2026-10-12T22:44:52.945335+00:00"
+    },
+    {
+      "termo": "oleo de soja",
+      "categoria": "Óleo de Soja",
+      "produto": "Óleo Soja Soya 900ml",
+      "marca": "SOYA",
+      "preco": 9.99,
+      "preco_regular": null,
+      "estoque": 99999,
+      "fonte_url": "https://www.hiperideal.com.br/oleo-soja-soya-900ml-45919/p",
+      "rede": "Hiperideal Supermercados",
+      "cidade": "Salvador",
+      "uf": "BA",
+      "coletado_em": "2026-10-12T22:46:04.289130+00:00"
+    },
+    {
+      "termo": "sal refinado",
+      "categoria": "Sal Refinado",
+      "produto": "Sal Refinado Iodado Lebre 1Kg",
+      "marca": "LEBRE",
+      "preco": 3.68,
+      "preco_regular": null,
+      "estoque": 99999,
+      "fonte_url": "https://www.hiperideal.com.br/sal-refinado-iodado-lebre-1kg-21459/p",
+      "rede": "Hiperideal Supermercados",
+      "cidade": "Salvador",
+      "uf": "BA",
+      "coletado_em": "2026-10-12T22:46:07.820455+00:00"
+    }
+  ]
+}

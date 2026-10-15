@@ -1,0 +1,24 @@
+[
+  {
+    "polo": "sp_capital",
+    "mercado": "Supermercados Mambo",
+    "cidade": "São Paulo",
+    "uf": "SP",
+    "url": "https://www.mambo.com.br/arroz-polido-tipo-1-tio-joao-1kg/p",
+    "titulo_pagina": "Arroz Polido Tipo 1 Tio João 1kg | Mambo Supermercado São Paulo - Mambo Supermercado São Paulo",
+    "preco_capturado": 0.0,
+    "status": "sucesso",
+    "coletado_em": "2026-10-13T00:39:21.212332"
+  },
+  {
+    "polo": "sc_blumenau_bistek",
+    "mercado": "Bistek Supermercados",
+    "cidade": "Blumenau",
+    "uf": "SC",
+    "url": "https://www.bistek.com.br/arroz-polido-tio-joao-1kg-303728/p",
+    "titulo_pagina": "Bistek Supermercados | Online",
+    "preco_capturado": null,
+    "status": "sucesso",
+    "coletado_em": "2026-10-13T00:39:27.011551"
+  }
+]
