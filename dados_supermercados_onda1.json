@@ -3659,6 +3659,268 @@
           "coletado_em": "2026-10-15T12:38:08.611376+00:00"
         }
       }
+    },
+    "ms_campo_grande_atacadao": {
+      "cidade": "Campo Grande",
+      "uf": "MS",
+      "regiao": "Centro-Oeste",
+      "rede": "Atacadão",
+      "unidade": "Atacadão (Campo Grande - MS)",
+      "fonte_oficial_dominio": "https://www.atacadao.com.br",
+      "qtd_itens_verificados": 16,
+      "soma_itens_verificados_reais": 124.32,
+      "itens": {
+        "arroz": {
+          "produto": "Flocão de Arroz Urbano 500g",
+          "marca": "Urbano",
+          "preco": 3.29,
+          "fonte_url": "https://secure.atacadao.com.br/flocao-de-arroz-urbano-pacote-com-500g-63063/p",
+          "coletado_em": "2026-10-15T13:00:31.437963+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Preto Bulnez Tipo 1 1kg",
+          "marca": "Bulnez",
+          "preco": 6.79,
+          "fonte_url": "https://secure.atacadao.com.br/feijao-preto-bulnez-tipo-1-15281/p",
+          "coletado_em": "2026-10-15T13:00:32.702076+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Nita Para Pizza 5kg",
+          "marca": "Nita",
+          "preco": 13.99,
+          "fonte_url": "https://secure.atacadao.com.br/farinha-de-trigo-nita-para-pizza-pacote-com-5kg-26744/p",
+          "coletado_em": "2026-10-15T13:00:34.342518+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:00:35.278485+00:00"
+        },
+        "acucar": {
+          "produto": "Açúcar Refinado Bulnez 1kg",
+          "marca": "Bulnez",
+          "preco": 2.89,
+          "fonte_url": "https://secure.atacadao.com.br/acucar-refinado-bulnez-14485/p",
+          "coletado_em": "2026-10-15T13:00:36.162399+00:00"
+        },
+        "cafe": {
+          "produto": "Café Cappuccino Melitta Doce de leite 200g",
+          "marca": "Melitta",
+          "preco": 9.9,
+          "fonte_url": "https://secure.atacadao.com.br/cafe-cappuccino-melitta-doce-de-leite-94715/p",
+          "coletado_em": "2026-10-15T13:00:37.351957+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Pasteurizado Serramar Integral 1L",
+          "marca": "Serramar",
+          "preco": 6.9,
+          "fonte_url": "https://secure.atacadao.com.br/leite-pasteurizado-serramar-integral-89516/p",
+          "coletado_em": "2026-10-15T13:00:38.249811+00:00"
+        },
+        "manteiga": {
+          "produto": "Biscoito Marilan Manteiga 300g",
+          "marca": "Marilan",
+          "preco": 4.49,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-manteiga-12290/p",
+          "coletado_em": "2026-10-15T13:00:39.594299+00:00"
+        },
+        "carne bovina": {
+          "produto": "Carne Bovina Moída Rkótima Congelada 500g",
+          "marca": "Rkótima",
+          "preco": 8.99,
+          "fonte_url": "https://secure.atacadao.com.br/carne-bovina-moida-rkotima-congelada-89511/p",
+          "coletado_em": "2026-10-15T13:00:40.479533+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango com Osso Resfriado Preço por quilo",
+          "marca": "Atacadão S/A",
+          "preco": 14.59,
+          "fonte_url": "https://secure.atacadao.com.br/peito-de-frango-com-osso-resfriado-85341/p",
+          "coletado_em": "2026-10-15T13:00:41.980208+00:00"
+        },
+        "ovos": {
+          "produto": "Macarrão com Ovos Bulnez Espaguete 500g",
+          "marca": "Bulnez",
+          "preco": 1.99,
+          "fonte_url": "https://secure.atacadao.com.br/macarrao-com-ovos-bulnez-espaguete-13217/p",
+          "coletado_em": "2026-10-15T13:00:42.839212+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Goiabal Fatiado 400g",
+          "marca": "Goiabal",
+          "preco": 23.2,
+          "fonte_url": "https://secure.atacadao.com.br/queijo-mussarela-goiabal-fatiado-3946/p",
+          "coletado_em": "2026-10-15T13:00:43.591637+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Marilan Maizena 140g",
+          "marca": "Marilan",
+          "preco": 3.39,
+          "fonte_url": "https://secure.atacadao.com.br/biscoito-marilan-maizena-12291/p",
+          "coletado_em": "2026-10-15T13:00:44.384667+00:00"
+        },
+        "sabao em po": {
+          "produto": "Sabão em Pó Tixan Ypê Primavera 400g",
+          "marca": "Tixan",
+          "preco": 5.28,
+          "fonte_url": "https://secure.atacadao.com.br/lava-roupas-em-po-tixan-primavera-3155/p",
+          "coletado_em": "2026-10-15T13:00:45.560814+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Líquido Bulnez Coco 500ml",
+          "marca": "Bulnez",
+          "preco": 1.95,
+          "fonte_url": "https://secure.atacadao.com.br/detergente-liquido-bulnez-coco-15209/p",
+          "coletado_em": "2026-10-15T13:00:46.184115+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Neve Folha Dupla 40m 6 rolos",
+          "marca": "Neve",
+          "preco": 14.69,
+          "fonte_url": "https://secure.atacadao.com.br/papel-higienico-neve-folha-dupla-40m-18778/p",
+          "coletado_em": "2026-10-15T13:00:47.258273+00:00"
+        }
+      }
+    },
+    "ms_dourados_muffato": {
+      "cidade": "Dourados",
+      "uf": "MS",
+      "regiao": "Centro-Oeste",
+      "rede": "Super Muffato",
+      "unidade": "Super Muffato / Max Atacadista (Dourados - MS)",
+      "fonte_oficial_dominio": "https://www.supermuffato.com.br",
+      "qtd_itens_verificados": 18,
+      "soma_itens_verificados_reais": 139.92,
+      "itens": {
+        "arroz": {
+          "produto": "Biscoito Fit Food Arroz Ao Leite Zero 30g",
+          "marca": "Fit Food",
+          "preco": 8.6,
+          "fonte_url": "https://www.supermuffato.com.br/biscoito-fit-food-arroz-ao-leite-zero-30g-313793/p",
+          "coletado_em": "2026-10-15T13:00:50.452304+00:00"
+        },
+        "feijao": {
+          "produto": "Feijão Carioca Coradinho 1kg",
+          "marca": "Coradinho",
+          "preco": 8.7,
+          "fonte_url": "https://www.supermuffato.com.br/feijao-coradinho-carioquinha-1kg-106061/p",
+          "coletado_em": "2026-10-15T13:00:51.704605+00:00"
+        },
+        "farinha de trigo": {
+          "produto": "Farinha de Trigo Arapongas 1kg",
+          "marca": "Arapongas",
+          "preco": 4.4,
+          "fonte_url": "https://www.supermuffato.com.br/farinha-arapongas-trigo-pacote-1-kg-123933/p",
+          "coletado_em": "2026-10-15T13:00:52.123268+00:00"
+        },
+        "macarrao espaguete": {
+          "produto": "Macarrão Dona Benta Sêmola Espaguete 500g",
+          "marca": "Dona Benta",
+          "preco": 3.5,
+          "fonte_url": "https://www.supermuffato.com.br/macarrao-dona-benta-semola-espaguete-578/p",
+          "coletado_em": "2026-10-15T13:00:53.690205+00:00"
+        },
+        "acucar": {
+          "produto": "Iogurte Annora Zero Açucar de Coco 170g",
+          "marca": "Annora",
+          "preco": 4.8,
+          "fonte_url": "https://www.supermuffato.com.br/iogurte-annora-zero-acucar-de-coco-170g-290207/p",
+          "coletado_em": "2026-10-15T13:00:54.590846+00:00"
+        },
+        "cafe": {
+          "produto": "Café em Sachê Torrado e Moído Drip Coffee Tradicional 3 Corações Envelope 10g",
+          "marca": "3 Corações",
+          "preco": 2.8,
+          "fonte_url": "https://www.supermuffato.com.br/cafe-em-sache-torrado-e-moido-drip-coffee-tradicional-3-coracoes-envelope-10g-303136/p",
+          "coletado_em": "2026-10-15T13:00:55.795829+00:00"
+        },
+        "leite integral": {
+          "produto": "Leite Batavo Pasteurizado Integral 1L",
+          "marca": "Batavo",
+          "preco": 5.5,
+          "fonte_url": "https://www.supermuffato.com.br/leite-batavo-pasteurizado-integral-1l-311088/p",
+          "coletado_em": "2026-10-15T13:00:56.280426+00:00"
+        },
+        "oleo de soja": {
+          "produto": "Óleo de Soja Cocamar 900ml",
+          "marca": "Cocamar",
+          "preco": 7.7,
+          "fonte_url": "https://www.supermuffato.com.br/oleo-de-soja-cocamar--900ml-8059/p",
+          "coletado_em": "2026-10-15T13:00:57.781025+00:00"
+        },
+        "manteiga": {
+          "produto": "Sabonete Nivea Hidra Creme Manteiga de Cacau e Jasmin 80g",
+          "marca": "Nivea",
+          "preco": 5.1,
+          "fonte_url": "https://www.supermuffato.com.br/sabonete-nivea-hidra-creme-manteiga-de-cacau-e-jasmin-80g-313902/p",
+          "coletado_em": "2026-10-15T13:00:58.179585+00:00"
+        },
+        "carne bovina": {
+          "produto": "Hambúrguer de Carne Bovina Seara Air Fryer Pacote 150g",
+          "marca": "Seara",
+          "preco": 7.2,
+          "fonte_url": "https://www.supermuffato.com.br/hamburguer-de-carne-bovina-seara-air-fryer-pacote-150g-312584/p",
+          "coletado_em": "2026-10-15T13:00:58.560689+00:00"
+        },
+        "peito de frango": {
+          "produto": "Peito de Frango c/ Osso Congelado Kg",
+          "marca": "Açougue",
+          "preco": 14.4,
+          "fonte_url": "https://www.supermuffato.com.br/peito-de-frango-com-osso-congelado-kg-134504/p",
+          "coletado_em": "2026-10-15T13:00:58.840959+00:00"
+        },
+        "ovos": {
+          "produto": "Macarrão Renata com Ovos Parafuso 500g",
+          "marca": "Renata",
+          "preco": 4.21,
+          "fonte_url": "https://www.supermuffato.com.br/macarrao-renata-com-ovos-parafuso-500g-2997/p",
+          "coletado_em": "2026-10-15T13:01:00.524426+00:00"
+        },
+        "queijo mussarela": {
+          "produto": "Queijo Mussarela Président Fatiado 150g",
+          "marca": "President",
+          "preco": 9.3,
+          "fonte_url": "https://www.supermuffato.com.br/queijo-mussarela-president-fatiado-150g-211541/p",
+          "coletado_em": "2026-10-15T13:01:00.860983+00:00"
+        },
+        "biscoito": {
+          "produto": "Biscoito Marilan Wefer Chocolate 70g",
+          "marca": "Marilan",
+          "preco": 2.0,
+          "fonte_url": "https://www.supermuffato.com.br/biscoito-marilan-wefer-chocolate-70g-318154/p",
+          "coletado_em": "2026-10-15T13:01:01.717960+00:00"
+        },
+        "sabao em po": {
+          "produto": "Lava-Roupas Pó Roupas Brancas e Coloridas Brilhante Limpeza Total Caixa 2,2kg Tamanho Família",
+          "marca": "Brilhante",
+          "preco": 18.03,
+          "fonte_url": "https://www.supermuffato.com.br/lava-roupas-po-roupas-brancas-e-coloridas-brilhante-limpeza-total-caixa-22kg-tamanho-familia-284294/p",
+          "coletado_em": "2026-10-15T13:01:03.204572+00:00"
+        },
+        "detergente": {
+          "produto": "Detergente Sanitário Gel Adesivo Azul Pato 38g Refil",
+          "marca": "Pato",
+          "preco": 15.3,
+          "fonte_url": "https://www.supermuffato.com.br/detergente-sanitario-gel-adesivo-azul-pato-38g-refil-312473/p",
+          "coletado_em": "2026-10-15T13:01:03.961880+00:00"
+        },
+        "papel higienico": {
+          "produto": "Papel Higiênico Pratic Care Fardo 12x30m Un",
+          "marca": "PRATIC CARE",
+          "preco": 15.88,
+          "fonte_url": "https://www.supermuffato.com.br/papel-higienico-pratic-care-fardo-12x30m-un-321340/p",
+          "coletado_em": "2026-10-15T13:01:05.375235+00:00"
+        },
+        "sal refinado": {
+          "produto": "Sal Delizza Refinado Marinho Pacote 1kg",
+          "marca": "Delizza",
+          "preco": 2.5,
+          "fonte_url": "https://www.supermuffato.com.br/sal-delizza-refinado-marinho-pacote-1kg-316475/p",
+          "coletado_em": "2026-10-15T13:01:07.215265+00:00"
+        }
+      }
     }
   },
   "estados_cobertos": [
@@ -3673,6 +3935,7 @@
     "RJ",
     "RS",
     "SC",
-    "SP"
+    "SP",
+    "MS"
   ]
 }

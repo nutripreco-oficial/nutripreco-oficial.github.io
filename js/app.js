@@ -199,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ce');
     carregarCombustiveisOnline('df');
     carregarCombustiveisOnline('go');
+    carregarCombustiveisOnline('ms');
     carregarCombustiveisOnline('mg');
     carregarCombustiveisOnline('es');
     carregarCombustiveisOnline('pr');
@@ -209,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
     carregarCombustiveisOnline('ce');
     carregarCombustiveisOnline('df');
     carregarCombustiveisOnline('go');
+    carregarCombustiveisOnline('ms');
 
     // CARREGADOR DE DADOS ADICIONAIS DE SUPERMERCADOS VIA JSON ONDA 1
     async function carregarSupermercadosOnline() {
@@ -244,6 +246,11 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
               'go_aparecida_de_goiania': ['Aparecida de Goiânia', 'GO'],
               'go_anapolis': ['Anápolis', 'GO'],
               'go_rio_verde': ['Rio Verde', 'GO'],
+              'ms_campo_grande': ['Campo Grande', 'MS'],
+              'ms_dourados': ['Dourados', 'MS'],
+              'ms_tres_lagoas': ['Três Lagoas', 'MS'],
+              'ms_corumba': ['Corumbá', 'MS'],
+              'ms_ponta_pora': ['Ponta Porã', 'MS'],
               'pe_recife_atacadao': ['Recife', 'PE'],
               'pe_recife_novoatacarejo': ['Recife', 'PE'],
               'pe_petrolina_gbarbosa': ['Petrolina', 'PE'],
@@ -948,6 +955,34 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
     const TODAS_CIDADES_GO = Object.values(CIDADES_GO_POR_REGIAO).flat();
 
+    const CIDADES_MS_POR_REGIAO = {
+      "Campo Grande & Região Central": [
+        "Campo Grande", "Sidrolândia", "Terenos", "Jaraguari", "Ribas do Rio Pardo",
+        "Bandeirantes", "Corguinho", "Rochedo", "Dois Irmãos do Buriti"
+      ],
+      "Dourados & Sul Fronteira": [
+        "Dourados", "Ponta Porã", "Naviraí", "Maracaju", "Fátima do Sul",
+        "Rio Brilhante", "Caarapó", "Amambai", "Itaporã", "Mundo Novo",
+        "Iguatemi", "Coronel Sapucaia", "Eldorado", "Deodápolis"
+      ],
+      "Leste & Vale da Celulose (Bolsão)": [
+        "Três Lagoas", "Paranaíba", "Chapadão do Sul", "Aparecida do Taboado",
+        "Brasilândia", "Cassilândia", "Água Clara", "Bataguassu",
+        "Santa Rita do Pardo", "Inocência", "Selvíria"
+      ],
+      "Pantanal & Sudoeste / Bonito": [
+        "Corumbá", "Ladário", "Aquidauana", "Anastácio", "Miranda",
+        "Bonito", "Jardim", "Bela Vista", "Porto Murtinho", "Guia Lopes da Laguna", "Bodoquena"
+      ],
+      "Norte & Alto Taquari": [
+        "Coxim", "São Gabriel do Oeste", "Sonora", "Rio Verde de Mato Grosso",
+        "Camapuã", "Pedro Gomes", "Costa Rica", "Alcinópolis", "Figueirão"
+      ]
+    };
+
+    const TODAS_CIDADES_MS = Object.values(CIDADES_MS_POR_REGIAO).flat();
+
+
 
 
 
@@ -1017,6 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       if (typeof TODAS_CIDADES_CE !== 'undefined' && TODAS_CIDADES_CE.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_DF !== 'undefined' && TODAS_CIDADES_DF.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       if (typeof TODAS_CIDADES_GO !== 'undefined' && TODAS_CIDADES_GO.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
+      if (typeof TODAS_CIDADES_MS !== 'undefined' && TODAS_CIDADES_MS.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim() === clean)) return true;
       const temProdutos = DATABASE_PRODUTOS.some(p => {
         const pClean = (p.cidade || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         return pClean === clean || pClean.includes(clean) || clean.includes(pClean);
@@ -1133,6 +1169,28 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
 
         let regiaoGoAtiva = 'Todas';
     let filtroGoTexto = '';
+
+        let regiaoMsAtiva = 'Todas';
+    let filtroMsTexto = '';
+
+    function abrirAbaMatoGrossoDoSul() {
+      abaModalAtual = 'ms';
+      regiaoMsAtiva = 'Todas';
+      filtroMsTexto = '';
+      const inputTop = document.getElementById('inputBuscaCidadeModal');
+      if (inputTop) inputTop.value = '';
+      renderizarCidadesModal();
+    }
+
+    function selecionarRegiaoMs(regiao) {
+      regiaoMsAtiva = regiao;
+      renderizarCidadesModal();
+    }
+
+    function filtrarCidadesMs(txt) {
+      filtroMsTexto = txt || '';
+      renderizarCidadesModal();
+    }
 
     function abrirAbaGoias() {
       abaModalAtual = 'go';
@@ -1319,6 +1377,7 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       filtroCeTexto = '';
       filtroDfTexto = '';
       filtroGoTexto = '';
+      filtroMsTexto = '';
       renderizarCidadesModal();
     }
 
@@ -2460,6 +2519,92 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
       }
 
 
+            // 14. MODO ABA MATO GROSSO DO SUL (54 MUNICÍPIOS)
+      if (abaModalAtual === 'ms') {
+        if (headerLabel) headerLabel.innerText = 'Municípios do Estado do Mato Grosso do Sul (54 Cidades)';
+
+        let cidadesExibir = regiaoMsAtiva === 'Todas' ? TODAS_CIDADES_MS : (CIDADES_MS_POR_REGIAO[regiaoMsAtiva] || []);
+
+        if (filtroMsTexto.trim()) {
+          const fClean = filtroMsTexto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+          cidadesExibir = cidadesExibir.filter(nome => nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(fClean));
+        }
+
+        const regioesNomes = ["Todas", "Campo Grande & Região Central", "Dourados & Sul Fronteira", "Leste & Vale da Celulose (Bolsão)", "Pantanal & Sudoeste / Bonito", "Norte & Alto Taquari"];
+
+        const pilulasHtml = regioesNomes.map(reg => {
+          const isAtiva = regiaoMsAtiva === reg;
+          const estilo = isAtiva 
+            ? 'bg-emerald-500 text-slate-950 font-bold border-emerald-400 shadow-sm' 
+            : 'bg-slate-800/80 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-700';
+          const qtd = reg === 'Todas' ? '54' : (CIDADES_MS_POR_REGIAO[reg] ? CIDADES_MS_POR_REGIAO[reg].length : '');
+          return `
+            <button type="button" onclick="selecionarRegiaoMs('${reg}')" class="px-2.5 py-1 rounded-lg border text-[11px] whitespace-nowrap transition-colors cursor-pointer flex items-center gap-1 ${estilo}">
+              <span>${reg}</span>
+              <span class="text-[9px] opacity-75 font-mono">(${qtd})</span>
+            </button>
+          `;
+        }).join('');
+
+        const gridCidadesHtml = cidadesExibir.map(nome => {
+          const isCurrent = nome.toLowerCase() === currentCity.toLowerCase();
+          const activeClass = isCurrent 
+            ? 'bg-emerald-500/20 border-emerald-500/50 text-white font-bold shadow-[0_0_10px_rgba(16,185,129,0.3)]' 
+            : 'bg-slate-800/60 border-slate-700/60 hover:bg-slate-800 text-slate-300 hover:text-white';
+          
+          return `
+            <button type="button" onclick="selecionarCidade('${nome}', 'MS', 'Manual'); fecharModalTrocarCidade();" class="p-2 rounded-xl border ${activeClass} flex justify-between items-center text-left text-xs transition-colors cursor-pointer">
+              <span class="flex items-center gap-1.5 truncate">
+                <span class="text-xs">📍</span>
+                <span class="truncate">${nome}</span>
+              </span>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/60 font-mono">MS</span>
+            </button>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="col-span-1 sm:col-span-2 mb-2 flex items-center justify-between gap-2 border-b border-slate-700/60 pb-2">
+            <button type="button" onclick="voltarParaEstadosModal()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <span>←</span>
+              <span>Voltar aos Estados</span>
+            </button>
+            <span class="text-[11px] text-emerald-400 font-bold font-mono">MS • 54 Cidades</span>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-1">
+            <button type="button" onclick="selecionarCidade('Mato Grosso do Sul (Todo o Estado)', 'MS', 'Manual'); fecharModalTrocarCidade();" class="w-full p-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 hover:text-white font-bold text-xs flex items-center justify-between transition-all cursor-pointer shadow-sm">
+              <span class="flex items-center gap-2">
+                <span class="text-base">🐆</span>
+                <span>Buscar em Todo o Estado de MS (Cotações & Postos de Todos os 54 Municípios)</span>
+              </span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">54 CIDADES</span>
+            </button>
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2">
+            <input 
+              type="text" 
+              id="inputFiltroMs" 
+              value="${filtroMsTexto}" 
+              oninput="filtrarCidadesMs(this.value)" 
+              placeholder="Filtrar município de MS (ex: Campo Grande, Dourados, Três Lagoas, Corumbá, Ponta Porã, Bonito)..." 
+              class="w-full px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 text-xs outline-none focus:border-emerald-400"
+            />
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 mb-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            ${pilulasHtml}
+          </div>
+
+          <div class="col-span-1 sm:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[300px] overflow-y-auto pr-1">
+            ${gridCidadesHtml || '<p class="col-span-3 text-center text-xs text-slate-400 py-4">Nenhum município sul-mato-grossense encontrado com este filtro.</p>'}
+          </div>
+        `;
+        return;
+      }
+
+
       // 5. MODO VISÃO ESTADOS (RIO DE JANEIRO + SÃO PAULO + MINAS GERAIS + DEMAIS CAPITAIS)
       if (headerLabel) headerLabel.innerText = 'Cidades e Estados com Auditoria Ativa';
 
@@ -2715,6 +2860,27 @@ document.addEventListener('DOMContentLoaded', () => sanitizarHandlersInline());
         </div>
       `;
 
+      const cardMatoGrossoDoSul = `
+        <div class="col-span-1 sm:col-span-2 p-3 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-900 border border-emerald-500/40 hover:border-emerald-400 transition-all shadow-lg mb-1">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/25">🐆</span>
+              <div>
+                <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>Mato Grosso do Sul (Estado MS)</span>
+                  <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300 font-bold border border-emerald-500/40">54 Cidades</span>
+                </div>
+                <div class="text-[10px] text-slate-400">Campo Grande, Dourados, Três Lagoas, Corumbá, Ponta Porã e Bonito</div>
+              </div>
+            </div>
+            <button type="button" onclick="abrirAbaMatoGrossoDoSul()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer shadow-md shrink-0">
+              <span>Abrir 54 Cidades</span>
+              <span>➔</span>
+            </button>
+          </div>
+        </div>
+      `;
+
 const headerOutros = `
         <div class="col-span-1 sm:col-span-2 pt-1 pb-1">
           <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Demais Estados e Capitais Integradas</span>
@@ -2737,7 +2903,7 @@ const headerOutros = `
         `;
       }).join('');
 
-      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + cardDistritoFederal + cardGoias + headerOutros + cardsOutrosEstados;
+      container.innerHTML = cardRioDeJaneiro + cardSaoPaulo + cardMinasGerais + cardEspiritoSanto + cardParana + cardSantaCatarina + cardRioGrandeDoSul + cardBahia + cardPernambuco + cardCeara + cardDistritoFederal + cardGoias + cardMatoGrossoDoSul + headerOutros + cardsOutrosEstados;
     }
 
     function filtrarCidadesModal() {
