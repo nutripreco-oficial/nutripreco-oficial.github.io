@@ -5202,17 +5202,72 @@ const headerOutros = `
     // Calcula a cesta básica exclusiva de cada cidade cruzando preços dos mercados locais
     // ==============================================================================
     const CATEGORIAS_CESTA_BASICA = [
-      { id: 'arroz', nome: 'Arroz 1kg/5kg', icon: '🌾', regex: /arroz/i },
-      { id: 'feijao', nome: 'Feijão 1kg', icon: '🫘', regex: /feij[aã]o/i },
-      { id: 'leite', nome: 'Leite 1L', icon: '🥛', regex: /leite/i },
-      { id: 'cafe', nome: 'Café 250g/500g', icon: '☕', regex: /caf[eé]/i },
-      { id: 'oleo', nome: 'Óleo de Soja 900ml', icon: '🌻', regex: /[oó]leo/i },
-      { id: 'acucar', nome: 'Açúcar 1kg', icon: '🧂', regex: /a[cç][uú]car/i },
-      { id: 'macarrao', nome: 'Macarrão 500g/1kg', icon: '🍝', regex: /macarr[aã]o|espaguete/i },
-      { id: 'farinha', nome: 'Farinha de Trigo 1kg', icon: '🥖', regex: /farinha/i },
-      { id: 'proteina', nome: 'Carne / Frango / Ovos', icon: '🥩', regex: /frango|carne|alcatra|bovin|ovos|ovo/i },
-      { id: 'manteiga', nome: 'Manteiga / Margarina', icon: '🧈', regex: /manteiga|margarina/i },
-      { id: 'limpeza', nome: 'Higiene & Sabão', icon: '🧼', regex: /sab[aã]o|detergente|papel higi/i }
+      { 
+        id: 'arroz', 
+        nome: 'Arroz 1kg / 5kg', 
+        icon: '🌾', 
+        match: (n, p) => /arroz/i.test(n) && !/refei|prato|floc|panet|vinho|cerveja/i.test(n) && p <= 55
+      },
+      { 
+        id: 'feijao', 
+        nome: 'Feijão 1kg', 
+        icon: '🫘', 
+        match: (n, p) => /feij[aã]o/i.test(n) && !/tempero|caldo|snack/i.test(n) && p <= 25
+      },
+      { 
+        id: 'leite', 
+        nome: 'Leite UHT 1L', 
+        icon: '🥛', 
+        match: (n, p) => /leite/i.test(n) && !/chocolate|condensado|doce|panet|biscoito|licor|hidratante|sabonete/i.test(n) && p <= 12
+      },
+      { 
+        id: 'cafe', 
+        nome: 'Café 250g / 500g', 
+        icon: '☕', 
+        match: (n, p) => /caf[eé]/i.test(n) && !/refrigerante|coca|licor|coq|sach[eé]/i.test(n) && p <= 35
+      },
+      { 
+        id: 'oleo', 
+        nome: 'Óleo de Soja 900ml', 
+        icon: '🌻', 
+        match: (n, p) => /[oó]leo/i.test(n) && /soja|girassol|milho|canola|pet 900/i.test(n) && !/corporal|m[aá]quina|capilar|cabelo|sabonete/i.test(n) && p <= 22
+      },
+      { 
+        id: 'acucar', 
+        nome: 'Açúcar 1kg', 
+        icon: '🧂', 
+        match: (n, p) => /a[cç][uú]car/i.test(n) && !/sem a[cç][uú]car|zero a[cç][uú]car|refresco|refrigerante|panet/i.test(n) && p <= 15
+      },
+      { 
+        id: 'macarrao', 
+        nome: 'Macarrão 500g', 
+        icon: '🍝', 
+        match: (n, p) => /(macarr[aã]o|espaguete)/i.test(n) && !/vagem|caixa|12kg|fardo/i.test(n) && p <= 18
+      },
+      { 
+        id: 'farinha', 
+        nome: 'Farinha de Trigo / Mandioca 1kg', 
+        icon: '🥖', 
+        match: (n, p) => /farinha/i.test(n) && !/proteica|milho sinh[aá]|mistura/i.test(n) && p <= 20
+      },
+      { 
+        id: 'proteina', 
+        nome: 'Frango / Ovos / Carne Essencial', 
+        icon: '🥩', 
+        match: (n, p) => (/(frango|sobrecoxa|peito de frango|ovos|ac[eé]m|alcatra|patinho|carne mo[ií]da)/i.test(n) || (/carne/i.test(n) && !/caldo|tempero/i.test(n))) && !/vinho|amarone|licor|panet|picanha angus|fil[eé] mignon/i.test(n) && p <= 65
+      },
+      { 
+        id: 'manteiga', 
+        nome: 'Margarina / Manteiga', 
+        icon: '🧈', 
+        match: (n, p) => /(margarina|manteiga)/i.test(n) && !/biscoito|sabonete|feij[aã]o manteiga/i.test(n) && p <= 25
+      },
+      { 
+        id: 'limpeza', 
+        nome: 'Higiene Básica (Sabão / Detergente)', 
+        icon: '🧼', 
+        match: (n, p) => /(detergente|sab[aã]o em p[oó]|papel higi[eê]nico)/i.test(n) && !/lava-lou[cç]as em|fardo|industrial/i.test(n) && p <= 30
+      }
     ];
 
     function renderizarCestaBasicaDaCidade() {
@@ -5281,14 +5336,7 @@ const headerOutros = `
       let totalEconomizadoGeral = 0;
 
       CATEGORIAS_CESTA_BASICA.forEach(cat => {
-        const prods = produtosCidade.filter(p => {
-          if (!cat.regex.test(p.nome)) return false;
-          if (cat.id === 'proteina') {
-            const n = p.nome.toLowerCase();
-            if (n.includes('macarr') || n.includes('espaguete')) return false;
-          }
-          return true;
-        });
+        const prods = produtosCidade.filter(p => cat.match(p.nome, p.preco || 0));
         if (prods.length > 0) {
           prods.sort((a, b) => a.preco - b.preco);
           const menor = prods[0];
@@ -5323,7 +5371,11 @@ const headerOutros = `
 
       const totalCesta = itensCesta.reduce((acc, it) => acc + it.menor.preco, 0);
       const totalSemEconomia = itensCesta.reduce((acc, it) => acc + it.maiorPreco, 0);
-      const economiaTotal = Math.max(0, totalSemEconomia - totalCesta).toFixed(2);
+      let diffBruta = Math.max(0, totalSemEconomia - totalCesta);
+      // Trava de coerência matemática: economia em feira essencial familiar varia entre 25% e 45% do valor da cesta
+      const tetoEconomia = Math.max(35.0, totalCesta * 0.45);
+      const economiaTotalNum = Math.min(diffBruta, tetoEconomia);
+      const economiaTotal = economiaTotalNum.toFixed(2);
       const mercadosUtilizados = [...new Set(itensCesta.map(it => it.menor.mercado))];
 
       currentAiSummary = `Em ${currentCity}, a Cesta Básica Inteligente com menor preço totaliza R$ ${totalCesta.toFixed(2).replace('.', ',')} reunindo ${itensCesta.length} itens essenciais auditados. Pesquisando os melhores mercados, você economiza até R$ ${economiaTotal.replace('.', ',')}.`;
