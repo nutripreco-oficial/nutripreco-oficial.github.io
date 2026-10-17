@@ -63,7 +63,7 @@ jobs:
       - name: Notificar Diretoria Executiva via Telegram
         if: always()
         run: |
-          TELEGRAM_BOT_TOKEN="8773192734:AAEtzTt8hwCx4kOgj305YtQvgReOsJ0YZbU"
+          TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
           STATUS="${{ job.status }}"
           MSG="🚀 <b>PILOTO AUTOMÁTICO • CICLO EXECUTADO</b>%0A%0AStatus: <b>${STATUS}</b>%0ARepositório: nutripreco-oficial.github.io%0AHorário: $(date -u '+%%Y-%%m-%%d %%H:%%M:%%S UTC')%0A<i>Modo Cruzeiro 24/7 Operacional.</i>"
           
